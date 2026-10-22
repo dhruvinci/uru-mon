@@ -108,6 +108,7 @@ export class WorldScene extends BaseScene {
       ? this.add.image(0, 0, WORLD_KEYS.TALL_GRASS).setOrigin(0).setScale(4).setVisible(false)
       : null;
     this.#setupCamera();
+    this.fx.frameCamera();
 
     dataManager.state.player.location = { area: this.area };
     dataManager.state.gameStarted = true;

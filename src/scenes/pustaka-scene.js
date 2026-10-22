@@ -6,6 +6,7 @@ import { getSpecies } from '../battle/engine/monster.js';
 import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { monHdKey, upgradeWhenLoaded } from '../ui/hd-art.js';
 
 /**
  * @typedef PustakaSceneData
@@ -89,7 +90,8 @@ export class PustakaScene extends BaseScene {
     this.unknown.setVisible(!seen);
     if (seen) {
       const key = getSpecies(entry.id).assetKey;
-      this.portrait.setTexture(this.textures.exists(key) ? key : '__MISSING');
+      this.portrait.setTexture(this.textures.exists(key) ? key : '__MISSING').setScale(2.1);
+      upgradeWhenLoaded(this.portrait, key, monHdKey(entry.id));
       if (!caught) {
         this.portrait.setTintFill(0x000000);
       }

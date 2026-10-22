@@ -16,7 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 
-from pixelize import pixelize  # noqa: E402
+from pixelize import pixelize, smooth  # noqa: E402
 
 RAW = os.path.join(ROOT, "art-src", "raw")
 OUT = os.path.join(ROOT, "assets", "images")
@@ -114,8 +114,27 @@ def title():
     print(f"title art: {len(items)}")
 
 
+def hd():
+    """Smooth 4x versions of creatures and trainer portraits for battles (loaded on demand, not in the manifest)."""
+    jobs = [("creatures", "creatures_hd", (256, 256), lambda f: f"{f[:3]}.webp", lambda f: f[:3].isdigit()),
+            ("trainers", "trainers_hd", (224, 288), lambda f: f"{f[:-4]}.webp", lambda f: True)]
+    for src_dir, dst_dir, size, name, keep in jobs:
+        src = os.path.join(RAW, src_dir)
+        dst = os.path.join(OUT, dst_dir)
+        os.makedirs(dst, exist_ok=True)
+        n = 0
+        for f in sorted(os.listdir(src)):
+            if not f.endswith(".png") or not keep(f):
+                continue
+            smooth(Image.open(os.path.join(src, f)), size).save(os.path.join(dst, name(f)), "WEBP", quality=90, method=6)
+            n += 1
+        print(f"{dst_dir}: {n}")
+
+
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
+    if what in ("hd", "all"):
+        hd()
     if what in ("creatures", "all"):
         creatures()
     if what in ("trainers", "all"):

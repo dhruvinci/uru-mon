@@ -163,13 +163,26 @@ export class WorldFx {
     p.saturation = rain ? this.phase.saturation * 0.85 : this.phase.saturation;
     p.vignette = interior ? 0.32 : 0.24;
     this.pipe = pipe;
-    if (p.tilt) {
-      // frame the player a little below the middle of the screen, and keep them in the sharp band
-      const want = 0.56;
-      const srcY = pipe.sourceAt(0.5, want)[1];
-      cam.setFollowOffset(0, (srcY - 0.5) * cam.height);
-      p.focus = want;
+    this.interior = interior;
+  }
+
+  /**
+   * Call once the camera follows the player. HD-2D outdoors zooms out (to 3 screen pixels per art pixel, so the tilted
+   * view shows at least as much as the flat one did) and frames the player a little below the middle, in the sharp band.
+   */
+  frameCamera() {
+    const p = this.pipe?.params;
+    if (!p || !p.tilt) {
+      return;
     }
+    const cam = this.scene.cameras.main;
+    if (!this.interior) {
+      cam.setZoom(0.75);
+    }
+    const want = 0.56;
+    const srcY = this.pipe.sourceAt(0.5, want)[1];
+    cam.setFollowOffset(cam.followOffset.x, cam.followOffset.y + ((srcY - 0.5) * cam.height) / cam.zoom);
+    p.focus = want;
   }
 
   /** Emitters fixed to the screen so petals and rain fall the same way however the camera moves. */

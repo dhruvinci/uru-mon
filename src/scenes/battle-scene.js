@@ -19,7 +19,8 @@ import { MessageBox, ListMenu, panel, text, typeBadge, readMenuInput, wait, twee
 import { promptLearnMove } from '../ui/learn-move.js';
 import { dataManager } from '../utils/data-manager.js';
 import { graphicsSetting, timeOfDay } from '../fx/world-fx.js';
-import { BATTLE_SCENE_OPTIONS } from '../common/options.js';
+import { bestArt, loadHd, monHdKey, trainerHdKey, HD_FACTOR } from '../ui/hd-art.js';
+import { BATTLE_SCENE_OPTIONS, BATTLE_STYLE_OPTIONS } from '../common/options.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
 
@@ -106,6 +107,14 @@ export class BattleScene extends BaseScene {
         : this.add.image(TRAINER_POS.x, TRAINER_POS.y, fallback, 0).setOrigin(0.5, 1).setScale(9); // 16x32 -> portrait height
       this.trainerSprite.setDepth(10).setVisible(false);
     }
+    // sharper art: fetch the HD pictures for everyone in this battle (and what the party could evolve into)
+    const ids = [...party, ...this.battle.sides.enemy.party].map((m) => m.speciesId);
+    party.forEach((m) => getSpecies(m.speciesId).evolution && ids.push(getSpecies(m.speciesId).evolution.speciesId));
+    const hdKeys = ids.map(monHdKey);
+    if (this.isTrainer && d.trainer.portrait?.startsWith('TRAINER_')) {
+      hdKeys.push(trainerHdKey(d.trainer.portrait.slice('TRAINER_'.length)));
+    }
+    loadHd(this, hdKeys).then(() => this.#upgradeArt());
 
     this.enemyHud = new BattleHud(this, 'enemy');
     this.playerHud = new BattleHud(this, 'player');
@@ -312,8 +321,9 @@ export class BattleScene extends BaseScene {
     const hud = side === 'player' ? this.playerHud : this.enemyHud;
     const home = side === 'player' ? PLAYER_POS : ENEMY_POS;
     dataManager.markSeen(mon.speciesId);
-    sprite.setTexture(getSpecies(mon.speciesId).assetKey).setPosition(home.x, home.y).setVisible(true).setAlpha(1);
-    const scale = SPRITE_SCALE;
+    const art = this.#monArt(mon.speciesId);
+    sprite.setTexture(art.key).setPosition(home.x, home.y).setVisible(true).setAlpha(1);
+    const scale = art.scale;
     if (side === 'player') {
       this.playerBalls.setVisible(true);
     }
@@ -641,7 +651,7 @@ export class BattleScene extends BaseScene {
     }
     dabba.destroy();
     this.enemySprite.clearTint().setAlpha(1);
-    await tween(this, { targets: this.enemySprite, scale: SPRITE_SCALE, duration: this.skipAnim ? 1 : 250, ease: 'Back.out' });
+    await tween(this, { targets: this.enemySprite, scale: this.#scaleFor(this.enemySprite.texture.key), duration: this.skipAnim ? 1 : 250, ease: 'Back.out' });
   }
 
   // ------------------------------------------------------------------------------------------
@@ -656,6 +666,7 @@ export class BattleScene extends BaseScene {
       if (this.isTrainer && this.battle.nextEnemyIndex() >= 0) {
         const next = this.data_.trainer.team[this.battle.nextEnemyIndex()];
         await this.say(`${this.data_.trainer.name} is about to send in ${displayName(next)}.`);
+        await this.#offerShift();
         await this.#playEvents(this.battle.sendNextEnemy());
       } else if (this.battle.hasUsableMonsters('player')) {
         await this.#onWin();
@@ -672,6 +683,27 @@ export class BattleScene extends BaseScene {
       await this.#playEvents(this.battle.replacePlayerMonster(idx));
     }
     return false;
+  }
+
+  /** SHIFT battle style: before a trainer's next Urumon comes out, the player may switch for free. */
+  async #offerShift() {
+    const side = this.battle.sides.player;
+    const canSwitch = side.party.some((m, i) => i !== side.active && m.hp > 0);
+    if (dataManager.state.options.battleStyle === BATTLE_STYLE_OPTIONS.SET || this.battle.playerActive.hp <= 0 || !canSwitch) {
+      return;
+    }
+    const answer = await this.choose(['YES', 'NO'], { title: `Will ${dataManager.state.player.name} change Urumon?` });
+    if (answer !== 0) {
+      return;
+    }
+    const result = await this.#openSub(SCENE_KEYS.MONSTER_PARTY_SCENE, {
+      previousSceneName: SCENE_KEYS.BATTLE_SCENE,
+      mode: 'battle',
+      activeIndex: side.active,
+    });
+    if (result && result.selectedIndex !== undefined && result.selectedIndex !== side.active) {
+      await this.#playEvents(this.battle.replacePlayerMonster(result.selectedIndex));
+    }
   }
 
   /** @returns {Promise<number>} */
@@ -798,9 +830,9 @@ export class BattleScene extends BaseScene {
   async #evolveSequence(mon, into) {
     const oldName = displayName(mon);
     const cover = this.add.rectangle(0, 0, 1024, 432, 0x1c1430).setOrigin(0).setDepth(70);
-    const fromKey = getSpecies(mon.speciesId).assetKey;
-    const toKey = getSpecies(into).assetKey;
-    const sprite = this.add.image(512, 330, fromKey).setOrigin(0.5, 1).setScale(4).setDepth(71);
+    const from = this.#monArt(mon.speciesId);
+    const to = this.#monArt(into);
+    const sprite = this.add.image(512, 330, from.key).setOrigin(0.5, 1).setScale(from.scale).setDepth(71);
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_EVOLUTION);
     await this.say(`What? ${oldName} is evolving!`);
     let cancelled = false;
@@ -811,18 +843,19 @@ export class BattleScene extends BaseScene {
     };
     for (let i = 0; i < 10 && !cancelled; i += 1) {
       const dur = Math.max(70, 260 - i * 22);
-      sprite.setTexture(i % 2 ? toKey : fromKey).setTintFill(0xffffff);
-      await tween(this, { targets: sprite, scaleX: 3.4, duration: dur, yoyo: true });
+      const stage = i % 2 ? to : from;
+      sprite.setTexture(stage.key).setScale(stage.scale).setTintFill(0xffffff);
+      await tween(this, { targets: sprite, scaleX: stage.scale * 0.85, duration: dur, yoyo: true });
     }
     this.inputHandler = null;
     if (cancelled) {
-      sprite.setTexture(fromKey).clearTint().setScale(4);
+      sprite.setTexture(from.key).clearTint().setScale(from.scale);
       await this.say(`Huh? ${oldName} stopped evolving!`);
     } else {
       const flash = this.add.rectangle(0, 0, 1024, 432, 0xffffff).setOrigin(0).setDepth(72);
       await tween(this, { targets: flash, alpha: 0, duration: 600 });
       flash.destroy();
-      sprite.setTexture(toKey).clearTint().setScale(4);
+      sprite.setTexture(to.key).clearTint().setScale(to.scale);
       const learnedNow = evolve(mon, into);
       dataManager.markCaught(into);
       playSoundFx(this, AUDIO_KEYS.SFX_LEVEL_UP);
@@ -856,6 +889,44 @@ export class BattleScene extends BaseScene {
       const night = phase === 'night';
       this.add.rectangle(0, 0, 1024, 432, night ? 0x5868b8 : 0xf0a070, night ? 0.55 : 0.28).setOrigin(0).setDepth(1)
         .setBlendMode(Phaser.BlendModes.MULTIPLY);
+    }
+  }
+
+  /** The sharpest picture available for a species, and the scale that makes it battle-sized. */
+  #monArt(speciesId) {
+    return bestArt(this, getSpecies(speciesId).assetKey, monHdKey(speciesId), SPRITE_SCALE);
+  }
+
+  /** @param {string} key */
+  #scaleFor(key) {
+    return key.startsWith('MONHD_') ? SPRITE_SCALE / HD_FACTOR : SPRITE_SCALE;
+  }
+
+  /** Swaps the pixel sprites on screen for HD ones once they've loaded, keeping their size. */
+  #upgradeArt() {
+    if (!this.scene.isActive()) {
+      return;
+    }
+    let retry = false;
+    [[this.enemySprite, 'enemy'], [this.playerSprite, 'player']].forEach(([sprite, side]) => {
+      const id = this.battle.active(side).speciesId;
+      if (this.tweens.isTweening(sprite)) {
+        retry = true; // a running scale tween would finish at the pixel sprite's scale; swap afterwards
+        return;
+      }
+      if (sprite.texture.key === getSpecies(id).assetKey && this.textures.exists(monHdKey(id))) {
+        sprite.setTexture(monHdKey(id)).setScale(sprite.scaleX / HD_FACTOR, sprite.scaleY / HD_FACTOR);
+      }
+    });
+    const portrait = this.data_.trainer?.portrait;
+    if (this.trainerSprite && portrait && this.trainerSprite.texture.key === portrait) {
+      const hd = trainerHdKey(portrait.slice('TRAINER_'.length));
+      if (this.textures.exists(hd)) {
+        this.trainerSprite.setTexture(hd).setScale(this.trainerSprite.scaleX / HD_FACTOR);
+      }
+    }
+    if (retry) {
+      this.time.delayedCall(400, () => this.#upgradeArt());
     }
   }
 

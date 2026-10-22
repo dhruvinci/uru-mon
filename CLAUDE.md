@@ -45,6 +45,7 @@ or maps. `node test/review-smoke.mjs <dir>` checks the site (it adds and removes
 | `assets/maps/<id>/{bg.png,map.json}`, `assets/maps/index.json` | `tools/maps/maps_*.py` (+ `compiler.py`, `dsl.py`, `common.py`) | `python3 tools/maps/build_maps.py [--preview]` (also rebuilds the manifest) |
 | `assets/manifest.json` | files present under `assets/` | `python3 tools/build_manifest.py` |
 | `assets/images/{creatures,trainers,battle,ui}` | raw AI art in `art-src/raw/` (gitignored) | `python3 tools/art/process_art.py all` |
+| `assets/images/{creatures,trainers}_hd/*.webp` (4x, smooth; loaded on demand via `src/ui/hd-art.js`) | same raw art | `python3 tools/art/process_art.py hd` |
 | `assets/images/characters/*.png` | `tools/art/characters.py` | `python3 tools/art/characters.py` |
 | `assets/audio/**` | `tools/audio/synth.py` | `python3 tools/audio/synth.py` |
 | `assets/images/ui/title_bg.png` | `tools/art/title_art.py` | `python3 tools/art/title_art.py` |

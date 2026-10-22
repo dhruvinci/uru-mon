@@ -6,9 +6,14 @@ import { setGlobalSoundSettings, playBackgroundMusic, currentMusic, playSoundFx 
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { graphicsSetting } from '../fx/world-fx.js';
 
+const ROW_H = 42;
 const ROWS = [
   { key: 'textSpeed', label: 'TEXT SPEED', values: ['SLOW', 'MID', 'FAST'], help: 'How fast dialog text appears.' },
   { key: 'battleSceneAnimations', label: 'BATTLE ANIMS', values: ['ON', 'OFF'], help: 'Turn off to make battles quicker.' },
+  {
+    key: 'battleStyle', label: 'BATTLE STYLE', values: ['SHIFT', 'SET'],
+    help: "SHIFT: when a trainer's Urumon faints, you may switch before their next one comes out. SET: no free switch.",
+  },
   { key: 'sound', label: 'SOUND', values: ['ON', 'OFF'], help: 'Music and sound effects.' },
   { key: 'volume', label: 'VOLUME', values: [0, 1, 2, 3, 4], help: 'Master volume.' },
   {
@@ -36,8 +41,8 @@ export class OptionsScene extends BaseScene {
     panel(this, 112, 40, 800, 380);
     text(this, 512, 62, 'OPTIONS', 'title').setOrigin(0.5, 0);
     this.valueTexts = ROWS.map((row, i) => {
-      text(this, 200, 130 + i * 54, row.label, 'body');
-      return text(this, 820, 130 + i * 54, '', 'body').setOrigin(1, 0);
+      text(this, 200, 124 + i * ROW_H, row.label, 'body');
+      return text(this, 820, 124 + i * ROW_H, '', 'body').setOrigin(1, 0);
     });
     this.cur = cursor(this);
     this.help = new MessageBox(this, { y: 432, height: 144 });
@@ -54,7 +59,7 @@ export class OptionsScene extends BaseScene {
       const v = row.key === 'graphics' ? graphicsSetting() : o[row.key];
       this.valueTexts[i].setText(`◀ ${v} ▶`).setColor(i === this.index ? '#c4404a' : '#2d2a3a');
     });
-    this.cur.setPosition(170, 140 + this.index * 54);
+    this.cur.setPosition(170, 134 + this.index * ROW_H);
     this.help.setText(ROWS[this.index].help);
   }
 

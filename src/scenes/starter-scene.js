@@ -4,6 +4,8 @@ import { getSpecies } from '../battle/engine/monster.js';
 import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { bestArt, monHdKey, HD_FACTOR } from '../ui/hd-art.js';
+import Phaser from '../lib/phaser.js';
 
 /**
  * @typedef StarterSceneData
@@ -37,6 +39,27 @@ export class StarterScene extends BaseScene {
     this.done = false;
   }
 
+  /** The HD pictures of all three lines, so the first look at them is sharp. */
+  preload() {
+    const ids = [];
+    this.options.forEach((id) => {
+      for (let sp = getSpecies(id); sp; sp = sp.evolution ? getSpecies(sp.evolution.speciesId) : null) {
+        ids.push(sp.id);
+      }
+    });
+    ids.map(monHdKey).filter((k) => !this.textures.exists(k))
+      .forEach((k) => this.load.image(k, `assets/images/creatures_hd/${k.slice('MONHD_'.length)}.webp`));
+  }
+
+  /** @param {number} speciesId @param {number} lowScale */
+  #art(speciesId, lowScale) {
+    const key = monHdKey(speciesId);
+    if (this.textures.exists(key)) {
+      this.textures.get(key).setFilter(Phaser.Textures.FilterMode.LINEAR);
+    }
+    return bestArt(this, getSpecies(speciesId).assetKey, key, lowScale);
+  }
+
   create() {
     super.create();
     this.bg = this.add.rectangle(0, 0, 1024, 576, 0x221a3a).setOrigin(0);
@@ -54,9 +77,12 @@ export class StarterScene extends BaseScene {
       const sp = getSpecies(id);
       const x = SLOTS[i];
       const table = this.add.ellipse(x, 300, 210, 46, 0x000000, 0.35);
-      const img = this.add.image(x, 290, sp.assetKey).setOrigin(0.5, 1).setScale(2.4);
+      const art = this.#art(id, 2.4);
+      const img = this.add.image(x, 290, art.key).setOrigin(0.5, 1).setScale(art.scale);
       const name = text(this, x, 306, sp.name, 'body').setOrigin(0.5, 0).setColor('#fff4d6');
-      return { id, sp, x, table, img, name };
+      // scale factor relative to the 64 px pixel sprite: 1, or 1/4 for the HD picture
+      const unit = art.key.startsWith('MONHD_') ? 1 / HD_FACTOR : 1;
+      return { id, sp, x, table, img, name, unit };
     });
     this.sparks = this.add.particles(0, 0, 'STARTER_SPARK', {
       lifespan: 900, speed: { min: 20, max: 70 }, scale: { start: 0.8, end: 0 }, alpha: { start: 0.9, end: 0 },
@@ -84,7 +110,7 @@ export class StarterScene extends BaseScene {
       const on = i === index;
       this.tweens.killTweensOf(card.img);
       card.img.setY(290);
-      this.tweens.add({ targets: card.img, scale: on ? 3.1 : 2.2, duration: instant ? 1 : 220, ease: 'Back.out' });
+      this.tweens.add({ targets: card.img, scale: (on ? 3.1 : 2.2) * card.unit, duration: instant ? 1 : 220, ease: 'Back.out' });
       card.img.setAlpha(on ? 1 : 0.55);
       card.name.setAlpha(on ? 1 : 0.6);
       if (on) {
@@ -108,7 +134,8 @@ export class StarterScene extends BaseScene {
     const stages = chain.slice(1);
     stages.forEach((sp, i) => {
       const x = 660 + i * 190;
-      this.line.add(this.add.image(x, 486, sp.assetKey).setOrigin(0.5, 1).setScale(1.5));
+      const art = this.#art(sp.id, 1.5);
+      this.line.add(this.add.image(x, 486, art.key).setOrigin(0.5, 1).setScale(art.scale));
       this.line.add(text(this, x, 490, sp.name, { ...TEXT.small, fontSize: '18px' }).setOrigin(0.5, 0));
       if (i > 0) {
         this.line.add(text(this, x - 95, 440, '→', 'body').setOrigin(0.5));

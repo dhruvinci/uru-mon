@@ -124,6 +124,15 @@ def pixelize(img, size=(64, 64), colors=24, margin=1, anchor_bottom=True, add_ou
     return Image.fromarray(out, "RGBA")
 
 
+def smooth(img, size, margin=4, anchor_bottom=True):
+    """High-resolution version framed exactly like pixelize() at size / 4: same crop, margin and anchor, but a smooth
+    downscale with no palette reduction. Used for the large battle sprites."""
+    img = remove_flat_background(img)
+    img = crop_to_subject(img)
+    big = fit_canvas(img, size, margin, anchor_bottom)
+    return big.resize(size, Image.LANCZOS)
+
+
 if __name__ == "__main__":
     src, dst = sys.argv[1], sys.argv[2]
     w = int(sys.argv[3]) if len(sys.argv) > 3 else 64
