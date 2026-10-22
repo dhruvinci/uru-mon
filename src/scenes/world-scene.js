@@ -486,13 +486,26 @@ export class WorldScene extends BaseScene {
 
   /** @param {Phaser.Input.Pointer} pointer */
   #onWorldTap(pointer) {
-    if (pointer.getDistance() > 24 || this.inputLocked || !this.player) {
+    if (pointer.getDistance() > 24) {
       return;
     }
     const tile = this.screenToTile(pointer.x, pointer.y);
-    const target = this.#tapTarget(tile.x, tile.y);
+    this.goTo(tile.x, tile.y);
+  }
+
+  /**
+   * Walks to a tile, or up to whatever is on it and uses it: exactly what a tap on that tile does (also used by the
+   * playtest bridge). Returns false when there's nothing to do or no way there.
+   * @param {number} x @param {number} y
+   * @returns {boolean}
+   */
+  goTo(x, y) {
+    if (this.inputLocked || !this.player) {
+      return false;
+    }
+    const target = this.#tapTarget(x, y);
     if (!target) {
-      return;
+      return false;
     }
     const goals = new Set();
     if (target.kind === 'walk') {
@@ -506,13 +519,14 @@ export class WorldScene extends BaseScene {
     }
     const steps = this.#pathTo(goals);
     if (!steps) {
-      return;
+      return false;
     }
     this.#stopAutoWalk();
     const marker = this.add.rectangle(target.x * TILE_SIZE, target.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
       .setOrigin(0).setStrokeStyle(4, 0xffffff, 0.9).setDepth(target.y * TILE_SIZE - 1);
     this.tweens.add({ targets: marker, alpha: 0.35, duration: 380, yoyo: true, repeat: -1 });
     this.autoWalk = { steps, target, marker, retries: 2 };
+    return true;
   }
 
   /**

@@ -122,6 +122,7 @@ try {
     await snap('quick_result');
     console.log('quick battle finished:', stage === 'result', 'levels', levels.join('/'));
     // back to the title: the real state comes back and nothing was saved
+    await sleep(page, 800);
     await press(page, 'DOWN'); await press(page, 'DOWN'); await press(page, 'A');
     await waitScene(page, 'TITLE_SCENE');
     const after = await page.evaluate(() => ({ party: window.__uru.dataManager.party.length, saved: localStorage.getItem('URU_MON_SAVE_V1') }));

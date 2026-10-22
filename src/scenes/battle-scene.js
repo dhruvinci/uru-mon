@@ -433,6 +433,7 @@ export class BattleScene extends BaseScene {
   #mainMenu() {
     return new Promise((resolve) => {
       const c = this.add.container(604, 432).setDepth(55);
+      c.once('destroy', () => { this.menuMode = null; });
       c.add(panel(this, 0, 0, 420, 144, { radius: 12 }));
       const pos = [
         [60, 30],
@@ -444,6 +445,8 @@ export class BattleScene extends BaseScene {
       const cur = cursor(this);
       c.add(cur);
       let idx = this.lastMainIndex ?? 0;
+      this.menuMode = 'main';
+      this.menuCursor = () => idx;
       const place = () => cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
       place();
       this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, 176, 52]), (i) => {
@@ -476,6 +479,7 @@ export class BattleScene extends BaseScene {
     const mon = this.battle.playerActive;
     return new Promise((resolve) => {
       const c = this.add.container(0, 432).setDepth(55);
+      c.once('destroy', () => { this.menuMode = null; });
       c.add(panel(this, 0, 0, 660, 144, { radius: 12 }));
       c.add(panel(this, 660, 0, 364, 144, { radius: 12 }));
       const pos = [
@@ -496,6 +500,8 @@ export class BattleScene extends BaseScene {
       const cur = cursor(this);
       c.add(cur);
       let idx = Math.min(this.lastMoveIndex ?? 0, mon.moves.length - 1);
+      this.menuMode = 'moves';
+      this.menuCursor = () => idx;
       const place = () => {
         cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
         const m = mon.moves[idx];

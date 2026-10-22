@@ -179,6 +179,8 @@ export class QuickBattleScene extends BaseScene {
     const t = this.opponent;
     text(this, width / 2, 200, won ? `You beat ${t.name}.` : `${t.name} took this one.`, 'lightSmall').setOrigin(0.5);
     this.menu = new ListMenu(this, { x: width / 2 - 170, y: 280, width: 340, items: ['REMATCH', 'NEW BATTLE', 'TITLE SCREEN'], depth: 10 });
+    // presses left over from mashing through the last battle message shouldn't pick REMATCH by accident
+    this.inputReadyAt = this.time.now + 600;
   }
 
   #leave() {
@@ -193,7 +195,7 @@ export class QuickBattleScene extends BaseScene {
       return;
     }
     const input = readMenuInput(this._controls);
-    if (!input) {
+    if (!input || time < (this.inputReadyAt || 0)) {
       return;
     }
     const r = this.menu.handleInput(input);

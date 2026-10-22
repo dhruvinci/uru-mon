@@ -241,6 +241,9 @@ export class Meter {
  * Feed it input with handleInput(); it returns {type:'select', index} or {type:'cancel'} when done.
  */
 export class ListMenu {
+  /** Menus currently on screen, newest last (read by tests and the playtest bridge). */
+  static live = new Set();
+
   /**
    * @param {Phaser.Scene} scene
    * @param {object} cfg
@@ -292,6 +295,7 @@ export class ListMenu {
     this.container.add([this.cursor, this.upArrow, this.downArrow]);
     this.#enablePointer(cfg.width, h);
     this.#render();
+    ListMenu.live.add(this);
   }
 
   /**
@@ -391,6 +395,7 @@ export class ListMenu {
   }
 
   destroy() {
+    ListMenu.live.delete(this);
     this.container.destroy();
   }
 }
