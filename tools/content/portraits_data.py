@@ -10,7 +10,7 @@ STYLE = ("Full-body character portrait for a retro handheld (GBA-era, 2004) mons
 PORTRAITS = {
     "player_boy": "a 12-year-old boy with short black hair, warm brown skin, a red t-shirt, dark blue shorts, sneakers and a yellow backpack, eager grin",
     "player_girl": "a 12-year-old girl with long black hair in a ponytail, warm brown skin, a teal top, dark leggings, sneakers and a yellow backpack, eager grin",
-    "rival": "a cocky 12-year-old boy wearing a blue cricket jersey with a white number 7, a blue cricket cap turned slightly sideways, white trousers, holding a small cricket ball",
+    "rival": "a cocky 12-year-old boy with a tall spiky black quiff hairstyle, aviator sunglasses pushed up on his head, an open sky-blue denim overshirt with rolled-up sleeves over a white T-shirt with a small red star, black jeans with a silver wallet chain, bright white sneakers, smirking, one hand in his pocket and the other giving a thumbs-up",
     "professor": "a kind woman scientist in her fifties with a grey-streaked bun, round glasses, a white lab coat over a maroon silk saree, holding a clipboard",
     "hoovamma": "a cheerful elderly woman gardener with grey hair in a bun, a green cotton saree, a flower garland in her hair, holding a small watering can",
     "gundappa": "a burly middle-aged ex-cricket fast bowler and coach with a thick moustache, a blue and white tracksuit, a whistle around his neck",

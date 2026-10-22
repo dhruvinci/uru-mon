@@ -34,7 +34,7 @@ MAPS.append(dict(
                 say("Champion {PLAYER}! The lakes are clearing, the trees are growing back. And it started with you.",
                     "Go anywhere. Catch everything. The city is yours to explore.", speaker="Prof. Sharada")],
              "else": [
-                say("{PLAYER}! Six badges! Rohan is already inside, you know. He left about an hour ago.",
+                say("{PLAYER}! Six badges! Sudeep is already inside, you know. He left about an hour ago.",
                     "Rest at the Darshini first. The Council doesn't hold back.", speaker="Prof. Sharada")]}]),
     ],
 ))
@@ -80,11 +80,11 @@ MAPS.append(dict(
                       {"setFlag": "CHAMPION_DONE"},
                       {"npcShow": dict(id="hall_prof", x=6, y=11, sprite="professor", facing="UP", movement="IDLE")},
                       {"npcWalk": {"id": "hall_prof", "steps": ["UP", "UP", "UP", "UP", "UP"]}},
-                      say("{PLAYER}! Rohan! I watched the whole thing from the gallery.",
+                      say("{PLAYER}! Sudeep! I watched the whole thing from the gallery.",
                           "{PLAYER}, you are the new Champion of the Namma Council.",
                           "You didn't just win battles. You stopped the Syndicate, cleaned up Bellandur, and woke the guardian of the Garden City.",
-                          "Rohan, you were magnificent too. Your grandfather would be proud of both of you.", speaker="Prof. Sharada"),
-                      say("Yeah, yeah. Next year I'm taking that title back, {PLAYER}. Just you wait.", speaker="Rohan"),
+                          "Sudeep, you were magnificent too. Your grandfather would be proud of both of you.", speaker="Prof. Sharada"),
+                      say("Yeah, yeah. Next year I'm taking that title back, {PLAYER}. Just you wait.", speaker="Sudeep"),
                       say("Come. Let's record your team in the Hall of Fame.", speaker="Prof. Sharada"),
                       {"heal": True},
                       {"setLocation": {"area": "player_house_1f", "x": 3, "y": 5, "dir": "UP"}},

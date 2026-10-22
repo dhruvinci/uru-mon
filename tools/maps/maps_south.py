@@ -64,7 +64,6 @@ MAPS.append(dict(
             say("I saw a Gulmo in the grass by the lake! It ran off when I sneezed.")]),
     ],
     items=[dict(id="dosa1", x=34, y=4, item="Masala Dosa"), dict(id="coil1", x=3, y=28, item="Mosquito Coil")],
-    encounters={"grass": enc(0.12, (54, 5, 7, 25), (52, 5, 7, 20), (15, 4, 6, 20), (10, 5, 7, 20), (22, 5, 6, 15))},
 ))
 
 # ---------------------------------------------------------------------------------------------
@@ -84,7 +83,7 @@ MAPS.append(dict(
         trainer("gh_t1", 2, 9, "gardener", "lb_gardener", facing="RIGHT", sight=4),
         trainer("gh_t2", 12, 12, "college_f", "lb_college", facing="LEFT", sight=4),
         trainer("gh_t3", 12, 6, "gardener", "ar_glass1", facing="LEFT", sight=2),
-        npc("gh_guide", 9, 14, "man1", facing="LEFT", script=[
+        npc("gh_guide", 9, 14, "arena_guide", facing="LEFT", script=[
             say("Hey, future champ! Hoovamma loves GRASS Urumon.",
                 "FIRE and SKY moves wilt them fast. BUG works too. Good luck!")]),
     ],
@@ -140,7 +139,7 @@ MAPS.append(dict(
                 onDefeat=[say("Retreat! Tell the Admin the park is guarded by a kid with a Dabba!"),
                           {"npcWalk": {"id": "self", "steps": ["UP", "UP", "UP", "UP"], "ghost": True}}, {"npcHide": "self"},
                           {"setFlag": "CUBBON_GRUNTS_DONE"}]),
-        npc("cp_ranger", 13, 13, "officer", facing="RIGHT", script=[
+        npc("cp_ranger", 13, 13, "park_ranger", facing="RIGHT", script=[
             {"if": {"defeated": "t_grunt2"}, "then": [
                 say("You chased off those Concrete Syndicate goons? Wonderful!",
                     "They had permits to 'trim' three trees. They brought a crane. A CRANE.", speaker="Park Ranger"),
@@ -151,6 +150,4 @@ MAPS.append(dict(
     ],
     items=[dict(id="dabba1", x=3, y=42, item="Dabba", qty=3), dict(id="kaapi1", x=28, y=16, item="Filter Kaapi", qty=2),
            dict(id="neem1", x=4, y=13, item="Neem Paste"), dict(id="pak1", x=27, y=3, item="Mysore Pak")],
-    encounters={"grass": enc(0.13, (15, 6, 9, 22), (18, 6, 9, 14), (13, 6, 9, 14), (52, 7, 9, 10), (10, 6, 8, 10),
-                             (32, 7, 9, 10), (34, 7, 9, 10), (16, 8, 10, 6), (36, 8, 9, 4))},
 ))

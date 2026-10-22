@@ -44,7 +44,7 @@ MAPS.append(dict(
     triggers=[dict(id="mom_morning", x=9, y=2, w=1, h=1, unless="GOT_STARTER", script=[
         {"npcFace": {"id": "amma", "dir": "RIGHT"}},
         say("{PLAYER}! Finally awake? Professor Sharada came looking for you.",
-            "Rohan already ran to the lab an hour ago. Go on, it's just down the road!", speaker="Amma"),
+            "Sudeep already ran to the lab an hour ago. Go on, it's just down the road!", speaker="Amma"),
     ])],
     respawnText=["{PLAYER}! You came home looking exhausted!",
                  "Amma fed your Urumon hot ragi mudde and they are full of energy again. \"Be careful out there, kanna.\""],
@@ -53,26 +53,26 @@ MAPS.append(dict(
 ))
 
 # ---------------------------------------------------------------------------------------------
-# Rohan's house
+# Sudeep's house
 # ---------------------------------------------------------------------------------------------
 c, walls = room(10, 8, "w", exit_x=4)
 MAPS.append(dict(
-    id="rival_house", name="Rohan's House", music="MUSIC_HOME", interior=True, environment="indoor",
+    id="rival_house", name="Sudeep's House", music="MUSIC_HOME", interior=True, environment="indoor",
     layout=c.layout(), walls=walls, ground="wood_floor",
     props=[("bookshelf", 1, 2), ("tv", 4, 2), ("sofa", 3, 4), ("table", 6, 4), ("plant_pot", 8, 2), ("cricket_stumps", 8, 5)],
     warps=[warp("door", 4, 7, "basavanagudi", "rival_house", exit="UP", dir="DOWN")],
     npcs=[npc("rohan_mom", 6, 3, "rohan_mom", facing="DOWN", script=[
         {"if": "GOT_STARTER", "then": [
             {"if": "ROHAN_MOM_GIFT", "then": [
-                say("Rohan says he's going to be Champion. I said, first become champion of cleaning your room.", speaker="Aunty"),
+                say("Sudeep says he's going to be Champion. I said, first become champion of cleaning your room.", speaker="Aunty"),
             ], "else": [
-                say("Oh {PLAYER}, you got an Urumon too! Rohan left without even having breakfast.",
+                say("Oh {PLAYER}, you got an Urumon too! Sudeep left without even having breakfast.",
                     "Here, take these for the road. Make sure he eats something if you see him.", speaker="Aunty"),
                 {"giveItem": "Filter Kaapi", "qty": 3},
                 {"setFlag": "ROHAN_MOM_GIFT"},
             ]},
         ], "else": [
-            say("Rohan? He ran off to his grandmother's lab at six in the morning! Six! On a holiday!", speaker="Aunty"),
+            say("Sudeep? He ran off to his grandmother's lab at six in the morning! Six! On a holiday!", speaker="Aunty"),
         ]},
     ])],
     interactables=[dict(x=8, y=5, script=[say("Cricket stumps, a taped tennis ball and a poster of the city cricket team.")])],
@@ -85,23 +85,23 @@ c, walls = room(13, 10, "l", exit_x=6, wall="lab")
 LAB_INTRO = [
     {"cutscene": True},
     {"npcFace": {"id": "rohan_lab", "dir": "DOWN"}},
-    say("{PLAYER}! Finally! I've been waiting FOREVER.", speaker="Rohan"),
+    say("{PLAYER}! Finally! I've been waiting FOREVER.", speaker="Sudeep"),
     {"playerWalk": ["UP", "UP", "UP"]},
     say("Good morning, {PLAYER}. Thank you for coming.",
         "As you know, the city has been... restless. Lakes foaming, trees vanishing overnight.",
         "The Urumon feel it before we do. I need young eyes out there, and Urumon partners to keep you safe.",
         "On that table are three Urumon. Each one is yours to raise. Go on, choose your partner.", speaker="Prof. Sharada"),
-    say("Wait, Grandma! Why does {PLAYER} get to choose first?", speaker="Rohan"),
-    say("Because {PLAYER} was on time, Rohan. You were late to your own birthday party.", speaker="Prof. Sharada"),
+    say("Wait, Grandma! Why does {PLAYER} get to choose first?", speaker="Sudeep"),
+    say("Because {PLAYER} was on time, Sudeep. You were late to your own birthday party.", speaker="Prof. Sharada"),
     {"starterChoice": True},
     {"setFlag": "GOT_STARTER"},
-    say("Then I'll take {RIVAL_STARTER}! It's the best one anyway. Obviously.", speaker="Rohan"),
+    say("Then I'll take {RIVAL_STARTER}! It's the best one anyway. Obviously.", speaker="Sudeep"),
     {"wait": 300},
-    say("Rohan received {RIVAL_STARTER}!"),
-    say("Okay {PLAYER}, let's see whose Urumon is stronger! Best of one - no rematches!", speaker="Rohan"),
+    say("Sudeep received {RIVAL_STARTER}!"),
+    say("Okay {PLAYER}, let's see whose Urumon is stronger! Best of one - no rematches!", speaker="Sudeep"),
     {"battle": {"trainer": "rival_lab", "canLose": True, "environment": "indoor"},
-     "onWin": [say("What?! I picked the wrong one... no! I just need practice!", speaker="Rohan")],
-     "onLose": [say("Ha! Did you see that?! Rohan, future Champion of Bengaluru!", speaker="Rohan")]},
+     "onWin": [say("What?! I picked the wrong one... no! I just need practice!", speaker="Sudeep")],
+     "onLose": [say("Ha! Did you see that?! Sudeep, future Champion of Bengaluru!", speaker="Sudeep")]},
     {"heal": True},
     say("Splendid! Your partners already trust you.",
         "Take this too - the Uru-Pustaka. It records every Urumon you see and catch.", speaker="Prof. Sharada"),
@@ -112,7 +112,7 @@ LAB_INTRO = [
     {"giveItem": "Dabba", "qty": 5},
     say("There are six Arena Leaders across the city. Earn their badges, and the Namma Council at Vidhana Soudha will take you seriously.",
         "And keep your eyes open. Something is wrong with this city, and I mean to find out what.", speaker="Prof. Sharada"),
-    say("Six badges? I'll get them first! Bye, Grandma! Bye, slowpoke!", speaker="Rohan"),
+    say("Six badges? I'll get them first! Bye, Grandma! Bye, slowpoke!", speaker="Sudeep"),
     {"npcWalk": {"id": "rohan_lab", "steps": ["DOWN", "DOWN", "DOWN", "RIGHT", "RIGHT", "DOWN"], "ghost": True}},
     {"npcHide": "rohan_lab"},
     {"setFlag": "RIVAL1_DONE"},
@@ -136,7 +136,7 @@ MAPS.append(dict(
             ]},
         ]),
         npc("rohan_lab", 4, 5, "rival", facing="UP", hideIf="RIVAL1_DONE",
-            script=[say("Hurry up and pick, {PLAYER}!", speaker="Rohan")]),
+            script=[say("Hurry up and pick, {PLAYER}!", speaker="Sudeep")]),
         npc("aide", 10, 6, "techie_f", facing="LEFT", script=[
             say("I'm Kavya, the Professor's assistant.",
                 "Tip: Urumon types matter! FIRE burns GRASS, GRASS drinks up WATER, WATER puts out FIRE.",
@@ -163,7 +163,7 @@ c.fill(15, 0, 2, 21, "_")          # main road, north exit down to the lower str
 c.fill(3, 9, 26, 2, "_")           # cross street
 c.fill(3, 19, 26, 2, "_")          # lower street
 c.fill(6, 8, 1, 1, ":")            # player's front path (door at x=6)
-c.fill(22, 8, 1, 1, ":")           # Rohan's front path
+c.fill(22, 8, 1, 1, ":")           # Sudeep's front path
 c.fill(11, 17, 1, 2, ":")          # lab front path
 c.fill(23, 17, 1, 2, ":")          # temple front path
 for x, y in [(9, 5), (10, 5), (18, 5), (19, 5), (13, 12), (14, 12), (19, 12), (20, 12), (8, 22), (9, 22), (27, 22)]:
@@ -197,9 +197,9 @@ MAPS.append(dict(
             say("My appa says the Bull Temple is older than the whole city!")]),
         npc("ajji_bt", 26, 17, "ajji", facing="LEFT", script=[
             say("In my day there was a groundnut fair here every week. Now only once a year. Times change, kanda.")]),
-        npc("guard_n", 14, 2, "officer", facing="DOWN", hideIf="GOT_STARTER", script=[
-            say("The tall grass up the road is full of wild Urumon.",
-                "Go and see Professor Sharada before you wander off, okay?")]),
+        npc("guard_n", 14, 2, "area_boi", facing="DOWN", hideIf="GOT_STARTER", script=[
+            say("Macha, where are you going without an Urumon? The grass up there is full of wild ones.",
+                "Go see Professor Sharada first. Then come, we'll see.", speaker="Area Boi")]),
         npc("man_bt", 24, 9, "man2", movement="LOOK", script=[
             say("They say there's a garden with a whole house made of glass up north in Lalbagh. Imagine the electricity bill!")]),
     ],
@@ -255,5 +255,4 @@ MAPS.append(dict(
     ],
     items=[dict(id="dabba1", x=19, y=34, item="Dabba", qty=2), dict(id="kaapi1", x=3, y=13, item="Filter Kaapi"),
            dict(id="elaneer1", x=17, y=3, item="Elaneer")],
-    encounters={"grass": enc(0.12, (10, 2, 4, 35), (13, 2, 4, 30), (28, 3, 5, 15), (32, 3, 4, 12), (20, 3, 4, 8))},
 ))

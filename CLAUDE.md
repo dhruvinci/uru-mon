@@ -62,7 +62,7 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   *blocked* warp tiles triggered by bumping; `exits` on map edges generate paired warps (`N0`↔`S0`, ...).
   Shared interiors (Darshini, Kirana) exit to `@return`, set by the entering door's `setReturn`.
 - **Characters**: `CHAR_*` sheets are 3 columns × 4 rows (down, up, left, right) of 16×24 frames; walk anims are built
-  in `PreloadScene`. Trainer species `"RIVAL:n"` resolves to stage n of Rohan's starter line at runtime.
+  in `PreloadScene`. Trainer species `"RIVAL:n"` resolves to stage n of Sudeep's starter line at runtime.
 - **Council**: entering `council_1` resets the five Council trainers (`resetTrainers`), so losing restarts the run.
 - **Input**: one global `inputManager` merges keyboard and the DOM touch pad; per-scene `Controls` just reads it.
   Keys typed into `<input>` elements are ignored by the game (used for name entry). A tap shorter than a frame still

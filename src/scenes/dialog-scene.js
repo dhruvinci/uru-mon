@@ -60,7 +60,7 @@ export class DialogScene extends BaseScene {
     const st = dataManager.state;
     return s
       .replaceAll('{PLAYER}', st.player.name)
-      .replaceAll('{RIVAL}', 'Rohan')
+      .replaceAll('{RIVAL}', 'Sudeep')
       .replaceAll('{STARTER}', st.vars.starterName || 'your partner')
       .replaceAll('{RIVAL_STARTER}', st.vars.rivalStarterName || 'his partner')
       .replaceAll('{MONEY}', `₹${dataManager.money}`);

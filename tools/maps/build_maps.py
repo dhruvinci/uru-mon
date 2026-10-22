@@ -28,6 +28,10 @@ def main():
                 continue
             raise
         defs.extend(mod.MAPS)
+    from encounters import ENCOUNTERS
+    for d in defs:
+        if d["id"] in ENCOUNTERS:
+            d["encounters"] = ENCOUNTERS[d["id"]]
     ids = [d["id"] for d in defs]
     dupes = {i for i in ids if ids.count(i) > 1}
     if dupes:

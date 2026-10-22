@@ -1,4 +1,4 @@
-"""Every trainer in the game. Species may be an id or "RIVAL:n" (stage n of Rohan's starter line).
+"""Every trainer in the game. Species may be an id or "RIVAL:n" (stage n of Sudeep's starter line).
 
 Prize money = base x the highest level on the team.
 """
@@ -26,26 +26,26 @@ def tr(id, name, title, portrait, team, intro, defeat, after=None, ai=1, sprite=
 
 
 # ---------------------------------------------------------------------------------------------
-# Rival: Rohan
+# Rival: Sudeep
 # ---------------------------------------------------------------------------------------------
-tr("rival_lab", "Rohan", "Rival", "rival", [("RIVAL:1", 5)],
+tr("rival_lab", "Sudeep", "Rival", "rival", [("RIVAL:1", 5)],
    ["Wait, {PLAYER}! Let's see whose Urumon is stronger. Best of one - no rematches!"],
    ["What?! I picked the wrong one... no, I just need practice!"], canLose=True, music="MUSIC_RIVAL")
-tr("rival_mg", "Rohan", "Rival", "rival", [(11, 14), (13, 13), ("RIVAL:1", 16)],
+tr("rival_mg", "Sudeep", "Rival", "rival", [(11, 14), (13, 13), ("RIVAL:1", 16)],
    ["{PLAYER}! Took you long enough to get through Cubbon Park.",
     "I've been training at the stadium nets every evening. Watch this!"],
    ["Arre! I was this close. I'm going to beat Gundappa first, just watch."],
    music="MUSIC_RIVAL", ai=1)
-tr("rival_whitefield", "Rohan", "Rival", "rival", [(11, 24), (45, 23), (28, 23), ("RIVAL:2", 26)],
+tr("rival_whitefield", "Sudeep", "Rival", "rival", [(11, 24), (45, 23), (28, 23), ("RIVAL:2", 26)],
    ["Silk Board took me three hours. THREE HOURS, {PLAYER}.",
     "I'm in a terrible mood. Perfect for a battle!"],
    ["Fine, fine. You're good. Annoyingly good."], music="MUSIC_RIVAL", ai=1)
-tr("rival_palace", "Rohan", "Rival", "rival", [(12, 36), (46, 35), (29, 35), (57, 35), ("RIVAL:3", 38)],
+tr("rival_palace", "Sudeep", "Rival", "rival", [(12, 36), (46, 35), (29, 35), (57, 35), ("RIVAL:3", 38)],
    ["The Syndicate is heading for Nandi Hills. Grandma's worried sick.",
     "Before we go after them, I need to know you're ready. Show me!"],
    ["...Yeah. You're ready. Let's stop them together. You go first - I'll cover the hill roads."],
    music="MUSIC_RIVAL", ai=2)
-tr("champion", "Rohan", "Champion", "rival",
+tr("champion", "Sudeep", "Champion", "rival",
    [(12, 44), (57, 45), (41, 44), (50, 45), (46, 44), ("RIVAL:3", 48)],
    ["Hey, {PLAYER}. Surprised? I beat the Council an hour before you.",
     "Every route, every Arena - I was always one step ahead. Or one step behind.",
@@ -90,7 +90,7 @@ tr("leader_rukmini", "Rukmini", "Arena Leader", "rukmini", [(36, 32), (33, 33), 
     "They have been whispering about you... shall we see if they're right?"],
    ["The spirits are smiling. They accept you. Take the SPIRIT Badge."],
    after=["The spirits are restless tonight. They say the northern hills are in danger.",
-          "Rohan rushed north on Palace Road. You should follow him."],
+          "Sudeep rushed north on Palace Road. You should follow him."],
    ai=2, isLeader=True, environment="arena", music="MUSIC_LEADER")
 tr("leader_akash", "Akash", "Arena Leader", "akash", [(17, 40), (42, 41), (12, 41), (25, 43)],
    ["Up here the wind does whatever it wants. Sunrise, mist, monsoon - all in an hour.",

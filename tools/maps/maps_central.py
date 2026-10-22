@@ -53,7 +53,7 @@ MAPS.append(dict(
             say("Road closed! Silk Board junction is jammed solid.",
                 "Only people with an Arena badge from the stadium get through. Rules are rules.", speaker="Traffic Police")]),
         npc("cop_east2", 42, 17, "traffic_cop", facing="LEFT", hideIf={"badge": "FIGHT"}, script=[
-            say("Have you tried the stadium? Coach Gundappa's badge opens a lot of doors around here.", speaker="Traffic Police")]),
+            say("Have you tried Chinnaswamy Stadium? Coach Gundappa's badge opens a lot of doors around here.", speaker="Traffic Police")]),
         npc("guard_w1", 1, 16, "officer", facing="RIGHT", hideIf={"badges": 6}, script=[
             say("Vidhana Soudha is the seat of the Namma Council.",
                 "Only trainers with all six Arena badges may enter.", speaker="Guard")]),
@@ -78,22 +78,21 @@ MAPS.append(dict(
         {"exclaim": "rohan_mg"},
         {"npcToPlayer": "rohan_mg"},
         {"battle": {"trainer": "rival_mg", "id": "rohan_mg"}},
-        say("I'm going to the stadium nets. See you in the history books, {PLAYER}!", speaker="Rohan"),
+        say("I'm going to the stadium nets. See you in the history books, {PLAYER}!", speaker="Sudeep"),
         {"npcWalk": {"id": "rohan_mg", "steps": ["UP", "UP", "UP", "UP", "UP", "UP"], "ghost": True}},
         {"npcHide": "rohan_mg"},
         {"setFlag": "RIVAL2_DONE"},
     ])],
     items=[dict(id="pak1", x=38, y=30, item="Mysore Pak"), dict(id="sdabba1", x=5, y=12, item="Steel Dabba", qty=2)],
-    encounters={"grass": enc(0.12, (32, 11, 14, 30), (20, 11, 14, 20), (47, 12, 14, 20), (56, 12, 14, 10), (13, 12, 14, 20))},
 ))
 
 # ---------------------------------------------------------------------------------------------
-# Cubbon Cricket Stadium (Arena 2, FIGHT)
+# Chinnaswamy Stadium (Arena 2, FIGHT)
 # ---------------------------------------------------------------------------------------------
 c, walls = room(15, 16, ".", exit_x=7, wall="wood")
 c.fill(6, 4, 3, 8, ":")
 MAPS.append(dict(
-    id="stadium", name="Cubbon Cricket Stadium", music="MUSIC_ARENA", interior=True, environment="arena",
+    id="stadium", name="Chinnaswamy Stadium", music="MUSIC_ARENA", interior=True, environment="arena",
     layout=c.layout(), walls=walls, ground="grass",
     props=[("cricket_stumps", 7, 4), ("cricket_stumps", 7, 11), ("bench", 1, 3), ("bench", 12, 3), ("bench", 1, 13),
            ("bench", 12, 13)],
@@ -103,7 +102,7 @@ MAPS.append(dict(
         trainer("st_t1", 3, 9, "cricketer", "st_cricketer1", facing="RIGHT", sight=4),
         trainer("st_t2", 11, 6, "cricketer", "st_cricketer2", facing="LEFT", sight=4),
         trainer("st_t3", 3, 12, "cricketer", "ar_stadium1", facing="RIGHT", sight=3),
-        npc("st_guide", 9, 14, "man1", facing="LEFT", script=[
+        npc("st_guide", 9, 14, "arena_guide", facing="LEFT", script=[
             say("Coach Gundappa uses FIGHT Urumon. Tough as nails!",
                 "SKY and MIND moves knock them for six. NORMAL and ROCK types struggle against them.")]),
     ],
@@ -152,8 +151,6 @@ MAPS.append(dict(
     ],
     items=[dict(id="dosa1", x=46, y=19, item="Masala Dosa", qty=2), dict(id="coil1", x=5, y=19, item="Mosquito Coil", qty=2),
            dict(id="sdabba1", x=47, y=4, item="Steel Dabba")],
-    encounters={"grass": enc(0.13, (20, 14, 18, 22), (32, 14, 17, 14), (28, 14, 17, 12), (11, 15, 18, 14), (47, 15, 18, 14),
-                             (18, 14, 17, 12), (51, 17, 17, 3), (56, 15, 17, 9))},
 ))
 
 # ---------------------------------------------------------------------------------------------
@@ -188,11 +185,11 @@ MAPS.append(dict(
            dict(x=22, y=18, text="SOUTH: Bellandur Lake. Do not touch the foam.")],
     npcs=[
         metro_staff("metro_wf", 9, 28, "Whitefield"),
-        npc("wf_guard", 18, 30, "officer", facing="UP", hideIf={"badge": "ELECTRIC"}, script=[
-            say("The road to Bellandur Lake is closed. Strange chemical smell, foam everywhere.",
-                "Only a badge-holding trainer could go in safely. Have you seen Tanvi at the tech park?", speaker="Security")]),
-        npc("wf_guard2", 19, 30, "officer", facing="UP", hideIf={"badge": "ELECTRIC"}, script=[
-            say("Sorry, closed. Please don't make me fill out an incident report.", speaker="Security")]),
+        npc("wf_guard", 18, 30, "area_boi", facing="UP", hideIf={"badge": "ELECTRIC"}, script=[
+            say("Road to Bellandur is closed, bro. Full chemical smell, foam everywhere. Even our bikes got foamed.",
+                "Only a badge-holding trainer can go in. Seen Tanvi at the tech park?", speaker="Area Boi")]),
+        npc("wf_guard2", 19, 30, "area_boi2", facing="UP", hideIf={"badge": "ELECTRIC"}, script=[
+            say("Don't argue, guru. Even the delivery boys are turning back.", speaker="Area Boi")]),
         npc("wf_techie", 30, 13, "techie_m", movement="WANDER", script=[
             say("I commute two hours each way. I have optimised my podcast list to perfection.")]),
         npc("wf_coffee", 13, 24, "college_f", facing="LEFT", script=[
@@ -203,13 +200,12 @@ MAPS.append(dict(
         {"exclaim": "rohan_wf"},
         {"npcToPlayer": "rohan_wf"},
         {"battle": {"trainer": "rival_whitefield", "id": "rohan_wf"}},
-        say("Tanvi's Arena is in the big tower. Her Urumon zap like a short circuit. Good luck - not that you need it.", speaker="Rohan"),
+        say("Tanvi's Arena is in the big tower. Her Urumon zap like a short circuit. Good luck - not that you need it.", speaker="Sudeep"),
         {"npcWalk": {"id": "rohan_wf", "steps": ["RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT"], "ghost": True}},
         {"npcHide": "rohan_wf"},
         {"setFlag": "RIVAL3_DONE"},
     ])],
     items=[dict(id="chakli1", x=36, y=28, item="Chakli"), dict(id="bath1", x=3, y=10, item="Bisi Bele Bath")],
-    encounters={"grass": enc(0.12, (49, 17, 21, 30), (47, 17, 21, 25), (56, 18, 20, 15), (32, 17, 20, 15), (28, 18, 20, 15))},
 ))
 
 # ---------------------------------------------------------------------------------------------
@@ -228,7 +224,7 @@ MAPS.append(dict(
         trainer("tp_t1", 3, 11, "techie_m", "wf_techie1", facing="RIGHT", sight=4),
         trainer("tp_t2", 11, 7, "techie_f", "wf_techie2", facing="LEFT", sight=4),
         trainer("tp_t3", 4, 7, "techie_f", "ar_tech1", facing="RIGHT", sight=2),
-        npc("tp_guide", 9, 13, "man1", facing="LEFT", script=[
+        npc("tp_guide", 9, 13, "arena_guide", facing="LEFT", script=[
             say("Tanvi's team is pure ELECTRIC. EARTH moves short-circuit them completely!",
                 "And ELECTRIC moves do nothing to EARTH types. Just saying.")]),
     ],
@@ -262,7 +258,7 @@ MAPS.append(dict(
         trainer("t_bl_grunt2", 26, 13, "grunt_f", "grunt_bell2", facing="LEFT", sight=4),
         trainer("t_bl_grunt3", 6, 22, "grunt_m", "grunt_bell3", facing="UP", sight=4),
         trainer("t_bl_fisher", 16, 30, "fisher", "bl_fisher", facing="UP", sight=3),
-        npc("bl_officer", 21, 12, "officer", facing="DOWN", showIf="BELLANDUR_ADMIN_DONE", hideIf="BELLANDUR_DONE", script=[]),
+        npc("bl_officer", 21, 12, "rowdy", facing="DOWN", showIf="BELLANDUR_ADMIN_DONE", hideIf="BELLANDUR_DONE", script=[]),
         npc("bl_resident", 30, 10, "woman4", facing="DOWN", script=[
             {"if": "BELLANDUR_DONE", "then": [
                 say("The pipes are shut and the foam is settling! I could cry. I might cry.")],
@@ -271,13 +267,14 @@ MAPS.append(dict(
     ],
     triggers=[dict(id="metro_reward", x=8, y=8, w=6, h=3, requires="BELLANDUR_ADMIN_DONE", unless="BELLANDUR_DONE", script=[
         {"npcToPlayer": "bl_officer"},
-        say("Are you the trainer who stopped the dumping? I'm Inspector Gowda from the city office.",
-            "We've been trying to catch the Syndicate for months. Every time we came, the site was 'closed for lunch'.",
-            "On behalf of the city - thank you. Please take this.", speaker="Inspector Gowda"),
+        say("Oi! You're the kid who shut down the foam factory? I'm Rangappa. Everyone calls me Rowdy Rangappa.",
+            "This lake is MY area. Thirty years I've swum here. Those Syndicate fellows thought they could dump in it?",
+            "You did what I couldn't, and without breaking a single head. Respect, chikka. Take this.", speaker="Rowdy Rangappa"),
         {"giveItem": "Metro Card"},
-        say("A Metro Card! Tap it at any Namma Metro station to ride between stations you've visited.",
-            "Oh, and I'll have the barricade on the road north of MG Road removed. You've earned free passage.",
-            "That Admin said something about 'the hills' and 'sunrise'... I don't like the sound of that.", speaker="Inspector Gowda"),
+        say("A Metro Card. Tap it at any Namma Metro station. My nephew works at the Metro office - don't ask questions.",
+            "And that barricade north of MG Road? Consider it gone. Nobody blocks a friend of Rangappa.",
+            "That Admin kept muttering about 'the hills' and 'sunrise'. If they go to Nandi, you go too. Give them one from me.",
+            speaker="Rowdy Rangappa"),
         {"setFlag": "BELLANDUR_DONE"},
         {"npcWalk": {"id": "bl_officer", "steps": ["UP", "UP", "UP", "UP"], "ghost": True}},
         {"npcHide": "bl_officer"},
@@ -289,8 +286,6 @@ MAPS.append(dict(
         {"setFlag": "FOAM_SPIRIT_DONE"},
     ])],
     items=[dict(id="elaneer1", x=3, y=13, item="Elaneer", qty=2), dict(id="tiffin1", x=32, y=33, item="Tiffin Carrier")],
-    encounters={"grass": enc(0.13, (22, 19, 23, 30), (18, 19, 23, 20), (45, 19, 22, 15), (24, 19, 23, 15), (43, 19, 22, 10),
-                             (20, 20, 23, 10))},
 ))
 
 c, walls = room(13, 11, "t", exit_x=6, wall="plain")

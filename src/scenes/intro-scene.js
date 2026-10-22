@@ -123,7 +123,7 @@ export class IntroScene extends BaseScene {
 
     await this.#showPortrait('TRAINER_rival');
     await this.#say(
-      'This is my grandson, Rohan.',
+      'This is my grandson, Sudeep.',
       "You two have been best friends - and fiercest rivals - since you first fought over a cricket bat in kindergarten.",
       "He's been pestering me all week about getting his first Urumon. I suppose you both deserve one."
     );

@@ -36,11 +36,11 @@ A GBA-style creature-collecting RPG set in **Bengaluru**. Creatures are called *
 - Blackout: warp to last Darshini, lose half ₹.
 
 ## Region (outdoor maps, south → north)
-1. **Basavanagudi** — home town. Player's house, rival Rohan's house, Prof. Sharada's **Urumon Lab**, Bugle Rock.
+1. **Basavanagudi** — home town. Player's house, rival Sudeep's house, Prof. Sharada's **Urumon Lab**, Bugle Rock.
 2. **Route 1 · South End Road** — first grass.
 3. **Lalbagh** — Glass House **Arena 1 (GRASS)**, Leader **Hoovamma**. Darshini, Kirana.
 4. **Cubbon Park** — wooded maze; Syndicate grunts cutting trees.
-5. **MG Road** — city hub, Metro station, **Arena 2 (FIGHT)** in the cricket stadium, Leader **Gundappa**. Vidhana Soudha gate (needs 6 badges).
+5. **MG Road** — city hub, Metro station, **Arena 2 (FIGHT)** in Chinnaswamy Stadium, Leader **Gundappa**. Vidhana Soudha gate (needs 6 badges).
 6. **Route 3 · Silk Board** — the infamous traffic junction; autos everywhere.
 7. **Whitefield** — tech parks, **Arena 3 (ELECTRIC)**, Leader **Tanvi** (startup founder).
 8. **Bellandur Lake** — foaming lake; Syndicate dumping sludge (story event, gives Metro Card).
@@ -49,16 +49,16 @@ A GBA-style creature-collecting RPG set in **Bengaluru**. Creatures are called *
 11. **Palace Road** — Bangalore Palace, **Arena 5 (SPIRIT)**, Leader **Rukmini**.
 12. **Route 7 · Hebbal** — flyover and lake toward the hills.
 13. **Nandi Hills** — climb + cave; Syndicate HQ climax vs **Boss Bhaskar**; legendary **Udyanaga** at the summit; **Arena 6 (SKY)**, Leader **Akash**.
-14. **Vidhana Soudha** — Namma Council: Nagaraj (TOXIC), Basappa (ROCK), Kaveri (WATER), Agni (FIRE), then Champion **Rohan**.
+14. **Vidhana Soudha** — Namma Council: Nagaraj (TOXIC), Basappa (ROCK), Kaveri (WATER), Agni (FIRE), then Champion **Sudeep**.
 
 ## Story beats
-1. Amma wakes you; Prof. Sharada's lab; choose starter (Jakkafawn / Kaapup / Elanee); Rohan takes the one strong against yours; first battle.
+1. Amma wakes you; Prof. Sharada's lab; choose starter (Jakkafawn / Kaapup / Elanee); Sudeep takes the one strong against yours; first battle.
 2. Route 1 → Lalbagh badge. Grunts in Cubbon Park chopping trees — first Syndicate battle.
 3. MG Road badge → Silk Board → Whitefield badge.
 4. Bellandur: stop the sludge dumping; grateful BBMP officer gives **Metro Card** (fast travel between visited Metro stations).
-5. Malleshwaram badge → Palace badge. Rohan tells you the Syndicate is heading to Nandi Hills.
+5. Malleshwaram badge → Palace badge. Sudeep tells you the Syndicate is heading to Nandi Hills.
 6. Nandi Hills: fight through the cave, defeat Boss Bhaskar; Udyanaga appears (catchable); Arena 6 at the summit.
-7. Vidhana Soudha: Council ×4 → Champion Rohan → credits.
+7. Vidhana Soudha: Council ×4 → Champion Sudeep → credits.
 
 ## Art pipeline
 - World tiles & characters: authored as code (`tools/art/`), 16 px, rendered to PNG; displayed ×4 with `pixelArt: true`.

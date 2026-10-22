@@ -57,6 +57,7 @@ class MapBuild:
         self.h = len(self.rows)
         self.blocked = [[False] * self.w for _ in range(self.h)]
         self.encounter = {}  # zone -> set((x,y))
+        self.water = set()   # (x,y) of water tiles, for fishing
         self.draw_ops = []   # (sort_y, x_px, y_px, image, layer)
         self.warps = list(d.get("warps", []))
         self.base_ground = d.get("ground", "grass")
@@ -108,6 +109,7 @@ class MapBuild:
                     tile = tiles.water(water(x, y - 1), water(x + 1, y), water(x, y + 1), water(x - 1, y),
                                        water(x + 1, y - 1), water(x - 1, y - 1), water(x + 1, y + 1), water(x - 1, y + 1), x, y)
                     self.blocked[y][x] = True
+                    self.water.add((x, y))
                 elif c == "#":
                     tile = rock_wall(x, y, self.ch(x, y + 1) != "#", self.ch(x, y - 1) != "#",
                                      self.ch(x - 1, y) != "#", self.ch(x + 1, y) != "#",
@@ -241,6 +243,7 @@ class MapBuild:
             "warps": self.warps, "npcs": d.get("npcs", []), "signs": d.get("signs", []), "items": d.get("items", []),
             "triggers": d.get("triggers", []), "counters": d.get("counters", []),
             "interactables": d.get("interactables", []), "encounters": d.get("encounters", {}),
+            "water": sorted(y * self.w + x for x, y in self.water) if "fish" in d.get("encounters", {}) else [],
             "onEnter": d.get("onEnter"), "spawn": d.get("spawn"), "metroStation": d.get("metroStation"),
             "respawnText": d.get("respawnText"),
         }

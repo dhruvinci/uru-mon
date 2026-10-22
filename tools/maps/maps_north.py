@@ -38,8 +38,6 @@ MAPS.append(dict(
     ],
     items=[dict(id="bath1", x=24, y=38, item="Bisi Bele Bath"), dict(id="elaneer1", x=8, y=11, item="Elaneer"),
            dict(id="tdabba1", x=24, y=4, item="Steel Dabba", qty=3)],
-    encounters={"grass": enc(0.12, (45, 22, 26, 22), (24, 22, 26, 14), (34, 22, 26, 14), (11, 23, 26, 14), (43, 22, 25, 10),
-                             (30, 23, 26, 14), (54, 23, 26, 8), (42, 26, 26, 2))},
 ))
 
 # ---------------------------------------------------------------------------------------------
@@ -77,11 +75,12 @@ MAPS.append(dict(
            dict(x=3, y=12, text="KADU MALLESHWARA TEMPLE - Old as the hills. Quiet, please.")],
     npcs=[
         metro_staff("metro_ml", 8, 28, "Malleshwaram"),
-        npc("ml_guard", 38, 14, "officer", facing="LEFT", hideIf={"badge": "MIND"}, script=[
-            say("Palace Road is closed for a film shoot. Only Arena champions get through.",
-                "Vidya ma'am's tuition house is right here. Pass her test first.", speaker="Guard")]),
-        npc("ml_guard2", 38, 15, "officer", facing="LEFT", hideIf={"badge": "MIND"}, script=[
-            say("No, I can't tell you which film. Okay, it's a ghost movie. Don't tell anyone.", speaker="Guard")]),
+        npc("ml_guard", 38, 14, "area_boi", facing="LEFT", hideIf={"badge": "MIND"}, script=[
+            say("Boss, road closed. Film shooting is going on. Only Arena champions get through, that's the rule.",
+                "Vidya ma'am's tuition house is right here. Pass her test first, then come.", speaker="Area Boi")]),
+        npc("ml_guard2", 38, 15, "area_boi2", facing="LEFT", hideIf={"badge": "MIND"}, script=[
+            say("Which film? Can't tell, guru. ...Okay fine, it's a ghost movie. Don't tell anyone, scene aagutte.",
+                speaker="Area Boi")]),
         npc("ml_flower", 33, 13, "woman4", facing="DOWN", script=[
             say("Mallige! Fresh mallige! A string of jasmine for your hair? For your Urumon's hair?")]),
         npc("ml_student", 21, 17, "schoolgirl", movement="WANDER", script=[
@@ -90,7 +89,6 @@ MAPS.append(dict(
         trainer("t_ml_kid", 26, 22, "schoolboy", "ml_kid", facing="UP", sight=3),
     ],
     items=[dict(id="chakli1", x=36, y=27, item="Chakli"), dict(id="mudde1", x=37, y=4, item="Ragi Mudde")],
-    encounters={"grass": enc(0.12, (38, 24, 27, 30), (32, 24, 27, 25), (34, 24, 27, 20), (14, 25, 27, 15), (36, 24, 26, 10))},
 ))
 
 c, walls = room(13, 13, "w", exit_x=6, wall="wood")
@@ -138,11 +136,12 @@ MAPS.append(dict(
         npc("pr_mahout", 36, 17, "man2", facing="LEFT", script=[
             say("I look after the palace elephants. Aanemari love a bath in the afternoon.",
                 "In the old days they carried golden howdahs in the autumn procession.")]),
-        npc("pr_guard", 19, 2, "officer", facing="DOWN", hideIf={"badge": "SPIRIT"}, script=[
-            say("The road north is closed. The spirits at the palace are restless, and nobody wants to drive past at night.",
-                "Calm them down - win at the palace Arena - and I'll open the road.", speaker="Guard")]),
-        npc("pr_guard2", 20, 2, "officer", facing="DOWN", hideIf={"badge": "SPIRIT"}, script=[
-            say("I heard a laugh in the palace corridors last night. Nobody was there.", speaker="Guard")]),
+        npc("pr_guard", 19, 2, "area_boi", facing="DOWN", hideIf={"badge": "SPIRIT"}, script=[
+            say("No going north, macha. The palace ghosts are full active these days. Even our gang won't ride past at night.",
+                "Win at the palace Arena and calm them down. Then we'll move our bikes.", speaker="Area Boi")]),
+        npc("pr_guard2", 20, 2, "area_boi2", facing="DOWN", hideIf={"badge": "SPIRIT"}, script=[
+            say("Last night someone laughed in the palace corridor. Nobody was there.",
+                "I'm not scared, okay? I'm just... standing here. Guarding.", speaker="Area Boi")]),
         npc("rohan_pr", 21, 7, "rival", facing="DOWN", showIf={"badge": "SPIRIT"}, hideIf="RIVAL4_DONE", script=[]),
     ],
     triggers=[dict(id="rival4", once=False, x=19, y=9, w=2, h=4, requires={"badge": "SPIRIT"}, unless="RIVAL4_DONE", script=[
@@ -151,14 +150,12 @@ MAPS.append(dict(
         {"battle": {"trainer": "rival_palace", "id": "rohan_pr"}},
         say("Grandma called. Something big is happening at Nandi Hills at sunrise.",
             "The Syndicate's boss is going after the Garden City's guardian - Udyanaga.",
-            "Go through Hebbal and climb the hill. The only way to the summit is through the old cave. Hurry!", speaker="Rohan"),
+            "Go through Hebbal and climb the hill. The only way to the summit is through the old cave. Hurry!", speaker="Sudeep"),
         {"npcWalk": {"id": "rohan_pr", "steps": ["UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP"], "ghost": True}},
         {"npcHide": "rohan_pr"},
         {"setFlag": "RIVAL4_DONE"},
     ])],
     items=[dict(id="pak1", x=5, y=4, item="Mysore Pak", qty=2), dict(id="tiffin1", x=37, y=26, item="Tiffin Carrier")],
-    encounters={"grass": enc(0.12, (36, 26, 30, 22), (62, 26, 29, 18), (60, 27, 30, 14), (40, 27, 30, 12), (32, 28, 30, 12),
-                             (33, 27, 29, 6), (42, 28, 30, 6), (38, 27, 29, 10))},
 ))
 
 c, walls = room(17, 15, "o", exit_x=8, wall="palace")
@@ -173,7 +170,7 @@ MAPS.append(dict(
         trainer("pa_leader", 8, 2, "rukmini", "leader_rukmini", sight=0),
         trainer("pa_t1", 6, 10, "dancer", "ar_palace1", facing="RIGHT", sight=3),
         trainer("pa_t2", 10, 6, "ajja", "ar_palace2", facing="LEFT", sight=3),
-        npc("pa_guide", 10, 13, "man1", facing="LEFT", script=[
+        npc("pa_guide", 10, 13, "arena_guide", facing="LEFT", script=[
             say("Rukmini commands SPIRIT Urumon. NORMAL and FIGHT moves pass right through them!",
                 "Use SPIRIT moves of your own. Or a very brave heart.")]),
     ],
@@ -209,8 +206,6 @@ MAPS.append(dict(
             say("I saw trucks with hard-hat people heading up to Nandi Hills before dawn.", "Hope they're just tourists...")]),
     ],
     items=[dict(id="mudde1", x=3, y=38, item="Ragi Mudde"), dict(id="dosa1", x=23, y=5, item="Masala Dosa", qty=3)],
-    encounters={"grass": enc(0.12, (46, 30, 33, 14), (45, 28, 32, 10), (11, 30, 33, 14), (29, 30, 33, 14), (28, 29, 32, 10),
-                             (30, 30, 33, 12), (19, 31, 33, 12), (42, 33, 34, 4), (55, 30, 33, 10))},
 ))
 
 # ---------------------------------------------------------------------------------------------
@@ -270,8 +265,6 @@ MAPS.append(dict(
     ])],
     items=[dict(id="mudde1", x=33, y=44, item="Ragi Mudde"), dict(id="pak1", x=4, y=8, item="Mysore Pak", qty=2),
            dict(id="tiffin1", x=33, y=12, item="Tiffin Carrier", qty=2)],
-    encounters={"grass": enc(0.12, (30, 30, 35, 25), (26, 30, 35, 20), (11, 31, 35, 15), (60, 31, 34, 10), (34, 31, 35, 15),
-                             (42, 33, 35, 3), (31, 33, 35, 5), (35, 34, 35, 7))},
 ))
 
 W, H = 30, 26
@@ -304,8 +297,6 @@ MAPS.append(dict(
     ],
     props=[("crate", 11, 4), ("crate", 12, 4), ("stalagmite", 5, 10), ("stalagmite", 25, 16), ("crate", 20, 19)],
     items=[dict(id="elaneer1", x=13, y=15, item="Elaneer", qty=2), dict(id="bath1", x=25, y=4, item="Bisi Bele Bath", qty=2)],
-    encounters={"cave": enc(0.09, (26, 32, 36, 30), (58, 32, 35, 25), (36, 32, 36, 20), (43, 32, 35, 15), (59, 34, 36, 5),
-                            (27, 35, 36, 5))},
 ))
 
 c, walls = room(13, 13, "o", exit_x=6, wall="cave")
@@ -318,7 +309,7 @@ MAPS.append(dict(
         trainer("hp_leader", 6, 2, "akash", "leader_akash", sight=0),
         trainer("hp_t1", 2, 6, "birdwatcher", "ar_pavilion1", facing="RIGHT", sight=3),
         trainer("hp_t2", 10, 9, "jogger", "ar_pavilion2", facing="LEFT", sight=3),
-        npc("hp_guide", 8, 11, "man1", facing="LEFT", script=[
+        npc("hp_guide", 8, 11, "arena_guide", facing="LEFT", script=[
             say("Akash flies SKY Urumon. ELECTRIC and ROCK moves will bring them down to earth!")]),
     ],
 ))
