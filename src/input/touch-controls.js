@@ -1,7 +1,11 @@
 import { inputManager } from './input-manager.js';
 
 /**
- * On-screen game pad for phones and tablets (D-pad, A, B, START), drawn as DOM elements over the page.
+ * On-screen controls for phones and tablets. The game itself is touch-first (tap to walk, tap menus and dialog), so
+ * the pad is a backup plus the buttons taps can't replace (B to go back, START for the menu):
+ *   - portrait: the game sits on top at full width; a full pad sits under your thumbs.
+ *   - landscape: the game fills the height; A/B/START live in the side margins so nothing covers the game, and the
+ *     D-pad is optional (the ✥ button shows it, remembered per device).
  * Shown automatically on touch-first devices; `?touch=1` forces it on and `?touch=0` off.
  */
 export function setupTouchControls() {
@@ -16,6 +20,7 @@ export function setupTouchControls() {
   const pad = document.createElement('div');
   pad.className = 'touch-pad';
   pad.innerHTML = `
+    <div class="pad-hint">Tap the map to walk · tap menus to choose<br><span class="rotate">↻ Turn your phone sideways for a bigger screen</span></div>
     <div class="dpad">
       <button data-btn="UP" class="dir up" aria-label="Up"></button>
       <button data-btn="LEFT" class="dir left" aria-label="Left"></button>
@@ -23,12 +28,59 @@ export function setupTouchControls() {
       <button data-btn="DOWN" class="dir down" aria-label="Down"></button>
       <div class="dpad-center"></div>
     </div>
-    <button data-btn="START" class="start" aria-label="Start">START</button>
     <div class="ab">
-      <button data-btn="B" class="b" aria-label="B">B</button>
       <button data-btn="A" class="a" aria-label="A">A</button>
+      <button data-btn="B" class="b" aria-label="B">B</button>
+    </div>
+    <div class="sys">
+      <button data-btn="START" class="start" aria-label="Menu">MENU</button>
+      <button data-tool="dpad" class="tool" aria-label="Show or hide the D-pad">✥</button>
+      <button data-tool="fullscreen" class="tool" aria-label="Fullscreen">⛶</button>
     </div>`;
   document.body.appendChild(pad);
+
+  // portrait: repeat the message on screen in large type in the space under the game
+  const hint = /** @type {HTMLElement} */ (pad.querySelector('.pad-hint'));
+  const defaultHint = hint.innerHTML;
+  const mirror = document.createElement('div');
+  mirror.className = 'msg-mirror';
+  pad.appendChild(mirror);
+  mirror.addEventListener('pointerup', () => inputManager.tap('A'));
+  const who = document.createElement('div');
+  who.className = 'who';
+  const said = document.createElement('div');
+  mirror.append(who, said);
+  window.addEventListener('uru:speaker', (e) => {
+    who.textContent = /** @type {CustomEvent} */ (e).detail;
+  });
+  window.addEventListener('uru:message', (e) => {
+    const message = /** @type {CustomEvent} */ (e).detail;
+    said.textContent = message;
+    if (!message) {
+      who.textContent = '';
+    }
+    mirror.classList.toggle('on', Boolean(message));
+    hint.innerHTML = message ? '' : defaultHint;
+  });
+
+  // the D-pad choice in landscape is remembered
+  const remember = (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      /* storage unavailable: fine, it just won't be remembered */
+    }
+  };
+  try {
+    if (localStorage.getItem('uru-dpad') === 'on') {
+      document.body.classList.add('show-dpad');
+    }
+  } catch {
+    /* ignore */
+  }
+  if (!document.fullscreenEnabled && !document.documentElement.webkitRequestFullscreen) {
+    pad.querySelector('[data-tool="fullscreen"]')?.remove(); // iOS Safari: use Add to Home Screen instead
+  }
 
   /** @type {Map<number, string>} pointerId -> button currently held by that pointer */
   const active = new Map();
@@ -62,6 +114,27 @@ export function setupTouchControls() {
   };
 
   pad.addEventListener('pointerdown', (e) => {
+    const tool = /** @type {HTMLElement} */ (e.target).closest?.('[data-tool]');
+    if (tool) {
+      e.preventDefault();
+      const which = tool.getAttribute('data-tool');
+      if (which === 'dpad') {
+        const on = document.body.classList.toggle('show-dpad');
+        remember('uru-dpad', on ? 'on' : 'off');
+      } else if (which === 'fullscreen') {
+        const el = document.documentElement;
+        if (document.fullscreenElement) {
+          document.exitFullscreen?.();
+        } else {
+          (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el, { navigationUI: 'hide' })?.catch?.(() => {});
+          screen.orientation?.lock?.('landscape').catch(() => {});
+        }
+      }
+      return;
+    }
+    if (!(/** @type {HTMLElement} */ (e.target).closest?.('[data-btn]'))) {
+      return; // empty pad space: let the tap through to nothing
+    }
     e.preventDefault();
     pad.setPointerCapture?.(e.pointerId);
     setHeld(e.pointerId, buttonAt(e));
@@ -82,4 +155,16 @@ export function setupTouchControls() {
   pad.addEventListener('pointerup', end);
   pad.addEventListener('pointercancel', end);
   pad.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  // landscape layout depends on how much room the 16:9 game leaves at the sides
+  const layout = () => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const gutter = Math.max(0, (w - (h * 16) / 9) / 2);
+    document.body.style.setProperty('--gutter', `${gutter}px`);
+    document.body.classList.toggle('roomy', w > h && gutter >= 72);
+  };
+  layout();
+  window.addEventListener('resize', layout);
+  window.addEventListener('orientationchange', () => setTimeout(layout, 200));
 }

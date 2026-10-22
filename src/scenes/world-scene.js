@@ -109,6 +109,8 @@ export class WorldScene extends BaseScene {
       : null;
     this.#setupCamera();
     this.fx.frameCamera();
+    this.autoWalk = null;
+    this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => this.#onWorldTap(p));
 
     dataManager.state.player.location = { area: this.area };
     dataManager.state.gameStarted = true;
@@ -365,7 +367,9 @@ export class WorldScene extends BaseScene {
       return;
     }
     this._controls.update();
-    if (!this.inputLocked) {
+    if (this.autoWalk && this.#followAutoWalk()) {
+      // a tap-to-walk is in progress and owns the player this frame
+    } else if (!this.inputLocked) {
       if (this._controls.wasEnterKeyPressed() && !this.player.isMoving) {
         this.#openStartMenu();
       } else if (this._controls.wasConfirmPressed() && !this.player.isMoving) {
@@ -379,6 +383,195 @@ export class WorldScene extends BaseScene {
     }
     this.player.update(time);
     this.npcs.forEach((n) => n.update(time));
+  }
+
+  // ------------------------------------------------------------------------------------------
+  // tap / click to walk
+  // ------------------------------------------------------------------------------------------
+
+  /**
+   * The map tile under a point on the screen, looking through the HD-2D tilt when it's on.
+   * @param {number} sx @param {number} sy game coordinates
+   */
+  screenToTile(sx, sy) {
+    const cam = this.cameras.main;
+    let u = sx / cam.width;
+    let v = sy / cam.height;
+    const pipe = this.fx?.pipe;
+    if (pipe && pipe.params.tilt) {
+      [u, v] = pipe.sourceAt(u, v);
+    }
+    const view = cam.worldView;
+    return { x: Math.floor((view.x + u * view.width) / TILE_SIZE), y: Math.floor((view.y + v * view.height) / TILE_SIZE) };
+  }
+
+  /** @param {number} x @param {number} y tile */
+  #walkable(x, y) {
+    if (x < 0 || y < 0 || x >= this.map.width || y >= this.map.height) {
+      return false;
+    }
+    const px = x * TILE_SIZE;
+    const py = y * TILE_SIZE;
+    return !this.#blocked(px, py) && !this.items.some((i) => i.position.x === px && i.position.y === py);
+  }
+
+  /** What a tap on (x, y) means: walk there, or walk next to it and use it (talk, read, pick up, fish, enter). */
+  #tapTarget(x, y) {
+    const at = (tx, ty) => {
+      const px = tx * TILE_SIZE;
+      const py = ty * TILE_SIZE;
+      if (this.npcs.some((n) => n.sprite.visible && n.tilePosition.x === px && n.tilePosition.y === py)) {
+        return 'interact';
+      }
+      if (this.items.some((i) => i.position.x === px && i.position.y === py)
+        || (this.uru.signs || []).some((s) => s.x === tx && s.y === ty)
+        || (this.uru.interactables || []).some((s) => s.x === tx && s.y === ty && this.checkCondition(s.requires))
+        || (this.uru.counters || []).some((c) => c[0] === tx && c[1] === ty)
+        || (this.water.has(ty * this.map.width + tx) && this.uru.encounters?.fish)) {
+        return 'interact';
+      }
+      if ((this.uru.warps || []).some((w) => w.x === tx && w.y === ty && w.mode !== 'step' && w.mode !== 'arrive' && w.to)) {
+        return 'door';
+      }
+      return null;
+    };
+    const kind = at(x, y);
+    if (kind) {
+      return { kind, x, y };
+    }
+    // characters are two tiles tall: a tap on someone's head means them
+    if (at(x, y + 1) === 'interact' && this.npcs.some((n) => n.tilePosition.x === x * TILE_SIZE && n.tilePosition.y === (y + 1) * TILE_SIZE)) {
+      return { kind: 'interact', x, y: y + 1 };
+    }
+    return this.#walkable(x, y) ? { kind: 'walk', x, y } : null;
+  }
+
+  /**
+   * Breadth-first path from the player to any of the goal tiles.
+   * @param {Set<string>} goals "x,y" keys
+   * @returns {string[] | null} directions
+   */
+  #pathTo(goals) {
+    const p = this.player.tilePosition;
+    const start = `${p.x / TILE_SIZE},${p.y / TILE_SIZE}`;
+    if (goals.has(start)) {
+      return [];
+    }
+    const prev = new Map([[start, null]]);
+    const queue = [start];
+    const dirs = [[0, -1, DIRECTION.UP], [0, 1, DIRECTION.DOWN], [-1, 0, DIRECTION.LEFT], [1, 0, DIRECTION.RIGHT]];
+    while (queue.length) {
+      const cur = queue.shift();
+      if (goals.has(cur)) {
+        const steps = [];
+        for (let k = cur; prev.get(k); k = prev.get(k)[0]) {
+          steps.unshift(prev.get(k)[1]);
+        }
+        return steps;
+      }
+      const [cx, cy] = cur.split(',').map(Number);
+      for (const [dx, dy, dir] of dirs) {
+        const key = `${cx + dx},${cy + dy}`;
+        if (!prev.has(key) && this.#walkable(cx + dx, cy + dy)) {
+          prev.set(key, [cur, dir]);
+          queue.push(key);
+        }
+      }
+      if (prev.size > 6000) {
+        break;
+      }
+    }
+    return null;
+  }
+
+  /** @param {Phaser.Input.Pointer} pointer */
+  #onWorldTap(pointer) {
+    if (pointer.getDistance() > 24 || this.inputLocked || !this.player) {
+      return;
+    }
+    const tile = this.screenToTile(pointer.x, pointer.y);
+    const target = this.#tapTarget(tile.x, tile.y);
+    if (!target) {
+      return;
+    }
+    const goals = new Set();
+    if (target.kind === 'walk') {
+      goals.add(`${target.x},${target.y}`);
+    } else {
+      [[0, 1], [0, -1], [1, 0], [-1, 0]].forEach(([dx, dy]) => {
+        if (this.#walkable(target.x + dx, target.y + dy)) {
+          goals.add(`${target.x + dx},${target.y + dy}`);
+        }
+      });
+    }
+    const steps = this.#pathTo(goals);
+    if (!steps) {
+      return;
+    }
+    this.#stopAutoWalk();
+    const marker = this.add.rectangle(target.x * TILE_SIZE, target.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+      .setOrigin(0).setStrokeStyle(4, 0xffffff, 0.9).setDepth(target.y * TILE_SIZE - 1);
+    this.tweens.add({ targets: marker, alpha: 0.35, duration: 380, yoyo: true, repeat: -1 });
+    this.autoWalk = { steps, target, marker, retries: 2 };
+  }
+
+  /**
+   * Advances a tap-to-walk by one step when the player is free. Any button press takes control back.
+   * @returns {boolean} true while the walk owns the player this frame
+   */
+  #followAutoWalk() {
+    const c = this._controls;
+    if (this.inputLocked || c.getDirectionKeyPressedDown() !== DIRECTION.NONE || c.wasEnterKeyPressed() || c.wasBackKeyPressed()) {
+      this.#stopAutoWalk();
+      return false;
+    }
+    if (this.player.isMoving) {
+      return true;
+    }
+    const walk = this.autoWalk;
+    const dir = walk.steps.shift();
+    if (dir) {
+      const before = { ...this.player.tilePosition };
+      this.player.moveCharacter(dir, walk.steps.length >= 3);
+      if (!this.player.isMoving && before.x === this.player.tilePosition.x && before.y === this.player.tilePosition.y) {
+        // something stepped into the way: find a new route, or give up
+        const goals = new Set();
+        const t = walk.target;
+        if (t.kind === 'walk') {
+          goals.add(`${t.x},${t.y}`);
+        } else {
+          [[0, 1], [0, -1], [1, 0], [-1, 0]].forEach(([dx, dy]) => goals.add(`${t.x + dx},${t.y + dy}`));
+        }
+        const again = walk.retries-- > 0 ? this.#pathTo(goals) : null;
+        if (again) {
+          walk.steps = again;
+        } else {
+          this.#stopAutoWalk();
+        }
+      }
+      return true;
+    }
+    // arrived: face what was tapped and use it
+    const { target } = walk;
+    this.#stopAutoWalk();
+    if (target.kind !== 'walk') {
+      const p = this.player.tilePosition;
+      const dx = target.x - p.x / TILE_SIZE;
+      const dy = target.y - p.y / TILE_SIZE;
+      const face = dx > 0 ? DIRECTION.RIGHT : dx < 0 ? DIRECTION.LEFT : dy > 0 ? DIRECTION.DOWN : DIRECTION.UP;
+      if (target.kind === 'door') {
+        this.player.moveCharacter(face);
+      } else {
+        this.player.face(face);
+        this.#interact();
+      }
+    }
+    return true;
+  }
+
+  #stopAutoWalk() {
+    this.autoWalk?.marker.destroy();
+    this.autoWalk = null;
   }
 
   // ------------------------------------------------------------------------------------------

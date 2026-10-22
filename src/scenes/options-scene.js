@@ -5,6 +5,7 @@ import { panel, readMenuInput, text, cursor, MessageBox } from '../ui/ui-kit.js'
 import { setGlobalSoundSettings, playBackgroundMusic, currentMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { graphicsSetting } from '../fx/world-fx.js';
+import { inputManager } from '../input/input-manager.js';
 
 const ROW_H = 42;
 const ROWS = [
@@ -46,6 +47,23 @@ export class OptionsScene extends BaseScene {
     });
     this.cur = cursor(this);
     this.help = new MessageBox(this, { y: 432, height: 144 });
+    // tap a row to pick it; tap the left or right half of its value to change it; tap CLOSE to leave
+    ROWS.forEach((row, i) => {
+      this.add.zone(140, 118 + i * ROW_H, 740, ROW_H).setOrigin(0).setInteractive().on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+        if (p.getDistance() > 24) {
+          return;
+        }
+        if (this.index !== i) {
+          this.index = i;
+          this.#render();
+        }
+        if (row.key === 'close') {
+          inputManager.tap('A');
+        } else if (p.x > 560) {
+          inputManager.tap(p.x < 720 ? 'LEFT' : 'RIGHT');
+        }
+      });
+    });
     this.#render();
   }
 

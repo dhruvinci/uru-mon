@@ -60,6 +60,26 @@ export class RegionMapScene extends BaseScene {
       const node = this.add.circle(p.x, p.y, p.kind === 'route' ? 6 : 9, KIND_COLORS[p.kind]).setStrokeStyle(3, 0x2d2a3a);
       return node;
     });
+    // tap a place on the map to read about it
+    this.add.zone(28, 92, 488, 464).setOrigin(0).setInteractive().on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+      if (p.getDistance() > 24) {
+        return;
+      }
+      let best = -1;
+      let bestD = 40 * 40;
+      this.places.forEach((pl, i) => {
+        const d = (pl.x - p.x) ** 2 + (pl.y - p.y) ** 2;
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      });
+      if (best >= 0 && best !== this.index) {
+        this.index = best;
+        playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+        this.#show();
+      }
+    });
     this.marker = this.add.circle(0, 0, 16).setStrokeStyle(4, 0xffffff);
     this.tweens.add({ targets: this.marker, scale: 1.25, duration: 500, yoyo: true, repeat: -1 });
     this.label = text(this, 0, 0, '', 'small').setOrigin(0.5, 1).setBackgroundColor('#2d2a3add').setColor('#ffffff').setPadding(6, 2);

@@ -6,6 +6,7 @@ import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { bestArt, monHdKey, HD_FACTOR } from '../ui/hd-art.js';
 import Phaser from '../lib/phaser.js';
+import { inputManager } from '../input/input-manager.js';
 
 /**
  * @typedef StarterSceneData
@@ -82,6 +83,18 @@ export class StarterScene extends BaseScene {
       const name = text(this, x, 306, sp.name, 'body').setOrigin(0.5, 0).setColor('#fff4d6');
       // scale factor relative to the 64 px pixel sprite: 1, or 1/4 for the HD picture
       const unit = art.key.startsWith('MONHD_') ? 1 / HD_FACTOR : 1;
+      // tap a starter to look at it, tap it again to choose it
+      this.add.zone(x - 140, 60, 280, 280).setOrigin(0).setInteractive().on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+        if (p.getDistance() > 24 || this.confirm || this.done) {
+          return;
+        }
+        if (this.index !== i) {
+          playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+          this.#select(i);
+        } else {
+          inputManager.tap('A');
+        }
+      });
       return { id, sp, x, table, img, name, unit };
     });
     this.sparks = this.add.particles(0, 0, 'STARTER_SPARK', {

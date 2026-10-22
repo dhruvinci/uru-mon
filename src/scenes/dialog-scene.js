@@ -2,6 +2,7 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { BaseScene } from './base-scene.js';
 import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
 import { dataManager } from '../utils/data-manager.js';
+import { inputManager } from '../input/input-manager.js';
 
 /**
  * Overlay used by the world for dialog, yes/no questions and choice lists. It owns its own fixed camera so
@@ -24,6 +25,13 @@ export class DialogScene extends BaseScene {
     this.inputHandler = null;
     this.moneyBox = null;
     this.busyCount = 0;
+    // tap anywhere to advance a message; menus sit above this and take their own taps
+    this.tapZone = this.add.zone(0, 0, 1024, 576).setOrigin(0).setDepth(9).setInteractive();
+    this.tapZone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+      if (this.busy && p.getDistance() < 24) {
+        inputManager.tap('A');
+      }
+    });
   }
 
   /** True while any dialog UI is on screen. */
@@ -38,6 +46,8 @@ export class DialogScene extends BaseScene {
 
   update(time) {
     super.update(time);
+    // only catch taps while dialog is up, so the world underneath gets them otherwise
+    this.tapZone.input.enabled = this.busy;
     if (!this._controls || !this.busy) {
       return;
     }
@@ -86,6 +96,8 @@ export class DialogScene extends BaseScene {
 
   /** @param {string} [name] */
   #setSpeaker(name) {
+    // the phone layout shows the speaker with its large copy of the message
+    window.dispatchEvent(new CustomEvent('uru:speaker', { detail: name || '' }));
     if (!name) {
       this.speaker.setVisible(false);
       return;

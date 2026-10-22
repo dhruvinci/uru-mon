@@ -79,6 +79,12 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   the Gaala rod starts a fishing encounter.
 - **Council**: entering `council_1` resets the five Council trainers (`resetTrainers`), so losing restarts the run.
 - **Input**: one global `inputManager` merges keyboard and the DOM touch pad; per-scene `Controls` just reads it.
+  Touch is first-class: `inputManager.tap(button)` injects a zero-length press, and taps on the game reuse it (ListMenu
+  rows select, MessageBox / battle / dialog taps act as A, party cards, battle grids, options rows). The world scene
+  walks to tapped tiles with a BFS path follower (`screenToTile` looks through the HD-2D tilt) and interacts with tapped
+  NPCs, signs, items, water and doors. `src/input/touch-controls.js` lays out the pad: portrait = game on top, pad below,
+  and on-screen messages mirrored large (`uru:message` / `uru:speaker` window events); landscape = A/B/MENU in the side
+  margins, D-pad optional. `node test/mobile.mjs <dir> portrait|landscape` plays with taps only.
   Keys typed into `<input>` elements are ignored by the game (used for name entry). A tap shorter than a frame still
   counts as one step.
 - **Audio**: only SFX and the title theme load before the title screen; `PreloadScene` stays alive to stream the rest

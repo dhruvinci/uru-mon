@@ -28,6 +28,7 @@ export class CreditsScene extends BaseScene {
 
   create() {
     super.create();
+    this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => p.getDistance() < 24 && inputManager.tap('A'));
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_CREDITS);
     // Narrow solid bands work in both Phaser's Canvas and WebGL renderers.
     const sky = this.add.graphics();

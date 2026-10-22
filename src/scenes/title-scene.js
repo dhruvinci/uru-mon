@@ -6,6 +6,7 @@ import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
 import { FONT, ListMenu, readMenuInput, text } from '../ui/ui-kit.js';
 import { allSpecies } from '../battle/engine/monster.js';
 import { adminAvailable, startAdminProfile } from '../game/admin-profile.js';
+import { inputManager } from '../input/input-manager.js';
 
 export class TitleScene extends BaseScene {
   constructor() {
@@ -64,12 +65,18 @@ export class TitleScene extends BaseScene {
       .setOrigin(0.5)
       .setStroke('#3a1f5c', 8);
     this.tweens.add({ targets: this.press, alpha: 0.2, duration: 600, yoyo: true, repeat: -1 });
-    const hint = window.matchMedia('(pointer: coarse)').matches ? 'tap START or A' : 'Enter / Z to start  ·  arrows to move  ·  Z/Space = A  ·  X/Shift = B  ·  F fullscreen';
+    const hint = window.matchMedia('(pointer: coarse)').matches ? 'tap anywhere to start' : 'Enter / Z to start  ·  arrows to move  ·  Z/Space = A  ·  X/Shift = B  ·  F fullscreen';
     this.hint = this.add.text(width / 2, 372, hint, { fontFamily: FONT, fontSize: '18px', color: '#fff4d6' }).setOrigin(0.5).setAlpha(0.85);
     this.add.text(width - 12, 10, 'v1.0', { fontFamily: FONT, fontSize: '16px', color: '#fff4d6' }).setOrigin(1, 0).setAlpha(0.6);
 
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_TITLE);
     this.cameras.main.fadeIn(600, 0, 0, 0);
+    // tap anywhere to start (menu rows take their own taps)
+    this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+      if (this.stage === 'press' && p.getDistance() < 24) {
+        inputManager.tap('A');
+      }
+    });
   }
 
   update(time) {

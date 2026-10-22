@@ -18,6 +18,7 @@ import { playMoveFx, shakeAndBlink, statChangeFx, statusFx } from '../battle/ui/
 import { MessageBox, ListMenu, panel, text, typeBadge, readMenuInput, wait, tween, cursor } from '../ui/ui-kit.js';
 import { promptLearnMove } from '../ui/learn-move.js';
 import { dataManager } from '../utils/data-manager.js';
+import { inputManager } from '../input/input-manager.js';
 import { graphicsSetting, timeOfDay } from '../fx/world-fx.js';
 import { bestArt, loadHd, monHdKey, trainerHdKey, HD_FACTOR } from '../ui/hd-art.js';
 import { BATTLE_SCENE_OPTIONS, BATTLE_STYLE_OPTIONS } from '../common/options.js';
@@ -120,6 +121,12 @@ export class BattleScene extends BaseScene {
     this.enemyHud = new BattleHud(this, 'enemy');
     this.playerHud = new BattleHud(this, 'player');
     this.messageBox = new MessageBox(this, { height: 144 });
+    this.tapZone = this.add.zone(0, 0, 1024, 576).setOrigin(0).setDepth(55).setInteractive();
+    this.tapZone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+      if (this.messageBox.isWaiting && p.getDistance() < 24) {
+        inputManager.tap('A');
+      }
+    });
     this.messageBox.setText('');
     this.#createPartyIndicators();
 
@@ -134,6 +141,10 @@ export class BattleScene extends BaseScene {
 
   update(time) {
     super.update(time);
+    if (this.tapZone) {
+      // tapping anywhere advances a waiting message; menus sit above and take their own taps
+      this.tapZone.input.enabled = this.messageBox.isWaiting;
+    }
     if (!this._controls) {
       return;
     }
@@ -400,6 +411,24 @@ export class BattleScene extends BaseScene {
     }
   }
 
+  /**
+   * Tappable areas inside a menu container: cells are [x, y, w, h] in the container's coordinates.
+   * @param {Phaser.GameObjects.Container} container
+   * @param {number[][]} cells
+   * @param {(index: number) => void} onTap
+   */
+  #tapCells(container, cells, onTap) {
+    cells.forEach(([x, y, w, h], i) => {
+      const zone = this.add.zone(x, y, w, h).setOrigin(0).setInteractive();
+      zone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+        if (p.getDistance() < 24 && container.visible) {
+          onTap(i);
+        }
+      });
+      container.add(zone);
+    });
+  }
+
   /** @returns {Promise<string>} */
   #mainMenu() {
     return new Promise((resolve) => {
@@ -417,6 +446,11 @@ export class BattleScene extends BaseScene {
       let idx = this.lastMainIndex ?? 0;
       const place = () => cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
       place();
+      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, 176, 52]), (i) => {
+        idx = i;
+        place();
+        inputManager.tap('A');
+      });
       this.inputHandler = (input) => {
         if (input === 'LEFT' || input === 'RIGHT') {
           idx ^= 1;
@@ -472,6 +506,15 @@ export class BattleScene extends BaseScene {
         c.add(badge);
       };
       place();
+      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, 290, 52]), (i) => {
+        if (i < mon.moves.length) {
+          idx = i;
+          place();
+          inputManager.tap('A');
+        }
+      });
+      // the info panel on the right doubles as a back button on touch screens
+      this.#tapCells(c, [[660, 0, 364, 144]], () => inputManager.tap('B'));
       this.inputHandler = (input) => {
         const n = mon.moves.length;
         let next = idx;

@@ -114,6 +114,16 @@ class InputManager {
     }
   }
 
+  /**
+   * A press that lasts zero frames: the next frame sees it as just pressed. Used by taps on the game itself
+   * (menu rows, dialog boxes) so they flow through the same path as the A button.
+   * @param {Button} button
+   */
+  tap(button) {
+    this.press(button);
+    this.release(button);
+  }
+
   releaseAll() {
     BUTTONS.forEach((b) => {
       this.held[b] = 0;

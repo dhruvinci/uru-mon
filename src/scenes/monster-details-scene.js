@@ -3,6 +3,7 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { displayName, expForLevel, getMaxHp, getMove, getSpecies, getStats, MAX_LEVEL } from '../battle/engine/monster.js';
 import { Meter, panel, readMenuInput, statusBadge, text, typeBadge } from '../ui/ui-kit.js';
+import { inputManager } from '../input/input-manager.js';
 
 /**
  * @typedef MonsterDetailsSceneData
@@ -34,6 +35,7 @@ export class MonsterDetailsScene extends BaseScene {
 
   create() {
     super.create();
+    this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => p.getDistance() < 24 && inputManager.tap('RIGHT'));
     this.root = this.add.container(0, 0);
     this.#render();
   }

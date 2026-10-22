@@ -1,6 +1,7 @@
 import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
+import { inputManager } from '../input/input-manager.js';
 import { displayName, getMaxHp, getSpecies } from '../battle/engine/monster.js';
 import { ListMenu, Meter, readMenuInput, statusBadge, text, MessageBox } from '../ui/ui-kit.js';
 import { applyItem } from '../battle/engine/battle-engine.js';
@@ -79,6 +80,15 @@ export class MonsterPartyScene extends BaseScene {
   #createCard(i) {
     const x = 12 + (i % 2) * (CARD_W + 12);
     const y = 12 + Math.floor(i / 2) * (CARD_H + 10);
+    // tap a card to pick that Urumon (the same as moving there and pressing A)
+    this.add.zone(x, y, CARD_W, CARD_H).setOrigin(0).setInteractive().on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+      if (p.getDistance() > 24 || this.busy || this.submenu || this.message.isWaiting || !dataManager.party[i]) {
+        return;
+      }
+      this.index = i;
+      this.#renderAll();
+      inputManager.tap('A');
+    });
     const c = this.add.container(x, y);
     const bg = this.add.graphics();
     const icon = this.add.image(78, CARD_H / 2 + 6, '__MISSING').setOrigin(0.5).setScale(1.6);

@@ -5,6 +5,7 @@
 import Phaser from '../lib/phaser.js';
 import { TYPE_COLORS } from '../battle/engine/type-chart.js';
 import { dataManager } from '../utils/data-manager.js';
+import { inputManager } from '../input/input-manager.js';
 
 export const FONT = 'Pixelify';
 
@@ -289,7 +290,46 @@ export class ListMenu {
     this.upArrow = scene.add.triangle(cfg.width / 2, 6, 0, 10, 16, 10, 8, 0, 0x3a3058).setVisible(false);
     this.downArrow = scene.add.triangle(cfg.width / 2, h - 16, 0, 0, 16, 0, 8, 10, 0x3a3058).setVisible(false);
     this.container.add([this.cursor, this.upArrow, this.downArrow]);
+    this.#enablePointer(cfg.width, h);
     this.#render();
+  }
+
+  /**
+   * Taps and clicks: a row selects it straight away (same as moving the cursor there and pressing A), the arrows scroll,
+   * and the mouse wheel scrolls.
+   * @param {number} w
+   * @param {number} h
+   */
+  #enablePointer(w, h) {
+    const zone = this.scene.add.zone(0, 0, w, h).setOrigin(0).setInteractive();
+    this.container.addAt(zone, 1);
+    zone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ pointer, lx, ly) => {
+      if (pointer.getDistance() > 24 || !this.container.visible) {
+        return; // a drag, not a tap
+      }
+      if (ly < 16 && this.top > 0) {
+        this.setIndex(this.top - 1);
+        return;
+      }
+      if (ly > h - 22 && this.top + this.visibleRows < this.items.length) {
+        this.setIndex(this.top + this.visibleRows);
+        return;
+      }
+      const row = Math.floor((ly - 12) / this.cfg.rowHeight);
+      const idx = this.top + Math.max(0, Math.min(this.visibleRows - 1, row));
+      if (idx >= this.items.length || this.disabled.has(idx)) {
+        return;
+      }
+      if (idx !== this.index) {
+        this.setIndex(idx);
+      }
+      inputManager.tap('A');
+    });
+    zone.on('wheel', (pointer, dx, dy) => {
+      if (this.items.length) {
+        this.setIndex(this.index + Math.sign(dy));
+      }
+    });
   }
 
   /** @param {string[]} items @param {string[]} [rightLabels] */
@@ -374,6 +414,14 @@ export function readMenuInput(controls) {
 /**
  * Typewriter message box anchored to the bottom of the screen.
  */
+/**
+ * Tells the page what message is on screen, so the phone layout can repeat it in large type under the game.
+ * @param {string} message
+ */
+function announce(message) {
+  window.dispatchEvent(new CustomEvent('uru:message', { detail: message }));
+}
+
 export class MessageBox {
   /**
    * @param {Phaser.Scene} scene
@@ -391,6 +439,14 @@ export class MessageBox {
     this.arrow = scene.add.triangle(width - 44, height - 34, 0, 0, 18, 0, 9, 11, 0xc4404a).setVisible(false);
     this.container.add([this.textObj, this.arrow]);
     this.arrowTween = scene.tweens.add({ targets: this.arrow, y: '+=6', duration: 350, yoyo: true, repeat: -1 });
+    // tapping the box acts like A: it finishes the typing or moves on
+    const zone = scene.add.zone(0, 0, width, height).setOrigin(0).setInteractive();
+    zone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+      if (p.getDistance() < 24 && this.container.visible && (this.isWaiting || this.typing)) {
+        inputManager.tap('A');
+      }
+    });
+    this.container.addAt(zone, 1);
     /** @type {null | (() => void)} */
     this.waitResolve = null;
     this.typing = null;
@@ -398,6 +454,9 @@ export class MessageBox {
 
   setVisible(v) {
     this.container.setVisible(v);
+    if (!v) {
+      announce('');
+    }
     return this;
   }
 
@@ -412,6 +471,7 @@ export class MessageBox {
     const wait = opts.wait ?? true;
     this.container.setVisible(true);
     this.arrow.setVisible(false);
+    announce(message);
     return new Promise((resolve) => {
       const delay = dataManager.getAnimatedTextSpeed();
       let i = 0;
@@ -456,6 +516,7 @@ export class MessageBox {
     this.container.setVisible(true);
     this.arrow.setVisible(false);
     this.textObj.setText(message);
+    announce(message);
   }
 
   /**

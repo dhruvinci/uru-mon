@@ -19,6 +19,8 @@ TESTS=(
   "progression.mjs $SHOTS blackout"
   "frontdoor.mjs $SHOTS"
   "expansion.mjs $SHOTS"
+  "mobile.mjs $SHOTS landscape"
+  "mobile.mjs $SHOTS portrait"
   "story.mjs $SHOTS cubbon"
   "story.mjs $SHOTS rival2"
   "story.mjs $SHOTS rival2lose"
