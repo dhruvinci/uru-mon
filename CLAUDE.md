@@ -30,7 +30,8 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
 
 `python3 tools/review/server.py` serves http://127.0.0.1:8090: every Pokémon -> uru-mon change as before/after cards
 with a note box on each. **The user's notes in `tools/review/notes.json` are change requests**; every save is also
-appended to `notes-log.jsonl`. The "after" side is read live from the game data; the Pokémon counterparts ("before")
+appended to `notes-log.jsonl`. Reply to each note in `tools/review/responses.json`
+({id: {status, reply}}; the page shows it under the note) when you act on it. The "after" side is read live from the game data; the Pokémon counterparts ("before")
 and the Pokémon-term flags live in `tools/review/analogs.py`, so add entries there when adding species, moves, items
 or maps. `node test/review-smoke.mjs <dir>` checks the site (it adds and removes one note, leaving two log lines).
 
