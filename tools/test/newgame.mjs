@@ -1,5 +1,5 @@
 // Plays the opening: title -> intro -> home -> lab -> starter -> rival battle. Screenshots each checkpoint.
-import { launch, open, press, sleep, waitScene, walk, state, activeScenes } from './harness.mjs';
+import { launch, open, press, sleep, waitScene, walk, state, activeScenes, enterWarp } from './harness.mjs';
 
 const shots = process.argv[2] || '/tmp';
 const { browser, page, errors } = await launch();
@@ -49,13 +49,12 @@ try {
   console.log('after stairs:', await area(), await tile());
   await snap('downstairs');
   await mashUntil(worldIdle, 15000);
-  await walk(page, 'DOWN', 3); await walk(page, 'LEFT', 5); await walk(page, 'DOWN', 2);
+  console.log('to the door:', await enterWarp(page, 'basavanagudi'));
   await sleep(page, 900);
   console.log('outside:', await area(), await tile());
   await snap('outside');
   // to the lab
-  await walk(page, 'DOWN', 1); await walk(page, 'RIGHT', 9); await walk(page, 'DOWN', 10); await walk(page, 'LEFT', 4);
-  await walk(page, 'UP', 3);
+  console.log('to the lab:', await enterWarp(page, 'lab'));
   await sleep(page, 900);
   console.log('lab?', await area(), await tile());
   await snap('lab_enter');

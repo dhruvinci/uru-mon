@@ -12,6 +12,7 @@ async function playUntil(cond, ms = 240000) {
   let i = 0;
   while (Date.now() < end) {
     if (await cond()) return true;
+    await page.evaluate(strongestMoveFirst).catch(() => {});
     await press(page, 'A', 50);
     await sleep(page, 130);
     i += 1;

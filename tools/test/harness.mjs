@@ -101,3 +101,101 @@ export async function untilBattleMenu(page, ms = 60000) {
   }
   return 'timeout';
 }
+
+/** The player's current tile. */
+export async function playerTile(page) {
+  return page.evaluate(() => {
+    const p = window.__uruGame.scene.getScene('WORLD_SCENE').player.sprite;
+    return { x: Math.round(p.x / 64), y: Math.round(p.y / 64) };
+  });
+}
+
+/**
+ * Walks to a tile by breadth-first search over the collision layer (NPCs count as walls), one key press per step,
+ * checking each arrival. Robust to layout changes, unlike timed walks. Returns true when it got there.
+ * @param {import('playwright').Page} page
+ * @param {number} tx
+ * @param {number} ty
+ */
+export async function walkTo(page, tx, ty, maxSteps = 400) {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const path = await page.evaluate(([gx, gy]) => {
+      const w = window.__uruGame.scene.getScene('WORLD_SCENE');
+      const W = w.map.width;
+      const H = w.map.height;
+      const blocked = new Set();
+      for (let y = 0; y < H; y += 1) {
+        for (let x = 0; x < W; x += 1) {
+          if (w.collisionLayer.getTileAt(x, y)?.index > 0) blocked.add(y * W + x);
+        }
+      }
+      w.npcs.forEach((n) => {
+        if (n.sprite?.visible) blocked.add(Math.round(n.tilePosition.y / 64) * W + Math.round(n.tilePosition.x / 64));
+      });
+      const p = w.player.sprite;
+      const start = Math.round(p.y / 64) * W + Math.round(p.x / 64);
+      const goal = gy * W + gx;
+      const prev = new Map([[start, -1]]);
+      const queue = [start];
+      const dirs = [[0, -1, 'UP'], [0, 1, 'DOWN'], [-1, 0, 'LEFT'], [1, 0, 'RIGHT']];
+      while (queue.length) {
+        const cur = queue.shift();
+        if (cur === goal) break;
+        const cx = cur % W;
+        const cy = Math.floor(cur / W);
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          const ni = ny * W + nx;
+          if (nx < 0 || ny < 0 || nx >= W || ny >= H || prev.has(ni) || (blocked.has(ni) && ni !== goal)) continue;
+          prev.set(ni, cur);
+          queue.push(ni);
+        }
+      }
+      if (!prev.has(goal)) return null;
+      const steps = [];
+      for (let cur = goal; prev.get(cur) !== -1; cur = prev.get(cur)) {
+        const from = prev.get(cur);
+        const d = cur - from;
+        steps.unshift(d === 1 ? 'RIGHT' : d === -1 ? 'LEFT' : d === W ? 'DOWN' : 'UP');
+      }
+      return steps;
+    }, [tx, ty]);
+    if (!path) return false;
+    let ok = true;
+    for (const dir of path.slice(0, maxSteps)) {
+      const before = await playerTile(page);
+      await press(page, dir, 60);
+      const t0 = Date.now();
+      let moved = false;
+      while (Date.now() - t0 < 1500) {
+        await page.waitForTimeout(40);
+        const now = await playerTile(page);
+        const idle = await page.evaluate(() => !window.__uruGame.scene.getScene('WORLD_SCENE').player.isMoving);
+        if ((now.x !== before.x || now.y !== before.y) && idle) { moved = true; break; }
+      }
+      if (!moved) { ok = false; break; } // something got in the way (an NPC walked in, a trainer spotted us)
+    }
+    const at = await playerTile(page);
+    if (ok && at.x === tx && at.y === ty) return true;
+    await page.waitForTimeout(400);
+  }
+  const at = await playerTile(page);
+  return at.x === tx && at.y === ty;
+}
+
+/** Walks up to a warp door (to the tile on its exit side) and bumps into it. */
+export async function enterWarp(page, toArea) {
+  const warp = await page.evaluate((area) => {
+    const w = window.__uruGame.scene.getScene('WORLD_SCENE');
+    return (w.uru.warps || []).find((x) => x.to === area);
+  }, toArea);
+  if (!warp) return false;
+  const step = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] }[warp.exit || 'DOWN'];
+  const ok = await walkTo(page, warp.x + step[0], warp.y + step[1]);
+  if (!ok) return false;
+  const into = { UP: 'DOWN', DOWN: 'UP', LEFT: 'RIGHT', RIGHT: 'LEFT' }[warp.exit || 'DOWN'];
+  await press(page, into, 120);
+  await page.waitForTimeout(1200);
+  return page.evaluate((area) => window.__uruGame.scene.getScene('WORLD_SCENE').area === area, toArea);
+}

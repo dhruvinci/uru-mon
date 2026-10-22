@@ -30,15 +30,15 @@
  {
   "id": "basavanagudi",
   "name": "Basavanagudi",
-  "width": 32,
-  "height": 26,
+  "width": 42,
+  "height": 40,
   "interior": false
  },
  {
   "id": "route1",
   "name": "Route 1 - South End Road",
-  "width": 22,
-  "height": 44,
+  "width": 28,
+  "height": 46,
   "interior": false
  },
  {
@@ -58,8 +58,8 @@
  {
   "id": "lalbagh",
   "name": "Lalbagh",
-  "width": 38,
-  "height": 32,
+  "width": 44,
+  "height": 40,
   "interior": false
  },
  {
@@ -72,15 +72,15 @@
  {
   "id": "cubbon_park",
   "name": "Cubbon Park",
-  "width": 32,
-  "height": 48,
+  "width": 36,
+  "height": 50,
   "interior": false
  },
  {
   "id": "mg_road",
   "name": "MG Road",
-  "width": 44,
-  "height": 34,
+  "width": 48,
+  "height": 36,
   "interior": false
  },
  {
@@ -93,15 +93,15 @@
  {
   "id": "silk_board",
   "name": "Route 3 - Silk Board Junction",
-  "width": 52,
-  "height": 24,
+  "width": 56,
+  "height": 28,
   "interior": false
  },
  {
   "id": "whitefield",
   "name": "Whitefield",
-  "width": 40,
-  "height": 32,
+  "width": 46,
+  "height": 36,
   "interior": false
  },
  {
@@ -114,8 +114,8 @@
  {
   "id": "bellandur",
   "name": "Bellandur Lake",
-  "width": 38,
-  "height": 36,
+  "width": 40,
+  "height": 38,
   "interior": false
  },
  {
@@ -128,15 +128,15 @@
  {
   "id": "sankey_tank",
   "name": "Route 5 - Sankey Tank",
-  "width": 28,
-  "height": 44,
+  "width": 32,
+  "height": 46,
   "interior": false
  },
  {
   "id": "malleshwaram",
   "name": "Malleshwaram",
-  "width": 40,
-  "height": 32,
+  "width": 44,
+  "height": 36,
   "interior": false
  },
  {
@@ -149,7 +149,7 @@
  {
   "id": "palace_road",
   "name": "Palace Road",
-  "width": 42,
+  "width": 44,
   "height": 36,
   "interior": false
  },
@@ -163,8 +163,8 @@
  {
   "id": "hebbal",
   "name": "Route 7 - Hebbal",
-  "width": 28,
-  "height": 46,
+  "width": 36,
+  "height": 48,
   "interior": false
  },
  {
@@ -191,8 +191,8 @@
  {
   "id": "vidhana_soudha",
   "name": "Vidhana Soudha",
-  "width": 36,
-  "height": 30,
+  "width": 40,
+  "height": 32,
   "interior": false
  },
  {
@@ -229,5 +229,26 @@
   "width": 15,
   "height": 14,
   "interior": true
+ },
+ {
+  "id": "bannerghatta",
+  "name": "Bannerghatta Forest",
+  "width": 34,
+  "height": 46,
+  "interior": false
+ },
+ {
+  "id": "ramanagara",
+  "name": "Ramanagara Rocks",
+  "width": 44,
+  "height": 34,
+  "interior": false
+ },
+ {
+  "id": "kokkare_bellur",
+  "name": "Kokkare Bellur",
+  "width": 38,
+  "height": 32,
+  "interior": false
  }
 ]

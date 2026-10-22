@@ -728,7 +728,8 @@
   "habitat": [
    "Route 1 - South End Road",
    "Lalbagh",
-   "Cubbon Park"
+   "Cubbon Park",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_010"
  },
@@ -866,7 +867,8 @@
   "dex": "Its chestnut wings span a whole street. It nests on the tallest temple tower in town.",
   "ref": "House sparrows (gubbi) that once lived on every balcony; the kites that ride the city's warm air.",
   "habitat": [
-   "Evolve Haddu (Lv 36)"
+   "Ramanagara Rocks",
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_012"
  },
@@ -937,7 +939,8 @@
    "Route 1 - South End Road",
    "Basavanagudi",
    "Cubbon Park",
-   "MG Road"
+   "MG Road",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_013"
  },
@@ -1205,7 +1208,7 @@
   "dex": "Its wings are patterned like a wedding saree. Its scales shimmer gold in lamplight.",
   "ref": "Karnataka silk: Ramanagara holds one of India's biggest silk-cocoon markets.",
   "habitat": [
-   "Evolve Koshoon (Lv 10)"
+   "Ramanagara Rocks"
   ],
   "assetKey": "MON_017"
  },
@@ -1633,7 +1636,8 @@
    "Bellandur Lake (fishing)",
    "Route 5 - Sankey Tank",
    "Route 5 - Sankey Tank (fishing)",
-   "Route 7 - Hebbal (fishing)"
+   "Route 7 - Hebbal (fishing)",
+   "Bannerghatta Forest (fishing)"
   ],
   "assetKey": "MON_024"
  },
@@ -1687,7 +1691,7 @@
   "dex": "No one believes a Meenu becomes this until they see it rise roaring from the lake.",
   "ref": "Fish of the city lakes; its evolution is drawn from temple naga carvings.",
   "habitat": [
-   "Evolve Meenu (Lv 20)"
+   "Kokkare Bellur (fishing)"
   ],
   "assetKey": "MON_025"
  },
@@ -1815,6 +1819,7 @@
   "dex": "Some say the old rocky hills around the city are sleeping Bandeyodha.",
   "ref": "The granite boulders (bande kallu) of the Deccan plateau.",
   "habitat": [
+   "Ramanagara Rocks",
    "Nandi Cave"
   ],
   "assetKey": "MON_027"
@@ -1952,7 +1957,9 @@
   "dex": "At harvest festivals its horns are painted bright colors. Its charge can topple a bus.",
   "ref": "Cattle on city roads and the painted bulls of Sankranti.",
   "habitat": [
-   "Route 7 - Hebbal"
+   "Route 7 - Hebbal",
+   "Ramanagara Rocks",
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_029"
  },
@@ -2022,7 +2029,8 @@
   "habitat": [
    "Route 5 - Sankey Tank",
    "Route 7 - Hebbal",
-   "Nandi Hills"
+   "Nandi Hills",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_030"
  },
@@ -2299,7 +2307,8 @@
    "Cubbon Park",
    "Route 5 - Sankey Tank",
    "Malleshwaram",
-   "Nandi Hills"
+   "Nandi Hills",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_034"
  },
@@ -2676,7 +2685,8 @@
   "dex": "It loves bath time in the river and sprays water at everyone nearby.",
   "ref": "Elephant calves of Bannerghatta and the golden howdah (ambaari) of the Dasara procession.",
   "habitat": [
-   "Palace Road"
+   "Palace Road",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_040"
  },
@@ -2807,7 +2817,8 @@
    "Route 5 - Sankey Tank",
    "Palace Road",
    "Route 7 - Hebbal",
-   "Nandi Hills"
+   "Nandi Hills",
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_042"
  },
@@ -2869,6 +2880,7 @@
   "habitat": [
    "Bellandur Lake",
    "Route 5 - Sankey Tank",
+   "Bannerghatta Forest",
    "Nandi Cave"
   ],
   "assetKey": "MON_043"
@@ -3005,7 +3017,8 @@
    "Route 5 - Sankey Tank",
    "Route 5 - Sankey Tank (fishing)",
    "Route 7 - Hebbal",
-   "Route 7 - Hebbal (fishing)"
+   "Route 7 - Hebbal (fishing)",
+   "Bannerghatta Forest (fishing)"
   ],
   "assetKey": "MON_045"
  },
@@ -3067,7 +3080,9 @@
   "dex": "It summons a raincloud and rides the thunder. Flash floods follow its song.",
   "ref": "Frogs (kappe) that sing all night once the rain (male) starts.",
   "habitat": [
-   "Route 7 - Hebbal"
+   "Route 7 - Hebbal",
+   "Kokkare Bellur",
+   "Kokkare Bellur (fishing)"
   ],
   "assetKey": "MON_046"
  },
@@ -3510,7 +3525,7 @@
   "dex": "So heavy that it leaves potholes. The city has stopped trying to fix them.",
   "ref": "Jackfruit (halasu), sold in heaps every summer.",
   "habitat": [
-   "Evolve Halasu (Lv 28)"
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_053"
  },
@@ -3645,7 +3660,8 @@
   "dex": "Its flowers look like flames, and in May they really are.",
   "ref": "Gulmohar trees blazing red in May.",
   "habitat": [
-   "Route 7 - Hebbal"
+   "Route 7 - Hebbal",
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_055"
  },
@@ -3893,6 +3909,7 @@
   "dex": "Its body is veined with gold. It guards abandoned mines and hates trespassers.",
   "ref": "The Kolar Gold Fields east of the city.",
   "habitat": [
+   "Ramanagara Rocks",
    "Nandi Cave"
   ],
   "assetKey": "MON_059"
@@ -4541,7 +4558,8 @@
   "ref": "The red-earth termite mounds (huttu) of the city's empty plots, sacred in naga lore.",
   "habitat": [
    "Route 1 - South End Road",
-   "Cubbon Park"
+   "Cubbon Park",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_069"
  },
@@ -4827,7 +4845,7 @@
   "dex": "At the groundnut fair it is guest of honour. Its roots grow pods it shares with kids.",
   "ref": "Basavanagudi's Kadalekai Parishe, the groundnut fair right next to the home town.",
   "habitat": [
-   "Evolve Kadale (Lv 20)"
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_073"
  },
@@ -4969,7 +4987,7 @@
   "dex": "A stack of idlis on a steel plate. Wherever it rests, people feel like it's breakfast time.",
   "ref": "Breakfast at every darshini.",
   "habitat": [
-   "Evolve Idlimari (Lv 24)"
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_075"
  },
@@ -5376,7 +5394,8 @@
    "Lalbagh (fishing)",
    "Route 5 - Sankey Tank",
    "Route 5 - Sankey Tank (fishing)",
-   "Route 7 - Hebbal (fishing)"
+   "Route 7 - Hebbal (fishing)",
+   "Bannerghatta Forest (fishing)"
   ],
   "assetKey": "MON_081"
  },
@@ -5446,7 +5465,7 @@
   "dex": "When it opens its petals at dawn, the whole lake goes still to watch.",
   "ref": "Lotuses in Lalbagh lake and the old temple tanks.",
   "habitat": [
-   "Evolve Taavaremari (Lv 26)"
+   "Kokkare Bellur (fishing)"
   ],
   "assetKey": "MON_082"
  },
@@ -5905,7 +5924,8 @@
   "ref": "Mongooses in the scrub around the city, fearless against snakes.",
   "habitat": [
    "Route 1 - South End Road",
-   "Cubbon Park"
+   "Cubbon Park",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_089"
  },
@@ -6041,6 +6061,7 @@
   "habitat": [
    "Cubbon Park",
    "Palace Road",
+   "Bannerghatta Forest",
    "Nandi Cave"
   ],
   "assetKey": "MON_091"
@@ -7115,7 +7136,7 @@
   "dex": "Its sixes clear the stadium roof. Opposing bowlers bring it gifts before matches.",
   "ref": "Cricket, the insect and the sport; gully cricket in every lane.",
   "habitat": [
-   "Evolve Midathe (Lv 28)"
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_107"
  },
@@ -7379,7 +7400,7 @@
   "dex": "It guards the lake steps with two huge claws and has never lost a pinching match.",
   "ref": "The freshwater crabs of Bengaluru's lakes.",
   "habitat": [
-   "Evolve Edi (Lv 28)"
+   "Kokkare Bellur (fishing)"
   ],
   "assetKey": "MON_111"
  },
@@ -7972,7 +7993,8 @@
   "ref": "Crows are fed rice for the ancestors during Pitru Paksha.",
   "habitat": [
    "Basavanagudi",
-   "Palace Road"
+   "Palace Road",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_120"
  },
@@ -8038,7 +8060,7 @@
   "dex": "The crow king who walks between this world and the next with messages for the living.",
   "ref": "Crows are fed rice for the ancestors during Pitru Paksha.",
   "habitat": [
-   "Evolve Kaage (Lv 30)"
+   "Ramanagara Rocks"
   ],
   "assetKey": "MON_121"
  },
@@ -8104,7 +8126,8 @@
   "ref": "Village lore says ghosts live in tamarind trees.",
   "habitat": [
    "Palace Road",
-   "Nandi Hills"
+   "Nandi Hills",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_122"
  },
@@ -8370,7 +8393,8 @@
   "dex": "A pelican chick from the nesting village. Its pouch is always full of tiny fish.",
   "ref": "Kokkare Bellur, the village near Bengaluru where pelicans and painted storks nest on rooftops.",
   "habitat": [
-   "Route 7 - Hebbal"
+   "Route 7 - Hebbal",
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_126"
  },
@@ -8436,7 +8460,7 @@
   "dex": "A painted stork with rose-pink wings. Villagers count its return each winter as good luck.",
   "ref": "Kokkare Bellur, the village near Bengaluru where pelicans and painted storks nest on rooftops.",
   "habitat": [
-   "Evolve Kokkare (Lv 30)"
+   "Kokkare Bellur"
   ],
   "assetKey": "MON_127"
  },
@@ -8563,7 +8587,7 @@
   "dex": "A fighting ram of the hills. When it charges, the ground cracks under its hooves.",
   "ref": "Tagaru kaalaga, the ram fights of village fairs on the city's outskirts.",
   "habitat": [
-   "Evolve Tagaru (Lv 32)"
+   "Ramanagara Rocks"
   ],
   "assetKey": "MON_129"
  },
@@ -8692,7 +8716,7 @@
   "dex": "A boulder of ice and granite. It rolls down the hills during freak hailstorms.",
   "ref": "Bengaluru's sudden April hailstorms.",
   "habitat": [
-   "Evolve Aalikallu (Lv 34)"
+   "Ramanagara Rocks"
   ],
   "assetKey": "MON_131"
  },
@@ -8888,7 +8912,8 @@
   "dex": "A leopard cub that hides in rocky scrub. It practises stalking on lizards.",
   "ref": "Leopards still roam Bannerghatta and Turahalli at the city's edge.",
   "habitat": [
-   "Nandi Hills"
+   "Nandi Hills",
+   "Bannerghatta Forest"
   ],
   "assetKey": "MON_134"
  },
@@ -8953,7 +8978,7 @@
   "dex": "It slips through the forest edge at night without a sound. Only its eyes give it away.",
   "ref": "Leopards still roam Bannerghatta and Turahalli at the city's edge.",
   "habitat": [
-   "Evolve Chiratemari (Lv 32)"
+   "Ramanagara Rocks"
   ],
   "assetKey": "MON_135"
  },
@@ -9011,7 +9036,8 @@
   "dex": "The 'forest baby'. It moves so slowly that few have seen it, but its huge eyes see everything.",
   "ref": "'Kaadu paapa' (forest baby), the endangered slender loris of the Bengaluru region.",
   "habitat": [
-   "Nandi Hills"
+   "Nandi Hills",
+   "Ramanagara Rocks"
   ],
   "assetKey": "MON_136"
  },
@@ -9131,7 +9157,7 @@
   "dex": "The beast carved over temple doors. When it surfaces, the tank's water rises to the top step.",
   "ref": "The Makara torana arch over temple doorways; Sankey and Hebbal were once temple tanks.",
   "habitat": [
-   "Evolve Makaramari (Lv 35)"
+   "Kokkare Bellur (fishing)"
   ],
   "assetKey": "MON_138"
  },
@@ -9430,6 +9456,7 @@
   "dex": "A temple-pillar cub that shook itself loose from the stone. It still has chisel marks on its paws.",
   "ref": "Yali pillars line Vijayanagara-era temples across Karnataka.",
   "habitat": [
+   "Ramanagara Rocks",
    "Nandi Cave"
   ],
   "assetKey": "MON_143"

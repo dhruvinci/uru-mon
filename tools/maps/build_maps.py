@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools", "art"))
 from compiler import MapBuild, validate  # noqa: E402
 import tiles  # noqa: E402
 
-MODULES = ["maps_start", "maps_south", "maps_central", "maps_north", "maps_council"]
+MODULES = ["maps_start", "maps_south", "maps_central", "maps_north", "maps_council", "maps_expansion"]
 
 
 def main():
@@ -59,9 +59,17 @@ def main():
         os.makedirs(prev, exist_ok=True)
         for b in built:
             img = Image.open(os.path.join(ROOT, "assets", "maps", b.id, "bg.png")).convert("RGBA")
-            # mark NPCs, warps and blocked tiles for review
+            fgp = os.path.join(ROOT, "assets", "maps", b.id, "fg.png")
+            if os.path.exists(fgp):
+                img.alpha_composite(Image.open(fgp).convert("RGBA"))
+            # mark NPCs, warps, items, triggers and interactables for review
             from PIL import ImageDraw
             d = ImageDraw.Draw(img)
+            for t in b.d.get("triggers", []):
+                d.rectangle([t["x"] * 16, t["y"] * 16, (t["x"] + t.get("w", 1)) * 16 - 1, (t["y"] + t.get("h", 1)) * 16 - 1],
+                            outline=(255, 140, 0, 255))
+            for t in b.d.get("interactables", []):
+                d.rectangle([t["x"] * 16 + 2, t["y"] * 16 + 2, t["x"] * 16 + 13, t["y"] * 16 + 13], outline=(0, 230, 230, 255))
             for w in b.warps:
                 d.rectangle([w["x"] * 16, w["y"] * 16, w["x"] * 16 + 15, w["y"] * 16 + 15], outline=(0, 120, 255, 255))
             for n in b.d.get("npcs", []):

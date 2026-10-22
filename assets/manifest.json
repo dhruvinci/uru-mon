@@ -1172,17 +1172,20 @@
   {
    "key": "MAP_lab",
    "url": "assets/maps/lab/map.json",
-   "bg": "assets/maps/lab/bg.png"
+   "bg": "assets/maps/lab/bg.png",
+   "fg": "assets/maps/lab/fg.png"
   },
   {
    "key": "MAP_basavanagudi",
    "url": "assets/maps/basavanagudi/map.json",
-   "bg": "assets/maps/basavanagudi/bg.png"
+   "bg": "assets/maps/basavanagudi/bg.png",
+   "fg": "assets/maps/basavanagudi/fg.png"
   },
   {
    "key": "MAP_route1",
    "url": "assets/maps/route1/map.json",
-   "bg": "assets/maps/route1/bg.png"
+   "bg": "assets/maps/route1/bg.png",
+   "fg": "assets/maps/route1/fg.png"
   },
   {
    "key": "MAP_darshini",
@@ -1197,22 +1200,26 @@
   {
    "key": "MAP_lalbagh",
    "url": "assets/maps/lalbagh/map.json",
-   "bg": "assets/maps/lalbagh/bg.png"
+   "bg": "assets/maps/lalbagh/bg.png",
+   "fg": "assets/maps/lalbagh/fg.png"
   },
   {
    "key": "MAP_glass_house",
    "url": "assets/maps/glass_house/map.json",
-   "bg": "assets/maps/glass_house/bg.png"
+   "bg": "assets/maps/glass_house/bg.png",
+   "fg": "assets/maps/glass_house/fg.png"
   },
   {
    "key": "MAP_cubbon_park",
    "url": "assets/maps/cubbon_park/map.json",
-   "bg": "assets/maps/cubbon_park/bg.png"
+   "bg": "assets/maps/cubbon_park/bg.png",
+   "fg": "assets/maps/cubbon_park/fg.png"
   },
   {
    "key": "MAP_mg_road",
    "url": "assets/maps/mg_road/map.json",
-   "bg": "assets/maps/mg_road/bg.png"
+   "bg": "assets/maps/mg_road/bg.png",
+   "fg": "assets/maps/mg_road/fg.png"
   },
   {
    "key": "MAP_stadium",
@@ -1222,22 +1229,26 @@
   {
    "key": "MAP_silk_board",
    "url": "assets/maps/silk_board/map.json",
-   "bg": "assets/maps/silk_board/bg.png"
+   "bg": "assets/maps/silk_board/bg.png",
+   "fg": "assets/maps/silk_board/fg.png"
   },
   {
    "key": "MAP_whitefield",
    "url": "assets/maps/whitefield/map.json",
-   "bg": "assets/maps/whitefield/bg.png"
+   "bg": "assets/maps/whitefield/bg.png",
+   "fg": "assets/maps/whitefield/fg.png"
   },
   {
    "key": "MAP_tech_park",
    "url": "assets/maps/tech_park/map.json",
-   "bg": "assets/maps/tech_park/bg.png"
+   "bg": "assets/maps/tech_park/bg.png",
+   "fg": "assets/maps/tech_park/fg.png"
   },
   {
    "key": "MAP_bellandur",
    "url": "assets/maps/bellandur/map.json",
-   "bg": "assets/maps/bellandur/bg.png"
+   "bg": "assets/maps/bellandur/bg.png",
+   "fg": "assets/maps/bellandur/fg.png"
   },
   {
    "key": "MAP_bellandur_site",
@@ -1247,12 +1258,14 @@
   {
    "key": "MAP_sankey_tank",
    "url": "assets/maps/sankey_tank/map.json",
-   "bg": "assets/maps/sankey_tank/bg.png"
+   "bg": "assets/maps/sankey_tank/bg.png",
+   "fg": "assets/maps/sankey_tank/fg.png"
   },
   {
    "key": "MAP_malleshwaram",
    "url": "assets/maps/malleshwaram/map.json",
-   "bg": "assets/maps/malleshwaram/bg.png"
+   "bg": "assets/maps/malleshwaram/bg.png",
+   "fg": "assets/maps/malleshwaram/fg.png"
   },
   {
    "key": "MAP_tutor_house",
@@ -1262,22 +1275,26 @@
   {
    "key": "MAP_palace_road",
    "url": "assets/maps/palace_road/map.json",
-   "bg": "assets/maps/palace_road/bg.png"
+   "bg": "assets/maps/palace_road/bg.png",
+   "fg": "assets/maps/palace_road/fg.png"
   },
   {
    "key": "MAP_palace",
    "url": "assets/maps/palace/map.json",
-   "bg": "assets/maps/palace/bg.png"
+   "bg": "assets/maps/palace/bg.png",
+   "fg": "assets/maps/palace/fg.png"
   },
   {
    "key": "MAP_hebbal",
    "url": "assets/maps/hebbal/map.json",
-   "bg": "assets/maps/hebbal/bg.png"
+   "bg": "assets/maps/hebbal/bg.png",
+   "fg": "assets/maps/hebbal/fg.png"
   },
   {
    "key": "MAP_nandi_hills",
    "url": "assets/maps/nandi_hills/map.json",
-   "bg": "assets/maps/nandi_hills/bg.png"
+   "bg": "assets/maps/nandi_hills/bg.png",
+   "fg": "assets/maps/nandi_hills/fg.png"
   },
   {
    "key": "MAP_nandi_cave",
@@ -1287,37 +1304,62 @@
   {
    "key": "MAP_hill_pavilion",
    "url": "assets/maps/hill_pavilion/map.json",
-   "bg": "assets/maps/hill_pavilion/bg.png"
+   "bg": "assets/maps/hill_pavilion/bg.png",
+   "fg": "assets/maps/hill_pavilion/fg.png"
   },
   {
    "key": "MAP_vidhana_soudha",
    "url": "assets/maps/vidhana_soudha/map.json",
-   "bg": "assets/maps/vidhana_soudha/bg.png"
+   "bg": "assets/maps/vidhana_soudha/bg.png",
+   "fg": "assets/maps/vidhana_soudha/fg.png"
   },
   {
    "key": "MAP_council_1",
    "url": "assets/maps/council_1/map.json",
-   "bg": "assets/maps/council_1/bg.png"
+   "bg": "assets/maps/council_1/bg.png",
+   "fg": "assets/maps/council_1/fg.png"
   },
   {
    "key": "MAP_council_2",
    "url": "assets/maps/council_2/map.json",
-   "bg": "assets/maps/council_2/bg.png"
+   "bg": "assets/maps/council_2/bg.png",
+   "fg": "assets/maps/council_2/fg.png"
   },
   {
    "key": "MAP_council_3",
    "url": "assets/maps/council_3/map.json",
-   "bg": "assets/maps/council_3/bg.png"
+   "bg": "assets/maps/council_3/bg.png",
+   "fg": "assets/maps/council_3/fg.png"
   },
   {
    "key": "MAP_council_4",
    "url": "assets/maps/council_4/map.json",
-   "bg": "assets/maps/council_4/bg.png"
+   "bg": "assets/maps/council_4/bg.png",
+   "fg": "assets/maps/council_4/fg.png"
   },
   {
    "key": "MAP_champion_room",
    "url": "assets/maps/champion_room/map.json",
-   "bg": "assets/maps/champion_room/bg.png"
+   "bg": "assets/maps/champion_room/bg.png",
+   "fg": "assets/maps/champion_room/fg.png"
+  },
+  {
+   "key": "MAP_bannerghatta",
+   "url": "assets/maps/bannerghatta/map.json",
+   "bg": "assets/maps/bannerghatta/bg.png",
+   "fg": "assets/maps/bannerghatta/fg.png"
+  },
+  {
+   "key": "MAP_ramanagara",
+   "url": "assets/maps/ramanagara/map.json",
+   "bg": "assets/maps/ramanagara/bg.png",
+   "fg": "assets/maps/ramanagara/fg.png"
+  },
+  {
+   "key": "MAP_kokkare_bellur",
+   "url": "assets/maps/kokkare_bellur/map.json",
+   "bg": "assets/maps/kokkare_bellur/bg.png",
+   "fg": "assets/maps/kokkare_bellur/fg.png"
   }
  ],
  "audio": [
