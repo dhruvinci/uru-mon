@@ -30,7 +30,8 @@ def tr(id, name, title, portrait, team, intro, defeat, after=None, ai=1, sprite=
 # ---------------------------------------------------------------------------------------------
 tr("rival_lab", "Sudeep", "Rival", "rival", [("RIVAL:1", 5)],
    ["Wait, {PLAYER}! Let's see whose Urumon is stronger. Best of one - no rematches!"],
-   ["What?! I picked the wrong one... no, I just need practice!"], canLose=True, music="MUSIC_RIVAL")
+   ["What?! I picked the wrong one... no, I just need practice!"], canLose=True, music="MUSIC_RIVAL",
+   ai=0)  # a first battle should be winnable: he sometimes wastes turns showing off
 tr("rival_mg", "Sudeep", "Rival", "rival", [(11, 14), (13, 13), ("RIVAL:1", 16)],
    ["{PLAYER}! Took you long enough to get through Cubbon Park.",
     "I've been training at the stadium nets every evening. Watch this!"],

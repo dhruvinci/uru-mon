@@ -137,11 +137,12 @@
   "name": "Strong Kaapi",
   "category": "STATUS",
   "price": 100,
-  "description": "Extra-strong decoction. Wakes up a sleeping Urumon and cures paralysis.",
+  "description": "Extra-strong hot decoction. Wakes a sleeping Urumon, thaws a frozen one and cures paralysis.",
   "effect": {
    "cures": [
     "SLP",
-    "PAR"
+    "PAR",
+    "FRZ"
    ]
   }
  },
@@ -160,5 +161,50 @@
   "price": 0,
   "description": "Holds your Arena Badges.",
   "effect": {}
+ },
+ {
+  "id": 17,
+  "name": "Gaala",
+  "category": "KEY",
+  "price": 0,
+  "description": "A bamboo fishing rod. Face the water and press A to cast a line.",
+  "effect": {}
+ },
+ {
+  "id": 18,
+  "name": "Old Moss Stone",
+  "category": "KEY",
+  "price": 0,
+  "description": "A layered green stone from deep in Nandi Cave. Prof. Sharada might know what's inside.",
+  "effect": {}
+ },
+ {
+  "id": 19,
+  "name": "Old Shell Stone",
+  "category": "KEY",
+  "price": 0,
+  "description": "A stone with a curled-up bug-like shape in it. Prof. Sharada might know what's inside.",
+  "effect": {}
+ },
+ {
+  "id": 20,
+  "name": "Ellu Bella",
+  "category": "HEAL",
+  "price": 2500,
+  "description": "Sesame, jaggery and coconut. Fully restores HP and cures any status problem.",
+  "effect": {
+   "hp": "full",
+   "cures": "all"
+  }
+ },
+ {
+  "id": 21,
+  "name": "Benne",
+  "category": "PP",
+  "price": 1800,
+  "description": "A lump of fresh butter. Fully restores the PP of every move.",
+  "effect": {
+   "pp": 99
+  }
  }
 ]

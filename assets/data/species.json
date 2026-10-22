@@ -28,7 +28,7 @@
     "moveId": 4
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 40
    },
    {
@@ -65,6 +65,10 @@
    }
   ],
   "dex": "Born each March when the jacaranda trees bloom. It naps under purple canopies on quiet streets.",
+  "ref": "Bengaluru's jacaranda trees, which turn whole avenues purple every March.",
+  "habitat": [
+   "Prof. Sharada's lab (a starter)"
+  ],
   "assetKey": "MON_001"
  },
  {
@@ -96,7 +100,7 @@
     "moveId": 4
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 40
    },
    {
@@ -133,6 +137,10 @@
    }
   ],
   "dex": "Its antlers flower year-round. Petals it sheds are said to cool the hottest summer pavements.",
+  "ref": "Bengaluru's jacaranda trees, which turn whole avenues purple every March.",
+  "habitat": [
+   "Evolve Jakkafawn (Lv 16)"
+  ],
   "assetKey": "MON_002"
  },
  {
@@ -162,7 +170,7 @@
     "moveId": 4
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 40
    },
    {
@@ -207,6 +215,10 @@
    }
   ],
   "dex": "When it walks the avenues at dawn, every jacaranda it passes bursts into bloom.",
+  "ref": "Bengaluru's jacaranda trees, which turn whole avenues purple every March.",
+  "habitat": [
+   "Evolve Jakkadeer (Lv 36)"
+  ],
   "assetKey": "MON_003"
  },
  {
@@ -238,7 +250,7 @@
     "moveId": 3
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 20
    },
    {
@@ -275,6 +287,10 @@
    }
   ],
   "dex": "The steel tumbler on its head is always warm. It follows the smell of fresh decoction for miles.",
+  "ref": "Filter coffee, poured between a steel tumbler and davara at every darshini.",
+  "habitat": [
+   "Prof. Sharada's lab (a starter)"
+  ],
   "assetKey": "MON_004"
  },
  {
@@ -306,7 +322,7 @@
     "moveId": 3
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 20
    },
    {
@@ -343,6 +359,10 @@
    }
   ],
   "dex": "It pours scalding steam from its shoulders. Darshini owners leave out a cup for it at closing time.",
+  "ref": "Filter coffee, poured between a steel tumbler and davara at every darshini.",
+  "habitat": [
+   "Evolve Kaapup (Lv 16)"
+  ],
   "assetKey": "MON_005"
  },
  {
@@ -372,7 +392,7 @@
     "moveId": 3
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 20
    },
    {
@@ -417,6 +437,10 @@
    }
   ],
   "dex": "Its steel crown is shaped like a coffee filter. Its roar smells of chicory and burnt sugar.",
+  "ref": "Filter coffee, poured between a steel tumbler and davara at every darshini.",
+  "habitat": [
+   "Evolve Brewolf (Lv 36)"
+  ],
   "assetKey": "MON_006"
  },
  {
@@ -448,7 +472,7 @@
     "moveId": 37
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 30
    },
    {
@@ -485,6 +509,10 @@
    }
   ],
   "dex": "Its shell is a tender coconut. It sips lake water through its straw and sprays it at bullies.",
+  "ref": "Tender coconut (elaneer) from the corner cart, and the stone steps of the old temple tanks.",
+  "habitat": [
+   "Prof. Sharada's lab (a starter)"
+  ],
   "assetKey": "MON_007"
  },
  {
@@ -516,7 +544,7 @@
     "moveId": 37
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 30
    },
    {
@@ -553,6 +581,10 @@
    }
   ],
   "dex": "Its husky shell has become tough and fibrous. It guards the steps of old temple tanks.",
+  "ref": "Tender coconut (elaneer) from the corner cart, and the stone steps of the old temple tanks.",
+  "habitat": [
+   "Evolve Elanee (Lv 16)"
+  ],
   "assetKey": "MON_008"
  },
  {
@@ -582,7 +614,7 @@
     "moveId": 37
    },
    {
-    "level": 5,
+    "level": 7,
     "moveId": 30
    },
    {
@@ -623,6 +655,10 @@
    }
   ],
   "dex": "Old stories say the city's lakes were dug by its footsteps. A small island grows on its back.",
+  "ref": "Tender coconut (elaneer) from the corner cart, and the stone steps of the old temple tanks.",
+  "habitat": [
+   "Evolve Kobbari (Lv 36)"
+  ],
   "assetKey": "MON_009"
  },
  {
@@ -688,6 +724,12 @@
    }
   ],
   "dex": "Once seen on every balcony. It chirps loudest when someone puts out rice on a steel plate.",
+  "ref": "House sparrows (gubbi) that once lived on every balcony; the kites that ride the city's warm air.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Lalbagh",
+   "Cubbon Park"
+  ],
   "assetKey": "MON_010"
  },
  {
@@ -753,6 +795,13 @@
    }
   ],
   "dex": "It circles over the city on warm air rising from the roads, then dives to snatch snacks from hands.",
+  "ref": "House sparrows (gubbi) that once lived on every balcony; the kites that ride the city's warm air.",
+  "habitat": [
+   "Route 3 - Silk Board Junction",
+   "Route 5 - Sankey Tank",
+   "Route 7 - Hebbal",
+   "Nandi Hills"
+  ],
   "assetKey": "MON_011"
  },
  {
@@ -815,6 +864,10 @@
    }
   ],
   "dex": "Its chestnut wings span a whole street. It nests on the tallest temple tower in town.",
+  "ref": "House sparrows (gubbi) that once lived on every balcony; the kites that ride the city's warm air.",
+  "habitat": [
+   "Evolve Haddu (Lv 36)"
+  ],
   "assetKey": "MON_012"
  },
  {
@@ -879,6 +932,13 @@
    }
   ],
   "dex": "The three stripes on its back are said to be a blessing for helping build a bridge long ago.",
+  "ref": "The three-striped palm squirrel (alilu); legend says it was stroked for helping build a bridge.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Basavanagudi",
+   "Cubbon Park",
+   "MG Road"
+  ],
   "assetKey": "MON_013"
  },
  {
@@ -940,6 +1000,10 @@
    }
   ],
   "dex": "It rules its tree like a tiny king and defends it with a shield made from a peanut shell.",
+  "ref": "The three-striped palm squirrel (alilu); legend says it was stroked for helping build a bridge.",
+  "habitat": [
+   "Malleshwaram"
+  ],
   "assetKey": "MON_014"
  },
  {
@@ -1004,6 +1068,11 @@
    }
   ],
   "dex": "It eats only mulberry leaves. The thread it spins is softer than any machine-made silk.",
+  "ref": "Karnataka silk: Ramanagara holds one of India's biggest silk-cocoon markets.",
+  "habitat": [
+   "Lalbagh",
+   "Cubbon Park"
+  ],
   "assetKey": "MON_015"
  },
  {
@@ -1068,6 +1137,10 @@
    }
   ],
   "dex": "It wraps itself in golden silk and dreams. Weavers wait patiently for it to wake.",
+  "ref": "Karnataka silk: Ramanagara holds one of India's biggest silk-cocoon markets.",
+  "habitat": [
+   "Cubbon Park"
+  ],
   "assetKey": "MON_016"
  },
  {
@@ -1130,6 +1203,10 @@
    }
   ],
   "dex": "Its wings are patterned like a wedding saree. Its scales shimmer gold in lamplight.",
+  "ref": "Karnataka silk: Ramanagara holds one of India's biggest silk-cocoon markets.",
+  "habitat": [
+   "Evolve Koshoon (Lv 10)"
+  ],
   "assetKey": "MON_017"
  },
  {
@@ -1191,6 +1268,12 @@
    }
   ],
   "dex": "Swarms rise from still lake water at dusk. Its whine near your ear is impossible to ignore.",
+  "ref": "The mosquitoes (sollu) of monsoon puddles.",
+  "habitat": [
+   "Cubbon Park",
+   "Route 3 - Silk Board Junction",
+   "Bellandur Lake"
+  ],
   "assetKey": "MON_018"
  },
  {
@@ -1249,6 +1332,10 @@
    }
   ],
   "dex": "A tyrant of the monsoon. One bite and you'll scratch for a week.",
+  "ref": "The mosquitoes (sollu) of monsoon puddles.",
+  "habitat": [
+   "Route 7 - Hebbal"
+  ],
   "assetKey": "MON_019"
  },
  {
@@ -1309,6 +1396,13 @@
    }
   ],
   "dex": "It is born from the exhaust of a thousand idling engines at red lights.",
+  "ref": "Traffic smoke (hoge) at every junction.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "MG Road",
+   "Route 3 - Silk Board Junction",
+   "Bellandur Lake"
+  ],
   "assetKey": "MON_020"
  },
  {
@@ -1366,6 +1460,10 @@
    }
   ],
   "dex": "It hangs over the worst junctions at rush hour. Its rumble sounds like a thousand horns.",
+  "ref": "Traffic smoke (hoge) at every junction.",
+  "habitat": [
+   "Evolve Hoge (Lv 30)"
+  ],
   "assetKey": "MON_021"
  },
  {
@@ -1427,6 +1525,13 @@
    }
   ],
   "dex": "A clump of lake foam that came alive. Do not try to wash your hands in it.",
+  "ref": "The toxic foam that drifts off Bellandur and Varthur lakes.",
+  "habitat": [
+   "Lalbagh",
+   "Lalbagh (fishing)",
+   "Bellandur Lake",
+   "Bellandur Lake (fishing)"
+  ],
   "assetKey": "MON_022"
  },
  {
@@ -1485,6 +1590,10 @@
    }
   ],
   "dex": "It rises out of polluted lakes as a wall of foam. It only calms when the water is clean again.",
+  "ref": "The toxic foam that drifts off Bellandur and Varthur lakes.",
+  "habitat": [
+   "Rises out of the Bellandur foam once"
+  ],
   "assetKey": "MON_023"
  },
  {
@@ -1517,6 +1626,15 @@
    }
   ],
   "dex": "It can do almost nothing except flop. Lake anglers throw it back out of pity.",
+  "ref": "Fish of the city lakes; its evolution is drawn from temple naga carvings.",
+  "habitat": [
+   "Lalbagh (fishing)",
+   "Bellandur Lake",
+   "Bellandur Lake (fishing)",
+   "Route 5 - Sankey Tank",
+   "Route 5 - Sankey Tank (fishing)",
+   "Route 7 - Hebbal (fishing)"
+  ],
   "assetKey": "MON_024"
  },
  {
@@ -1567,6 +1685,10 @@
    }
   ],
   "dex": "No one believes a Meenu becomes this until they see it rise roaring from the lake.",
+  "ref": "Fish of the city lakes; its evolution is drawn from temple naga carvings.",
+  "habitat": [
+   "Evolve Meenu (Lv 20)"
+  ],
   "assetKey": "MON_025"
  },
  {
@@ -1628,6 +1750,11 @@
    }
   ],
   "dex": "It sits so still on hillsides that people paint signs on it.",
+  "ref": "The granite boulders (bande kallu) of the Deccan plateau.",
+  "habitat": [
+   "Nandi Hills",
+   "Nandi Cave"
+  ],
   "assetKey": "MON_026"
  },
  {
@@ -1686,6 +1813,10 @@
    }
   ],
   "dex": "Some say the old rocky hills around the city are sleeping Bandeyodha.",
+  "ref": "The granite boulders (bande kallu) of the Deccan plateau.",
+  "habitat": [
+   "Nandi Cave"
+  ],
   "assetKey": "MON_027"
  },
  {
@@ -1750,6 +1881,13 @@
    }
   ],
   "dex": "It wanders into traffic and simply stands there. Somehow every vehicle goes around it.",
+  "ref": "Cattle on city roads and the painted bulls of Sankranti.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Route 3 - Silk Board Junction",
+   "Whitefield",
+   "Route 7 - Hebbal"
+  ],
   "assetKey": "MON_028"
  },
  {
@@ -1812,6 +1950,10 @@
    }
   ],
   "dex": "At harvest festivals its horns are painted bright colors. Its charge can topple a bus.",
+  "ref": "Cattle on city roads and the painted bulls of Sankranti.",
+  "habitat": [
+   "Route 7 - Hebbal"
+  ],
   "assetKey": "MON_029"
  },
  {
@@ -1855,6 +1997,10 @@
     "moveId": 5
    },
    {
+    "level": 18,
+    "moveId": 177
+   },
+   {
     "level": 20,
     "moveId": 111
    },
@@ -1872,6 +2018,12 @@
    }
   ],
   "dex": "It ambushes tourists on hilltops and steals bananas, sunglasses and phones.",
+  "ref": "The bonnet macaques of Nandi Hills, who steal tourists' snacks.",
+  "habitat": [
+   "Route 5 - Sankey Tank",
+   "Route 7 - Hebbal",
+   "Nandi Hills"
+  ],
   "assetKey": "MON_030"
  },
  {
@@ -1929,6 +2081,10 @@
    }
   ],
   "dex": "It trains in mud pits at dawn and challenges any wrestler who dares enter.",
+  "ref": "The bonnet macaques of Nandi Hills, who steal tourists' snacks.",
+  "habitat": [
+   "Nandi Hills"
+  ],
   "assetKey": "MON_031"
  },
  {
@@ -1993,13 +2149,24 @@
    }
   ],
   "dex": "Every street has one. It knows exactly which house gives out milk.",
+  "ref": "Street cats, and the black cat that crosses your path.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Cubbon Park",
+   "MG Road",
+   "Route 3 - Silk Board Junction",
+   "Whitefield",
+   "Malleshwaram",
+   "Palace Road"
+  ],
   "assetKey": "MON_032"
  },
  {
   "id": 33,
   "name": "Kaalbekku",
   "types": [
-   "SPIRIT"
+   "SPIRIT",
+   "ROGUE"
   ],
   "baseStats": {
    "hp": 65,
@@ -2041,8 +2208,16 @@
     "moveId": 133
    },
    {
+    "level": 28,
+    "moveId": 172
+   },
+   {
     "level": 31,
     "moveId": 134
+   },
+   {
+    "level": 36,
+    "moveId": 173
    },
    {
     "level": 37,
@@ -2054,6 +2229,10 @@
    }
   ],
   "dex": "If it crosses your path, people wait a moment before walking on. It finds this very funny.",
+  "ref": "Street cats, and the black cat that crosses your path.",
+  "habitat": [
+   "Palace Road"
+  ],
   "assetKey": "MON_033"
  },
  {
@@ -2115,6 +2294,13 @@
    }
   ],
   "dex": "It stares at you all night from the banyan tree. Nobody knows what it is thinking.",
+  "ref": "Spotted owlets (goobe) in old trees.",
+  "habitat": [
+   "Cubbon Park",
+   "Route 5 - Sankey Tank",
+   "Malleshwaram",
+   "Nandi Hills"
+  ],
   "assetKey": "MON_034"
  },
  {
@@ -2173,6 +2359,10 @@
    }
   ],
   "dex": "It tutors students in exam season. It is strict but never wrong.",
+  "ref": "Spotted owlets (goobe) in old trees.",
+  "habitat": [
+   "Nandi Hills"
+  ],
   "assetKey": "MON_035"
  },
  {
@@ -2229,6 +2419,13 @@
    }
   ],
   "dex": "During power cuts it slips out of the shadows and plays with candle flames.",
+  "ref": "Shadows (neralu) during the city's famous power cuts.",
+  "habitat": [
+   "Cubbon Park",
+   "Malleshwaram",
+   "Palace Road",
+   "Nandi Cave"
+  ],
   "assetKey": "MON_036"
  },
  {
@@ -2282,6 +2479,10 @@
    }
   ],
   "dex": "It haunts the old palace corridors. Portraits' eyes seem to follow you when it is near.",
+  "ref": "Shadows (neralu) during the city's famous power cuts.",
+  "habitat": [
+   "Evolve Neralu (Lv 25)"
+  ],
   "assetKey": "MON_037"
  },
  {
@@ -2338,6 +2539,11 @@
    }
   ],
   "dex": "It floats near people deep in thought, nibbling on stray ideas.",
+  "ref": "Chintamani, the wish-granting jewel of legend.",
+  "habitat": [
+   "Malleshwaram",
+   "Palace Road"
+  ],
   "assetKey": "MON_038"
  },
  {
@@ -2345,7 +2551,7 @@
   "name": "Chintamani",
   "types": [
    "MIND",
-   "ROCK"
+   "CHARM"
   ],
   "baseStats": {
    "hp": 70,
@@ -2379,6 +2585,10 @@
     "moveId": 121
    },
    {
+    "level": 26,
+    "moveId": 181
+   },
+   {
     "level": 27,
     "moveId": 126
    },
@@ -2388,7 +2598,7 @@
    },
    {
     "level": 39,
-    "moveId": 71
+    "moveId": 185
    },
    {
     "level": 40,
@@ -2396,6 +2606,10 @@
    }
   ],
   "dex": "A wish-granting jewel in old tales. It only listens to wishes made for others.",
+  "ref": "Chintamani, the wish-granting jewel of legend.",
+  "habitat": [
+   "Evolve Chintu (Lv 26)"
+  ],
   "assetKey": "MON_039"
  },
  {
@@ -2460,6 +2674,10 @@
    }
   ],
   "dex": "It loves bath time in the river and sprays water at everyone nearby.",
+  "ref": "Elephant calves of Bannerghatta and the golden howdah (ambaari) of the Dasara procession.",
+  "habitat": [
+   "Palace Road"
+  ],
   "assetKey": "MON_040"
  },
  {
@@ -2526,6 +2744,10 @@
    }
   ],
   "dex": "It leads the grand autumn procession carrying a golden howdah. The crowds go silent as it passes.",
+  "ref": "Elephant calves of Bannerghatta and the golden howdah (ambaari) of the Dasara procession.",
+  "habitat": [
+   "Evolve Aanemari (Lv 30)"
+  ],
   "assetKey": "MON_041"
  },
  {
@@ -2533,7 +2755,7 @@
   "name": "Navilu",
   "types": [
    "SKY",
-   "MIND"
+   "CHARM"
   ],
   "baseStats": {
    "hp": 75,
@@ -2560,7 +2782,7 @@
    },
    {
     "level": 20,
-    "moveId": 121
+    "moveId": 182
    },
    {
     "level": 28,
@@ -2568,7 +2790,7 @@
    },
    {
     "level": 34,
-    "moveId": 123
+    "moveId": 186
    },
    {
     "level": 40,
@@ -2576,10 +2798,17 @@
    },
    {
     "level": 46,
-    "moveId": 122
+    "moveId": 185
    }
   ],
   "dex": "It dances only when the first monsoon clouds roll in. Seeing it is said to bring rain.",
+  "ref": "India's national bird, the peacock (navilu).",
+  "habitat": [
+   "Route 5 - Sankey Tank",
+   "Palace Road",
+   "Route 7 - Hebbal",
+   "Nandi Hills"
+  ],
   "assetKey": "MON_042"
  },
  {
@@ -2636,13 +2865,20 @@
    }
   ],
   "dex": "It hides in termite mounds and rock walls. It means no harm if left alone.",
+  "ref": "Cobras and the naga stones under peepal trees.",
+  "habitat": [
+   "Bellandur Lake",
+   "Route 5 - Sankey Tank",
+   "Nandi Cave"
+  ],
   "assetKey": "MON_043"
  },
  {
   "id": 44,
   "name": "Nagarahaavu",
   "types": [
-   "TOXIC"
+   "TOXIC",
+   "MYTH"
   ],
   "baseStats": {
    "hp": 60,
@@ -2680,15 +2916,27 @@
     "moveId": 102
    },
    {
+    "level": 30,
+    "moveId": 161
+   },
+   {
     "level": 31,
     "moveId": 133
    },
    {
     "level": 38,
     "moveId": 106
+   },
+   {
+    "level": 40,
+    "moveId": 163
    }
   ],
   "dex": "When it raises its great hood, even the boldest Mangaa backs away.",
+  "ref": "Cobras and the naga stones under peepal trees.",
+  "habitat": [
+   "Evolve Haavu (Lv 22)"
+  ],
   "assetKey": "MON_044"
  },
  {
@@ -2749,6 +2997,16 @@
    }
   ],
   "dex": "Its croaking chorus after the first rain keeps whole neighbourhoods awake.",
+  "ref": "Frogs (kappe) that sing all night once the rain (male) starts.",
+  "habitat": [
+   "Lalbagh (fishing)",
+   "Bellandur Lake",
+   "Bellandur Lake (fishing)",
+   "Route 5 - Sankey Tank",
+   "Route 5 - Sankey Tank (fishing)",
+   "Route 7 - Hebbal",
+   "Route 7 - Hebbal (fishing)"
+  ],
   "assetKey": "MON_045"
  },
  {
@@ -2807,6 +3065,10 @@
    }
   ],
   "dex": "It summons a raincloud and rides the thunder. Flash floods follow its song.",
+  "ref": "Frogs (kappe) that sing all night once the rain (male) starts.",
+  "habitat": [
+   "Route 7 - Hebbal"
+  ],
   "assetKey": "MON_046"
  },
  {
@@ -2867,6 +3129,12 @@
    }
   ],
   "dex": "When it gets excited the whole street's lights flicker. Then the power goes out.",
+  "ref": "Transformers, tangled cables and power cuts.",
+  "habitat": [
+   "MG Road",
+   "Route 3 - Silk Board Junction",
+   "Whitefield"
+  ],
   "assetKey": "MON_047"
  },
  {
@@ -2924,6 +3192,10 @@
    }
   ],
   "dex": "\"Current hogide!\" is the cry when it feeds on a transformer. It is always gone before the linemen arrive.",
+  "ref": "Transformers, tangled cables and power cuts.",
+  "habitat": [
+   "Evolve Volti (Lv 26)"
+  ],
   "assetKey": "MON_048"
  },
  {
@@ -2985,6 +3257,10 @@
    }
   ],
   "dex": "It lives inside office laptops and gets cranky after midnight deploys.",
+  "ref": "Bengaluru, the 'Silicon Valley of India'.",
+  "habitat": [
+   "Whitefield"
+  ],
   "assetKey": "MON_049"
  },
  {
@@ -3043,6 +3319,10 @@
    }
   ],
   "dex": "It coils through the server rooms of tech parks. Its hiss sounds like a cooling fan.",
+  "ref": "Bengaluru, the 'Silicon Valley of India'.",
+  "habitat": [
+   "Evolve Chiplet (Lv 30)"
+  ],
   "assetKey": "MON_050"
  },
  {
@@ -3097,6 +3377,10 @@
    }
   ],
   "dex": "It never goes where you ask. It always asks for one-and-a-half over the meter.",
+  "ref": "The auto-rickshaw. 'Meter haaki, saar!'",
+  "habitat": [
+   "Route 3 - Silk Board Junction"
+  ],
   "assetKey": "MON_051"
  },
  {
@@ -3157,6 +3441,11 @@
    }
   ],
   "dex": "Its spiky skin hides a sweet smell. Squirrels follow it everywhere.",
+  "ref": "Jackfruit (halasu), sold in heaps every summer.",
+  "habitat": [
+   "Lalbagh",
+   "Cubbon Park"
+  ],
   "assetKey": "MON_052"
  },
  {
@@ -3219,6 +3508,10 @@
    }
   ],
   "dex": "So heavy that it leaves potholes. The city has stopped trying to fix them.",
+  "ref": "Jackfruit (halasu), sold in heaps every summer.",
+  "habitat": [
+   "Evolve Halasu (Lv 28)"
+  ],
   "assetKey": "MON_053"
  },
  {
@@ -3283,6 +3576,11 @@
    }
   ],
   "dex": "It blooms bright red in the hottest week of summer.",
+  "ref": "Gulmohar trees blazing red in May.",
+  "habitat": [
+   "Lalbagh",
+   "Route 5 - Sankey Tank"
+  ],
   "assetKey": "MON_054"
  },
  {
@@ -3345,6 +3643,10 @@
    }
   ],
   "dex": "Its flowers look like flames, and in May they really are.",
+  "ref": "Gulmohar trees blazing red in May.",
+  "habitat": [
+   "Route 7 - Hebbal"
+  ],
   "assetKey": "MON_055"
  },
  {
@@ -3406,6 +3708,12 @@
    }
   ],
   "dex": "It runs back and forth along the same track all day and never gets bored.",
+  "ref": "Namma Metro and its purple and green lines.",
+  "habitat": [
+   "MG Road",
+   "Route 3 - Silk Board Junction",
+   "Whitefield"
+  ],
   "assetKey": "MON_056"
  },
  {
@@ -3413,7 +3721,7 @@
   "name": "Metrovaha",
   "types": [
    "METAL",
-   "ELECTRIC"
+   "MYTH"
   ],
   "baseStats": {
    "hp": 85,
@@ -3455,8 +3763,16 @@
     "moveId": 143
    },
    {
+    "level": 36,
+    "moveId": 161
+   },
+   {
     "level": 41,
     "moveId": 53
+   },
+   {
+    "level": 44,
+    "moveId": 163
    },
    {
     "level": 48,
@@ -3464,6 +3780,10 @@
    }
   ],
   "dex": "It carries thousands across the city every day and is never on time, except when you are late.",
+  "ref": "Namma Metro and its purple and green lines.",
+  "habitat": [
+   "Evolve Railu (Lv 34)"
+  ],
   "assetKey": "MON_057"
  },
  {
@@ -3521,6 +3841,10 @@
    }
   ],
   "dex": "It sparkles in old mine shafts east of the city. Prospectors once followed it for luck.",
+  "ref": "The Kolar Gold Fields east of the city.",
+  "habitat": [
+   "Nandi Cave"
+  ],
   "assetKey": "MON_058"
  },
  {
@@ -3575,6 +3899,10 @@
    }
   ],
   "dex": "Its body is veined with gold. It guards abandoned mines and hates trespassers.",
+  "ref": "The Kolar Gold Fields east of the city.",
+  "habitat": [
+   "Nandi Cave"
+  ],
   "assetKey": "MON_059"
  },
  {
@@ -3635,6 +3963,11 @@
    }
   ],
   "dex": "It pounces at drumbeats and dances until it tires out.",
+  "ref": "Huli vesha, the tiger dance of Karnataka festivals.",
+  "habitat": [
+   "Palace Road",
+   "Nandi Hills"
+  ],
   "assetKey": "MON_060"
  },
  {
@@ -3692,6 +4025,10 @@
    }
   ],
   "dex": "It leads the tiger dance at festivals. Its stomp shakes the whole street.",
+  "ref": "Huli vesha, the tiger dance of Karnataka festivals.",
+  "habitat": [
+   "Evolve Hulimari (Lv 30)"
+  ],
   "assetKey": "MON_061"
  },
  {
@@ -3753,6 +4090,10 @@
    }
   ],
   "dex": "A lamp that was never blown out. It lights the way for lost children.",
+  "ref": "The clay oil lamps (hanate) of Deepavali.",
+  "habitat": [
+   "Palace Road"
+  ],
   "assetKey": "MON_062"
  },
  {
@@ -3811,6 +4152,10 @@
    }
   ],
   "dex": "On festival nights it gathers every lamp in the city into a single robe of light.",
+  "ref": "The clay oil lamps (hanate) of Deepavali.",
+  "habitat": [
+   "Evolve Hanate (Lv 32)"
+  ],
   "assetKey": "MON_063"
  },
  {
@@ -3818,7 +4163,7 @@
   "name": "Udyanaga",
   "types": [
    "GRASS",
-   "SKY"
+   "MYTH"
   ],
   "baseStats": {
    "hp": 106,
@@ -3837,7 +4182,7 @@
    },
    {
     "level": 1,
-    "moveId": 82
+    "moveId": 161
    },
    {
     "level": 1,
@@ -3849,7 +4194,7 @@
    },
    {
     "level": 45,
-    "moveId": 85
+    "moveId": 163
    },
    {
     "level": 50,
@@ -3857,6 +4202,10 @@
    }
   ],
   "dex": "Guardian of the Garden City. When the city forgets its trees and lakes, it sleeps atop the northern hills.",
+  "ref": "The Garden City itself: Lalbagh, Cubbon Park and the city's lost lakes.",
+  "habitat": [
+   "Nandi Hills summit, after the Syndicate is beaten"
+  ],
   "assetKey": "MON_064"
  },
  {
@@ -3895,6 +4244,5575 @@
    }
   ],
   "dex": "Built by the Concrete Syndicate from cement mixers and cranes. Wherever it walks, grass stops growing.",
+  "ref": "The concrete jungle that keeps eating the Garden City.",
+  "habitat": [
+   "Boss Bhaskar's partner (can't be caught)"
+  ],
   "assetKey": "MON_065"
+ },
+ {
+  "id": 66,
+  "name": "Naayimari",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 37,
+   "atk": 47,
+   "def": 35,
+   "spc": 43,
+   "spd": 58
+  },
+  "catchRate": 200,
+  "baseExp": 55,
+  "evolution": {
+   "level": 18,
+   "speciesId": 67
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 3
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 13,
+    "moveId": 171
+   },
+   {
+    "level": 18,
+    "moveId": 6
+   },
+   {
+    "level": 22,
+    "moveId": 172
+   },
+   {
+    "level": 27,
+    "moveId": 14
+   },
+   {
+    "level": 32,
+    "moveId": 174
+   },
+   {
+    "level": 38,
+    "moveId": 116
+   },
+   {
+    "level": 42,
+    "moveId": 175
+   },
+   {
+    "level": 48,
+    "moveId": 114
+   }
+  ],
+  "dex": "Every street has one. It follows whoever last fed it biscuits, which is everyone.",
+  "ref": "Bengaluru's famous street dogs, fed by every darshini and guarded by every aunty.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Basavanagudi",
+   "MG Road"
+  ],
+  "assetKey": "MON_066"
+ },
+ {
+  "id": 67,
+  "name": "Beedinaayi",
+  "types": [
+   "NORMAL",
+   "ROGUE"
+  ],
+  "baseStats": {
+   "hp": 57,
+   "atk": 73,
+   "def": 53,
+   "spc": 67,
+   "spd": 90
+  },
+  "catchRate": 100,
+  "baseExp": 143,
+  "evolution": {
+   "level": 36,
+   "speciesId": 68
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 3
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 13,
+    "moveId": 171
+   },
+   {
+    "level": 18,
+    "moveId": 6
+   },
+   {
+    "level": 22,
+    "moveId": 172
+   },
+   {
+    "level": 27,
+    "moveId": 14
+   },
+   {
+    "level": 32,
+    "moveId": 174
+   },
+   {
+    "level": 38,
+    "moveId": 116
+   },
+   {
+    "level": 42,
+    "moveId": 175
+   },
+   {
+    "level": 48,
+    "moveId": 114
+   }
+  ],
+  "dex": "It knows every shortcut in the neighbourhood and barks only at strangers on motorbikes.",
+  "ref": "Bengaluru's famous street dogs, fed by every darshini and guarded by every aunty.",
+  "habitat": [
+   "Evolve Naayimari (Lv 18)"
+  ],
+  "assetKey": "MON_067"
+ },
+ {
+  "id": 68,
+  "name": "Kaavalnaayi",
+  "types": [
+   "ROGUE",
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 89,
+   "atk": 122,
+   "def": 90,
+   "spc": 63,
+   "spd": 86
+  },
+  "catchRate": 45,
+  "baseExp": 248,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 3
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 13,
+    "moveId": 171
+   },
+   {
+    "level": 18,
+    "moveId": 6
+   },
+   {
+    "level": 22,
+    "moveId": 172
+   },
+   {
+    "level": 27,
+    "moveId": 14
+   },
+   {
+    "level": 32,
+    "moveId": 174
+   },
+   {
+    "level": 38,
+    "moveId": 116
+   },
+   {
+    "level": 42,
+    "moveId": 175
+   },
+   {
+    "level": 48,
+    "moveId": 114
+   }
+  ],
+  "dex": "The leader of the night pack. Shopkeepers sleep well when it patrols their lane.",
+  "ref": "Bengaluru's famous street dogs, fed by every darshini and guarded by every aunty.",
+  "habitat": [
+   "Evolve Beedinaayi (Lv 36)"
+  ],
+  "assetKey": "MON_068"
+ },
+ {
+  "id": 69,
+  "name": "Gedalu",
+  "types": [
+   "BUG",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 44,
+   "atk": 34,
+   "def": 55,
+   "spc": 30,
+   "spd": 27
+  },
+  "catchRate": 200,
+  "baseExp": 48,
+  "evolution": {
+   "level": 14,
+   "speciesId": 70
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 61
+   },
+   {
+    "level": 5,
+    "moveId": 60
+   },
+   {
+    "level": 9,
+    "moveId": 90
+   },
+   {
+    "level": 14,
+    "moveId": 96
+   },
+   {
+    "level": 17,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 205
+   },
+   {
+    "level": 26,
+    "moveId": 62
+   },
+   {
+    "level": 31,
+    "moveId": 95
+   },
+   {
+    "level": 36,
+    "moveId": 63
+   },
+   {
+    "level": 42,
+    "moveId": 64
+   }
+  ],
+  "dex": "It chews dry wood and spits out red mud. Empty plots fill with its tiny towers overnight.",
+  "ref": "The red-earth termite mounds (huttu) of the city's empty plots, sacred in naga lore.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Cubbon Park"
+  ],
+  "assetKey": "MON_069"
+ },
+ {
+  "id": 70,
+  "name": "Huttuhula",
+  "types": [
+   "BUG",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 73,
+   "atk": 58,
+   "def": 93,
+   "spc": 51,
+   "spd": 45
+  },
+  "catchRate": 100,
+  "baseExp": 134,
+  "evolution": {
+   "level": 32,
+   "speciesId": 71
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 61
+   },
+   {
+    "level": 5,
+    "moveId": 60
+   },
+   {
+    "level": 9,
+    "moveId": 90
+   },
+   {
+    "level": 14,
+    "moveId": 96
+   },
+   {
+    "level": 17,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 205
+   },
+   {
+    "level": 26,
+    "moveId": 62
+   },
+   {
+    "level": 31,
+    "moveId": 95
+   },
+   {
+    "level": 36,
+    "moveId": 63
+   },
+   {
+    "level": 42,
+    "moveId": 64
+   }
+  ],
+  "dex": "It lives inside a mound of hardened red clay and wears part of it as armour.",
+  "ref": "The red-earth termite mounds (huttu) of the city's empty plots, sacred in naga lore.",
+  "habitat": [
+   "Evolve Gedalu (Lv 14)"
+  ],
+  "assetKey": "MON_070"
+ },
+ {
+  "id": 71,
+  "name": "Huttappa",
+  "types": [
+   "EARTH",
+   "BUG"
+  ],
+  "baseStats": {
+   "hp": 101,
+   "atk": 79,
+   "def": 128,
+   "spc": 70,
+   "spd": 62
+  },
+  "catchRate": 45,
+  "baseExp": 242,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 61
+   },
+   {
+    "level": 5,
+    "moveId": 60
+   },
+   {
+    "level": 9,
+    "moveId": 90
+   },
+   {
+    "level": 14,
+    "moveId": 96
+   },
+   {
+    "level": 17,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 205
+   },
+   {
+    "level": 26,
+    "moveId": 62
+   },
+   {
+    "level": 31,
+    "moveId": 95
+   },
+   {
+    "level": 36,
+    "moveId": 63
+   },
+   {
+    "level": 42,
+    "moveId": 64
+   }
+  ],
+  "dex": "A walking termite mound as tall as a house. Its chimneys hum when it is about to charge.",
+  "ref": "The red-earth termite mounds (huttu) of the city's empty plots, sacred in naga lore.",
+  "habitat": [
+   "Evolve Huttuhula (Lv 32)"
+  ],
+  "assetKey": "MON_071"
+ },
+ {
+  "id": 72,
+  "name": "Kadale",
+  "types": [
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 46,
+   "atk": 46,
+   "def": 46,
+   "spc": 46,
+   "spd": 46
+  },
+  "catchRate": 200,
+  "baseExp": 58,
+  "evolution": {
+   "level": 20,
+   "speciesId": 73
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 5,
+    "moveId": 40
+   },
+   {
+    "level": 9,
+    "moveId": 60
+   },
+   {
+    "level": 13,
+    "moveId": 42
+   },
+   {
+    "level": 17,
+    "moveId": 205
+   },
+   {
+    "level": 20,
+    "moveId": 62
+   },
+   {
+    "level": 24,
+    "moveId": 41
+   },
+   {
+    "level": 29,
+    "moveId": 45
+   },
+   {
+    "level": 34,
+    "moveId": 63
+   },
+   {
+    "level": 44,
+    "moveId": 64
+   }
+  ],
+  "dex": "It buries itself in sandy soil and pops up when someone shells peanuts nearby.",
+  "ref": "Basavanagudi's Kadalekai Parishe, the groundnut fair right next to the home town.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Basavanagudi"
+  ],
+  "assetKey": "MON_072"
+ },
+ {
+  "id": 73,
+  "name": "Kadalekaayi",
+  "types": [
+   "GRASS",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 92,
+   "atk": 72,
+   "def": 116,
+   "spc": 64,
+   "spd": 56
+  },
+  "catchRate": 45,
+  "baseExp": 220,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 5,
+    "moveId": 40
+   },
+   {
+    "level": 9,
+    "moveId": 60
+   },
+   {
+    "level": 13,
+    "moveId": 42
+   },
+   {
+    "level": 17,
+    "moveId": 205
+   },
+   {
+    "level": 20,
+    "moveId": 62
+   },
+   {
+    "level": 24,
+    "moveId": 41
+   },
+   {
+    "level": 29,
+    "moveId": 45
+   },
+   {
+    "level": 34,
+    "moveId": 63
+   },
+   {
+    "level": 44,
+    "moveId": 64
+   }
+  ],
+  "dex": "At the groundnut fair it is guest of honour. Its roots grow pods it shares with kids.",
+  "ref": "Basavanagudi's Kadalekai Parishe, the groundnut fair right next to the home town.",
+  "habitat": [
+   "Evolve Kadale (Lv 20)"
+  ],
+  "assetKey": "MON_073"
+ },
+ {
+  "id": 74,
+  "name": "Idlimari",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 66,
+   "atk": 51,
+   "def": 51,
+   "spc": 37,
+   "spd": 25
+  },
+  "catchRate": 200,
+  "baseExp": 58,
+  "evolution": {
+   "level": 24,
+   "speciesId": 75
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 181
+   },
+   {
+    "level": 11,
+    "moveId": 180
+   },
+   {
+    "level": 15,
+    "moveId": 197
+   },
+   {
+    "level": 19,
+    "moveId": 6
+   },
+   {
+    "level": 24,
+    "moveId": 182
+   },
+   {
+    "level": 29,
+    "moveId": 7
+   },
+   {
+    "level": 34,
+    "moveId": 184
+   },
+   {
+    "level": 40,
+    "moveId": 10
+   },
+   {
+    "level": 46,
+    "moveId": 185
+   }
+  ],
+  "dex": "Soft and warm, it bounces when happy. Darshini cooks swear it once escaped the steamer.",
+  "ref": "Breakfast at every darshini.",
+  "habitat": [
+   "Lalbagh"
+  ],
+  "assetKey": "MON_074"
+ },
+ {
+  "id": 75,
+  "name": "Thatteidli",
+  "types": [
+   "NORMAL",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 116,
+   "atk": 88,
+   "def": 88,
+   "spc": 64,
+   "spd": 44
+  },
+  "catchRate": 45,
+  "baseExp": 220,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 181
+   },
+   {
+    "level": 11,
+    "moveId": 180
+   },
+   {
+    "level": 15,
+    "moveId": 197
+   },
+   {
+    "level": 19,
+    "moveId": 6
+   },
+   {
+    "level": 24,
+    "moveId": 182
+   },
+   {
+    "level": 29,
+    "moveId": 7
+   },
+   {
+    "level": 34,
+    "moveId": 184
+   },
+   {
+    "level": 40,
+    "moveId": 10
+   },
+   {
+    "level": 46,
+    "moveId": 185
+   }
+  ],
+  "dex": "A stack of idlis on a steel plate. Wherever it rests, people feel like it's breakfast time.",
+  "ref": "Breakfast at every darshini.",
+  "habitat": [
+   "Evolve Idlimari (Lv 24)"
+  ],
+  "assetKey": "MON_075"
+ },
+ {
+  "id": 76,
+  "name": "Halli",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 37,
+   "atk": 47,
+   "def": 35,
+   "spc": 43,
+   "spd": 58
+  },
+  "catchRate": 200,
+  "baseExp": 55,
+  "evolution": {
+   "level": 24,
+   "speciesId": 77
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 5,
+    "moveId": 5
+   },
+   {
+    "level": 10,
+    "moveId": 120
+   },
+   {
+    "level": 15,
+    "moveId": 12
+   },
+   {
+    "level": 20,
+    "moveId": 124
+   },
+   {
+    "level": 24,
+    "moveId": 121
+   },
+   {
+    "level": 30,
+    "moveId": 125
+   },
+   {
+    "level": 36,
+    "moveId": 122
+   },
+   {
+    "level": 42,
+    "moveId": 123
+   }
+  ],
+  "dex": "It clings to the wall above the tube light. Grandmothers listen when it chirps.",
+  "ref": "Halli shastra: a lizard chirping or falling on you is read as an omen.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Basavanagudi",
+   "Lalbagh",
+   "Malleshwaram"
+  ],
+  "assetKey": "MON_076"
+ },
+ {
+  "id": 77,
+  "name": "Hallishastri",
+  "types": [
+   "NORMAL",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 72,
+   "atk": 56,
+   "def": 72,
+   "spc": 116,
+   "spd": 84
+  },
+  "catchRate": 45,
+  "baseExp": 220,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 5,
+    "moveId": 5
+   },
+   {
+    "level": 10,
+    "moveId": 120
+   },
+   {
+    "level": 15,
+    "moveId": 12
+   },
+   {
+    "level": 20,
+    "moveId": 124
+   },
+   {
+    "level": 24,
+    "moveId": 121
+   },
+   {
+    "level": 30,
+    "moveId": 125
+   },
+   {
+    "level": 36,
+    "moveId": 122
+   },
+   {
+    "level": 42,
+    "moveId": 123
+   }
+  ],
+  "dex": "It reads the future in the chirps of other lizards and is right just often enough.",
+  "ref": "Halli shastra: a lizard chirping or falling on you is read as an omen.",
+  "habitat": [
+   "Evolve Halli (Lv 24)"
+  ],
+  "assetKey": "MON_077"
+ },
+ {
+  "id": 78,
+  "name": "Kulfimari",
+  "types": [
+   "FROST",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 46,
+   "atk": 35,
+   "def": 45,
+   "spc": 72,
+   "spd": 52
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 79
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 150
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 7,
+    "moveId": 180
+   },
+   {
+    "level": 12,
+    "moveId": 151
+   },
+   {
+    "level": 17,
+    "moveId": 152
+   },
+   {
+    "level": 22,
+    "moveId": 183
+   },
+   {
+    "level": 28,
+    "moveId": 157
+   },
+   {
+    "level": 34,
+    "moveId": 154
+   },
+   {
+    "level": 40,
+    "moveId": 185
+   },
+   {
+    "level": 46,
+    "moveId": 156
+   }
+  ],
+  "dex": "It lives in the clay pot of the kulfi cart and only comes out on the hottest afternoons.",
+  "ref": "Ice-cream carts, Corner House and the Gadbad sundae.",
+  "habitat": [
+   "Lalbagh",
+   "MG Road"
+  ],
+  "assetKey": "MON_078"
+ },
+ {
+  "id": 79,
+  "name": "Gadbadu",
+  "types": [
+   "FROST",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 59,
+   "def": 76,
+   "spc": 122,
+   "spd": 88
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 150
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 7,
+    "moveId": 180
+   },
+   {
+    "level": 12,
+    "moveId": 151
+   },
+   {
+    "level": 17,
+    "moveId": 152
+   },
+   {
+    "level": 22,
+    "moveId": 183
+   },
+   {
+    "level": 28,
+    "moveId": 157
+   },
+   {
+    "level": 34,
+    "moveId": 154
+   },
+   {
+    "level": 40,
+    "moveId": 185
+   },
+   {
+    "level": 46,
+    "moveId": 156
+   }
+  ],
+  "dex": "A towering sundae of every flavour. Children follow it in parades all summer.",
+  "ref": "Ice-cream carts, Corner House and the Gadbad sundae.",
+  "habitat": [
+   "Evolve Kulfimari (Lv 30)"
+  ],
+  "assetKey": "MON_079"
+ },
+ {
+  "id": 80,
+  "name": "Bennedose",
+  "types": [
+   "FIRE",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 72,
+   "atk": 63,
+   "def": 67,
+   "spc": 109,
+   "spd": 109
+  },
+  "catchRate": 75,
+  "baseExp": 210,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 81
+   },
+   {
+    "level": 10,
+    "moveId": 82
+   },
+   {
+    "level": 18,
+    "moveId": 199
+   },
+   {
+    "level": 25,
+    "moveId": 21
+   },
+   {
+    "level": 32,
+    "moveId": 83
+   },
+   {
+    "level": 38,
+    "moveId": 23
+   },
+   {
+    "level": 44,
+    "moveId": 85
+   }
+  ],
+  "dex": "A golden butter dosa that flies like a carpet and leaves a trail of ghee sparks.",
+  "ref": "Benne dose from Davangere; the dosa institutions around Lalbagh.",
+  "habitat": [
+   "Lalbagh"
+  ],
+  "assetKey": "MON_080"
+ },
+ {
+  "id": 81,
+  "name": "Taavaremari",
+  "types": [
+   "WATER",
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 43,
+   "atk": 34,
+   "def": 43,
+   "spc": 70,
+   "spd": 50
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 26,
+   "speciesId": 82
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 30
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 40
+   },
+   {
+    "level": 11,
+    "moveId": 31
+   },
+   {
+    "level": 16,
+    "moveId": 42
+   },
+   {
+    "level": 21,
+    "moveId": 32
+   },
+   {
+    "level": 26,
+    "moveId": 41
+   },
+   {
+    "level": 31,
+    "moveId": 36
+   },
+   {
+    "level": 36,
+    "moveId": 34
+   },
+   {
+    "level": 42,
+    "moveId": 44
+   },
+   {
+    "level": 48,
+    "moveId": 35
+   }
+  ],
+  "dex": "A lotus bud riding a lily pad. It drifts to the warmest corner of the lake to bloom.",
+  "ref": "Lotuses in Lalbagh lake and the old temple tanks.",
+  "habitat": [
+   "Lalbagh (fishing)",
+   "Route 5 - Sankey Tank",
+   "Route 5 - Sankey Tank (fishing)",
+   "Route 7 - Hebbal (fishing)"
+  ],
+  "assetKey": "MON_081"
+ },
+ {
+  "id": 82,
+  "name": "Taavare",
+  "types": [
+   "WATER",
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 59,
+   "def": 76,
+   "spc": 122,
+   "spd": 88
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 30
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 40
+   },
+   {
+    "level": 11,
+    "moveId": 31
+   },
+   {
+    "level": 16,
+    "moveId": 42
+   },
+   {
+    "level": 21,
+    "moveId": 32
+   },
+   {
+    "level": 26,
+    "moveId": 41
+   },
+   {
+    "level": 31,
+    "moveId": 36
+   },
+   {
+    "level": 36,
+    "moveId": 34
+   },
+   {
+    "level": 42,
+    "moveId": 44
+   },
+   {
+    "level": 48,
+    "moveId": 35
+   }
+  ],
+  "dex": "When it opens its petals at dawn, the whole lake goes still to watch.",
+  "ref": "Lotuses in Lalbagh lake and the old temple tanks.",
+  "habitat": [
+   "Evolve Taavaremari (Lv 26)"
+  ],
+  "assetKey": "MON_082"
+ },
+ {
+  "id": 83,
+  "name": "Istri",
+  "types": [
+   "FIRE",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 47,
+   "def": 75,
+   "spc": 42,
+   "spd": 36
+  },
+  "catchRate": 200,
+  "baseExp": 65,
+  "evolution": {
+   "level": 30,
+   "speciesId": 84
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 141
+   },
+   {
+    "level": 7,
+    "moveId": 140
+   },
+   {
+    "level": 12,
+    "moveId": 21
+   },
+   {
+    "level": 18,
+    "moveId": 201
+   },
+   {
+    "level": 24,
+    "moveId": 142
+   },
+   {
+    "level": 30,
+    "moveId": 23
+   },
+   {
+    "level": 36,
+    "moveId": 143
+   },
+   {
+    "level": 42,
+    "moveId": 26
+   }
+  ],
+  "dex": "A heavy charcoal iron box. It presses any cloth flat, whether you want it to or not.",
+  "ref": "The istri-wala's pushcart on every residential street.",
+  "habitat": [
+   "Basavanagudi",
+   "Malleshwaram"
+  ],
+  "assetKey": "MON_083"
+ },
+ {
+  "id": 84,
+  "name": "Istriraaja",
+  "types": [
+   "FIRE",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 99,
+   "atk": 77,
+   "def": 125,
+   "spc": 69,
+   "spd": 60
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 141
+   },
+   {
+    "level": 7,
+    "moveId": 140
+   },
+   {
+    "level": 12,
+    "moveId": 21
+   },
+   {
+    "level": 18,
+    "moveId": 201
+   },
+   {
+    "level": 24,
+    "moveId": 142
+   },
+   {
+    "level": 30,
+    "moveId": 23
+   },
+   {
+    "level": 36,
+    "moveId": 143
+   },
+   {
+    "level": 42,
+    "moveId": 26
+   }
+  ],
+  "dex": "It rules the ironing cart at the street corner, coals blazing, every shirt perfectly pressed.",
+  "ref": "The istri-wala's pushcart on every residential street.",
+  "habitat": [
+   "Evolve Istri (Lv 30)"
+  ],
+  "assetKey": "MON_084"
+ },
+ {
+  "id": 85,
+  "name": "Jenuhula",
+  "types": [
+   "BUG"
+  ],
+  "baseStats": {
+   "hp": 37,
+   "atk": 47,
+   "def": 35,
+   "spc": 43,
+   "spd": 58
+  },
+  "catchRate": 200,
+  "baseExp": 55,
+  "evolution": {
+   "level": 22,
+   "speciesId": 86
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 90
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 92
+   },
+   {
+    "level": 16,
+    "moveId": 183
+   },
+   {
+    "level": 22,
+    "moveId": 181
+   },
+   {
+    "level": 26,
+    "moveId": 94
+   },
+   {
+    "level": 32,
+    "moveId": 182
+   },
+   {
+    "level": 38,
+    "moveId": 185
+   },
+   {
+    "level": 44,
+    "moveId": 95
+   }
+  ],
+  "dex": "Rock bees build hives the size of doors under the ledges of the Assembly building.",
+  "ref": "The huge rock-bee hives hanging from Vidhana Soudha and the Cubbon Park trees.",
+  "habitat": [
+   "Cubbon Park"
+  ],
+  "assetKey": "MON_085"
+ },
+ {
+  "id": 86,
+  "name": "Jenuraani",
+  "types": [
+   "BUG",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 59,
+   "def": 76,
+   "spc": 122,
+   "spd": 88
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 90
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 92
+   },
+   {
+    "level": 16,
+    "moveId": 183
+   },
+   {
+    "level": 22,
+    "moveId": 181
+   },
+   {
+    "level": 26,
+    "moveId": 94
+   },
+   {
+    "level": 32,
+    "moveId": 182
+   },
+   {
+    "level": 38,
+    "moveId": 185
+   },
+   {
+    "level": 44,
+    "moveId": 95
+   }
+  ],
+  "dex": "The queen of a hive of thousands. Her honey is said to cure sore throats and bad moods.",
+  "ref": "The huge rock-bee hives hanging from Vidhana Soudha and the Cubbon Park trees.",
+  "habitat": [
+   "Evolve Jenuhula (Lv 22)"
+  ],
+  "assetKey": "MON_086"
+ },
+ {
+  "id": 87,
+  "name": "Minchuhula",
+  "types": [
+   "BUG",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 39,
+   "atk": 34,
+   "def": 37,
+   "spc": 60,
+   "spd": 60
+  },
+  "catchRate": 200,
+  "baseExp": 58,
+  "evolution": {
+   "level": 24,
+   "speciesId": 88
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 92
+   },
+   {
+    "level": 16,
+    "moveId": 55
+   },
+   {
+    "level": 21,
+    "moveId": 52
+   },
+   {
+    "level": 26,
+    "moveId": 94
+   },
+   {
+    "level": 32,
+    "moveId": 53
+   },
+   {
+    "level": 39,
+    "moveId": 54
+   }
+  ],
+  "dex": "Its tail blinks in patterns. Researchers think it is gossiping with other fireflies.",
+  "ref": "Fireflies along the city's last dark lake edges.",
+  "habitat": [
+   "Cubbon Park",
+   "Route 5 - Sankey Tank"
+  ],
+  "assetKey": "MON_087"
+ },
+ {
+  "id": 88,
+  "name": "Minchurani",
+  "types": [
+   "BUG",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 68,
+   "atk": 62,
+   "def": 66,
+   "spc": 107,
+   "spd": 107
+  },
+  "catchRate": 45,
+  "baseExp": 226,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 92
+   },
+   {
+    "level": 16,
+    "moveId": 55
+   },
+   {
+    "level": 21,
+    "moveId": 52
+   },
+   {
+    "level": 26,
+    "moveId": 94
+   },
+   {
+    "level": 32,
+    "moveId": 53
+   },
+   {
+    "level": 39,
+    "moveId": 54
+   }
+  ],
+  "dex": "On dark nights hundreds gather around it and the lake shore lights up like a festival.",
+  "ref": "Fireflies along the city's last dark lake edges.",
+  "habitat": [
+   "Evolve Minchuhula (Lv 24)"
+  ],
+  "assetKey": "MON_088"
+ },
+ {
+  "id": 89,
+  "name": "Mungusi",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 42,
+   "atk": 54,
+   "def": 39,
+   "spc": 49,
+   "spd": 66
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 90
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 116
+   },
+   {
+    "level": 21,
+    "moveId": 12
+   },
+   {
+    "level": 26,
+    "moveId": 113
+   },
+   {
+    "level": 31,
+    "moveId": 115
+   },
+   {
+    "level": 37,
+    "moveId": 112
+   },
+   {
+    "level": 44,
+    "moveId": 114
+   }
+  ],
+  "dex": "Quick and fearless. It boxes snakes for practice and usually wins.",
+  "ref": "Mongooses in the scrub around the city, fearless against snakes.",
+  "habitat": [
+   "Route 1 - South End Road",
+   "Cubbon Park"
+  ],
+  "assetKey": "MON_089"
+ },
+ {
+  "id": 90,
+  "name": "Mungusiveera",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 72,
+   "atk": 93,
+   "def": 67,
+   "spc": 84,
+   "spd": 114
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 116
+   },
+   {
+    "level": 21,
+    "moveId": 12
+   },
+   {
+    "level": 26,
+    "moveId": 113
+   },
+   {
+    "level": 31,
+    "moveId": 115
+   },
+   {
+    "level": 37,
+    "moveId": 112
+   },
+   {
+    "level": 44,
+    "moveId": 114
+   }
+  ],
+  "dex": "A scarred champion. The cobras of the scrubland give it a very wide berth.",
+  "ref": "Mongooses in the scrub around the city, fearless against snakes.",
+  "habitat": [
+   "Evolve Mungusi (Lv 30)"
+  ],
+  "assetKey": "MON_090"
+ },
+ {
+  "id": 91,
+  "name": "Baavali",
+  "types": [
+   "ROGUE",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 38,
+   "atk": 50,
+   "def": 36,
+   "spc": 45,
+   "spd": 61
+  },
+  "catchRate": 200,
+  "baseExp": 58,
+  "evolution": {
+   "level": 26,
+   "speciesId": 92
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 170
+   },
+   {
+    "level": 1,
+    "moveId": 81
+   },
+   {
+    "level": 6,
+    "moveId": 93
+   },
+   {
+    "level": 11,
+    "moveId": 171
+   },
+   {
+    "level": 16,
+    "moveId": 82
+   },
+   {
+    "level": 21,
+    "moveId": 177
+   },
+   {
+    "level": 26,
+    "moveId": 172
+   },
+   {
+    "level": 32,
+    "moveId": 173
+   },
+   {
+    "level": 38,
+    "moveId": 83
+   },
+   {
+    "level": 44,
+    "moveId": 175
+   }
+  ],
+  "dex": "It hangs upside down in the park's old trees all day and raids mango trees all night.",
+  "ref": "The flying-fox colony roosting in Cubbon Park's old trees.",
+  "habitat": [
+   "Cubbon Park",
+   "Palace Road",
+   "Nandi Cave"
+  ],
+  "assetKey": "MON_091"
+ },
+ {
+  "id": 92,
+  "name": "Baavalasura",
+  "types": [
+   "ROGUE",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 64,
+   "atk": 101,
+   "def": 57,
+   "spc": 93,
+   "spd": 105
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 170
+   },
+   {
+    "level": 1,
+    "moveId": 81
+   },
+   {
+    "level": 6,
+    "moveId": 93
+   },
+   {
+    "level": 11,
+    "moveId": 171
+   },
+   {
+    "level": 16,
+    "moveId": 82
+   },
+   {
+    "level": 21,
+    "moveId": 177
+   },
+   {
+    "level": 26,
+    "moveId": 172
+   },
+   {
+    "level": 32,
+    "moveId": 173
+   },
+   {
+    "level": 38,
+    "moveId": 83
+   },
+   {
+    "level": 44,
+    "moveId": 175
+   }
+  ],
+  "dex": "Its wings blot out the street lamps. Gardeners blame it for every missing fruit.",
+  "ref": "The flying-fox colony roosting in Cubbon Park's old trees.",
+  "habitat": [
+   "Evolve Baavali (Lv 26)"
+  ],
+  "assetKey": "MON_092"
+ },
+ {
+  "id": 93,
+  "name": "Pataaki",
+  "types": [
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 34,
+   "atk": 50,
+   "def": 28,
+   "spc": 46,
+   "spd": 52
+  },
+  "catchRate": 200,
+  "baseExp": 52,
+  "evolution": {
+   "level": 16,
+   "speciesId": 94
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 200
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 21
+   },
+   {
+    "level": 22,
+    "moveId": 25
+   },
+   {
+    "level": 28,
+    "moveId": 23
+   },
+   {
+    "level": 34,
+    "moveId": 9
+   },
+   {
+    "level": 40,
+    "moveId": 83
+   },
+   {
+    "level": 50,
+    "moveId": 24
+   }
+  ],
+  "dex": "A strip of tiny crackers. It giggles, sparks and pops when anyone steps on it.",
+  "ref": "Deepavali nights, when every street sounds like a battlefield.",
+  "habitat": [
+   "MG Road"
+  ],
+  "assetKey": "MON_093"
+ },
+ {
+  "id": 94,
+  "name": "Sutli",
+  "types": [
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 52,
+   "atk": 79,
+   "def": 44,
+   "spc": 73,
+   "spd": 82
+  },
+  "catchRate": 100,
+  "baseExp": 139,
+  "evolution": {
+   "level": 34,
+   "speciesId": 95
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 200
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 21
+   },
+   {
+    "level": 22,
+    "moveId": 25
+   },
+   {
+    "level": 28,
+    "moveId": 23
+   },
+   {
+    "level": 34,
+    "moveId": 9
+   },
+   {
+    "level": 40,
+    "moveId": 83
+   },
+   {
+    "level": 50,
+    "moveId": 24
+   }
+  ],
+  "dex": "Wrapped tight in jute string. Its bang can be heard three neighbourhoods away.",
+  "ref": "Deepavali nights, when every street sounds like a battlefield.",
+  "habitat": [
+   "Malleshwaram"
+  ],
+  "assetKey": "MON_094"
+ },
+ {
+  "id": 95,
+  "name": "Rocketaaki",
+  "types": [
+   "FIRE",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 69,
+   "atk": 108,
+   "def": 61,
+   "spc": 100,
+   "spd": 112
+  },
+  "catchRate": 45,
+  "baseExp": 248,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 200
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 21
+   },
+   {
+    "level": 22,
+    "moveId": 25
+   },
+   {
+    "level": 28,
+    "moveId": 23
+   },
+   {
+    "level": 34,
+    "moveId": 9
+   },
+   {
+    "level": 40,
+    "moveId": 83
+   },
+   {
+    "level": 50,
+    "moveId": 24
+   }
+  ],
+  "dex": "It launches into the night sky and bursts into colours before landing gracefully again.",
+  "ref": "Deepavali nights, when every street sounds like a battlefield.",
+  "habitat": [
+   "Evolve Sutli (Lv 34)"
+  ],
+  "assetKey": "MON_095"
+ },
+ {
+  "id": 96,
+  "name": "Gundi",
+  "types": [
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 58,
+   "atk": 45,
+   "def": 72,
+   "spc": 40,
+   "spd": 35
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 97
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 60
+   },
+   {
+    "level": 1,
+    "moveId": 61
+   },
+   {
+    "level": 7,
+    "moveId": 1
+   },
+   {
+    "level": 12,
+    "moveId": 205
+   },
+   {
+    "level": 18,
+    "moveId": 63
+   },
+   {
+    "level": 24,
+    "moveId": 62
+   },
+   {
+    "level": 30,
+    "moveId": 171
+   },
+   {
+    "level": 34,
+    "moveId": 172
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 175
+   }
+  ],
+  "dex": "A pothole that wanders. It fills with rainwater and waits for someone's scooter.",
+  "ref": "Bengaluru potholes, a civic institution.",
+  "habitat": [
+   "MG Road",
+   "Route 3 - Silk Board Junction"
+  ],
+  "assetKey": "MON_096"
+ },
+ {
+  "id": 97,
+  "name": "Mahagundi",
+  "types": [
+   "EARTH",
+   "ROGUE"
+  ],
+  "baseStats": {
+   "hp": 123,
+   "atk": 92,
+   "def": 92,
+   "spc": 67,
+   "spd": 46
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 60
+   },
+   {
+    "level": 1,
+    "moveId": 61
+   },
+   {
+    "level": 7,
+    "moveId": 1
+   },
+   {
+    "level": 12,
+    "moveId": 205
+   },
+   {
+    "level": 18,
+    "moveId": 63
+   },
+   {
+    "level": 24,
+    "moveId": 62
+   },
+   {
+    "level": 30,
+    "moveId": 171
+   },
+   {
+    "level": 34,
+    "moveId": 172
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 175
+   }
+  ],
+  "dex": "So deep it has its own echo. Road crews fill it every year, and every year it comes back.",
+  "ref": "Bengaluru potholes, a civic institution.",
+  "habitat": [
+   "Evolve Gundi (Lv 30)"
+  ],
+  "assetKey": "MON_097"
+ },
+ {
+  "id": 98,
+  "name": "Heggana",
+  "types": [
+   "ROGUE"
+  ],
+  "baseStats": {
+   "hp": 42,
+   "atk": 54,
+   "def": 39,
+   "spc": 49,
+   "spd": 66
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 28,
+   "speciesId": 99
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 170
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 171
+   },
+   {
+    "level": 16,
+    "moveId": 12
+   },
+   {
+    "level": 21,
+    "moveId": 100
+   },
+   {
+    "level": 26,
+    "moveId": 172
+   },
+   {
+    "level": 31,
+    "moveId": 105
+   },
+   {
+    "level": 36,
+    "moveId": 174
+   },
+   {
+    "level": 42,
+    "moveId": 106
+   }
+  ],
+  "dex": "A bandicoot of the storm drains. It is bigger than a cat and braver than a dog.",
+  "ref": "The giant bandicoots of the city's storm drains.",
+  "habitat": [
+   "MG Road",
+   "Route 3 - Silk Board Junction",
+   "Whitefield"
+  ],
+  "assetKey": "MON_098"
+ },
+ {
+  "id": 99,
+  "name": "Hegganasura",
+  "types": [
+   "ROGUE",
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 84,
+   "atk": 113,
+   "def": 84,
+   "spc": 59,
+   "spd": 80
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 170
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 171
+   },
+   {
+    "level": 16,
+    "moveId": 12
+   },
+   {
+    "level": 21,
+    "moveId": 100
+   },
+   {
+    "level": 26,
+    "moveId": 172
+   },
+   {
+    "level": 31,
+    "moveId": 105
+   },
+   {
+    "level": 36,
+    "moveId": 174
+   },
+   {
+    "level": 42,
+    "moveId": 106
+   }
+  ],
+  "dex": "The king of the drains. It comes up when it rains and drags away anything left outside.",
+  "ref": "The giant bandicoots of the city's storm drains.",
+  "habitat": [
+   "Evolve Heggana (Lv 28)"
+  ],
+  "assetKey": "MON_099"
+ },
+ {
+  "id": 100,
+  "name": "Signalu",
+  "types": [
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 43,
+   "atk": 34,
+   "def": 43,
+   "spc": 70,
+   "spd": 50
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 28,
+   "speciesId": 101
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 196
+   },
+   {
+    "level": 11,
+    "moveId": 55
+   },
+   {
+    "level": 16,
+    "moveId": 52
+   },
+   {
+    "level": 22,
+    "moveId": 51
+   },
+   {
+    "level": 28,
+    "moveId": 7
+   },
+   {
+    "level": 34,
+    "moveId": 53
+   },
+   {
+    "level": 40,
+    "moveId": 8
+   },
+   {
+    "level": 46,
+    "moveId": 54
+   }
+  ],
+  "dex": "A traffic signal that wandered off. It turns red whenever you are in a hurry.",
+  "ref": "Silk Board junction, where signals last long enough to evolve.",
+  "habitat": [
+   "MG Road",
+   "Route 3 - Silk Board Junction"
+  ],
+  "assetKey": "MON_100"
+ },
+ {
+  "id": 101,
+  "name": "Signalappa",
+  "types": [
+   "ELECTRIC",
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 59,
+   "def": 76,
+   "spc": 122,
+   "spd": 88
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 196
+   },
+   {
+    "level": 11,
+    "moveId": 55
+   },
+   {
+    "level": 16,
+    "moveId": 52
+   },
+   {
+    "level": 22,
+    "moveId": 51
+   },
+   {
+    "level": 28,
+    "moveId": 7
+   },
+   {
+    "level": 34,
+    "moveId": 53
+   },
+   {
+    "level": 40,
+    "moveId": 8
+   },
+   {
+    "level": 46,
+    "moveId": 54
+   }
+  ],
+  "dex": "It runs an entire junction. Its red light lasts long enough for drivers to finish a phone call.",
+  "ref": "Silk Board junction, where signals last long enough to evolve.",
+  "habitat": [
+   "Evolve Signalu (Lv 28)"
+  ],
+  "assetKey": "MON_101"
+ },
+ {
+  "id": 102,
+  "name": "Kasa",
+  "types": [
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 70,
+   "atk": 53,
+   "def": 53,
+   "spc": 38,
+   "spd": 26
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 30,
+   "speciesId": 103
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 7,
+    "moveId": 100
+   },
+   {
+    "level": 12,
+    "moveId": 104
+   },
+   {
+    "level": 18,
+    "moveId": 102
+   },
+   {
+    "level": 24,
+    "moveId": 171
+   },
+   {
+    "level": 30,
+    "moveId": 103
+   },
+   {
+    "level": 36,
+    "moveId": 174
+   },
+   {
+    "level": 42,
+    "moveId": 106
+   }
+  ],
+  "dex": "A heap of unsorted rubbish that walks. It grows every time someone skips segregation day.",
+  "ref": "The city's garbage crisis and the dream of segregated waste.",
+  "habitat": [
+   "Route 3 - Silk Board Junction",
+   "Whitefield",
+   "Bellandur Lake"
+  ],
+  "assetKey": "MON_102"
+ },
+ {
+  "id": 103,
+  "name": "Kasaraashi",
+  "types": [
+   "TOXIC",
+   "ROGUE"
+  ],
+  "baseStats": {
+   "hp": 123,
+   "atk": 92,
+   "def": 92,
+   "spc": 67,
+   "spd": 46
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 7,
+    "moveId": 100
+   },
+   {
+    "level": 12,
+    "moveId": 104
+   },
+   {
+    "level": 18,
+    "moveId": 102
+   },
+   {
+    "level": 24,
+    "moveId": 171
+   },
+   {
+    "level": 30,
+    "moveId": 103
+   },
+   {
+    "level": 36,
+    "moveId": 174
+   },
+   {
+    "level": 42,
+    "moveId": 106
+   }
+  ],
+  "dex": "It hides in empty plots and grabs passing garbage trucks to make itself bigger.",
+  "ref": "The city's garbage crisis and the dream of segregated waste.",
+  "habitat": [
+   "Evolve Kasa (Lv 30)"
+  ],
+  "assetKey": "MON_103"
+ },
+ {
+  "id": 104,
+  "name": "Thandi",
+  "types": [
+   "FROST",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 47,
+   "atk": 36,
+   "def": 47,
+   "spc": 75,
+   "spd": 55
+  },
+  "catchRate": 200,
+  "baseExp": 65,
+  "evolution": {
+   "level": 30,
+   "speciesId": 105
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 150
+   },
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 7,
+    "moveId": 151
+   },
+   {
+    "level": 12,
+    "moveId": 55
+   },
+   {
+    "level": 17,
+    "moveId": 152
+   },
+   {
+    "level": 22,
+    "moveId": 52
+   },
+   {
+    "level": 28,
+    "moveId": 157
+   },
+   {
+    "level": 34,
+    "moveId": 154
+   },
+   {
+    "level": 40,
+    "moveId": 53
+   },
+   {
+    "level": 46,
+    "moveId": 156
+   }
+  ],
+  "dex": "A runaway air conditioner. It blasts cold air at anyone who complains about the heat.",
+  "ref": "Whitefield tech parks kept at 18°C while it's 34°C outside.",
+  "habitat": [
+   "Whitefield"
+  ],
+  "assetKey": "MON_104"
+ },
+ {
+  "id": 105,
+  "name": "Thandasura",
+  "types": [
+   "FROST",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 60,
+   "def": 77,
+   "spc": 125,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 150
+   },
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 7,
+    "moveId": 151
+   },
+   {
+    "level": 12,
+    "moveId": 55
+   },
+   {
+    "level": 17,
+    "moveId": 152
+   },
+   {
+    "level": 22,
+    "moveId": 52
+   },
+   {
+    "level": 28,
+    "moveId": 157
+   },
+   {
+    "level": 34,
+    "moveId": 154
+   },
+   {
+    "level": 40,
+    "moveId": 53
+   },
+   {
+    "level": 46,
+    "moveId": 156
+   }
+  ],
+  "dex": "It lives on tech-park rooftops and keeps whole buildings at 18 degrees.",
+  "ref": "Whitefield tech parks kept at 18°C while it's 34°C outside.",
+  "habitat": [
+   "Evolve Thandi (Lv 30)"
+  ],
+  "assetKey": "MON_105"
+ },
+ {
+  "id": 106,
+  "name": "Midathe",
+  "types": [
+   "BUG",
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 47,
+   "atk": 65,
+   "def": 48,
+   "spc": 34,
+   "spd": 46
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 28,
+   "speciesId": 107
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 110
+   },
+   {
+    "level": 16,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 111
+   },
+   {
+    "level": 26,
+    "moveId": 112
+   },
+   {
+    "level": 32,
+    "moveId": 113
+   },
+   {
+    "level": 38,
+    "moveId": 95
+   },
+   {
+    "level": 44,
+    "moveId": 114
+   }
+  ],
+  "dex": "A grasshopper that plays gully cricket. It uses its hind legs as bats and never gets out.",
+  "ref": "Cricket, the insect and the sport; gully cricket in every lane.",
+  "habitat": [
+   "Route 3 - Silk Board Junction",
+   "Whitefield",
+   "Palace Road"
+  ],
+  "assetKey": "MON_106"
+ },
+ {
+  "id": 107,
+  "name": "Mahamidathe",
+  "types": [
+   "BUG",
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 86,
+   "atk": 116,
+   "def": 86,
+   "spc": 60,
+   "spd": 82
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 110
+   },
+   {
+    "level": 16,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 111
+   },
+   {
+    "level": 26,
+    "moveId": 112
+   },
+   {
+    "level": 32,
+    "moveId": 113
+   },
+   {
+    "level": 38,
+    "moveId": 95
+   },
+   {
+    "level": 44,
+    "moveId": 114
+   }
+  ],
+  "dex": "Its sixes clear the stadium roof. Opposing bowlers bring it gifts before matches.",
+  "ref": "Cricket, the insect and the sport; gully cricket in every lane.",
+  "habitat": [
+   "Evolve Midathe (Lv 28)"
+  ],
+  "assetKey": "MON_107"
+ },
+ {
+  "id": 108,
+  "name": "Benkinore",
+  "types": [
+   "TOXIC",
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 46,
+   "atk": 35,
+   "def": 45,
+   "spc": 72,
+   "spd": 52
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 109
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 7,
+    "moveId": 104
+   },
+   {
+    "level": 12,
+    "moveId": 21
+   },
+   {
+    "level": 18,
+    "moveId": 102
+   },
+   {
+    "level": 24,
+    "moveId": 25
+   },
+   {
+    "level": 30,
+    "moveId": 195
+   },
+   {
+    "level": 36,
+    "moveId": 103
+   },
+   {
+    "level": 42,
+    "moveId": 23
+   },
+   {
+    "level": 48,
+    "moveId": 106
+   }
+  ],
+  "dex": "Lake foam that caught fire one day and never went out.",
+  "ref": "The real day Bellandur Lake caught fire.",
+  "habitat": [
+   "Bellandur Lake"
+  ],
+  "assetKey": "MON_108"
+ },
+ {
+  "id": 109,
+  "name": "Kerebenki",
+  "types": [
+   "TOXIC",
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 60,
+   "def": 77,
+   "spc": 125,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 7,
+    "moveId": 104
+   },
+   {
+    "level": 12,
+    "moveId": 21
+   },
+   {
+    "level": 18,
+    "moveId": 102
+   },
+   {
+    "level": 24,
+    "moveId": 25
+   },
+   {
+    "level": 30,
+    "moveId": 195
+   },
+   {
+    "level": 36,
+    "moveId": 103
+   },
+   {
+    "level": 42,
+    "moveId": 23
+   },
+   {
+    "level": 48,
+    "moveId": 106
+   }
+  ],
+  "dex": "A burning cloud that rises off polluted water. Its smoke spells out warnings to the city.",
+  "ref": "The real day Bellandur Lake caught fire.",
+  "habitat": [
+   "Evolve Benkinore (Lv 30)"
+  ],
+  "assetKey": "MON_109"
+ },
+ {
+  "id": 110,
+  "name": "Edi",
+  "types": [
+   "WATER",
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 49,
+   "atk": 68,
+   "def": 50,
+   "spc": 35,
+   "spd": 48
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 28,
+   "speciesId": 111
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 31
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 11,
+    "moveId": 30
+   },
+   {
+    "level": 16,
+    "moveId": 202
+   },
+   {
+    "level": 21,
+    "moveId": 111
+   },
+   {
+    "level": 28,
+    "moveId": 33
+   },
+   {
+    "level": 34,
+    "moveId": 113
+   },
+   {
+    "level": 40,
+    "moveId": 114
+   }
+  ],
+  "dex": "A lake crab with one big claw. It shadow-boxes the reeds at dawn.",
+  "ref": "The freshwater crabs of Bengaluru's lakes.",
+  "habitat": [
+   "Bellandur Lake (fishing)",
+   "Route 5 - Sankey Tank (fishing)",
+   "Route 7 - Hebbal (fishing)"
+  ],
+  "assetKey": "MON_110"
+ },
+ {
+  "id": 111,
+  "name": "Ediyodha",
+  "types": [
+   "WATER",
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 99,
+   "atk": 77,
+   "def": 125,
+   "spc": 69,
+   "spd": 60
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 31
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 11,
+    "moveId": 30
+   },
+   {
+    "level": 16,
+    "moveId": 202
+   },
+   {
+    "level": 21,
+    "moveId": 111
+   },
+   {
+    "level": 28,
+    "moveId": 33
+   },
+   {
+    "level": 34,
+    "moveId": 113
+   },
+   {
+    "level": 40,
+    "moveId": 114
+   }
+  ],
+  "dex": "It guards the lake steps with two huge claws and has never lost a pinching match.",
+  "ref": "The freshwater crabs of Bengaluru's lakes.",
+  "habitat": [
+   "Evolve Edi (Lv 28)"
+  ],
+  "assetKey": "MON_111"
+ },
+ {
+  "id": 112,
+  "name": "Mallige",
+  "types": [
+   "GRASS",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 43,
+   "atk": 34,
+   "def": 43,
+   "spc": 70,
+   "spd": 50
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 28,
+   "speciesId": 113
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 6,
+    "moveId": 180
+   },
+   {
+    "level": 11,
+    "moveId": 43
+   },
+   {
+    "level": 16,
+    "moveId": 42
+   },
+   {
+    "level": 21,
+    "moveId": 182
+   },
+   {
+    "level": 27,
+    "moveId": 41
+   },
+   {
+    "level": 33,
+    "moveId": 186
+   },
+   {
+    "level": 39,
+    "moveId": 184
+   },
+   {
+    "level": 45,
+    "moveId": 44
+   }
+  ],
+  "dex": "A jasmine bud with a sweet scent. Flower sellers string it into garlands without noticing.",
+  "ref": "Malleshwaram's flower sellers and the GI-tagged Mysore mallige.",
+  "habitat": [
+   "Lalbagh",
+   "Malleshwaram"
+  ],
+  "assetKey": "MON_112"
+ },
+ {
+  "id": 113,
+  "name": "Mysoremallige",
+  "types": [
+   "GRASS",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 59,
+   "def": 76,
+   "spc": 122,
+   "spd": 88
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 6,
+    "moveId": 180
+   },
+   {
+    "level": 11,
+    "moveId": 43
+   },
+   {
+    "level": 16,
+    "moveId": 42
+   },
+   {
+    "level": 21,
+    "moveId": 182
+   },
+   {
+    "level": 27,
+    "moveId": 41
+   },
+   {
+    "level": 33,
+    "moveId": 186
+   },
+   {
+    "level": 39,
+    "moveId": 184
+   },
+   {
+    "level": 45,
+    "moveId": 44
+   }
+  ],
+  "dex": "It wears a garland of a thousand blooms. Its scent can calm a traffic jam.",
+  "ref": "Malleshwaram's flower sellers and the GI-tagged Mysore mallige.",
+  "habitat": [
+   "Evolve Mallige (Lv 28)"
+  ],
+  "assetKey": "MON_113"
+ },
+ {
+  "id": 114,
+  "name": "Chukki",
+  "types": [
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 43,
+   "atk": 34,
+   "def": 43,
+   "spc": 70,
+   "spd": 50
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 28,
+   "speciesId": 115
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 180
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 7,
+    "moveId": 181
+   },
+   {
+    "level": 13,
+    "moveId": 120
+   },
+   {
+    "level": 19,
+    "moveId": 182
+   },
+   {
+    "level": 25,
+    "moveId": 184
+   },
+   {
+    "level": 31,
+    "moveId": 186
+   },
+   {
+    "level": 38,
+    "moveId": 185
+   },
+   {
+    "level": 45,
+    "moveId": 122
+   }
+  ],
+  "dex": "A grid of white dots that rearranges itself into patterns on doorsteps before sunrise.",
+  "ref": "Morning rangoli outside Malleshwaram homes.",
+  "habitat": [
+   "Malleshwaram"
+  ],
+  "assetKey": "MON_114"
+ },
+ {
+  "id": 115,
+  "name": "Rangavalli",
+  "types": [
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 59,
+   "def": 76,
+   "spc": 122,
+   "spd": 88
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 180
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 7,
+    "moveId": 181
+   },
+   {
+    "level": 13,
+    "moveId": 120
+   },
+   {
+    "level": 19,
+    "moveId": 182
+   },
+   {
+    "level": 25,
+    "moveId": 184
+   },
+   {
+    "level": 31,
+    "moveId": 186
+   },
+   {
+    "level": 38,
+    "moveId": 185
+   },
+   {
+    "level": 45,
+    "moveId": 122
+   }
+  ],
+  "dex": "A full rangoli come to life. Every festival it chooses new colours.",
+  "ref": "Morning rangoli outside Malleshwaram homes.",
+  "habitat": [
+   "Evolve Chukki (Lv 28)"
+  ],
+  "assetKey": "MON_115"
+ },
+ {
+  "id": 116,
+  "name": "Gombe",
+  "types": [
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 50,
+   "atk": 50,
+   "def": 50,
+   "spc": 50,
+   "spd": 50
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 117
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 7,
+    "moveId": 180
+   },
+   {
+    "level": 13,
+    "moveId": 37
+   },
+   {
+    "level": 19,
+    "moveId": 120
+   },
+   {
+    "level": 25,
+    "moveId": 184
+   },
+   {
+    "level": 31,
+    "moveId": 121
+   },
+   {
+    "level": 37,
+    "moveId": 186
+   },
+   {
+    "level": 43,
+    "moveId": 185
+   },
+   {
+    "level": 49,
+    "moveId": 122
+   }
+  ],
+  "dex": "A lacquered wooden toy that rolls on its own. It sulks if put away after the festival.",
+  "ref": "Channapatna toys and the Dasara bombe habba doll steps.",
+  "habitat": [
+   "Malleshwaram",
+   "Palace Road"
+  ],
+  "assetKey": "MON_116"
+ },
+ {
+  "id": 117,
+  "name": "Pattadagombe",
+  "types": [
+   "CHARM",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 60,
+   "def": 77,
+   "spc": 125,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 7,
+    "moveId": 180
+   },
+   {
+    "level": 13,
+    "moveId": 37
+   },
+   {
+    "level": 19,
+    "moveId": 120
+   },
+   {
+    "level": 25,
+    "moveId": 184
+   },
+   {
+    "level": 31,
+    "moveId": 121
+   },
+   {
+    "level": 37,
+    "moveId": 186
+   },
+   {
+    "level": 43,
+    "moveId": 185
+   },
+   {
+    "level": 49,
+    "moveId": 122
+   }
+  ],
+  "dex": "The royal doll couple from the top step of the festival display. It remembers every family it has visited.",
+  "ref": "Channapatna toys and the Dasara bombe habba doll steps.",
+  "habitat": [
+   "Evolve Gombe (Lv 30)"
+  ],
+  "assetKey": "MON_117"
+ },
+ {
+  "id": 118,
+  "name": "Togalu",
+  "types": [
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 39,
+   "atk": 60,
+   "def": 34,
+   "spc": 55,
+   "spd": 62
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 119
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 7,
+    "moveId": 131
+   },
+   {
+    "level": 13,
+    "moveId": 124
+   },
+   {
+    "level": 19,
+    "moveId": 133
+   },
+   {
+    "level": 25,
+    "moveId": 134
+   },
+   {
+    "level": 31,
+    "moveId": 132
+   },
+   {
+    "level": 37,
+    "moveId": 184
+   },
+   {
+    "level": 43,
+    "moveId": 185
+   }
+  ],
+  "dex": "A leather puppet that moves when the lamp is lit. It acts out old stories on any wall.",
+  "ref": "Togalu gombeyata, Karnataka's leather shadow-puppet theatre.",
+  "habitat": [
+   "Malleshwaram",
+   "Palace Road"
+  ],
+  "assetKey": "MON_118"
+ },
+ {
+  "id": 119,
+  "name": "Togalugombe",
+  "types": [
+   "SPIRIT",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 60,
+   "def": 77,
+   "spc": 125,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 7,
+    "moveId": 131
+   },
+   {
+    "level": 13,
+    "moveId": 124
+   },
+   {
+    "level": 19,
+    "moveId": 133
+   },
+   {
+    "level": 25,
+    "moveId": 134
+   },
+   {
+    "level": 31,
+    "moveId": 132
+   },
+   {
+    "level": 37,
+    "moveId": 184
+   },
+   {
+    "level": 43,
+    "moveId": 185
+   }
+  ],
+  "dex": "Its shadow can be a king, a tiger or a storm. It never shows its true shape.",
+  "ref": "Togalu gombeyata, Karnataka's leather shadow-puppet theatre.",
+  "habitat": [
+   "Evolve Togalu (Lv 30)"
+  ],
+  "assetKey": "MON_119"
+ },
+ {
+  "id": 120,
+  "name": "Kaage",
+  "types": [
+   "SKY",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 39,
+   "atk": 52,
+   "def": 38,
+   "spc": 47,
+   "spd": 64
+  },
+  "catchRate": 200,
+  "baseExp": 60,
+  "evolution": {
+   "level": 30,
+   "speciesId": 121
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 81
+   },
+   {
+    "level": 11,
+    "moveId": 130
+   },
+   {
+    "level": 16,
+    "moveId": 82
+   },
+   {
+    "level": 22,
+    "moveId": 198
+   },
+   {
+    "level": 28,
+    "moveId": 133
+   },
+   {
+    "level": 34,
+    "moveId": 83
+   },
+   {
+    "level": 40,
+    "moveId": 132
+   },
+   {
+    "level": 46,
+    "moveId": 85
+   }
+  ],
+  "dex": "Families leave rice out for it on remembrance days. It carries the offering to the ancestors.",
+  "ref": "Crows are fed rice for the ancestors during Pitru Paksha.",
+  "habitat": [
+   "Basavanagudi",
+   "Palace Road"
+  ],
+  "assetKey": "MON_120"
+ },
+ {
+  "id": 121,
+  "name": "Kaageraaja",
+  "types": [
+   "SKY",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 72,
+   "atk": 63,
+   "def": 67,
+   "spc": 109,
+   "spd": 109
+  },
+  "catchRate": 45,
+  "baseExp": 231,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 81
+   },
+   {
+    "level": 11,
+    "moveId": 130
+   },
+   {
+    "level": 16,
+    "moveId": 82
+   },
+   {
+    "level": 22,
+    "moveId": 198
+   },
+   {
+    "level": 28,
+    "moveId": 133
+   },
+   {
+    "level": 34,
+    "moveId": 83
+   },
+   {
+    "level": 40,
+    "moveId": 132
+   },
+   {
+    "level": 46,
+    "moveId": 85
+   }
+  ],
+  "dex": "The crow king who walks between this world and the next with messages for the living.",
+  "ref": "Crows are fed rice for the ancestors during Pitru Paksha.",
+  "habitat": [
+   "Evolve Kaage (Lv 30)"
+  ],
+  "assetKey": "MON_121"
+ },
+ {
+  "id": 122,
+  "name": "Hunase",
+  "types": [
+   "GRASS",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 72,
+   "atk": 55,
+   "def": 55,
+   "spc": 40,
+   "spd": 28
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 32,
+   "speciesId": 123
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 7,
+    "moveId": 42
+   },
+   {
+    "level": 13,
+    "moveId": 124
+   },
+   {
+    "level": 19,
+    "moveId": 131
+   },
+   {
+    "level": 25,
+    "moveId": 45
+   },
+   {
+    "level": 31,
+    "moveId": 132
+   },
+   {
+    "level": 37,
+    "moveId": 44
+   },
+   {
+    "level": 43,
+    "moveId": 123
+   }
+  ],
+  "dex": "A tamarind sapling hung with sour pods. Children dare each other to pick them at night.",
+  "ref": "Village lore says ghosts live in tamarind trees.",
+  "habitat": [
+   "Palace Road",
+   "Nandi Hills"
+  ],
+  "assetKey": "MON_122"
+ },
+ {
+  "id": 123,
+  "name": "Hunasemohini",
+  "types": [
+   "GRASS",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 60,
+   "def": 77,
+   "spc": 125,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 7,
+    "moveId": 42
+   },
+   {
+    "level": 13,
+    "moveId": 124
+   },
+   {
+    "level": 19,
+    "moveId": 131
+   },
+   {
+    "level": 25,
+    "moveId": 45
+   },
+   {
+    "level": 31,
+    "moveId": 132
+   },
+   {
+    "level": 37,
+    "moveId": 44
+   },
+   {
+    "level": 43,
+    "moveId": 123
+   }
+  ],
+  "dex": "Village tales say a spirit lives in every old tamarind tree. This is the spirit.",
+  "ref": "Village lore says ghosts live in tamarind trees.",
+  "habitat": [
+   "Evolve Hunase (Lv 32)"
+  ],
+  "assetKey": "MON_123"
+ },
+ {
+  "id": 124,
+  "name": "Gandhamari",
+  "types": [
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 46,
+   "atk": 35,
+   "def": 45,
+   "spc": 72,
+   "spd": 52
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 32,
+   "speciesId": 125
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 7,
+    "moveId": 42
+   },
+   {
+    "level": 13,
+    "moveId": 43
+   },
+   {
+    "level": 19,
+    "moveId": 120
+   },
+   {
+    "level": 25,
+    "moveId": 41
+   },
+   {
+    "level": 32,
+    "moveId": 121
+   },
+   {
+    "level": 38,
+    "moveId": 123
+   },
+   {
+    "level": 44,
+    "moveId": 44
+   },
+   {
+    "level": 50,
+    "moveId": 122
+   }
+  ],
+  "dex": "A sandalwood sapling. Its fragrance makes nearby creatures sleepy and kind.",
+  "ref": "Karnataka's sandalwood (and 'Sandalwood', the nickname of Kannada cinema).",
+  "habitat": [
+   "Palace Road",
+   "Nandi Hills"
+  ],
+  "assetKey": "MON_124"
+ },
+ {
+  "id": 125,
+  "name": "Shrigandha",
+  "types": [
+   "GRASS",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 60,
+   "def": 77,
+   "spc": 125,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 7,
+    "moveId": 42
+   },
+   {
+    "level": 13,
+    "moveId": 43
+   },
+   {
+    "level": 19,
+    "moveId": 120
+   },
+   {
+    "level": 25,
+    "moveId": 41
+   },
+   {
+    "level": 32,
+    "moveId": 121
+   },
+   {
+    "level": 38,
+    "moveId": 123
+   },
+   {
+    "level": 44,
+    "moveId": 44
+   },
+   {
+    "level": 50,
+    "moveId": 122
+   }
+  ],
+  "dex": "Its heartwood is so fragrant that a single branch scents a whole palace for a year.",
+  "ref": "Karnataka's sandalwood (and 'Sandalwood', the nickname of Kannada cinema).",
+  "habitat": [
+   "Evolve Gandhamari (Lv 32)"
+  ],
+  "assetKey": "MON_125"
+ },
+ {
+  "id": 126,
+  "name": "Kokkare",
+  "types": [
+   "WATER",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 50,
+   "atk": 50,
+   "def": 50,
+   "spc": 50,
+   "spd": 50
+  },
+  "catchRate": 200,
+  "baseExp": 62,
+  "evolution": {
+   "level": 30,
+   "speciesId": 127
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 30
+   },
+   {
+    "level": 7,
+    "moveId": 31
+   },
+   {
+    "level": 12,
+    "moveId": 82
+   },
+   {
+    "level": 18,
+    "moveId": 32
+   },
+   {
+    "level": 24,
+    "moveId": 84
+   },
+   {
+    "level": 30,
+    "moveId": 83
+   },
+   {
+    "level": 36,
+    "moveId": 34
+   },
+   {
+    "level": 42,
+    "moveId": 85
+   },
+   {
+    "level": 48,
+    "moveId": 35
+   }
+  ],
+  "dex": "A pelican chick from the nesting village. Its pouch is always full of tiny fish.",
+  "ref": "Kokkare Bellur, the village near Bengaluru where pelicans and painted storks nest on rooftops.",
+  "habitat": [
+   "Route 7 - Hebbal"
+  ],
+  "assetKey": "MON_126"
+ },
+ {
+  "id": 127,
+  "name": "Bannadakokkare",
+  "types": [
+   "WATER",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 86,
+   "atk": 86,
+   "def": 86,
+   "spc": 86,
+   "spd": 86
+  },
+  "catchRate": 45,
+  "baseExp": 237,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 30
+   },
+   {
+    "level": 7,
+    "moveId": 31
+   },
+   {
+    "level": 12,
+    "moveId": 82
+   },
+   {
+    "level": 18,
+    "moveId": 32
+   },
+   {
+    "level": 24,
+    "moveId": 84
+   },
+   {
+    "level": 30,
+    "moveId": 83
+   },
+   {
+    "level": 36,
+    "moveId": 34
+   },
+   {
+    "level": 42,
+    "moveId": 85
+   },
+   {
+    "level": 48,
+    "moveId": 35
+   }
+  ],
+  "dex": "A painted stork with rose-pink wings. Villagers count its return each winter as good luck.",
+  "ref": "Kokkare Bellur, the village near Bengaluru where pelicans and painted storks nest on rooftops.",
+  "habitat": [
+   "Evolve Kokkare (Lv 30)"
+  ],
+  "assetKey": "MON_127"
+ },
+ {
+  "id": 128,
+  "name": "Tagaru",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 53,
+   "atk": 70,
+   "def": 52,
+   "spc": 36,
+   "spd": 49
+  },
+  "catchRate": 200,
+  "baseExp": 65,
+  "evolution": {
+   "level": 32,
+   "speciesId": 129
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 12,
+    "moveId": 63
+   },
+   {
+    "level": 18,
+    "moveId": 111
+   },
+   {
+    "level": 24,
+    "moveId": 203
+   },
+   {
+    "level": 30,
+    "moveId": 113
+   },
+   {
+    "level": 36,
+    "moveId": 64
+   },
+   {
+    "level": 42,
+    "moveId": 114
+   }
+  ],
+  "dex": "A young ram that headbutts everything. Its horns are painted for the fair.",
+  "ref": "Tagaru kaalaga, the ram fights of village fairs on the city's outskirts.",
+  "habitat": [
+   "Route 7 - Hebbal",
+   "Nandi Hills"
+  ],
+  "assetKey": "MON_128"
+ },
+ {
+  "id": 129,
+  "name": "Kaadutagaru",
+  "types": [
+   "FIGHT",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 87,
+   "atk": 119,
+   "def": 88,
+   "spc": 62,
+   "spd": 84
+  },
+  "catchRate": 45,
+  "baseExp": 242,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 12,
+    "moveId": 63
+   },
+   {
+    "level": 18,
+    "moveId": 111
+   },
+   {
+    "level": 24,
+    "moveId": 203
+   },
+   {
+    "level": 30,
+    "moveId": 113
+   },
+   {
+    "level": 36,
+    "moveId": 64
+   },
+   {
+    "level": 42,
+    "moveId": 114
+   }
+  ],
+  "dex": "A fighting ram of the hills. When it charges, the ground cracks under its hooves.",
+  "ref": "Tagaru kaalaga, the ram fights of village fairs on the city's outskirts.",
+  "habitat": [
+   "Evolve Tagaru (Lv 32)"
+  ],
+  "assetKey": "MON_129"
+ },
+ {
+  "id": 130,
+  "name": "Aalikallu",
+  "types": [
+   "FROST",
+   "ROCK"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 47,
+   "def": 75,
+   "spc": 42,
+   "spd": 36
+  },
+  "catchRate": 200,
+  "baseExp": 65,
+  "evolution": {
+   "level": 34,
+   "speciesId": 131
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 151
+   },
+   {
+    "level": 1,
+    "moveId": 73
+   },
+   {
+    "level": 7,
+    "moveId": 70
+   },
+   {
+    "level": 13,
+    "moveId": 150
+   },
+   {
+    "level": 19,
+    "moveId": 153
+   },
+   {
+    "level": 25,
+    "moveId": 71
+   },
+   {
+    "level": 31,
+    "moveId": 155
+   },
+   {
+    "level": 37,
+    "moveId": 72
+   },
+   {
+    "level": 43,
+    "moveId": 156
+   }
+  ],
+  "dex": "A hailstone that grew a face during a summer storm. It is surprised every time it doesn't melt.",
+  "ref": "Bengaluru's sudden April hailstorms.",
+  "habitat": [
+   "Route 7 - Hebbal",
+   "Nandi Hills",
+   "Nandi Cave"
+  ],
+  "assetKey": "MON_130"
+ },
+ {
+  "id": 131,
+  "name": "Aalibande",
+  "types": [
+   "FROST",
+   "ROCK"
+  ],
+  "baseStats": {
+   "hp": 101,
+   "atk": 79,
+   "def": 128,
+   "spc": 70,
+   "spd": 62
+  },
+  "catchRate": 45,
+  "baseExp": 242,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 151
+   },
+   {
+    "level": 1,
+    "moveId": 73
+   },
+   {
+    "level": 7,
+    "moveId": 70
+   },
+   {
+    "level": 13,
+    "moveId": 150
+   },
+   {
+    "level": 19,
+    "moveId": 153
+   },
+   {
+    "level": 25,
+    "moveId": 71
+   },
+   {
+    "level": 31,
+    "moveId": 155
+   },
+   {
+    "level": 37,
+    "moveId": 72
+   },
+   {
+    "level": 43,
+    "moveId": 156
+   }
+  ],
+  "dex": "A boulder of ice and granite. It rolls down the hills during freak hailstorms.",
+  "ref": "Bengaluru's sudden April hailstorms.",
+  "habitat": [
+   "Evolve Aalikallu (Lv 34)"
+  ],
+  "assetKey": "MON_131"
+ },
+ {
+  "id": 132,
+  "name": "Manju",
+  "types": [
+   "FROST",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 43,
+   "atk": 39,
+   "def": 42,
+   "spc": 68,
+   "spd": 68
+  },
+  "catchRate": 200,
+  "baseExp": 65,
+  "evolution": {
+   "level": 36,
+   "speciesId": 133
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 150
+   },
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 7,
+    "moveId": 157
+   },
+   {
+    "level": 13,
+    "moveId": 131
+   },
+   {
+    "level": 19,
+    "moveId": 152
+   },
+   {
+    "level": 25,
+    "moveId": 133
+   },
+   {
+    "level": 31,
+    "moveId": 154
+   },
+   {
+    "level": 38,
+    "moveId": 132
+   },
+   {
+    "level": 44,
+    "moveId": 156
+   }
+  ],
+  "dex": "A wisp of morning fog. Travellers on the hill road lose their way when it giggles.",
+  "ref": "Nandi Hills sunrise above the clouds.",
+  "habitat": [
+   "Nandi Hills",
+   "Nandi Cave"
+  ],
+  "assetKey": "MON_132"
+ },
+ {
+  "id": 133,
+  "name": "Manjumaaye",
+  "types": [
+   "FROST",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 76,
+   "atk": 66,
+   "def": 70,
+   "spc": 114,
+   "spd": 114
+  },
+  "catchRate": 45,
+  "baseExp": 242,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 150
+   },
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 7,
+    "moveId": 157
+   },
+   {
+    "level": 13,
+    "moveId": 131
+   },
+   {
+    "level": 19,
+    "moveId": 152
+   },
+   {
+    "level": 25,
+    "moveId": 133
+   },
+   {
+    "level": 31,
+    "moveId": 154
+   },
+   {
+    "level": 38,
+    "moveId": 132
+   },
+   {
+    "level": 44,
+    "moveId": 156
+   }
+  ],
+  "dex": "It wraps the whole hill in fog at sunrise and reveals the view only to those it likes.",
+  "ref": "Nandi Hills sunrise above the clouds.",
+  "habitat": [
+   "Evolve Manju (Lv 36)"
+  ],
+  "assetKey": "MON_133"
+ },
+ {
+  "id": 134,
+  "name": "Chiratemari",
+  "types": [
+   "ROGUE"
+  ],
+  "baseStats": {
+   "hp": 43,
+   "atk": 56,
+   "def": 41,
+   "spc": 51,
+   "spd": 69
+  },
+  "catchRate": 200,
+  "baseExp": 65,
+  "evolution": {
+   "level": 32,
+   "speciesId": 135
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 171
+   },
+   {
+    "level": 16,
+    "moveId": 12
+   },
+   {
+    "level": 22,
+    "moveId": 172
+   },
+   {
+    "level": 28,
+    "moveId": 9
+   },
+   {
+    "level": 34,
+    "moveId": 174
+   },
+   {
+    "level": 40,
+    "moveId": 134
+   },
+   {
+    "level": 46,
+    "moveId": 175
+   }
+  ],
+  "dex": "A leopard cub that hides in rocky scrub. It practises stalking on lizards.",
+  "ref": "Leopards still roam Bannerghatta and Turahalli at the city's edge.",
+  "habitat": [
+   "Nandi Hills"
+  ],
+  "assetKey": "MON_134"
+ },
+ {
+  "id": 135,
+  "name": "Chirate",
+  "types": [
+   "ROGUE"
+  ],
+  "baseStats": {
+   "hp": 68,
+   "atk": 106,
+   "def": 59,
+   "spc": 97,
+   "spd": 110
+  },
+  "catchRate": 45,
+  "baseExp": 242,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 171
+   },
+   {
+    "level": 16,
+    "moveId": 12
+   },
+   {
+    "level": 22,
+    "moveId": 172
+   },
+   {
+    "level": 28,
+    "moveId": 9
+   },
+   {
+    "level": 34,
+    "moveId": 174
+   },
+   {
+    "level": 40,
+    "moveId": 134
+   },
+   {
+    "level": 46,
+    "moveId": 175
+   }
+  ],
+  "dex": "It slips through the forest edge at night without a sound. Only its eyes give it away.",
+  "ref": "Leopards still roam Bannerghatta and Turahalli at the city's edge.",
+  "habitat": [
+   "Evolve Chiratemari (Lv 32)"
+  ],
+  "assetKey": "MON_135"
+ },
+ {
+  "id": 136,
+  "name": "Kaadupaapa",
+  "types": [
+   "ROGUE",
+   "CHARM"
+  ],
+  "baseStats": {
+   "hp": 72,
+   "atk": 63,
+   "def": 67,
+   "spc": 109,
+   "spd": 109
+  },
+  "catchRate": 75,
+  "baseExp": 210,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 170
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 1,
+    "moveId": 124
+   },
+   {
+    "level": 15,
+    "moveId": 171
+   },
+   {
+    "level": 22,
+    "moveId": 182
+   },
+   {
+    "level": 29,
+    "moveId": 173
+   },
+   {
+    "level": 36,
+    "moveId": 176
+   },
+   {
+    "level": 42,
+    "moveId": 185
+   }
+  ],
+  "dex": "The 'forest baby'. It moves so slowly that few have seen it, but its huge eyes see everything.",
+  "ref": "'Kaadu paapa' (forest baby), the endangered slender loris of the Bengaluru region.",
+  "habitat": [
+   "Nandi Hills"
+  ],
+  "assetKey": "MON_136"
+ },
+ {
+  "id": 137,
+  "name": "Makaramari",
+  "types": [
+   "WATER",
+   "MYTH"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 60,
+   "def": 60,
+   "spc": 60,
+   "spd": 60
+  },
+  "catchRate": 25,
+  "baseExp": 90,
+  "evolution": {
+   "level": 35,
+   "speciesId": 138
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 30
+   },
+   {
+    "level": 1,
+    "moveId": 160
+   },
+   {
+    "level": 10,
+    "moveId": 31
+   },
+   {
+    "level": 18,
+    "moveId": 33
+   },
+   {
+    "level": 26,
+    "moveId": 161
+   },
+   {
+    "level": 34,
+    "moveId": 194
+   },
+   {
+    "level": 42,
+    "moveId": 162
+   },
+   {
+    "level": 50,
+    "moveId": 164
+   }
+  ],
+  "dex": "A young temple-arch beast hiding in the old tanks. Fishermen think it is a crocodile with a trunk.",
+  "ref": "The Makara torana arch over temple doorways; Sankey and Hebbal were once temple tanks.",
+  "habitat": [
+   "Route 5 - Sankey Tank (fishing)",
+   "Route 7 - Hebbal (fishing)"
+  ],
+  "assetKey": "MON_137"
+ },
+ {
+  "id": 138,
+  "name": "Makara",
+  "types": [
+   "WATER",
+   "MYTH"
+  ],
+  "baseStats": {
+   "hp": 94,
+   "atk": 127,
+   "def": 94,
+   "spc": 66,
+   "spd": 89
+  },
+  "catchRate": 45,
+  "baseExp": 258,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 30
+   },
+   {
+    "level": 1,
+    "moveId": 160
+   },
+   {
+    "level": 10,
+    "moveId": 31
+   },
+   {
+    "level": 18,
+    "moveId": 33
+   },
+   {
+    "level": 26,
+    "moveId": 161
+   },
+   {
+    "level": 34,
+    "moveId": 194
+   },
+   {
+    "level": 42,
+    "moveId": 162
+   },
+   {
+    "level": 50,
+    "moveId": 164
+   }
+  ],
+  "dex": "The beast carved over temple doors. When it surfaces, the tank's water rises to the top step.",
+  "ref": "The Makara torana arch over temple doorways; Sankey and Hebbal were once temple tanks.",
+  "habitat": [
+   "Evolve Makaramari (Lv 35)"
+  ],
+  "assetKey": "MON_138"
+ },
+ {
+  "id": 139,
+  "name": "Paachikallu",
+  "types": [
+   "ROCK",
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 73,
+   "atk": 58,
+   "def": 93,
+   "spc": 51,
+   "spd": 45
+  },
+  "catchRate": 25,
+  "baseExp": 96,
+  "evolution": {
+   "level": 40,
+   "speciesId": 140
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 10,
+    "moveId": 42
+   },
+   {
+    "level": 18,
+    "moveId": 204
+   },
+   {
+    "level": 26,
+    "moveId": 71
+   },
+   {
+    "level": 34,
+    "moveId": 73
+   },
+   {
+    "level": 42,
+    "moveId": 44
+   },
+   {
+    "level": 50,
+    "moveId": 72
+   }
+  ],
+  "dex": "Revived from three-billion-year-old rock. It is the oldest kind of life ever found in the city.",
+  "ref": "Lalbagh's rock is about 3,000 million years old, among the oldest on Earth.",
+  "habitat": [
+   "Revived from the Old Moss Stone (Nandi Cave)"
+  ],
+  "assetKey": "MON_139"
+ },
+ {
+  "id": 140,
+  "name": "Paachibande",
+  "types": [
+   "ROCK",
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 108,
+   "atk": 85,
+   "def": 136,
+   "spc": 75,
+   "spd": 66
+  },
+  "catchRate": 45,
+  "baseExp": 258,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 10,
+    "moveId": 42
+   },
+   {
+    "level": 18,
+    "moveId": 204
+   },
+   {
+    "level": 26,
+    "moveId": 71
+   },
+   {
+    "level": 34,
+    "moveId": 73
+   },
+   {
+    "level": 42,
+    "moveId": 44
+   },
+   {
+    "level": 50,
+    "moveId": 72
+   }
+  ],
+  "dex": "Its layered body is a record of the planet's first sunrises.",
+  "ref": "Lalbagh's rock is about 3,000 million years old, among the oldest on Earth.",
+  "habitat": [
+   "Evolve Paachikallu (Lv 40)"
+  ],
+  "assetKey": "MON_140"
+ },
+ {
+  "id": 141,
+  "name": "Kalluhula",
+  "types": [
+   "ROCK",
+   "BUG"
+  ],
+  "baseStats": {
+   "hp": 73,
+   "atk": 58,
+   "def": 93,
+   "spc": 51,
+   "spd": 45
+  },
+  "catchRate": 25,
+  "baseExp": 96,
+  "evolution": {
+   "level": 40,
+   "speciesId": 142
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 10,
+    "moveId": 93
+   },
+   {
+    "level": 18,
+    "moveId": 204
+   },
+   {
+    "level": 26,
+    "moveId": 71
+   },
+   {
+    "level": 34,
+    "moveId": 95
+   },
+   {
+    "level": 42,
+    "moveId": 72
+   }
+  ],
+  "dex": "Revived from a fossil in the cave. It rolls into a stone ball when startled.",
+  "ref": "Same ancient Lalbagh rock; the other fossil choice.",
+  "habitat": [
+   "Revived from the Old Shell Stone (Nandi Cave)"
+  ],
+  "assetKey": "MON_141"
+ },
+ {
+  "id": 142,
+  "name": "Kalluveera",
+  "types": [
+   "ROCK",
+   "BUG"
+  ],
+  "baseStats": {
+   "hp": 94,
+   "atk": 127,
+   "def": 94,
+   "spc": 66,
+   "spd": 89
+  },
+  "catchRate": 45,
+  "baseExp": 258,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 10,
+    "moveId": 93
+   },
+   {
+    "level": 18,
+    "moveId": 204
+   },
+   {
+    "level": 26,
+    "moveId": 71
+   },
+   {
+    "level": 34,
+    "moveId": 95
+   },
+   {
+    "level": 42,
+    "moveId": 72
+   }
+  ],
+  "dex": "An ancient armoured hunter. Its shell is harder than the granite it was found in.",
+  "ref": "Same ancient Lalbagh rock; the other fossil choice.",
+  "habitat": [
+   "Evolve Kalluhula (Lv 40)"
+  ],
+  "assetKey": "MON_142"
+ },
+ {
+  "id": 143,
+  "name": "Yalimari",
+  "types": [
+   "ROCK",
+   "MYTH"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 81,
+   "def": 60,
+   "spc": 42,
+   "spd": 57
+  },
+  "catchRate": 25,
+  "baseExp": 90,
+  "evolution": {
+   "level": 30,
+   "speciesId": 144
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 160
+   },
+   {
+    "level": 8,
+    "moveId": 14
+   },
+   {
+    "level": 15,
+    "moveId": 161
+   },
+   {
+    "level": 22,
+    "moveId": 71
+   },
+   {
+    "level": 30,
+    "moveId": 162
+   },
+   {
+    "level": 38,
+    "moveId": 165
+   },
+   {
+    "level": 46,
+    "moveId": 163
+   },
+   {
+    "level": 54,
+    "moveId": 193
+   },
+   {
+    "level": 60,
+    "moveId": 164
+   }
+  ],
+  "dex": "A temple-pillar cub that shook itself loose from the stone. It still has chisel marks on its paws.",
+  "ref": "Yali pillars line Vijayanagara-era temples across Karnataka.",
+  "habitat": [
+   "Nandi Cave"
+  ],
+  "assetKey": "MON_143"
+ },
+ {
+  "id": 144,
+  "name": "Yalikamba",
+  "types": [
+   "ROCK",
+   "MYTH"
+  ],
+  "baseStats": {
+   "hp": 84,
+   "atk": 113,
+   "def": 84,
+   "spc": 59,
+   "spd": 80
+  },
+  "catchRate": 100,
+  "baseExp": 176,
+  "evolution": {
+   "level": 50,
+   "speciesId": 145
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 160
+   },
+   {
+    "level": 8,
+    "moveId": 14
+   },
+   {
+    "level": 15,
+    "moveId": 161
+   },
+   {
+    "level": 22,
+    "moveId": 71
+   },
+   {
+    "level": 30,
+    "moveId": 162
+   },
+   {
+    "level": 38,
+    "moveId": 165
+   },
+   {
+    "level": 46,
+    "moveId": 163
+   },
+   {
+    "level": 54,
+    "moveId": 193
+   },
+   {
+    "level": 60,
+    "moveId": 164
+   }
+  ],
+  "dex": "It guards a ruined mandapa and rears up on its hind legs like the carvings it came from.",
+  "ref": "Yali pillars line Vijayanagara-era temples across Karnataka.",
+  "habitat": [
+   "Evolve Yalimari (Lv 30)"
+  ],
+  "assetKey": "MON_144"
+ },
+ {
+  "id": 145,
+  "name": "Mahayali",
+  "types": [
+   "MYTH",
+   "ROCK"
+  ],
+  "baseStats": {
+   "hp": 104,
+   "atk": 140,
+   "def": 104,
+   "spc": 73,
+   "spd": 99
+  },
+  "catchRate": 45,
+  "baseExp": 286,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 160
+   },
+   {
+    "level": 8,
+    "moveId": 14
+   },
+   {
+    "level": 15,
+    "moveId": 161
+   },
+   {
+    "level": 22,
+    "moveId": 71
+   },
+   {
+    "level": 30,
+    "moveId": 162
+   },
+   {
+    "level": 38,
+    "moveId": 165
+   },
+   {
+    "level": 46,
+    "moveId": 163
+   },
+   {
+    "level": 54,
+    "moveId": 193
+   },
+   {
+    "level": 60,
+    "moveId": 164
+   }
+  ],
+  "dex": "The great guardian of every temple gate. Legends say a whole hall of pillars came alive to form it.",
+  "ref": "Yali pillars line Vijayanagara-era temples across Karnataka.",
+  "habitat": [
+   "Evolve Yalikamba (Lv 50)"
+  ],
+  "assetKey": "MON_145"
+ },
+ {
+  "id": 146,
+  "name": "Gandaberunda",
+  "types": [
+   "SKY",
+   "MYTH"
+  ],
+  "baseStats": {
+   "hp": 116,
+   "atk": 116,
+   "def": 116,
+   "spc": 116,
+   "spd": 116
+  },
+  "catchRate": 3,
+  "baseExp": 348,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 166
+   },
+   {
+    "level": 1,
+    "moveId": 83
+   },
+   {
+    "level": 1,
+    "moveId": 165
+   },
+   {
+    "level": 1,
+    "moveId": 85
+   },
+   {
+    "level": 60,
+    "moveId": 163
+   },
+   {
+    "level": 70,
+    "moveId": 164
+   }
+  ],
+  "dex": "The two-headed eagle of the old kingdom's seal. It wakes only when the land needs a protector.",
+  "ref": "Gandaberunda is on the state seal above Vidhana Soudha's doors.",
+  "habitat": [
+   "Vidhana Soudha, after becoming Champion"
+  ],
+  "assetKey": "MON_146"
+ },
+ {
+  "id": 147,
+  "name": "Bisilu",
+  "types": [
+   "FIRE",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 114,
+   "atk": 154,
+   "def": 114,
+   "spc": 80,
+   "spd": 108
+  },
+  "catchRate": 3,
+  "baseExp": 342,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 190
+   },
+   {
+    "level": 1,
+    "moveId": 64
+   },
+   {
+    "level": 1,
+    "moveId": 23
+   },
+   {
+    "level": 1,
+    "moveId": 113
+   },
+   {
+    "level": 60,
+    "moveId": 24
+   }
+  ],
+  "dex": "The spirit of summer. In April it lies on the granite hills and the rocks glow with heat.",
+  "ref": "April on the Deccan plateau; the bare granite hills of Ramanagara.",
+  "habitat": [
+   "Ramanagara Rocks, after becoming Champion"
+  ],
+  "assetKey": "MON_147"
+ },
+ {
+  "id": 148,
+  "name": "Mungaru",
+  "types": [
+   "WATER",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 166,
+   "atk": 125,
+   "def": 125,
+   "spc": 91,
+   "spd": 63
+  },
+  "catchRate": 3,
+  "baseExp": 342,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 191
+   },
+   {
+    "level": 1,
+    "moveId": 34
+   },
+   {
+    "level": 1,
+    "moveId": 35
+   },
+   {
+    "level": 1,
+    "moveId": 36
+   },
+   {
+    "level": 60,
+    "moveId": 54
+   }
+  ],
+  "dex": "The spirit of the monsoon. Its trumpet is the first thunder of June.",
+  "ref": "Mungaru male, the southwest monsoon; old poems call rain clouds elephants.",
+  "habitat": [
+   "Hebbal lake shore, after becoming Champion"
+  ],
+  "assetKey": "MON_148"
+ },
+ {
+  "id": 149,
+  "name": "Chali",
+  "types": [
+   "FROST",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 97,
+   "atk": 86,
+   "def": 91,
+   "spc": 148,
+   "spd": 148
+  },
+  "catchRate": 3,
+  "baseExp": 342,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 192
+   },
+   {
+    "level": 1,
+    "moveId": 122
+   },
+   {
+    "level": 1,
+    "moveId": 157
+   },
+   {
+    "level": 1,
+    "moveId": 123
+   },
+   {
+    "level": 60,
+    "moveId": 156
+   }
+  ],
+  "dex": "The spirit of winter mornings. It is seen only at sunrise, gliding over the sea of clouds.",
+  "ref": "December fog at Nandi Hills; the hornbills of the Western Ghats.",
+  "habitat": [
+   "Nandi Hills sunrise point, after becoming Champion"
+  ],
+  "assetKey": "MON_149"
+ },
+ {
+  "id": 150,
+  "name": "Bendakaalu",
+  "types": [
+   "CHARM",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 112,
+   "atk": 112,
+   "def": 112,
+   "spc": 112,
+   "spd": 112
+  },
+  "catchRate": 3,
+  "baseExp": 336,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 187
+   },
+   {
+    "level": 1,
+    "moveId": 120
+   },
+   {
+    "level": 1,
+    "moveId": 181
+   },
+   {
+    "level": 1,
+    "moveId": 126
+   },
+   {
+    "level": 30,
+    "moveId": 185
+   },
+   {
+    "level": 50,
+    "moveId": 122
+   }
+  ],
+  "dex": "The boiled bean of the old legend, said to have fed a lost king. The city is named after it.",
+  "ref": "The legend of 'Benda Kaalu Ooru', the town of boiled beans that became Bengaluru.",
+  "habitat": [
+   "The groundnut fair in Basavanagudi, after meeting the other legends"
+  ],
+  "assetKey": "MON_150"
  }
 ]

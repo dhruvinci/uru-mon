@@ -15,7 +15,7 @@
  },
  {
   "id": "rival_house",
-  "name": "Rohan's House",
+  "name": "Sudeep's House",
   "width": 10,
   "height": 8,
   "interior": true
@@ -85,7 +85,7 @@
  },
  {
   "id": "stadium",
-  "name": "Cubbon Cricket Stadium",
+  "name": "Chinnaswamy Stadium",
   "width": 15,
   "height": 16,
   "interior": true

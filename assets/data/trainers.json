@@ -1,6 +1,6 @@
 {
  "rival_lab": {
-  "name": "Rohan",
+  "name": "Sudeep",
   "title": "Rival",
   "portrait": "rival",
   "sprite": "rival",
@@ -11,7 +11,7 @@
    }
   ],
   "prize": 225,
-  "aiLevel": 1,
+  "aiLevel": 0,
   "intro": [
    "Wait, {PLAYER}! Let's see whose Urumon is stronger. Best of one - no rematches!"
   ],
@@ -23,7 +23,7 @@
   "music": "MUSIC_RIVAL"
  },
  "rival_mg": {
-  "name": "Rohan",
+  "name": "Sudeep",
   "title": "Rival",
   "portrait": "rival",
   "sprite": "rival",
@@ -54,7 +54,7 @@
   "music": "MUSIC_RIVAL"
  },
  "rival_whitefield": {
-  "name": "Rohan",
+  "name": "Sudeep",
   "title": "Rival",
   "portrait": "rival",
   "sprite": "rival",
@@ -89,7 +89,7 @@
   "music": "MUSIC_RIVAL"
  },
  "rival_palace": {
-  "name": "Rohan",
+  "name": "Sudeep",
   "title": "Rival",
   "portrait": "rival",
   "sprite": "rival",
@@ -128,7 +128,7 @@
   "music": "MUSIC_RIVAL"
  },
  "champion": {
-  "name": "Rohan",
+  "name": "Sudeep",
   "title": "Champion",
   "portrait": "rival",
   "sprite": "rival",
@@ -378,7 +378,7 @@
   ],
   "after": [
    "The spirits are restless tonight. They say the northern hills are in danger.",
-   "Rohan rushed north on Palace Road. You should follow him."
+   "Sudeep rushed north on Palace Road. You should follow him."
   ],
   "isLeader": true,
   "environment": "arena",

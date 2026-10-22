@@ -20,8 +20,13 @@ it(10, "Tiffin Carrier", "CAPTURE", 1200, "A four-tier carrier. Much better catc
 it(11, "Ajji's Dabba", "CAPTURE", 0, "Grandma's brass tiffin. Nothing has ever escaped it.", ball=255)
 it(12, "Mosquito Coil", "REPEL", 350, "Its smoke keeps weak wild Urumon away for 100 steps.", steps=100)
 it(13, "Neem Paste", "STATUS", 100, "Bitter but effective. Cures poison and burns.", cures=["PSN", "BRN"])
-it(14, "Strong Kaapi", "STATUS", 100, "Extra-strong decoction. Wakes up a sleeping Urumon and cures paralysis.", cures=["SLP", "PAR"])
+it(14, "Strong Kaapi", "STATUS", 100, "Extra-strong hot decoction. Wakes a sleeping Urumon, thaws a frozen one and cures paralysis.", cures=["SLP", "PAR", "FRZ"])
 it(15, "Metro Card", "KEY", 0, "A smart card for Namma Metro. Ride between any stations you have visited.")
 it(16, "Arena Badge Case", "KEY", 0, "Holds your Arena Badges.")
+it(17, "Gaala", "KEY", 0, "A bamboo fishing rod. Face the water and press A to cast a line.")
+it(18, "Old Moss Stone", "KEY", 0, "A layered green stone from deep in Nandi Cave. Prof. Sharada might know what's inside.")
+it(19, "Old Shell Stone", "KEY", 0, "A stone with a curled-up bug-like shape in it. Prof. Sharada might know what's inside.")
+it(20, "Ellu Bella", "HEAL", 2500, "Sesame, jaggery and coconut. Fully restores HP and cures any status problem.", hp="full", cures="all")
+it(21, "Benne", "PP", 1800, "A lump of fresh butter. Fully restores the PP of every move.", pp=99)
 
 ITEMS = I

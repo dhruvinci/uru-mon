@@ -15,9 +15,60 @@ from moves_data import MOVES, MOVE_BY_NAME  # noqa: E402
 from learnsets_data import LINES, EXTRA  # noqa: E402
 from items_data import ITEMS  # noqa: E402
 from trainers_data import TRAINERS  # noqa: E402
+from refs_data import REFS, SPECIAL_HABITAT  # noqa: E402
+import roster_plan  # noqa: E402
+
+sys.path.insert(0, os.path.join(ROOT, "tools", "maps"))
+from encounters import ENCOUNTERS  # noqa: E402
+
+
+def references():
+    """species id -> the Bengaluru reference of its family."""
+    by_name = {s["name"]: s["id"] for s in SPECIES}
+    refs = {}
+    for f in roster_plan.FAMILIES:
+        for stage in f["stages"]:
+            refs[by_name[stage[0]]] = f["angle"]
+    parent = {s["evolution"][1]: s["id"] for s in SPECIES if s["evolution"]}
+    for s in SPECIES:
+        root = s["id"]
+        while root in parent:
+            root = parent[root]
+        if root in REFS:
+            refs[s["id"]] = REFS[root]
+    return refs
+
+
+def habitats():
+    """species id -> where to find it: wild areas, special events, or evolving."""
+    try:
+        names = {m["id"]: m["name"] for m in json.load(open(os.path.join(ROOT, "assets", "maps", "index.json")))}
+    except FileNotFoundError:
+        names = {}
+    kinds = {"grass": "", "cave": "", "fish": " (fishing)"}
+    found = {}
+    for map_id, zones in ENCOUNTERS.items():
+        for zone, table in zones.items():
+            for slot in table["slots"]:
+                where = names.get(map_id, map_id) + kinds.get(zone, "")
+                if where not in found.setdefault(slot["species"], []):
+                    found[slot["species"]].append(where)
+    by_id = {s["id"]: s for s in SPECIES}
+    parent = {s["evolution"][1]: s["id"] for s in SPECIES if s["evolution"]}
+    out = {}
+    for s in SPECIES:
+        sid = s["id"]
+        spots = list(found.get(sid, []))
+        if sid in SPECIAL_HABITAT:
+            spots.insert(0, SPECIAL_HABITAT[sid])
+        if not spots and sid in parent:
+            p = by_id[parent[sid]]
+            spots.append(f"Evolve {p['name']} (Lv {p['evolution'][0]})")
+        out[sid] = spots
+    return out
 
 TYPES = {"NORMAL", "FIRE", "WATER", "GRASS", "ELECTRIC", "EARTH", "ROCK", "SKY", "BUG", "TOXIC", "FIGHT", "MIND",
-         "SPIRIT", "METAL"}
+         "SPIRIT", "METAL", "FROST", "MYTH", "ROGUE", "CHARM"}
 
 
 def fail(msg):
@@ -43,6 +94,8 @@ def main():
     for sid, entries in EXTRA.items():
         learn.setdefault(sid, []).extend(entries)
 
+    refs = references()
+    habitat = habitats()
     species_out = []
     for s in SPECIES:
         for t in s["types"]:
@@ -73,6 +126,8 @@ def main():
             "evolution": {"level": s["evolution"][0], "speciesId": s["evolution"][1]} if s["evolution"] else None,
             "learnset": learnset,
             "dex": s["dex"],
+            "ref": refs.get(s["id"], ""),
+            "habitat": habitat.get(s["id"], []),
             "assetKey": f"MON_{s['id']:03d}",
         })
 

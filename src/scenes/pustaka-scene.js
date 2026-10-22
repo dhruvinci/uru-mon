@@ -11,6 +11,7 @@ import { AUDIO_KEYS } from '../assets/asset-keys.js';
  * @typedef PustakaSceneData
  * @type {object}
  * @property {string} previousSceneName
+ * @property {boolean} [browse] show every entry (from the title screen, before playing)
  */
 
 export class PustakaScene extends BaseScene {
@@ -23,7 +24,9 @@ export class PustakaScene extends BaseScene {
     super.init();
     this.sceneData = { ...data };
     this.species = [...gameData.species].sort((a, b) => a.id - b.id);
-    this.caught = new Set(dataManager.state.pustaka.caught);
+    this.browse = Boolean(data.browse);
+    const all = this.browse ? this.species.map((s) => s.id) : [];
+    this.caught = new Set([...dataManager.state.pustaka.caught, ...all]);
     this.seen = new Set([...dataManager.state.pustaka.seen, ...this.caught]);
     this.showDetails = true;
     this.closing = false;
@@ -41,13 +44,13 @@ export class PustakaScene extends BaseScene {
     text(this, 38, 28, 'Uru-Pustaka', 'title');
     const seenCount = this.species.filter((s) => this.seen.has(s.id)).length;
     const caughtCount = this.species.filter((s) => this.caught.has(s.id)).length;
-    text(this, 978, 38, `SEEN ${seenCount} / CAUGHT ${caughtCount}`, 'body').setOrigin(1, 0);
+    text(this, 978, 38, this.browse ? `ALL ${this.species.length} URUMON` : `SEEN ${seenCount} / CAUGHT ${caughtCount}`, 'body').setOrigin(1, 0);
 
     panel(this, 504, 104, 504, 416);
-    this.entryName = text(this, 756, 122, '', 'body').setOrigin(0.5, 0);
-    this.entryState = text(this, 756, 160, '', 'small').setOrigin(0.5, 0);
-    this.portrait = this.add.image(756, 264, '__MISSING').setScale(2.25);
-    this.unknown = text(this, 756, 264, '?', 'title').setOrigin(0.5);
+    this.entryName = text(this, 756, 116, '', 'body').setOrigin(0.5, 0);
+    this.entryState = text(this, 756, 150, '', 'small').setOrigin(0.5, 0);
+    this.portrait = this.add.image(600, 250, '__MISSING').setScale(2.1);
+    this.unknown = text(this, 600, 250, '?', 'title').setOrigin(0.5);
     this.details = this.add.container(0, 0);
     this.detailHint = text(this, 756, 408, 'A: Show entry details', 'small').setOrigin(0.5, 0);
     this.list = new ListMenu(this, {
@@ -81,7 +84,7 @@ export class PustakaScene extends BaseScene {
     const caught = this.caught.has(entry.id);
     const seen = this.seen.has(entry.id);
     this.entryName.setText(`No.${String(entry.id).padStart(3, '0')} ${seen ? entry.name : '-----'}`);
-    this.entryState.setText(caught ? 'CAUGHT' : seen ? 'SEEN' : 'NOT YET SEEN');
+    this.entryState.setText(this.browse ? '' : caught ? 'CAUGHT' : seen ? 'SEEN' : 'NOT YET SEEN');
     this.portrait.setVisible(seen).clearTint();
     this.unknown.setVisible(!seen);
     if (seen) {
@@ -91,17 +94,25 @@ export class PustakaScene extends BaseScene {
         this.portrait.setTintFill(0x000000);
       }
     }
-    if (caught) {
-      entry.types.forEach((type, i) => {
-        this.details.add(typeBadge(this, 756 - (entry.types.length * 140 - 10) / 2 + i * 140, 348, type, 1.25));
-      });
+    const small = (x, y, str, width) => text(this, x, y, str, { ...TEXT.small, fontSize: '18px', wordWrap: { width }, lineSpacing: 2 });
+    if (!caught) {
+      this.details.add(small(700, 200, seen ? 'Catch this Urumon to record its types and story.' : 'An undiscovered Urumon. Keep exploring!', 290));
+      return;
     }
-    const description = caught
-      ? entry.dex
-      : seen
-        ? 'Catch this Urumon to record its types and story.'
-        : 'An undiscovered Urumon. Keep exploring!';
-    this.details.add(text(this, 532, 400, description, { ...TEXT.small, wordWrap: { width: 448 }, lineSpacing: 3 }));
+    entry.types.forEach((type, i) => {
+      this.details.add(typeBadge(this, 700 + i * 130, 180, type, 1.1));
+    });
+    const found = small(700, 214, `Found: ${(entry.habitat || []).slice(0, 3).join(', ') || 'unknown'}`, 290);
+    this.details.add(found);
+    const next = entry.evolution && gameData.species.find((s) => s.id === entry.evolution.speciesId);
+    if (next) {
+      this.details.add(small(700, found.y + found.height + 8, `Evolves into ${next.name} at Lv ${entry.evolution.level}`, 290));
+    }
+    const dex = small(526, 338, entry.dex, 460);
+    this.details.add(dex);
+    if (entry.ref) {
+      this.details.add(small(526, dex.y + dex.height + 10, `In Bengaluru: ${entry.ref}`, 460).setColor('#4b3f7a'));
+    }
   }
 
   /** @param {number} time */

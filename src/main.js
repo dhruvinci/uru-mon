@@ -18,6 +18,8 @@ import { TrainerCardScene } from './scenes/trainer-card-scene.js';
 import { MetroScene } from './scenes/metro-scene.js';
 import { CreditsScene } from './scenes/credits-scene.js';
 import { TestScene } from './scenes/test-scene.js';
+import { StarterScene } from './scenes/starter-scene.js';
+import { RegionMapScene } from './scenes/region-map-scene.js';
 import { setupTouchControls } from './input/touch-controls.js';
 import { inputManager } from './input/input-manager.js';
 import { dataManager } from './utils/data-manager.js';
@@ -58,6 +60,8 @@ const scenes = [
   [SCENE_KEYS.TRAINER_CARD_SCENE, TrainerCardScene],
   [SCENE_KEYS.METRO_SCENE, MetroScene],
   [SCENE_KEYS.CREDITS_SCENE, CreditsScene],
+  [SCENE_KEYS.STARTER_SCENE, StarterScene],
+  [SCENE_KEYS.REGION_MAP_SCENE, RegionMapScene],
   [SCENE_KEYS.TEST_SCENE, TestScene],
 ];
 scenes.forEach(([key, cls]) => game.scene.add(key, cls));

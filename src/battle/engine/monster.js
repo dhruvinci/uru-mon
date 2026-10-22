@@ -44,7 +44,7 @@
  */
 
 /**
- * @typedef {'BRN'|'PSN'|'PAR'|'SLP'} StatusCondition
+ * @typedef {'BRN'|'PSN'|'PAR'|'SLP'|'FRZ'} StatusCondition
  */
 
 /**

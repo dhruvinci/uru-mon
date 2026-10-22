@@ -42,7 +42,8 @@ function statusImmune(mon, status) {
   return (
     (status === 'BRN' && hasType(mon, 'FIRE')) ||
     (status === 'PSN' && (hasType(mon, 'TOXIC') || hasType(mon, 'METAL'))) ||
-    (status === 'PAR' && hasType(mon, 'ELECTRIC'))
+    (status === 'PAR' && hasType(mon, 'ELECTRIC')) ||
+    (status === 'FRZ' && hasType(mon, 'FROST'))
   );
 }
 
@@ -65,6 +66,7 @@ const STATUS_TEXT = {
   PSN: 'was poisoned',
   PAR: 'is paralyzed! It may be unable to move',
   SLP: 'fell asleep',
+  FRZ: 'was frozen solid',
 };
 
 /** @param {number} stage */
@@ -355,6 +357,15 @@ export class Battle {
       events.push({ type: 'STATUS_CURED', side, status: null });
       events.push({ type: 'MESSAGE', text: `${this.label(side)} woke up!` });
     }
+    if (user.status === 'FRZ') {
+      if (!this.roll(20)) {
+        events.push({ type: 'MESSAGE', text: `${this.label(side)} is frozen solid!` });
+        return;
+      }
+      user.status = null;
+      events.push({ type: 'STATUS_CURED', side, status: null });
+      events.push({ type: 'MESSAGE', text: `${this.label(side)} thawed out!` });
+    }
     if (vol.flinch) {
       events.push({ type: 'MESSAGE', text: `${this.label(side)} flinched and couldn't move!` });
       return;
@@ -425,6 +436,12 @@ export class Battle {
       if (crit) {
         events.push({ type: 'MESSAGE', text: 'A critical hit!' });
       }
+    }
+    // fire melts ice
+    if (move.type === 'FIRE' && foe.status === 'FRZ' && foe.hp > 0) {
+      foe.status = null;
+      events.push({ type: 'STATUS_CURED', side: foeSide, status: null });
+      events.push({ type: 'MESSAGE', text: `${this.label(foeSide)} thawed out!` });
     }
     if (hits > 1) {
       events.push({ type: 'MESSAGE', text: `Hit ${landed} time(s)!` });
@@ -762,7 +779,7 @@ export function catchShakes(mon, catchRate, ball, rng = Math.random) {
     return 4;
   }
   const max = getMaxHp(mon);
-  const statusBonus = mon.status === 'SLP' ? 2 : mon.status ? 1.5 : 1;
+  const statusBonus = mon.status === 'SLP' || mon.status === 'FRZ' ? 2 : mon.status ? 1.5 : 1;
   const a = Math.floor((((3 * max - 2 * mon.hp) * catchRate * ball) / (3 * max)) * statusBonus);
   if (a >= 255) {
     return 4;
@@ -790,12 +807,19 @@ export function applyItem(mon, item) {
       if (mon.hp <= 0) {
         return { ok: false, message: `${name} has fainted. It needs a revive.` };
       }
-      if (mon.hp >= max) {
+      // some food also cures status (e.cures, as for STATUS items)
+      const cure = Boolean(e.cures && mon.status && (e.cures === 'all' || e.cures.includes(mon.status)));
+      if (mon.hp >= max && !cure) {
         return { ok: false, message: `${name}'s HP is already full.` };
       }
       const before = mon.hp;
       mon.hp = e.hp === 'full' ? max : Math.min(max, mon.hp + e.hp);
-      return { ok: true, message: `${name} recovered ${mon.hp - before} HP.` };
+      if (cure) {
+        mon.status = null;
+        mon.sleepTurns = 0;
+      }
+      const healed = mon.hp > before ? `${name} recovered ${mon.hp - before} HP` : '';
+      return { ok: true, message: cure ? `${healed ? `${healed} and` : name} is feeling better!` : `${healed}.` };
     }
     case 'STATUS': {
       if (mon.hp <= 0 || !mon.status || (e.cures !== 'all' && !e.cures.includes(mon.status))) {

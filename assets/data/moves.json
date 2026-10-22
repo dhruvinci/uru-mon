@@ -1576,5 +1576,745 @@
   "priority": 0,
   "description": "Swings a crane arm with full force.",
   "effect": null
+ },
+ {
+  "id": 150,
+  "name": "Chill Breeze",
+  "type": "FROST",
+  "category": "SPECIAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "A cold gust like a December morning. May freeze.",
+  "effect": {
+   "kind": "status",
+   "status": "FRZ",
+   "chance": 10
+  }
+ },
+ {
+  "id": 151,
+  "name": "Hail Pellet",
+  "type": "FROST",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 1,
+  "description": "Flicks a hailstone before the foe can react. Usually goes first.",
+  "effect": null
+ },
+ {
+  "id": 152,
+  "name": "Gola Blast",
+  "type": "FROST",
+  "category": "SPECIAL",
+  "power": 55,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "Sprays shaved ice. Lowers the foe's SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 153,
+  "name": "Frost Bite",
+  "type": "FROST",
+  "category": "PHYSICAL",
+  "power": 65,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "Bites with icy fangs. May freeze.",
+  "effect": {
+   "kind": "status",
+   "status": "FRZ",
+   "chance": 10
+  }
+ },
+ {
+  "id": 154,
+  "name": "AC Blast",
+  "type": "FROST",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Air-conditioning at 16 degrees, full fan. May freeze.",
+  "effect": {
+   "kind": "status",
+   "status": "FRZ",
+   "chance": 10
+  }
+ },
+ {
+  "id": 155,
+  "name": "Glacier Crush",
+  "type": "FROST",
+  "category": "PHYSICAL",
+  "power": 90,
+  "accuracy": 95,
+  "pp": 10,
+  "priority": 0,
+  "description": "Slams down a slab of ice.",
+  "effect": null
+ },
+ {
+  "id": 156,
+  "name": "Hailstorm",
+  "type": "FROST",
+  "category": "SPECIAL",
+  "power": 110,
+  "accuracy": 70,
+  "pp": 5,
+  "priority": 0,
+  "description": "Summons a sudden April hailstorm. May freeze.",
+  "effect": {
+   "kind": "status",
+   "status": "FRZ",
+   "chance": 10
+  }
+ },
+ {
+  "id": 157,
+  "name": "Fog Veil",
+  "type": "FROST",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 15,
+  "priority": 0,
+  "description": "Hides in thick morning fog. Raises evasion.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "EVA": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 160,
+  "name": "Trunk Lash",
+  "type": "MYTH",
+  "category": "PHYSICAL",
+  "power": 45,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "Whips the foe with a carved stone trunk.",
+  "effect": null
+ },
+ {
+  "id": 161,
+  "name": "Legend Breath",
+  "type": "MYTH",
+  "category": "SPECIAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "Breathes the air of old legends. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 30
+  }
+ },
+ {
+  "id": 162,
+  "name": "Yali Claw",
+  "type": "MYTH",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Strikes with the claws of a temple guardian.",
+  "effect": null
+ },
+ {
+  "id": 163,
+  "name": "Torana Pulse",
+  "type": "MYTH",
+  "category": "SPECIAL",
+  "power": 85,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A wave of power shaped like a temple archway.",
+  "effect": null
+ },
+ {
+  "id": 164,
+  "name": "Epic Fury",
+  "type": "MYTH",
+  "category": "PHYSICAL",
+  "power": 120,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A rampage straight out of an epic. The user takes recoil.",
+  "effect": {
+   "kind": "recoil",
+   "ratio": 0.25
+  }
+ },
+ {
+  "id": 165,
+  "name": "Utsava Dance",
+  "type": "MYTH",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "A festival dance. Raises ATK and SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "ATK": 1,
+    "SPD": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 166,
+  "name": "Twin Talon",
+  "type": "MYTH",
+  "category": "PHYSICAL",
+  "power": 55,
+  "accuracy": 95,
+  "pp": 10,
+  "priority": 0,
+  "description": "Both heads strike at once. Hits twice.",
+  "effect": {
+   "kind": "multi",
+   "min": 2,
+   "max": 2
+  }
+ },
+ {
+  "id": 170,
+  "name": "Sly Swipe",
+  "type": "ROGUE",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "A quick swipe while the foe isn't looking.",
+  "effect": null
+ },
+ {
+  "id": 171,
+  "name": "Sneak Bite",
+  "type": "ROGUE",
+  "category": "PHYSICAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "Bites from a blind spot. May make the foe flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 30
+  }
+ },
+ {
+  "id": 172,
+  "name": "Night Prowl",
+  "type": "ROGUE",
+  "category": "PHYSICAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Strikes from the dark. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 173,
+  "name": "Dark Alley",
+  "type": "ROGUE",
+  "category": "SPECIAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Drags the foe into a pitch-dark lane. May make it flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 20
+  }
+ },
+ {
+  "id": 174,
+  "name": "Gang Rush",
+  "type": "ROGUE",
+  "category": "PHYSICAL",
+  "power": 85,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "The whole gang piles in. May lower the foe's DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "DEF": -1
+   },
+   "chance": 20
+  }
+ },
+ {
+  "id": 175,
+  "name": "Midnight Raid",
+  "type": "ROGUE",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 85,
+  "pp": 10,
+  "priority": 0,
+  "description": "A daring raid after midnight.",
+  "effect": null
+ },
+ {
+  "id": 176,
+  "name": "Street Smarts",
+  "type": "ROGUE",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "Plots something clever. Sharply raises SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "SPC": 2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 177,
+  "name": "Leg Pull",
+  "type": "ROGUE",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "Teases the foe mercilessly. Sharply lowers its DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "DEF": -2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 180,
+  "name": "Sweet Breeze",
+  "type": "CHARM",
+  "category": "SPECIAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "A breeze scented with jasmine.",
+  "effect": null
+ },
+ {
+  "id": 181,
+  "name": "Coy Smile",
+  "type": "CHARM",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A smile so sweet the foe forgets to fight. Sharply lowers its ATK.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "ATK": -2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 182,
+  "name": "Jasmine Kiss",
+  "type": "CHARM",
+  "category": "SPECIAL",
+  "power": 50,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A fragrant kiss that drains HP.",
+  "effect": {
+   "kind": "drain",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 183,
+  "name": "Honey Drizzle",
+  "type": "CHARM",
+  "category": "SPECIAL",
+  "power": 65,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Pours sticky honey. May lower the foe's SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -1
+   },
+   "chance": 30
+  }
+ },
+ {
+  "id": 184,
+  "name": "Rangoli Burst",
+  "type": "CHARM",
+  "category": "SPECIAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Bursts into a cloud of bright rangoli colours.",
+  "effect": null
+ },
+ {
+  "id": 185,
+  "name": "Festival Glow",
+  "type": "CHARM",
+  "category": "SPECIAL",
+  "power": 95,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Shines like a street on festival night. May lower the foe's SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPC": -1
+   },
+   "chance": 30
+  }
+ },
+ {
+  "id": 186,
+  "name": "Bombe Dance",
+  "type": "CHARM",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "A graceful doll dance. Raises SPC and SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "SPC": 1,
+    "SPD": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 187,
+  "name": "Bean Blessing",
+  "type": "CHARM",
+  "category": "SPECIAL",
+  "power": 100,
+  "accuracy": 100,
+  "pp": 5,
+  "priority": 0,
+  "description": "The blessing of the boiled bean. Drains HP.",
+  "effect": {
+   "kind": "drain",
+   "ratio": 0.25
+  }
+ },
+ {
+  "id": 190,
+  "name": "Summer Scorch",
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "power": 100,
+  "accuracy": 95,
+  "pp": 5,
+  "priority": 0,
+  "description": "The full heat of an April noon. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 20
+  }
+ },
+ {
+  "id": 191,
+  "name": "Thunder Trumpet",
+  "type": "ELECTRIC",
+  "category": "SPECIAL",
+  "power": 100,
+  "accuracy": 95,
+  "pp": 5,
+  "priority": 0,
+  "description": "Trumpets the first thunder of the monsoon. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 20
+  }
+ },
+ {
+  "id": 192,
+  "name": "Dawn Mist",
+  "type": "FROST",
+  "category": "SPECIAL",
+  "power": 100,
+  "accuracy": 95,
+  "pp": 5,
+  "priority": 0,
+  "description": "Freezing mist that rolls in at sunrise. May freeze.",
+  "effect": {
+   "kind": "status",
+   "status": "FRZ",
+   "chance": 20
+  }
+ },
+ {
+  "id": 193,
+  "name": "Pillar Crash",
+  "type": "ROCK",
+  "category": "PHYSICAL",
+  "power": 110,
+  "accuracy": 90,
+  "pp": 5,
+  "priority": 0,
+  "description": "Brings down a granite pillar. May make the foe flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 20
+  }
+ },
+ {
+  "id": 194,
+  "name": "Makara Surge",
+  "type": "WATER",
+  "category": "PHYSICAL",
+  "power": 95,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Bursts out of the temple tank with a great wave.",
+  "effect": null
+ },
+ {
+  "id": 195,
+  "name": "Burning Foam",
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Hurls blazing lake foam. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 30
+  }
+ },
+ {
+  "id": 196,
+  "name": "Red Light",
+  "type": "ELECTRIC",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A red signal that never turns green. Sharply lowers the foe's SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 197,
+  "name": "Fresh Steam",
+  "type": "NORMAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 10,
+  "priority": 0,
+  "description": "Steams itself fresh. Restores half its max HP.",
+  "effect": {
+   "kind": "heal",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 198,
+  "name": "Ancestor Call",
+  "type": "SPIRIT",
+  "category": "SPECIAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Calls on the ancestors for help.",
+  "effect": null
+ },
+ {
+  "id": 199,
+  "name": "Ghee Roast",
+  "type": "FIRE",
+  "category": "PHYSICAL",
+  "power": 75,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A sizzling body slam with extra ghee. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 10
+  }
+ },
+ {
+  "id": 200,
+  "name": "Cracker String",
+  "type": "FIRE",
+  "category": "PHYSICAL",
+  "power": 18,
+  "accuracy": 90,
+  "pp": 15,
+  "priority": 0,
+  "description": "A string of crackers pops 2 to 5 times.",
+  "effect": {
+   "kind": "multi",
+   "min": 2,
+   "max": 5
+  }
+ },
+ {
+  "id": 201,
+  "name": "Hot Press",
+  "type": "FIRE",
+  "category": "PHYSICAL",
+  "power": 85,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Presses down with a red-hot iron. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 20
+  }
+ },
+ {
+  "id": 202,
+  "name": "Claw Pinch",
+  "type": "WATER",
+  "category": "PHYSICAL",
+  "power": 70,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "Pinches with a huge claw. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 203,
+  "name": "Ram Charge",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 95,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A head-down charge. The user takes recoil.",
+  "effect": {
+   "kind": "recoil",
+   "ratio": 0.25
+  }
+ },
+ {
+  "id": 204,
+  "name": "Ancient Glow",
+  "type": "ROCK",
+  "category": "SPECIAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 5,
+  "priority": 0,
+  "description": "Light from the dawn of time. May raise all the user's stats.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "ATK": 1,
+    "DEF": 1,
+    "SPC": 1,
+    "SPD": 1
+   },
+   "chance": 10
+  }
+ },
+ {
+  "id": 205,
+  "name": "Puddle Splash",
+  "type": "EARTH",
+  "category": "SPECIAL",
+  "power": 55,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "Splashes muddy pothole water. May lower accuracy.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "ACC": -1
+   },
+   "chance": 30
+  }
  }
 ]

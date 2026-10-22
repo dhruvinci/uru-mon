@@ -5,6 +5,7 @@ import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
 import { FONT, ListMenu, readMenuInput, text } from '../ui/ui-kit.js';
 import { allSpecies } from '../battle/engine/monster.js';
+import { adminAvailable, startAdminProfile } from '../game/admin-profile.js';
 
 export class TitleScene extends BaseScene {
   constructor() {
@@ -32,7 +33,8 @@ export class TitleScene extends BaseScene {
     this.add.rectangle(0, 0, width, height, 0x120a26, 0.25).setOrigin(0);
 
     // a parade of creatures along the bottom
-    const species = allSpecies().filter((s) => s.id <= 63 && this.textures.exists(s.assetKey));
+    const legends = new Set([64, 65, 146, 147, 148, 149, 150]);
+    const species = allSpecies().filter((s) => !legends.has(s.id) && this.textures.exists(s.assetKey));
     this.parade = this.add.container(0, 0);
     for (let i = 0; i < 9 && species.length; i += 1) {
       const sp = species[(i * 7 + 3) % species.length];
@@ -109,18 +111,32 @@ export class TitleScene extends BaseScene {
   #showMenu() {
     this.stage = 'menu';
     this.press.setVisible(false);
-    this.menuItems = dataManager.hasSave() ? ['CONTINUE', 'NEW GAME', 'OPTIONS'] : ['NEW GAME', 'OPTIONS'];
-    this.menu = new ListMenu(this, { x: 1024 / 2 - 170, y: 290, width: 340, items: this.menuItems, depth: 10 });
+    dataManager.useProfile('main');
+    this.menuItems = [
+      ...(dataManager.hasSave() ? ['CONTINUE'] : []),
+      'NEW GAME',
+      'URU-PUSTAKA',
+      'BENGALURU MAP',
+      'OPTIONS',
+      ...(adminAvailable() ? ['ADMIN MODE'] : []),
+    ];
+    const height = this.menuItems.length * 46 + 36;
+    this.menu = new ListMenu(this, { x: 1024 / 2 - 190, y: Math.min(290, 576 - height - 10), width: 380, items: this.menuItems, depth: 10 });
   }
 
   /** @param {string} choice */
   #choose(choice) {
-    if (choice === 'OPTIONS') {
+    const browse = {
+      OPTIONS: [SCENE_KEYS.OPTIONS_SCENE, {}],
+      'URU-PUSTAKA': [SCENE_KEYS.PUSTAKA_SCENE, { browse: true }],
+      'BENGALURU MAP': [SCENE_KEYS.REGION_MAP_SCENE, {}],
+    }[choice];
+    if (browse) {
       this.stage = 'sub';
       this.events.once('resume', () => {
         this.stage = 'menu';
       });
-      this.scene.launch(SCENE_KEYS.OPTIONS_SCENE, { previousSceneName: SCENE_KEYS.TITLE_SCENE });
+      this.scene.launch(browse[0], { ...browse[1], previousSceneName: SCENE_KEYS.TITLE_SCENE });
       this.scene.pause();
       return;
     }
@@ -129,6 +145,11 @@ export class TitleScene extends BaseScene {
     this.cameras.main.once('camerafadeoutcomplete', () => {
       if (choice === 'CONTINUE') {
         dataManager.loadData();
+        this.scene.start(SCENE_KEYS.WORLD_SCENE);
+        return;
+      }
+      if (choice === 'ADMIN MODE') {
+        startAdminProfile();
         this.scene.start(SCENE_KEYS.WORLD_SCENE);
         return;
       }

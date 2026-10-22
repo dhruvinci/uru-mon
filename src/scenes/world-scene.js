@@ -14,6 +14,18 @@ import { createMonster, displayName, fullyHeal } from '../battle/engine/monster.
 import { gameData, getItem, getItemByName } from '../game/game-data.js';
 import { ScriptRunner } from '../world/script-runner.js';
 import { buildTrainerTeam } from '../world/trainers.js';
+import { warpTargets } from '../game/admin-profile.js';
+
+/**
+ * Picks a weighted slot from an encounter table.
+ * @param {{slots: {species: number, min: number, max: number, weight: number}[]}} table
+ */
+function rollEncounter(table) {
+  const total = table.slots.reduce((sum, e) => sum + e.weight, 0);
+  let r = Math.random() * total;
+  const slot = table.slots.find((e) => (r -= e.weight) < 0) || table.slots[0];
+  return { species: slot.species, level: slot.min + Math.floor(Math.random() * (slot.max - slot.min + 1)) };
+}
 
 /**
  * @typedef WorldSceneData
@@ -66,6 +78,7 @@ export class WorldScene extends BaseScene {
     this.map = this.make.tilemap({ key: this.mapKey });
     /** @type {any} */
     this.uru = this.cache.tilemap.get(this.mapKey).data.uru || {};
+    this.water = new Set(this.uru.water || []);
     this.mapW = this.map.width * TILE_SIZE;
     this.mapH = this.map.height * TILE_SIZE;
 
@@ -141,6 +154,16 @@ export class WorldScene extends BaseScene {
     if (this.sceneData.warpId) {
       const warp = (this.uru.warps || []).find((w) => w.id === this.sceneData.warpId);
       if (warp) {
+        const exit = warp.exit || 'DOWN';
+        pos = { x: (warp.x + STEP[exit][0]) * TILE_SIZE, y: (warp.y + STEP[exit][1]) * TILE_SIZE };
+        dir = /** @type {any} */ (exit);
+      }
+    } else if (this.sceneData.adminWarp) {
+      // land on the map's spawn point, or just inside its first warp
+      const warp = (this.uru.warps || []).find((w) => w.mode !== 'arrive') || (this.uru.warps || [])[0];
+      if (this.uru.spawn) {
+        pos = { x: this.uru.spawn.x * TILE_SIZE, y: this.uru.spawn.y * TILE_SIZE };
+      } else if (warp) {
         const exit = warp.exit || 'DOWN';
         pos = { x: (warp.x + STEP[exit][0]) * TILE_SIZE, y: (warp.y + STEP[exit][1]) * TILE_SIZE };
         dir = /** @type {any} */ (exit);
@@ -430,16 +453,13 @@ export class WorldScene extends BaseScene {
     if (this.stepsSinceEncounter < 3 || Math.random() >= rate) {
       return;
     }
-    const total = table.slots.reduce((s, e) => s + e.weight, 0);
-    let r = Math.random() * total;
-    const slot = table.slots.find((e) => (r -= e.weight) < 0) || table.slots[0];
-    const level = slot.min + Math.floor(Math.random() * (slot.max - slot.min + 1));
+    const { species, level } = rollEncounter(table);
     const lead = dataManager.party.find((m) => m.hp > 0);
     if (dataManager.state.repelSteps > 0 && lead && level < lead.level) {
       return;
     }
     this.stepsSinceEncounter = 0;
-    const wild = createMonster(slot.species, level);
+    const wild = createMonster(species, level);
     this.startBattle({ wild, environment: this.uru.environment || 'grass' });
   }
 
@@ -637,6 +657,37 @@ export class WorldScene extends BaseScene {
     const thing = (this.uru.interactables || []).find((s) => s.x === tx && s.y === ty);
     if (thing && this.checkCondition(thing.requires)) {
       await this.runScript(thing.script);
+      return;
+    }
+    if (this.water.has(ty * this.map.width + tx) && this.uru.encounters?.fish) {
+      await this.#fish();
+    }
+  }
+
+  /** Casts the Gaala rod into the water the player is facing. */
+  async #fish() {
+    const rod = getItemByName('Gaala');
+    if (!rod || dataManager.itemCount(rod.id) === 0 || dataManager.party.every((m) => m.hp <= 0)) {
+      return;
+    }
+    const release = this.lockForScript();
+    let bite = false;
+    try {
+      await this.ui.say(`${dataManager.state.player.name} cast the Gaala...`);
+      await new Promise((resolve) => {
+        this.time.delayedCall(500 + Math.random() * 1000, resolve);
+      });
+      bite = Math.random() < 0.7;
+      if (bite) {
+        playSoundFx(this, AUDIO_KEYS.SFX_EXCLAIM);
+      }
+      await this.ui.say(bite ? 'Oh! A bite!' : 'Not even a nibble...');
+    } finally {
+      release();
+    }
+    if (bite) {
+      const { species, level } = rollEncounter(this.uru.encounters.fish);
+      await this.startBattle({ wild: createMonster(species, level), environment: 'lake' });
     }
   }
 
@@ -832,6 +883,7 @@ export class WorldScene extends BaseScene {
           dataManager.state.player.name.toUpperCase(),
           'SAVE',
           'OPTIONS',
+          ...(dataManager.state.admin ? ['WARP'] : []),
           'EXIT',
         ];
         this.lastMenuIndex = this.lastMenuIndex || 0;
@@ -842,6 +894,17 @@ export class WorldScene extends BaseScene {
         const choice = options[idx];
         if (choice === 'EXIT') {
           return;
+        }
+        if (choice === 'WARP') {
+          const targets = warpTargets();
+          const pick = await this.ui.choose(targets.map((m) => m.name), { x: 1024 - 420, y: 12, width: 408, visibleRows: 8 });
+          if (pick >= 0) {
+            this.ui.close();
+            this.menuOpen = false;
+            await this.warpTo({ area: targets[pick].id, adminWarp: true });
+            return;
+          }
+          continue;
         }
         if (choice === 'SAVE') {
           const yes = await this.ui.ask('Save your progress?');

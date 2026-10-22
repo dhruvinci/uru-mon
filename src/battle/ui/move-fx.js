@@ -152,7 +152,7 @@ export async function statChangeFx(scene, who, amount) {
  * @param {string} status
  */
 export async function statusFx(scene, who, status) {
-  const colors = { BRN: 0xf06030, PSN: 0xb050c0, PAR: 0xf0d020, SLP: 0x9090b0 };
+  const colors = { BRN: 0xf06030, PSN: 0xb050c0, PAR: 0xf0d020, SLP: 0x9090b0, FRZ: 0x70d0f0 };
   const c = colors[status] ?? 0xffffff;
   for (let i = 0; i < 2; i += 1) {
     who.setTint(c);

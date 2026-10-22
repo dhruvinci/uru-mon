@@ -1,4 +1,4 @@
-/** @typedef {'NORMAL'|'FIRE'|'WATER'|'GRASS'|'ELECTRIC'|'EARTH'|'ROCK'|'SKY'|'BUG'|'TOXIC'|'FIGHT'|'MIND'|'SPIRIT'|'METAL'} UruType */
+/** @typedef {'NORMAL'|'FIRE'|'WATER'|'GRASS'|'ELECTRIC'|'EARTH'|'ROCK'|'SKY'|'BUG'|'TOXIC'|'FIGHT'|'MIND'|'SPIRIT'|'METAL'|'FROST'|'MYTH'|'ROGUE'|'CHARM'} UruType */
 
 export const TYPES = Object.freeze([
   'NORMAL',
@@ -15,6 +15,10 @@ export const TYPES = Object.freeze([
   'MIND',
   'SPIRIT',
   'METAL',
+  'FROST',
+  'MYTH',
+  'ROGUE',
+  'CHARM',
 ]);
 
 /** Display colours for type badges. */
@@ -33,24 +37,32 @@ export const TYPE_COLORS = Object.freeze({
   MIND: 0xf95587,
   SPIRIT: 0x735797,
   METAL: 0xb7b7ce,
+  FROST: 0x5fb7c9,
+  MYTH: 0x6f35fc,
+  ROGUE: 0x705746,
+  CHARM: 0xd685ad,
 });
 
 /** attacker type -> { defender type: multiplier } (unlisted = 1) */
 const CHART = {
   NORMAL: { ROCK: 0.5, METAL: 0.5, SPIRIT: 0 },
-  FIRE: { GRASS: 2, BUG: 2, METAL: 2, FIRE: 0.5, WATER: 0.5, ROCK: 0.5 },
-  WATER: { FIRE: 2, EARTH: 2, ROCK: 2, WATER: 0.5, GRASS: 0.5 },
-  GRASS: { WATER: 2, EARTH: 2, ROCK: 2, FIRE: 0.5, GRASS: 0.5, TOXIC: 0.5, SKY: 0.5, BUG: 0.5, METAL: 0.5 },
-  ELECTRIC: { WATER: 2, SKY: 2, ELECTRIC: 0.5, GRASS: 0.5, EARTH: 0 },
+  FIRE: { GRASS: 2, BUG: 2, METAL: 2, FROST: 2, FIRE: 0.5, WATER: 0.5, ROCK: 0.5, MYTH: 0.5 },
+  WATER: { FIRE: 2, EARTH: 2, ROCK: 2, WATER: 0.5, GRASS: 0.5, MYTH: 0.5 },
+  GRASS: { WATER: 2, EARTH: 2, ROCK: 2, FIRE: 0.5, GRASS: 0.5, TOXIC: 0.5, SKY: 0.5, BUG: 0.5, METAL: 0.5, MYTH: 0.5 },
+  ELECTRIC: { WATER: 2, SKY: 2, ELECTRIC: 0.5, GRASS: 0.5, MYTH: 0.5, EARTH: 0 },
   EARTH: { FIRE: 2, ELECTRIC: 2, TOXIC: 2, ROCK: 2, METAL: 2, GRASS: 0.5, BUG: 0.5, SKY: 0 },
-  ROCK: { FIRE: 2, SKY: 2, BUG: 2, FIGHT: 0.5, EARTH: 0.5, METAL: 0.5 },
+  ROCK: { FIRE: 2, SKY: 2, BUG: 2, FROST: 2, FIGHT: 0.5, EARTH: 0.5, METAL: 0.5 },
   SKY: { GRASS: 2, FIGHT: 2, BUG: 2, ELECTRIC: 0.5, ROCK: 0.5, METAL: 0.5 },
-  BUG: { GRASS: 2, MIND: 2, FIRE: 0.5, FIGHT: 0.5, SKY: 0.5, SPIRIT: 0.5, METAL: 0.5, TOXIC: 0.5 },
-  TOXIC: { GRASS: 2, TOXIC: 0.5, EARTH: 0.5, ROCK: 0.5, SPIRIT: 0.5, METAL: 0 },
-  FIGHT: { NORMAL: 2, ROCK: 2, METAL: 2, TOXIC: 0.5, SKY: 0.5, BUG: 0.5, MIND: 0.5, SPIRIT: 0 },
-  MIND: { FIGHT: 2, TOXIC: 2, MIND: 0.5, METAL: 0.5 },
-  SPIRIT: { MIND: 2, SPIRIT: 2, NORMAL: 0 },
-  METAL: { ROCK: 2, FIRE: 0.5, WATER: 0.5, ELECTRIC: 0.5, METAL: 0.5 },
+  BUG: { GRASS: 2, MIND: 2, ROGUE: 2, FIRE: 0.5, FIGHT: 0.5, SKY: 0.5, SPIRIT: 0.5, METAL: 0.5, TOXIC: 0.5, CHARM: 0.5 },
+  TOXIC: { GRASS: 2, CHARM: 2, TOXIC: 0.5, EARTH: 0.5, ROCK: 0.5, SPIRIT: 0.5, METAL: 0 },
+  FIGHT: { NORMAL: 2, ROCK: 2, METAL: 2, FROST: 2, ROGUE: 2, TOXIC: 0.5, SKY: 0.5, BUG: 0.5, MIND: 0.5, CHARM: 0.5, SPIRIT: 0 },
+  MIND: { FIGHT: 2, TOXIC: 2, MIND: 0.5, METAL: 0.5, ROGUE: 0 },
+  SPIRIT: { MIND: 2, SPIRIT: 2, ROGUE: 0.5, NORMAL: 0 },
+  METAL: { ROCK: 2, FROST: 2, CHARM: 2, FIRE: 0.5, WATER: 0.5, ELECTRIC: 0.5, METAL: 0.5 },
+  FROST: { GRASS: 2, EARTH: 2, SKY: 2, MYTH: 2, FIRE: 0.5, WATER: 0.5, FROST: 0.5, METAL: 0.5 },
+  MYTH: { MYTH: 2, METAL: 0.5, CHARM: 0 },
+  ROGUE: { MIND: 2, SPIRIT: 2, FIGHT: 0.5, ROGUE: 0.5, CHARM: 0.5 },
+  CHARM: { FIGHT: 2, MYTH: 2, ROGUE: 2, FIRE: 0.5, TOXIC: 0.5, METAL: 0.5 },
 };
 
 /**

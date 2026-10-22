@@ -81,7 +81,7 @@ FAMILIES = [
 
     # --- city and urban ------------------------------------------------------------------------------------
     dict(key="gundi", role="Common", concept="A pothole that wanders the roads; the evolution swallows scooters.",
-         angle="Bengaluru potholes, a civic institution. Gives an EARTH option before the ELECTRIC Arena.", habitat=["mg_road", "silk_board"],
+         angle="Bengaluru potholes, a civic institution.", habitat=["mg_road", "silk_board"],
          stages=[("Gundi", ["EARTH"], 30, 250), ("Mahagundi", ["EARTH", "ROGUE"], None, 420)]),
     dict(key="heggana", role="Common", concept="A drain bandicoot that grows into a sewer brute.",
          angle="The giant bandicoots of the city's storm drains.", habitat=["mg_road", "silk_board", "whitefield"],
@@ -96,7 +96,7 @@ FAMILIES = [
          angle="The istri-wala's pushcart on every residential street.", habitat=["malleshwaram", "basavanagudi"],
          stages=[("Istri", ["FIRE", "METAL"], 30, 260), ("Istriraaja", ["FIRE", "METAL"], None, 430)]),
     dict(key="pataaki", role="Three-stage", concept="A firecracker that grows from a cracker strip to a sutli to a sky rocket.",
-         angle="Deepavali nights. Also gives an early FIRE catch, which the game lacks today.", habitat=["mg_road", "malleshwaram"],
+         angle="Deepavali nights, when every street sounds like a battlefield.", habitat=["mg_road", "malleshwaram"],
          stages=[("Pataaki", ["FIRE"], 16, 210), ("Sutli", ["FIRE"], 34, 330), ("Rocketaaki", ["FIRE", "SKY"], None, 450)]),
     dict(key="kulfi", role="Common", concept="A kulfi on a stick that becomes a towering gadbad sundae.",
          angle="Ice-cream carts, Corner House and the Gadbad sundae.", habitat=["mg_road", "lalbagh"],
@@ -157,7 +157,7 @@ FAMILIES = [
          angle="Cricket, the insect and the sport; gully cricket in every lane.", habitat=["silk_board", "stadium surroundings", "palace_road"],
          stages=[("Midathe", ["BUG", "FIGHT"], 28, 240), ("Mahamidathe", ["BUG", "FIGHT"], None, 430)]),
     dict(key="mungusi", role="Common", concept="A mongoose that boxes snakes; the evolution is a scarred champion.",
-         angle="Mongooses in the scrub around the city. Gives FIGHT early, for the FIGHT and ROGUE matchups.", habitat=["cubbon_park", "route1 (rare)"],
+         angle="Mongooses in the scrub around the city, fearless against snakes.", habitat=["cubbon_park", "route1 (rare)"],
          stages=[("Mungusi", ["FIGHT"], 30, 250), ("Mungusiveera", ["FIGHT"], None, 430)]),
     dict(key="tagaru", role="Common", concept="A fighting ram with festival-painted horns.",
          angle="Tagaru kaalaga, the ram fights of village fairs on the city's outskirts.", habitat=["hebbal", "nandi_hills"],

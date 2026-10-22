@@ -5,7 +5,8 @@ import { TEXT_SPEED_OPTIONS, BATTLE_SCENE_OPTIONS, BATTLE_STYLE_OPTIONS, SOUND_O
 import { exhaustiveGuard } from './guard.js';
 import { getItem } from '../game/game-data.js';
 
-const LOCAL_STORAGE_KEY = 'URU_MON_SAVE_V1';
+/** One save slot per profile; the admin profile never touches the player's own save. */
+const SAVE_KEYS = { main: 'URU_MON_SAVE_V1', admin: 'URU_MON_SAVE_V1_ADMIN' };
 export const PARTY_SIZE = 6;
 export const STARTING_AREA = 'player_house_2f';
 
@@ -157,12 +158,23 @@ class DataManager extends Phaser.Events.EventEmitter {
     this.state = initialState();
     this.store = new StateStore(this);
     this.sessionStart = Date.now();
+    /** @type {'main'|'admin'} */
+    this.profile = 'main';
+  }
+
+  get storageKey() {
+    return SAVE_KEYS[this.profile];
+  }
+
+  /** @param {'main'|'admin'} profile */
+  useProfile(profile) {
+    this.profile = profile;
   }
 
   /** @returns {boolean} whether a save exists */
   hasSave() {
     try {
-      return localStorage.getItem(LOCAL_STORAGE_KEY) !== null;
+      return localStorage.getItem(this.storageKey) !== null;
     } catch {
       return false;
     }
@@ -171,7 +183,7 @@ class DataManager extends Phaser.Events.EventEmitter {
   loadData() {
     let raw = null;
     try {
-      raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+      raw = localStorage.getItem(this.storageKey);
     } catch {
       console.warn('[DataManager] localStorage unavailable; progress will not persist.');
       return;
@@ -200,7 +212,7 @@ class DataManager extends Phaser.Events.EventEmitter {
   saveData() {
     this.#accumulatePlayTime();
     try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.state));
+      localStorage.setItem(this.storageKey, JSON.stringify(this.state));
       return true;
     } catch (error) {
       console.warn('[DataManager] could not save', error);
@@ -212,9 +224,9 @@ class DataManager extends Phaser.Events.EventEmitter {
   saveOptions() {
     if (this.hasSave()) {
       try {
-        const parsed = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+        const parsed = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
         parsed.options = this.state.options;
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsed));
+        localStorage.setItem(this.storageKey, JSON.stringify(parsed));
       } catch {
         /* ignore */
       }

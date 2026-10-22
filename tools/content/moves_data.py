@@ -2,7 +2,7 @@
 
 Each move: id, name, type, category (PHYSICAL / SPECIAL / STATUS), power, accuracy (0 = never misses),
 pp, priority, effect (or None), description. Effect kinds handled by src/battle/engine/battle-engine.js:
-  status   {"status": BRN|PSN|PAR|SLP, "chance": %}   (status moves use chance 100)
+  status   {"status": BRN|PSN|PAR|SLP|FRZ, "chance": %}   (status moves use chance 100)
   stat     {"target": "self"|"foe", "stats": {...stages}, "chance": %}
   drain    {"ratio": 0.5}            heal user by ratio of damage dealt
   recoil   {"ratio": 0.25}           user takes ratio of damage dealt
@@ -164,6 +164,64 @@ mv(142, "Tumbler Toss", "METAL", S_, 80, 100, 10, "Flings a spinning steel tumbl
 mv(143, "Rail Slam", "METAL", P, 100, 90, 10, "Slams down like a speeding train.")
 mv(144, "Data Spike", "METAL", S_, 70, 100, 15, "Fires a spike of compressed data.")
 mv(145, "Crane Swing", "METAL", P, 110, 85, 5, "Swings a crane arm with full force.")
+
+# FROST
+mv(150, "Chill Breeze", "FROST", S_, 40, 100, 25, "A cold gust like a December morning. May freeze.", st("FRZ", 10))
+mv(151, "Hail Pellet", "FROST", P, 40, 100, 30, "Flicks a hailstone before the foe can react. Usually goes first.", priority=1)
+mv(152, "Gola Blast", "FROST", S_, 55, 95, 15, "Sprays shaved ice. Lowers the foe's SPD.", stat("foe", SPD=-1))
+mv(153, "Frost Bite", "FROST", P, 65, 95, 15, "Bites with icy fangs. May freeze.", st("FRZ", 10))
+mv(154, "AC Blast", "FROST", S_, 90, 100, 10, "Air-conditioning at 16 degrees, full fan. May freeze.", st("FRZ", 10))
+mv(155, "Glacier Crush", "FROST", P, 90, 95, 10, "Slams down a slab of ice.")
+mv(156, "Hailstorm", "FROST", S_, 110, 70, 5, "Summons a sudden April hailstorm. May freeze.", st("FRZ", 10))
+mv(157, "Fog Veil", "FROST", X, 0, 0, 15, "Hides in thick morning fog. Raises evasion.", stat("self", EVA=1))
+
+# MYTH
+mv(160, "Trunk Lash", "MYTH", P, 45, 100, 30, "Whips the foe with a carved stone trunk.")
+mv(161, "Legend Breath", "MYTH", S_, 60, 100, 20, "Breathes the air of old legends. May paralyze.", st("PAR", 30))
+mv(162, "Yali Claw", "MYTH", P, 80, 100, 15, "Strikes with the claws of a temple guardian.")
+mv(163, "Torana Pulse", "MYTH", S_, 85, 100, 10, "A wave of power shaped like a temple archway.")
+mv(164, "Epic Fury", "MYTH", P, 120, 100, 10, "A rampage straight out of an epic. The user takes recoil.", dict(kind="recoil", ratio=0.25))
+mv(165, "Utsava Dance", "MYTH", X, 0, 0, 20, "A festival dance. Raises ATK and SPD.", stat("self", ATK=1, SPD=1))
+mv(166, "Twin Talon", "MYTH", P, 55, 95, 10, "Both heads strike at once. Hits twice.", dict(kind="multi", min=2, max=2))
+
+# ROGUE
+mv(170, "Sly Swipe", "ROGUE", P, 40, 100, 25, "A quick swipe while the foe isn't looking.")
+mv(171, "Sneak Bite", "ROGUE", P, 60, 100, 25, "Bites from a blind spot. May make the foe flinch.", dict(kind="flinch", chance=30))
+mv(172, "Night Prowl", "ROGUE", P, 70, 100, 15, "Strikes from the dark. High critical-hit ratio.", dict(kind="highCrit"))
+mv(173, "Dark Alley", "ROGUE", S_, 80, 100, 15, "Drags the foe into a pitch-dark lane. May make it flinch.", dict(kind="flinch", chance=20))
+mv(174, "Gang Rush", "ROGUE", P, 85, 100, 15, "The whole gang piles in. May lower the foe's DEF.", stat("foe", 20, DEF=-1))
+mv(175, "Midnight Raid", "ROGUE", P, 100, 85, 10, "A daring raid after midnight.")
+mv(176, "Street Smarts", "ROGUE", X, 0, 0, 20, "Plots something clever. Sharply raises SPC.", stat("self", SPC=2))
+mv(177, "Leg Pull", "ROGUE", X, 0, 100, 20, "Teases the foe mercilessly. Sharply lowers its DEF.", stat("foe", DEF=-2))
+
+# CHARM
+mv(180, "Sweet Breeze", "CHARM", S_, 40, 100, 25, "A breeze scented with jasmine.")
+mv(181, "Coy Smile", "CHARM", X, 0, 100, 20, "A smile so sweet the foe forgets to fight. Sharply lowers its ATK.", stat("foe", ATK=-2))
+mv(182, "Jasmine Kiss", "CHARM", S_, 50, 100, 10, "A fragrant kiss that drains HP.", dict(kind="drain", ratio=0.5))
+mv(183, "Honey Drizzle", "CHARM", S_, 65, 100, 15, "Pours sticky honey. May lower the foe's SPD.", stat("foe", 30, SPD=-1))
+mv(184, "Rangoli Burst", "CHARM", S_, 80, 100, 10, "Bursts into a cloud of bright rangoli colours.")
+mv(185, "Festival Glow", "CHARM", S_, 95, 100, 10, "Shines like a street on festival night. May lower the foe's SPC.", stat("foe", 30, SPC=-1))
+mv(186, "Bombe Dance", "CHARM", X, 0, 0, 20, "A graceful doll dance. Raises SPC and SPD.", stat("self", SPC=1, SPD=1))
+mv(187, "Bean Blessing", "CHARM", S_, 100, 100, 5, "The blessing of the boiled bean. Drains HP.", dict(kind="drain", ratio=0.25))
+
+# signatures and extras
+mv(190, "Summer Scorch", "FIRE", S_, 100, 95, 5, "The full heat of an April noon. May burn.", st("BRN", 20))
+mv(191, "Thunder Trumpet", "ELECTRIC", S_, 100, 95, 5, "Trumpets the first thunder of the monsoon. May paralyze.", st("PAR", 20))
+mv(192, "Dawn Mist", "FROST", S_, 100, 95, 5, "Freezing mist that rolls in at sunrise. May freeze.", st("FRZ", 20))
+mv(193, "Pillar Crash", "ROCK", P, 110, 90, 5, "Brings down a granite pillar. May make the foe flinch.", dict(kind="flinch", chance=20))
+mv(194, "Makara Surge", "WATER", P, 95, 100, 10, "Bursts out of the temple tank with a great wave.")
+mv(195, "Burning Foam", "FIRE", S_, 80, 100, 10, "Hurls blazing lake foam. May burn.", st("BRN", 30))
+mv(196, "Red Light", "ELECTRIC", X, 0, 100, 20, "A red signal that never turns green. Sharply lowers the foe's SPD.", stat("foe", SPD=-2))
+mv(197, "Fresh Steam", "NORMAL", X, 0, 0, 10, "Steams itself fresh. Restores half its max HP.", dict(kind="heal", ratio=0.5))
+mv(198, "Ancestor Call", "SPIRIT", S_, 70, 100, 15, "Calls on the ancestors for help.")
+mv(199, "Ghee Roast", "FIRE", P, 75, 100, 15, "A sizzling body slam with extra ghee. May burn.", st("BRN", 10))
+mv(200, "Cracker String", "FIRE", P, 18, 90, 15, "A string of crackers pops 2 to 5 times.", dict(kind="multi", min=2, max=5))
+mv(201, "Hot Press", "FIRE", P, 85, 100, 10, "Presses down with a red-hot iron. May burn.", st("BRN", 20))
+mv(202, "Claw Pinch", "WATER", P, 70, 95, 15, "Pinches with a huge claw. High critical-hit ratio.", dict(kind="highCrit"))
+mv(203, "Ram Charge", "FIGHT", P, 95, 100, 10, "A head-down charge. The user takes recoil.", dict(kind="recoil", ratio=0.25))
+mv(204, "Ancient Glow", "ROCK", S_, 60, 100, 5, "Light from the dawn of time. May raise all the user's stats.",
+   stat("self", 10, ATK=1, DEF=1, SPC=1, SPD=1))
+mv(205, "Puddle Splash", "EARTH", S_, 55, 100, 20, "Splashes muddy pothole water. May lower accuracy.", stat("foe", 30, ACC=-1))
 
 MOVES = M
 MOVE_BY_NAME = {m["name"]: m for m in M}

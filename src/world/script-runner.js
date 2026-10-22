@@ -456,22 +456,13 @@ export class ScriptRunner {
     const options = c.options || [1, 4, 7];
     const counters = { 1: 4, 4: 7, 7: 1 }; // the rival picks the one strong against yours
     for (;;) {
-      const labels = options.map((id) => `${getSpecies(id).name} (${getSpecies(id).types[0]})`);
-      const idx = await this.ui.choose(labels, { prompt: 'Which Urumon will you choose as your partner?', cancelValue: -1, width: 380 });
+      this.ui.close();
+      const picked = await this.world.openSubScene(SCENE_KEYS.STARTER_SCENE, { options });
+      const idx = options.indexOf(picked?.species);
       if (idx < 0) {
         continue;
       }
       const sp = getSpecies(options[idx]);
-      const info = {
-        1: `${sp.name}, the jacaranda fawn. A GRASS type that grows into a mystic stag.`,
-        4: `${sp.name}, the filter-coffee pup. A FIRE type with a steel tumbler on its head.`,
-        7: `${sp.name}, the tender-coconut turtle. A WATER type that becomes a living island.`,
-      }[sp.id];
-      await this.ui.say(info || sp.dex);
-      const yes = await this.ui.ask(`So, you want ${sp.name}?`);
-      if (!yes) {
-        continue;
-      }
       const mon = createMonster(sp.id, 5);
       dataManager.addMonster(mon);
       const rival = counters[sp.id] ?? options[(idx + 1) % options.length];

@@ -22,6 +22,8 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
 - Browser tests (Playwright, `cd tools && npm install` once) expect the dev server on port 8080:
   `node test/world-smoke.mjs <shots_dir> <map,map>`, `newgame.mjs`, `services.mjs`, `systems.mjs <dir> catch|evolve`,
   `progression.mjs <dir> leader|metro|blackout`, `story.mjs <dir> cubbon|rival2|rival2lose|rival3|bellandur|rival4|nandi|council`.
+  `frontdoor.mjs <dir> [pustaka|map|starter|admin|fishing]` covers the title-screen extras, the starter showcase,
+  the admin profile and fishing.
   `window.__uru` exposes `dataManager`, `gameData`, `createMonster` for tests.
 
 ## Review site and the user's notes
@@ -63,6 +65,10 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   Shared interiors (Darshini, Kirana) exit to `@return`, set by the entering door's `setReturn`.
 - **Characters**: `CHAR_*` sheets are 3 columns × 4 rows (down, up, left, right) of 16×24 frames; walk anims are built
   in `PreloadScene`. Trainer species `"RIVAL:n"` resolves to stage n of Sudeep's starter line at runtime.
+- **Admin profile**: on localhost (or with `?admin`) the title menu shows ADMIN MODE, a separate save slot
+  (`URU_MON_SAVE_V1_ADMIN`) with all 150 Urumon, every badge and item, and WARP in the START menu (src/game/admin-profile.js).
+- **Fishing**: maps with a "fish" encounter table record their water tiles (`uru.water`); pressing A while facing water with
+  the Gaala rod starts a fishing encounter.
 - **Council**: entering `council_1` resets the five Council trainers (`resetTrainers`), so losing restarts the run.
 - **Input**: one global `inputManager` merges keyboard and the DOM touch pad; per-scene `Controls` just reads it.
   Keys typed into `<input>` elements are ignored by the game (used for name entry). A tap shorter than a frame still

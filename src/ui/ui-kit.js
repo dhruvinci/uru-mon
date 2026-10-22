@@ -118,7 +118,7 @@ export function typeBadge(scene, x, y, type, scale = 1) {
   return scene.add.container(x, y, [g, t]);
 }
 
-const STATUS_COLORS = { BRN: 0xe86030, PSN: 0xa040a0, PAR: 0xd8b818, SLP: 0x8888a0, FNT: 0x703838 };
+const STATUS_COLORS = { BRN: 0xe86030, PSN: 0xa040a0, PAR: 0xd8b818, SLP: 0x8888a0, FRZ: 0x58b8d8, FNT: 0x703838 };
 
 /**
  * @param {Phaser.Scene} scene
