@@ -268,3 +268,46 @@ tr("ar_stadium1", "Prakash", "Cricketer", "cricketer", [(30, 15), (13, 16), (60,
    ["I've been twelfth man for six seasons. Today I play!"], ["Back to carrying drinks, I suppose."])
 tr("ar_tech1", "Sahana", "Techie", "techie_f", [(49, 22), (47, 23)],
    ["Our Leader built her first startup in her hostel room. I built mine in a hackathon!"], ["Segfault. Core dumped. That was me."])
+
+
+# ---------------------------------------------------------------------------------------------
+# Expansion to 150: each trainer below swaps one Urumon (by team index) for a new one at the same level,
+# evolved as far as that level allows. Arena Leaders and the Council each get one; Sudeep's street dog grows with him.
+# ---------------------------------------------------------------------------------------------
+EXPANSION_SWAPS = {
+    "leader_gundappa": (0, 106), "leader_tanvi": (2, 100), "leader_vidya": (1, 76),
+    "leader_rukmini": (0, 118), "leader_akash": (0, 93),
+    "council_nagaraj": (2, 108), "council_basappa": (1, 130), "council_kaveri": (0, 110), "council_agni": (0, 83),
+    "rival_whitefield": (2, 66), "rival_palace": (2, 66), 
+    "boss_bhaskar": (0, 96), "admin_shetty": (0, 108), "grunt_cubbon1": (0, 102), "grunt_bell1": (1, 102),
+    "grunt_nandi1": (0, 98),
+    "r1_kid": (1, 74), "r1_jogger": (1, 66), "r1_vendor": ("add", 72, 5), "lb_gardener": (1, 72), "lb_college": (0, 76),
+    "cp_bird": (1, 91), "cp_jogger": (1, 89), "cp_kid": (2, 85), "cp_college": (1, 87), "st_cricketer1": (0, 106),
+    "mg_techie": (1, 100), "mg_dancer": (1, 116), "sb_auto1": (1, 96), "sb_rider": (0, 93), "sb_techie": (1, 104),
+    "sb_college": (0, 78), "wf_techie1": (1, 100), "bl_fisher": (1, 110), "sk_ajja": (1, 124), "sk_ajji": (0, 74),
+    "sk_bird": (1, 126), "ml_college": (1, 114), "ml_kid": ("add", 112, 27), "pr_dancer": (1, 116),
+    "pr_ajja": (0, 122), "pr_cricketer": (2, 106), "hb_rider": (1, 98), "hb_wrestler": (0, 128), "hb_fisher": (1, 110),
+    "nh_bird": (1, 120), "nh_wrestler": (0, 89), "ar_tuition1": (0, 76), "ar_palace1": (0, 132),
+    "ar_pavilion1": (0, 126), "ar_pavilion2": (0, 91), "ar_glass1": (1, 81), "ar_stadium1": (1, 89), "ar_tech1": (1, 87),
+}
+
+
+def _apply_expansion_swaps():
+    from species_data import SPECIES
+    evo = {s["id"]: s["evolution"] for s in SPECIES}
+
+    def stage_at(species, level):
+        while evo.get(species) and evo[species][0] <= level:
+            species = evo[species][1]
+        return species
+
+    for tid, swap in EXPANSION_SWAPS.items():
+        team = TRAINERS[tid]["team"]
+        if swap[0] == "add":
+            team.append(dict(species=stage_at(swap[1], swap[2]), level=swap[2]))
+        else:
+            idx, base = swap
+            team[idx] = dict(species=stage_at(base, team[idx]["level"]), level=team[idx]["level"])
+
+
+_apply_expansion_swaps()

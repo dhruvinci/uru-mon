@@ -23,7 +23,6 @@ RETYPES = {
     33: (["SPIRIT"], ["SPIRIT", "ROGUE"], "Kaalbekku is a black cat: the classic night prowler."),
     42: (["SKY", "MIND"], ["SKY", "CHARM"], "Navilu is a peacock; beauty over brains."),
     39: (["MIND", "ROCK"], ["MIND", "CHARM"], "Chintamani is a wish-granting jewel."),
-    57: (["METAL", "ELECTRIC"], ["METAL", "MYTH"], "Metrovaha is drawn as a sleek metal dragon; also eases METAL's crowding."),
 }
 
 # Families. Each: key, role, concept, Bengaluru angle, habitat, stages.

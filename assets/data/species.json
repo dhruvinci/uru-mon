@@ -3721,7 +3721,7 @@
   "name": "Metrovaha",
   "types": [
    "METAL",
-   "MYTH"
+   "ELECTRIC"
   ],
   "baseStats": {
    "hp": 85,
@@ -3763,16 +3763,8 @@
     "moveId": 143
    },
    {
-    "level": 36,
-    "moveId": 161
-   },
-   {
     "level": 41,
     "moveId": 53
-   },
-   {
-    "level": 44,
-    "moveId": 163
    },
    {
     "level": 48,

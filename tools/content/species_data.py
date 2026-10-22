@@ -184,7 +184,7 @@ sp(55, "Gulmohara", ["GRASS", "FIRE"], (75, 80, 70, 100, 85), 60, 182, None,
 sp(56, "Railu", ["METAL", "ELECTRIC"], (45, 60, 60, 45, 60), 120, 70, (34, 57),
    "It runs back and forth along the same track all day and never gets bored.",
    "a small metallic caterpillar-like train creature with three cylindrical segments, purple and green stripes, headlight eyes")
-sp(57, "Metrovaha", ["METAL", "MYTH"], (85, 110, 100, 85, 100), 45, 245, None,
+sp(57, "Metrovaha", ["METAL", "ELECTRIC"], (85, 110, 100, 85, 100), 45, 245, None,
    "It carries thousands across the city every day and is never on time, except when you are late.",
    "a long sleek metal dragon shaped like a modern metro train with purple livery, pantograph horns crackling with electricity, glowing windows along its body")
 sp(58, "Chinnu", ["ROCK", "METAL"], (30, 55, 85, 30, 40), 190, 64, (30, 59),

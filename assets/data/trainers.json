@@ -68,7 +68,7 @@
     "level": 23
    },
    {
-    "species": 28,
+    "species": 67,
     "level": 23
    },
    {
@@ -103,7 +103,7 @@
     "level": 35
    },
    {
-    "species": 29,
+    "species": 67,
     "level": 35
    },
    {
@@ -223,7 +223,7 @@
   "sprite": "gundappa",
   "team": [
    {
-    "species": 30,
+    "species": 106,
     "level": 17
    },
    {
@@ -273,7 +273,7 @@
     "level": 22
    },
    {
-    "species": 56,
+    "species": 100,
     "level": 23
    },
    {
@@ -314,7 +314,7 @@
     "level": 29
    },
    {
-    "species": 35,
+    "species": 77,
     "level": 29
    },
    {
@@ -351,7 +351,7 @@
   "sprite": "rukmini",
   "team": [
    {
-    "species": 36,
+    "species": 119,
     "level": 32
    },
    {
@@ -396,7 +396,7 @@
   "sprite": "akash",
   "team": [
    {
-    "species": 17,
+    "species": 95,
     "level": 40
    },
    {
@@ -449,7 +449,7 @@
     "level": 44
    },
    {
-    "species": 19,
+    "species": 109,
     "level": 45
    },
    {
@@ -482,7 +482,7 @@
     "level": 45
    },
    {
-    "species": 53,
+    "species": 131,
     "level": 45
    },
    {
@@ -515,7 +515,7 @@
   "sprite": "kaveri",
   "team": [
    {
-    "species": 46,
+    "species": 111,
     "level": 46
    },
    {
@@ -552,7 +552,7 @@
   "sprite": "agni",
   "team": [
    {
-    "species": 55,
+    "species": 84,
     "level": 47
    },
    {
@@ -589,7 +589,7 @@
   "sprite": "grunt_m",
   "team": [
    {
-    "species": 20,
+    "species": 102,
     "level": 10
    },
    {
@@ -645,7 +645,7 @@
     "level": 23
    },
    {
-    "species": 20,
+    "species": 102,
     "level": 24
    }
   ],
@@ -720,7 +720,7 @@
   "sprite": "bhaskar",
   "team": [
    {
-    "species": 22,
+    "species": 108,
     "level": 26
    },
    {
@@ -751,7 +751,7 @@
   "sprite": "grunt_m",
   "team": [
    {
-    "species": 21,
+    "species": 99,
     "level": 34
    },
    {
@@ -830,7 +830,7 @@
   "sprite": "bhaskar",
   "team": [
    {
-    "species": 21,
+    "species": 97,
     "level": 38
    },
    {
@@ -872,7 +872,7 @@
     "level": 4
    },
    {
-    "species": 10,
+    "species": 74,
     "level": 4
    }
   ],
@@ -897,7 +897,7 @@
     "level": 5
    },
    {
-    "species": 28,
+    "species": 66,
     "level": 5
    }
   ],
@@ -920,6 +920,10 @@
    {
     "species": 52,
     "level": 6
+   },
+   {
+    "species": 72,
+    "level": 5
    }
   ],
   "prize": 120,
@@ -943,7 +947,7 @@
     "level": 9
    },
    {
-    "species": 52,
+    "species": 72,
     "level": 9
    }
   ],
@@ -964,7 +968,7 @@
   "sprite": "college_f",
   "team": [
    {
-    "species": 15,
+    "species": 76,
     "level": 8
    },
    {
@@ -993,7 +997,7 @@
     "level": 9
    },
    {
-    "species": 34,
+    "species": 91,
     "level": 9
    },
    {
@@ -1022,7 +1026,7 @@
     "level": 10
    },
    {
-    "species": 30,
+    "species": 89,
     "level": 11
    }
   ],
@@ -1051,7 +1055,7 @@
     "level": 9
    },
    {
-    "species": 15,
+    "species": 85,
     "level": 9
    }
   ],
@@ -1076,7 +1080,7 @@
     "level": 11
    },
    {
-    "species": 36,
+    "species": 87,
     "level": 10
    }
   ],
@@ -1097,7 +1101,7 @@
   "sprite": "cricketer",
   "team": [
    {
-    "species": 28,
+    "species": 106,
     "level": 15
    },
    {
@@ -1151,7 +1155,7 @@
     "level": 14
    },
    {
-    "species": 47,
+    "species": 100,
     "level": 15
    }
   ],
@@ -1176,7 +1180,7 @@
     "level": 15
    },
    {
-    "species": 34,
+    "species": 116,
     "level": 15
    }
   ],
@@ -1201,7 +1205,7 @@
     "level": 18
    },
    {
-    "species": 28,
+    "species": 96,
     "level": 17
    }
   ],
@@ -1251,7 +1255,7 @@
   "sprite": "delivery_rider",
   "team": [
    {
-    "species": 47,
+    "species": 94,
     "level": 18
    },
    {
@@ -1280,7 +1284,7 @@
     "level": 18
    },
    {
-    "species": 56,
+    "species": 104,
     "level": 18
    }
   ],
@@ -1301,7 +1305,7 @@
   "sprite": "college_m",
   "team": [
    {
-    "species": 18,
+    "species": 78,
     "level": 18
    },
    {
@@ -1330,7 +1334,7 @@
     "level": 21
    },
    {
-    "species": 47,
+    "species": 100,
     "level": 22
    }
   ],
@@ -1380,7 +1384,7 @@
     "level": 22
    },
    {
-    "species": 24,
+    "species": 110,
     "level": 23
    },
    {
@@ -1409,7 +1413,7 @@
     "level": 24
    },
    {
-    "species": 34,
+    "species": 124,
     "level": 25
    }
   ],
@@ -1430,7 +1434,7 @@
   "sprite": "ajji",
   "team": [
    {
-    "species": 38,
+    "species": 75,
     "level": 24
    },
    {
@@ -1459,7 +1463,7 @@
     "level": 25
    },
    {
-    "species": 35,
+    "species": 126,
     "level": 26
    }
   ],
@@ -1484,7 +1488,7 @@
     "level": 27
    },
    {
-    "species": 34,
+    "species": 115,
     "level": 28
    }
   ],
@@ -1507,6 +1511,10 @@
    {
     "species": 39,
     "level": 28
+   },
+   {
+    "species": 112,
+    "level": 27
    }
   ],
   "prize": 336,
@@ -1530,7 +1538,7 @@
     "level": 31
    },
    {
-    "species": 36,
+    "species": 117,
     "level": 31
    }
   ],
@@ -1551,7 +1559,7 @@
   "sprite": "ajja",
   "team": [
    {
-    "species": 33,
+    "species": 123,
     "level": 32
    },
    {
@@ -1584,7 +1592,7 @@
     "level": 32
    },
    {
-    "species": 29,
+    "species": 107,
     "level": 31
    }
   ],
@@ -1609,7 +1617,7 @@
     "level": 33
    },
    {
-    "species": 47,
+    "species": 99,
     "level": 34
    }
   ],
@@ -1630,7 +1638,7 @@
   "sprite": "wrestler",
   "team": [
    {
-    "species": 31,
+    "species": 129,
     "level": 34
    },
    {
@@ -1659,7 +1667,7 @@
     "level": 33
    },
    {
-    "species": 46,
+    "species": 111,
     "level": 33
    }
   ],
@@ -1684,7 +1692,7 @@
     "level": 36
    },
    {
-    "species": 35,
+    "species": 121,
     "level": 37
    }
   ],
@@ -1705,7 +1713,7 @@
   "sprite": "wrestler",
   "team": [
    {
-    "species": 31,
+    "species": 90,
     "level": 38
    },
    {
@@ -1730,7 +1738,7 @@
   "sprite": "schoolboy",
   "team": [
    {
-    "species": 34,
+    "species": 77,
     "level": 27
    },
    {
@@ -1784,7 +1792,7 @@
   "sprite": "dancer",
   "team": [
    {
-    "species": 36,
+    "species": 132,
     "level": 31
    },
    {
@@ -1838,7 +1846,7 @@
   "sprite": "birdwatcher",
   "team": [
    {
-    "species": 11,
+    "species": 127,
     "level": 38
    },
    {
@@ -1867,7 +1875,7 @@
   "sprite": "jogger",
   "team": [
    {
-    "species": 17,
+    "species": 92,
     "level": 39
    },
    {
@@ -1896,7 +1904,7 @@
     "level": 10
    },
    {
-    "species": 54,
+    "species": 81,
     "level": 10
    }
   ],
@@ -1921,7 +1929,7 @@
     "level": 15
    },
    {
-    "species": 13,
+    "species": 89,
     "level": 16
    },
    {
@@ -1950,7 +1958,7 @@
     "level": 22
    },
    {
-    "species": 47,
+    "species": 87,
     "level": 23
    }
   ],

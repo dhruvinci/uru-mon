@@ -176,5 +176,4 @@ EXTRA = {
     33: [(28, "Night Prowl"), (36, "Dark Alley")],
     30: [(18, "Leg Pull")],
     44: [(30, "Legend Breath"), (40, "Torana Pulse")],
-    57: [(36, "Legend Breath"), (44, "Torana Pulse")],
 }
