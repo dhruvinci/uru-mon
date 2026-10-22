@@ -243,7 +243,7 @@ class MapBuild:
             "warps": self.warps, "npcs": d.get("npcs", []), "signs": d.get("signs", []), "items": d.get("items", []),
             "triggers": d.get("triggers", []), "counters": d.get("counters", []),
             "interactables": d.get("interactables", []), "encounters": d.get("encounters", {}),
-            "water": sorted(y * self.w + x for x, y in self.water) if "fish" in d.get("encounters", {}) else [],
+            "water": sorted(y * self.w + x for x, y in self.water),
             "onEnter": d.get("onEnter"), "spawn": d.get("spawn"), "metroStation": d.get("metroStation"),
             "respawnText": d.get("respawnText"),
         }

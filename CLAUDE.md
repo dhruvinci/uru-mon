@@ -67,6 +67,10 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   in `PreloadScene`. Trainer species `"RIVAL:n"` resolves to stage n of Sudeep's starter line at runtime.
 - **Admin profile**: on localhost (or with `?admin`) the title menu shows ADMIN MODE, a separate save slot
   (`URU_MON_SAVE_V1_ADMIN`) with all 150 Urumon, every badge and item, and WARP in the START menu (src/game/admin-profile.js).
+- **Visual effects** (`src/fx/`): `WorldFx` adds time-of-day grading (from the player's clock), weather, ambient particles
+  per map, night lights and character shadows; `Hd2dPipeline` is a one-pass post shader for the tilted HD-2D camera,
+  depth of field, haze and vignette. GRAPHICS option: HD-2D / ENHANCED / CLASSIC. Test overrides:
+  `?time=dawn|day|dusk|night&weather=rain|clear&gfx=CLASSIC|ENHANCED|HD-2D`; `node test/fx-shots.mjs <dir> map:time:weather:gfx`.
 - **Fishing**: maps with a "fish" encounter table record their water tiles (`uru.water`); pressing A while facing water with
   the Gaala rod starts a fishing encounter.
 - **Council**: entering `council_1` resets the five Council trainers (`resetTrainers`), so losing restarts the run.

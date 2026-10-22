@@ -15,6 +15,7 @@ import { gameData, getItem, getItemByName } from '../game/game-data.js';
 import { ScriptRunner } from '../world/script-runner.js';
 import { buildTrainerTeam } from '../world/trainers.js';
 import { warpTargets } from '../game/admin-profile.js';
+import { WorldFx } from '../fx/world-fx.js';
 
 /**
  * Picks a weighted slot from an encounter table.
@@ -98,6 +99,9 @@ export class WorldScene extends BaseScene {
     this.scene.launch(SCENE_KEYS.CUTSCENE_SCENE);
 
     this.#placePlayer();
+    this.fx = new WorldFx(this);
+    this.fx.addShadow(() => this.player?.sprite);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.fx?.destroy());
     this.#createItems();
     this.#createNpcs();
     this.grassOverlay = this.textures.exists(WORLD_KEYS.TALL_GRASS)
@@ -298,6 +302,7 @@ export class WorldScene extends BaseScene {
       data: def,
     });
     this.npcs.push(npc);
+    this.fx?.addShadow(() => npc.sprite);
     this.#refreshCollisionLists();
     return npc;
   }
@@ -354,6 +359,7 @@ export class WorldScene extends BaseScene {
 
   update(time) {
     super.update(time);
+    this.fx?.update();
     if (!this._controls || !this.player) {
       return;
     }

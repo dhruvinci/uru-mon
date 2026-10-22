@@ -176,3 +176,31 @@ test('Struggle is typeless: no same-type bonus for NORMAL users', () => {
   const hit = events.find((e) => e.type === 'DAMAGE' && e.side === 'enemy');
   assert.equal(hit.amount, Math.max(1, Math.floor(base * (0.85 + 0.5 * 0.15))));
 });
+
+test('freeze: FROST is immune, frozen Urumon can\'t act, FIRE thaws', () => {
+  const byName = (n) => moves.find((m) => m.name === n);
+  // a FROST Urumon can't be frozen
+  const frost = createMonster(104, 20);
+  const b1 = new Battle({ playerParty: [createMonster(1, 20)], enemyParty: [frost], aiLevel: 2 });
+  assert.equal(b1.scoreMove('player', { ...byName('Chill Breeze'), category: 'STATUS', effect: { kind: 'status', status: 'FRZ', chance: 100 } }), -1);
+  // frozen solid: no thaw when the 20% roll fails
+  const user = createMonster(13, 20);
+  const foe = createMonster(28, 20);
+  fullyHeal(user);
+  fullyHeal(foe);
+  user.status = 'FRZ';
+  const b2 = new Battle({ playerParty: [user], enemyParty: [foe], rng: () => 0.99 });
+  const { events } = b2.resolveTurn({ kind: 'MOVE', slot: 0 });
+  assert.ok(events.some((e) => e.text && e.text.includes('frozen solid')));
+  assert.equal(user.status, 'FRZ');
+  // a FIRE hit thaws the target
+  const burner = createMonster(4, 20);
+  const iced = createMonster(13, 20);
+  fullyHeal(burner);
+  fullyHeal(iced);
+  iced.status = 'FRZ';
+  burner.moves = [{ id: byName('Ember').id, pp: 25 }];
+  const b3 = new Battle({ playerParty: [burner], enemyParty: [iced], rng: () => 0.5 });
+  b3.resolveTurn({ kind: 'MOVE', slot: 0 });
+  assert.equal(iced.status, null);
+});
