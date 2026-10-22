@@ -40,6 +40,8 @@ export class WorldScene extends BaseScene {
     this.sceneData = data || {};
     this.area = this.sceneData.area || dataManager.state.player.location.area;
     this.scriptDepth = 0;
+    // bumped on every (re)start so work started before a restart can't unbalance scriptDepth
+    this.generation = (this.generation || 0) + 1;
     this.transitioning = false;
     this.menuOpen = false;
     /** @type {NPC[]} */
@@ -507,7 +509,7 @@ export class WorldScene extends BaseScene {
    * @param {number} distance tiles between them
    */
   async #trainerSpotsPlayer(npc, distance) {
-    this.scriptDepth += 1;
+    const release = this.lockForScript();
     try {
       playSoundFx(this, AUDIO_KEYS.SFX_EXCLAIM);
       await this.exclaim(npc);
@@ -518,7 +520,7 @@ export class WorldScene extends BaseScene {
       this.player.face(/** @type {any} */ (OPPOSITE[npc.direction]));
       await this.trainerBattle(npc);
     } finally {
-      this.scriptDepth -= 1;
+      release();
     }
   }
 
@@ -553,6 +555,7 @@ export class WorldScene extends BaseScene {
       },
       environment: trainer.environment || this.uru.environment || 'grass',
       canLose: Boolean(trainer.canLose),
+      music: trainer.music ? AUDIO_KEYS[trainer.music] || trainer.music : undefined,
     });
     npc.isTalkingToPlayer = false;
     if (result.outcome === 'win' || (result.outcome === 'lose' && trainer.canLose)) {
@@ -611,9 +614,9 @@ export class WorldScene extends BaseScene {
     }
     const sign = (this.uru.signs || []).find((s) => s.x === tx && s.y === ty);
     if (sign) {
-      this.scriptDepth += 1;
+      const release = this.lockForScript();
       await this.ui.say(sign.text);
-      this.scriptDepth -= 1;
+      release();
       return;
     }
     const itemIdx = this.items.findIndex((i) => i.position.x === target.x && i.position.y === target.y);
@@ -626,9 +629,9 @@ export class WorldScene extends BaseScene {
       dataManager.addItemPickedUp(it.id);
       dataManager.addItem(it.itemId, it.quantity);
       playSoundFx(this, AUDIO_KEYS.SFX_ITEM);
-      this.scriptDepth += 1;
+      const release = this.lockForScript();
       await this.ui.say(`${dataManager.state.player.name} found ${it.quantity > 1 ? `${it.quantity}x ` : 'a '}${data.name}!`);
-      this.scriptDepth -= 1;
+      release();
       return;
     }
     const thing = (this.uru.interactables || []).find((s) => s.x === tx && s.y === ty);
@@ -644,18 +647,18 @@ export class WorldScene extends BaseScene {
       npc.facePlayer(this.player.direction);
     }
     if (def.trainer && !dataManager.isNpcDefeated(def.id)) {
-      this.scriptDepth += 1;
+      const release = this.lockForScript();
       try {
         await this.trainerBattle(npc);
       } finally {
-        this.scriptDepth -= 1;
+        release();
       }
       return;
     }
     npc.isTalkingToPlayer = true;
     if (def.trainer && dataManager.isNpcDefeated(def.id)) {
       const trainer = gameData.trainers[def.trainer];
-      const after = def.after || trainer?.after;
+      const after = def.after || trainer?.after || trainer?.defeat;
       if (after) {
         await this.runScript(Array.isArray(after) && typeof after[0] === 'string' ? [{ say: after, speaker: trainer?.name }] : after, npc);
         npc.isTalkingToPlayer = false;
@@ -685,6 +688,19 @@ export class WorldScene extends BaseScene {
   // scripts, battles, warps
   // ------------------------------------------------------------------------------------------
 
+  /** Locks player input until the returned release function is called (safe across scene restarts). */
+  lockForScript() {
+    const gen = this.generation;
+    this.scriptDepth += 1;
+    let released = false;
+    return () => {
+      if (!released && gen === this.generation) {
+        this.scriptDepth = Math.max(0, this.scriptDepth - 1);
+      }
+      released = true;
+    };
+  }
+
   /**
    * @param {any[]} script
    * @param {NPC} [npc]
@@ -693,13 +709,13 @@ export class WorldScene extends BaseScene {
     if (!script) {
       return;
     }
-    this.scriptDepth += 1;
+    const release = this.lockForScript();
     try {
       await this.scripts.run(script, { npc });
     } catch (e) {
       console.error('[WorldScene] script error', e, script);
     } finally {
-      this.scriptDepth -= 1;
+      release();
     }
   }
 
@@ -709,7 +725,7 @@ export class WorldScene extends BaseScene {
    * @returns {Promise<import('./battle-scene.js').BattleResult>}
    */
   startBattle(data) {
-    this.scriptDepth += 1;
+    const release = this.lockForScript();
     this.ui.close();
     const musicBefore = currentMusic();
     return new Promise((resolve) => {
@@ -717,7 +733,7 @@ export class WorldScene extends BaseScene {
         this.lastBattleResult = result;
         this.scene.resume();
         this.scene.resume(SCENE_KEYS.DIALOG_SCENE);
-        this.scriptDepth -= 1;
+        release();
         if (result.outcome === 'lose' && !result.canLose) {
           this.#blackout();
           resolve(result);

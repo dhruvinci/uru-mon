@@ -46,7 +46,7 @@ tr("rival_palace", "Rohan", "Rival", "rival", [(12, 36), (46, 35), (29, 35), (57
    ["...Yeah. You're ready. Let's stop them together. You go first - I'll cover the hill roads."],
    music="MUSIC_RIVAL", ai=2)
 tr("champion", "Rohan", "Champion", "rival",
-   [(12, 50), (57, 51), (41, 50), (50, 51), (46, 50), ("RIVAL:3", 53)],
+   [(12, 44), (57, 45), (41, 44), (50, 45), (46, 44), ("RIVAL:3", 48)],
    ["Hey, {PLAYER}. Surprised? I beat the Council an hour before you.",
     "Every route, every Arena - I was always one step ahead. Or one step behind.",
     "This is it. The Champion of Namma Bengaluru is decided right here. No holding back!"],
@@ -57,14 +57,14 @@ tr("champion", "Rohan", "Champion", "rival",
 # ---------------------------------------------------------------------------------------------
 # Arena leaders
 # ---------------------------------------------------------------------------------------------
-tr("leader_hoovamma", "Hoovamma", "Arena Leader", "hoovamma", [(54, 10), (52, 11), (2, 13)],
+tr("leader_hoovamma", "Hoovamma", "Arena Leader", "hoovamma", [(54, 9), (52, 10), (2, 12)],
    ["Ah, a young visitor in my Glass House! Mind the orchids, dear.",
     "Sixty years I have tended these gardens. Plants are patient, and patience wins battles.",
     "Show me what you have grown into!"],
    ["My, my. You bloom quickly. Take this - the GRASS Badge."],
    after=["Water your Urumon with kindness and they will grow tall.",
           "Keep the GRASS Badge shining, dear. The flower-show crowd will let you pass north now."],
-   ai=2, isLeader=True, environment="arena", music="MUSIC_LEADER")
+   ai=1, isLeader=True, environment="arena", music="MUSIC_LEADER")
 tr("leader_gundappa", "Gundappa", "Arena Leader", "gundappa", [(30, 17), (60, 17), (31, 19)],
    ["Thirty years ago I bowled the fastest spell this stadium ever saw.",
     "Now I coach. Rule one: no fear of the short ball.", "Pad up, kid. Let's play!"],

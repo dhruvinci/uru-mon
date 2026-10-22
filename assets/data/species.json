@@ -32,12 +32,12 @@
     "moveId": 40
    },
    {
-    "level": 9,
-    "moveId": 47
-   },
-   {
     "level": 13,
     "moveId": 42
+   },
+   {
+    "level": 16,
+    "moveId": 47
    },
    {
     "level": 17,
@@ -100,12 +100,12 @@
     "moveId": 40
    },
    {
-    "level": 9,
-    "moveId": 47
-   },
-   {
     "level": 13,
     "moveId": 42
+   },
+   {
+    "level": 16,
+    "moveId": 47
    },
    {
     "level": 17,
@@ -166,12 +166,12 @@
     "moveId": 40
    },
    {
-    "level": 9,
-    "moveId": 47
-   },
-   {
     "level": 13,
     "moveId": 42
+   },
+   {
+    "level": 16,
+    "moveId": 47
    },
    {
     "level": 17,
@@ -456,6 +456,10 @@
     "moveId": 31
    },
    {
+    "level": 11,
+    "moveId": 6
+   },
+   {
     "level": 13,
     "moveId": 33
    },
@@ -466,10 +470,6 @@
    {
     "level": 22,
     "moveId": 36
-   },
-   {
-    "level": 27,
-    "moveId": 6
    },
    {
     "level": 32,
@@ -524,6 +524,10 @@
     "moveId": 31
    },
    {
+    "level": 11,
+    "moveId": 6
+   },
+   {
     "level": 13,
     "moveId": 33
    },
@@ -534,10 +538,6 @@
    {
     "level": 22,
     "moveId": 36
-   },
-   {
-    "level": 27,
-    "moveId": 6
    },
    {
     "level": 32,
@@ -590,6 +590,10 @@
     "moveId": 31
    },
    {
+    "level": 11,
+    "moveId": 6
+   },
+   {
     "level": 13,
     "moveId": 33
    },
@@ -600,10 +604,6 @@
    {
     "level": 22,
     "moveId": 36
-   },
-   {
-    "level": 27,
-    "moveId": 6
    },
    {
     "level": 32,
@@ -979,7 +979,7 @@
     "moveId": 81
    },
    {
-    "level": 12,
+    "level": 14,
     "moveId": 47
    },
    {
@@ -1043,7 +1043,7 @@
     "moveId": 81
    },
    {
-    "level": 12,
+    "level": 14,
     "moveId": 47
    },
    {
@@ -1105,7 +1105,7 @@
     "moveId": 81
    },
    {
-    "level": 12,
+    "level": 14,
     "moveId": 47
    },
    {
@@ -3247,7 +3247,7 @@
    },
    {
     "level": 1,
-    "moveId": 47
+    "moveId": 4
    },
    {
     "level": 7,
@@ -3256,6 +3256,10 @@
    {
     "level": 13,
     "moveId": 20
+   },
+   {
+    "level": 17,
+    "moveId": 47
    },
    {
     "level": 19,
@@ -3305,7 +3309,7 @@
    },
    {
     "level": 1,
-    "moveId": 47
+    "moveId": 4
    },
    {
     "level": 7,
@@ -3314,6 +3318,10 @@
    {
     "level": 13,
     "moveId": 20
+   },
+   {
+    "level": 17,
+    "moveId": 47
    },
    {
     "level": 19,

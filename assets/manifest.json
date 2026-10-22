@@ -269,6 +269,14 @@
    "url": "assets/images/trainers/agni.png"
   },
   {
+   "key": "TRAINER_ajja",
+   "url": "assets/images/trainers/ajja.png"
+  },
+  {
+   "key": "TRAINER_ajji",
+   "url": "assets/images/trainers/ajji.png"
+  },
+  {
    "key": "TRAINER_akash",
    "url": "assets/images/trainers/akash.png"
   },
@@ -285,6 +293,10 @@
    "url": "assets/images/trainers/bhaskar.png"
   },
   {
+   "key": "TRAINER_birdwatcher",
+   "url": "assets/images/trainers/birdwatcher.png"
+  },
+  {
    "key": "TRAINER_college_f",
    "url": "assets/images/trainers/college_f.png"
   },
@@ -299,6 +311,10 @@
   {
    "key": "TRAINER_dancer",
    "url": "assets/images/trainers/dancer.png"
+  },
+  {
+   "key": "TRAINER_delivery_rider",
+   "url": "assets/images/trainers/delivery_rider.png"
   },
   {
    "key": "TRAINER_fisher",

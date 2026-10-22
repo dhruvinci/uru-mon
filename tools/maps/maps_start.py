@@ -20,7 +20,6 @@ MAPS.append(dict(
         dict(x=4, y=2, script=[say("Your summer holiday homework. Untouched since April.")]),
         dict(x=5, y=2, script=[say("Your summer holiday homework. Untouched since April.")]),
         dict(x=7, y=6, script=[say("A shelf crammed with Urumon comics and an old cricket bat.")]),
-        dict(x=7, y=7, script=[say("A shelf crammed with Urumon comics and an old cricket bat.")]),
     ],
 ))
 c, walls = room(11, 8, "t", exit_x=4)

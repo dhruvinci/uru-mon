@@ -81,32 +81,29 @@ try {
     await snap('end');
   }
   if (part === 'council') {
-    await go(`?scene=test&map=vidhana_soudha&warp=council&party=${STRONG}&badges=GRASS,FIGHT,ELECTRIC,MIND,SPIRIT,SKY`);
-    await walk(page, 'UP', 1);
-    await sleep(page, 1200);
-    for (const room of ['council_1', 'council_2', 'council_3', 'council_4', 'champion_room']) {
-      const st = await state(page);
-      console.log('in', st.player.location.area);
-      if (room === 'champion_room') {
-        await walk(page, 'UP', 7);
-      } else {
-        await walk(page, 'UP', 6);
+    const rooms = [['council_1', 'vs_nagaraj'], ['council_2', 'vs_basappa'], ['council_3', 'vs_kaveri'], ['council_4', 'vs_agni'], ['champion_room', 'vs_champion']];
+    await go(`?scene=test&map=council_1&warp=door&party=${STRONG}&badges=GRASS,FIGHT,ELECTRIC,MIND,SPIRIT,SKY`);
+    for (const [room, npcId] of rooms) {
+      if (room !== 'council_1') {
+        await page.evaluate((r) => window.__uruGame.scene.getScene('WORLD_SCENE').warpTo({ area: r, warpId: 'door' }), room);
+        await sleep(page, 1500);
       }
+      // heal up between chambers, like a player using items
+      await page.evaluate(() => window.__uru.dataManager.party.forEach((m) => window.__uru.fullyHeal(m)));
+      await page.evaluate(() => { const w = window.__uruGame.scene.getScene('WORLD_SCENE'); const n = w.npcs.find((x) => x.data.trainer); w.player.teleport(n.tilePosition.x, n.tilePosition.y + 64); w.player.face('UP'); });
+      await sleep(page, 300);
       await press(page, 'A');
-      const npcId = { council_1: 'vs_nagaraj', council_2: 'vs_basappa', council_3: 'vs_kaveri', council_4: 'vs_agni', champion_room: 'vs_champion' }[room];
       const ok = await playUntil(async () => {
-        const s = await state(page);
         const credits = await page.evaluate(() => window.__uruGame.scene.isActive('CREDITS_SCENE'));
+        const s = await state(page);
         return credits || (s.defeatedNpcs.includes(npcId) && (await idle()));
-      }, 300000);
+      }, 400000);
       console.log(room, 'beaten:', ok);
-      if (room === 'champion_room') break;
-      await walk(page, 'LEFT', 1); await walk(page, 'UP', 2); await walk(page, 'RIGHT', 1); await walk(page, 'UP', 1);
-      await sleep(page, 1200);
     }
-    await sleep(page, 2000);
+    await sleep(page, 3000);
     await snap('end');
-    console.log('credits running:', await page.evaluate(() => window.__uruGame.scene.isActive('CREDITS_SCENE')), 'flags', await flags());
+    const st = await state(page);
+    console.log('credits running:', await page.evaluate(() => window.__uruGame.scene.isActive('CREDITS_SCENE')), 'flags', st.flags, 'saved location', st.player.location.area);
   }
 } finally {
   console.log(errors.length ? `ERRORS:\n${errors.join('\n')}` : 'no errors');

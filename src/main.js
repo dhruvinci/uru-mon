@@ -22,7 +22,7 @@ import { setupTouchControls } from './input/touch-controls.js';
 import { inputManager } from './input/input-manager.js';
 import { dataManager } from './utils/data-manager.js';
 import { gameData } from './game/game-data.js';
-import { createMonster } from './battle/engine/monster.js';
+import { createMonster, fullyHeal } from './battle/engine/monster.js';
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -74,4 +74,4 @@ setupTouchControls();
 
 // handy for debugging and automated tests
 window.__uruGame = game;
-window.__uru = { game, dataManager, gameData, inputManager, createMonster };
+window.__uru = { game, dataManager, gameData, inputManager, createMonster, fullyHeal };

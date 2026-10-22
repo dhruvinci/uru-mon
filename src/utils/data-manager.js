@@ -73,7 +73,7 @@ function initialState() {
     flags: [],
     defeatedNpcs: [],
     pustaka: { seen: [], caught: [] },
-    respawn: { area: 'player_house_1f', x: 0, y: 0 },
+    respawn: { area: 'player_house_1f', x: 3 * 64, y: 5 * 64 },
     returnPoint: null,
     metroStations: [],
     repelSteps: 0,

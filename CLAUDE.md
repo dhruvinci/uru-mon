@@ -34,8 +34,10 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
 | `assets/images/{creatures,trainers,battle,ui}` | raw AI art in `art-src/raw/` (gitignored) | `python3 tools/art/process_art.py all` |
 | `assets/images/characters/*.png` | `tools/art/characters.py` | `python3 tools/art/characters.py` |
 | `assets/audio/**` | `tools/audio/synth.py` | `python3 tools/audio/synth.py` |
+| `assets/images/ui/title_bg.png` | `tools/art/title_art.py` | `python3 tools/art/title_art.py` |
 
-`build_maps.py` validates warps, NPC/item/spawn placement; treat its WARN lines as bugs.
+`build_maps.py` validates warps, NPC/item/spawn placement; `python3 tools/maps/reachability.py` then flood-fills every map
+to prove all warps, NPCs, items and signs are reachable. Treat any WARN or problem line as a bug.
 
 ## Architecture notes that aren't obvious from one file
 
@@ -53,7 +55,12 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
   in `PreloadScene`. Trainer species `"RIVAL:n"` resolves to stage n of Rohan's starter line at runtime.
 - **Council**: entering `council_1` resets the five Council trainers (`resetTrainers`), so losing restarts the run.
 - **Input**: one global `inputManager` merges keyboard and the DOM touch pad; per-scene `Controls` just reads it.
-  Keys typed into `<input>` elements are ignored by the game (used for name entry).
+  Keys typed into `<input>` elements are ignored by the game (used for name entry). A tap shorter than a frame still
+  counts as one step.
+- **Audio**: only SFX and the title theme load before the title screen; `PreloadScene` stays alive to stream the rest
+  and starts a requested track when it arrives. Missing audio keys are silently ignored.
+- **Browser tests drive real key presses**, so their walking is timing-based: run them one at a time (parallel
+  headless browsers on a busy CPU cause missed steps).
 
 ## Art generation (Codex)
 

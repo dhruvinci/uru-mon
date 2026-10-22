@@ -135,30 +135,30 @@
   "team": [
    {
     "species": 12,
-    "level": 50
+    "level": 44
    },
    {
     "species": 57,
-    "level": 51
+    "level": 45
    },
    {
     "species": 41,
-    "level": 50
+    "level": 44
    },
    {
     "species": 50,
-    "level": 51
+    "level": 45
    },
    {
     "species": 46,
-    "level": 50
+    "level": 44
    },
    {
     "species": "RIVAL:3",
-    "level": 53
+    "level": 48
    }
   ],
-  "prize": 10600,
+  "prize": 9600,
   "aiLevel": 2,
   "intro": [
    "Hey, {PLAYER}. Surprised? I beat the Council an hour before you.",
@@ -182,19 +182,19 @@
   "team": [
    {
     "species": 54,
-    "level": 10
+    "level": 9
    },
    {
     "species": 52,
-    "level": 11
+    "level": 10
    },
    {
     "species": 2,
-    "level": 13
+    "level": 12
    }
   ],
-  "prize": 1430,
-  "aiLevel": 2,
+  "prize": 1320,
+  "aiLevel": 1,
   "intro": [
    "Ah, a young visitor in my Glass House! Mind the orchids, dear.",
    "Sixty years I have tended these gardens. Plants are patient, and patience wins battles.",
