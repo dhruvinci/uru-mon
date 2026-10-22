@@ -1,16 +1,164 @@
 [
-  {
-    "id": 1,
-    "name": "potion",
-    "description": "A basic healing item that will heal 30 HP from a single monster.",
-    "category": "HEAL",
-    "effect": "HEAL_30"
-  },
-  {
-    "id": 2,
-    "name": "damaged ball",
-    "description": "A damaged ball that can be used for capturing monsters.",
-    "category": "CAPTURE",
-    "effect": "CAPTURE_1"
+ {
+  "id": 1,
+  "name": "Filter Kaapi",
+  "category": "HEAL",
+  "price": 100,
+  "description": "Strong South Indian coffee. Restores 20 HP.",
+  "effect": {
+   "hp": 20
   }
+ },
+ {
+  "id": 2,
+  "name": "Dabba",
+  "category": "CAPTURE",
+  "price": 200,
+  "description": "A steel tiffin box. Throw it at a weakened wild Urumon to catch it.",
+  "effect": {
+   "ball": 1
+  }
+ },
+ {
+  "id": 3,
+  "name": "Masala Dosa",
+  "category": "HEAL",
+  "price": 300,
+  "description": "Crisp and golden. Restores 60 HP.",
+  "effect": {
+   "hp": 60
+  }
+ },
+ {
+  "id": 4,
+  "name": "Bisi Bele Bath",
+  "category": "HEAL",
+  "price": 700,
+  "description": "Hot lentil rice with ghee. Restores 120 HP.",
+  "effect": {
+   "hp": 120
+  }
+ },
+ {
+  "id": 5,
+  "name": "Ragi Mudde",
+  "category": "HEAL",
+  "price": 1500,
+  "description": "A dense millet ball. Fully restores HP.",
+  "effect": {
+   "hp": "full"
+  }
+ },
+ {
+  "id": 6,
+  "name": "Elaneer",
+  "category": "STATUS",
+  "price": 250,
+  "description": "Fresh tender coconut water. Cures any status problem.",
+  "effect": {
+   "cures": "all"
+  }
+ },
+ {
+  "id": 7,
+  "name": "Mysore Pak",
+  "category": "REVIVE",
+  "price": 1500,
+  "description": "A rich sweet. Revives a fainted Urumon with half its HP.",
+  "effect": {
+   "revive": 0.5
+  }
+ },
+ {
+  "id": 8,
+  "name": "Chakli",
+  "category": "PP",
+  "price": 800,
+  "description": "A crunchy spiral snack. Restores 10 PP to every move.",
+  "effect": {
+   "pp": 10
+  }
+ },
+ {
+  "id": 9,
+  "name": "Steel Dabba",
+  "category": "CAPTURE",
+  "price": 600,
+  "description": "A sturdier two-tier tiffin. Better catch rate than a Dabba.",
+  "effect": {
+   "ball": 1.5
+  }
+ },
+ {
+  "id": 10,
+  "name": "Tiffin Carrier",
+  "category": "CAPTURE",
+  "price": 1200,
+  "description": "A four-tier carrier. Much better catch rate.",
+  "effect": {
+   "ball": 2
+  }
+ },
+ {
+  "id": 11,
+  "name": "Ajji's Dabba",
+  "category": "CAPTURE",
+  "price": 0,
+  "description": "Grandma's brass tiffin. Nothing has ever escaped it.",
+  "effect": {
+   "ball": 255
+  }
+ },
+ {
+  "id": 12,
+  "name": "Mosquito Coil",
+  "category": "REPEL",
+  "price": 350,
+  "description": "Its smoke keeps weak wild Urumon away for 100 steps.",
+  "effect": {
+   "steps": 100
+  }
+ },
+ {
+  "id": 13,
+  "name": "Neem Paste",
+  "category": "STATUS",
+  "price": 100,
+  "description": "Bitter but effective. Cures poison and burns.",
+  "effect": {
+   "cures": [
+    "PSN",
+    "BRN"
+   ]
+  }
+ },
+ {
+  "id": 14,
+  "name": "Strong Kaapi",
+  "category": "STATUS",
+  "price": 100,
+  "description": "Extra-strong decoction. Wakes up a sleeping Urumon and cures paralysis.",
+  "effect": {
+   "cures": [
+    "SLP",
+    "PAR"
+   ]
+  }
+ },
+ {
+  "id": 15,
+  "name": "Metro Card",
+  "category": "KEY",
+  "price": 0,
+  "description": "A smart card for Namma Metro. Ride between any stations you have visited.",
+  "effect": {}
+ },
+ {
+  "id": 16,
+  "name": "Arena Badge Case",
+  "category": "KEY",
+  "price": 0,
+  "description": "Holds your Arena Badges.",
+  "effect": {}
+ }
 ]

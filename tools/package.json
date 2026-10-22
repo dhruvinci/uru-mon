@@ -1,0 +1,13 @@
+{
+  "name": "uru-mon-tools",
+  "private": true,
+  "type": "module",
+  "description": "Dev tooling for uru-mon (browser tests). The game itself has no build step.",
+  "scripts": {
+    "test:engine": "node --test test/engine.test.mjs",
+    "test:browser": "node test/browser-smoke.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.58.2"
+  }
+}

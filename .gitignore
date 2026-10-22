@@ -1,12 +1,11 @@
-/assets/images
-/assets/fonts
-/assets/audio
 .DS_Store
-tasks-wip.todo
 notes.md
 node_modules
 .vscode/vscode-kanban.json
 
-# related to bundling
-all-game-assets.zip
 /dist
+
+# uru-mon: raw AI art sources (large) and tool caches
+/art-src/raw/
+/tools/node_modules/
+__pycache__/

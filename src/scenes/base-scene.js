@@ -1,6 +1,8 @@
 import Phaser from '../lib/phaser.js';
 import { Controls } from '../utils/controls.js';
 
+const DEBUG = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('debug');
+
 export class BaseScene extends Phaser.Scene {
   /** @protected @type {Controls} */
   _controls;
@@ -19,11 +21,8 @@ export class BaseScene extends Phaser.Scene {
    * @param {any | undefined} [data]
    * @returns {void}
    */
+  // eslint-disable-next-line no-unused-vars
   init(data) {
-    if (data) {
-      this._log(`[${this.constructor.name}:init] invoked, data provided: ${JSON.stringify(data)}`);
-      return;
-    }
     this._log(`[${this.constructor.name}:init] invoked`);
   }
 
@@ -75,10 +74,6 @@ export class BaseScene extends Phaser.Scene {
    */
   handleSceneResume(sys, data) {
     this._controls.lockInput = false;
-    if (data) {
-      this._log(`[${this.constructor.name}:handleSceneResume] invoked, data provided: ${JSON.stringify(data)}`);
-      return;
-    }
     this._log(`[${this.constructor.name}:handleSceneResume] invoked`);
   }
 
@@ -92,6 +87,8 @@ export class BaseScene extends Phaser.Scene {
    * @param {string} message
    */
   _log(message) {
-    console.log(`%c${message}`, 'color: orange; background: black;');
+    if (DEBUG) {
+      console.log(`%c${message}`, 'color: orange; background: black;');
+    }
   }
 }

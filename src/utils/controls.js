@@ -1,26 +1,21 @@
-import Phaser from '../lib/phaser.js';
 import { DIRECTION } from '../common/direction.js';
+import { inputManager } from '../input/input-manager.js';
 
+/**
+ * Per-scene view of the shared input manager. Method names are kept from the original keyboard-only
+ * version: "space" means the A button, "back"/"shift" means B and "enter" means START.
+ */
 export class Controls {
   /** @type {Phaser.Scene} */
   #scene;
-  /** @type {Phaser.Types.Input.Keyboard.CursorKeys | undefined} */
-  #cursorKeys;
   /** @type {boolean} */
   #lockPlayerInput;
-  /** @type {Phaser.Input.Keyboard.Key | undefined} */
-  #enterKey;
-  /** @type {Phaser.Input.Keyboard.Key | undefined} */
-  #fKey;
 
   /**
-   * @param {Phaser.Scene} scene the Phaser 3 Scene the cursor keys will be created in
+   * @param {Phaser.Scene} scene
    */
   constructor(scene) {
     this.#scene = scene;
-    this.#cursorKeys = this.#scene.input.keyboard?.createCursorKeys();
-    this.#enterKey = this.#scene.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.#fKey = this.#scene.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     this.#lockPlayerInput = false;
   }
 
@@ -29,93 +24,69 @@ export class Controls {
     return this.#lockPlayerInput;
   }
 
-  /** @param {boolean} val the value that will be assigned */
+  /** @param {boolean} val */
   set lockInput(val) {
     this.#lockPlayerInput = val;
   }
 
-  /** @returns {boolean} */
+  /** Must be called once per scene update before reading input. */
+  update() {
+    inputManager.beginFrame(this.#scene.game.loop.frame);
+  }
+
+  /** @param {'A'|'B'|'START'} button */
+  #justPressed(button) {
+    this.update();
+    if (inputManager.justPressed(button)) {
+      inputManager.consume(button);
+      return true;
+    }
+    return false;
+  }
+
+  /** @returns {boolean} START */
   wasEnterKeyPressed() {
-    if (this.#enterKey === undefined) {
-      return false;
-    }
-    return Phaser.Input.Keyboard.JustDown(this.#enterKey);
+    return this.#justPressed('START');
   }
 
-  /** @returns {boolean} */
+  /** @returns {boolean} A */
   wasSpaceKeyPressed() {
-    if (this.#cursorKeys === undefined) {
-      return false;
-    }
-    return Phaser.Input.Keyboard.JustDown(this.#cursorKeys.space);
+    return this.#justPressed('A');
   }
 
-  /** @returns {boolean} */
+  /** @returns {boolean} A */
+  wasConfirmPressed() {
+    return this.#justPressed('A');
+  }
+
+  /** @returns {boolean} B */
   wasBackKeyPressed() {
-    if (this.#cursorKeys === undefined) {
-      return false;
-    }
-    return Phaser.Input.Keyboard.JustDown(this.#cursorKeys.shift);
+    return this.#justPressed('B');
   }
 
-  /** @returns {boolean} */
+  /** @returns {boolean} kept for compatibility; fullscreen is handled globally */
   wasFKeyPressed() {
-    if (this.#fKey === undefined) {
-      return false;
-    }
-    return Phaser.Input.Keyboard.JustDown(this.#fKey);
+    return false;
   }
 
-  /**
-   * Returns if the shift key is currently being held down.
-   * @returns {boolean}
-   */
+  /** @returns {boolean} B held (run) */
   isShiftKeyDown() {
-    if (this.#cursorKeys === undefined) {
-      return false;
-    }
-    return this.#cursorKeys.shift.isDown;
+    return inputManager.isDown('B');
   }
 
   /** @returns {import('../common/direction.js').Direction} */
   getDirectionKeyJustPressed() {
-    if (this.#cursorKeys === undefined) {
-      return DIRECTION.NONE;
+    this.update();
+    const d = inputManager.justPressedDirection();
+    if (d !== 'NONE') {
+      inputManager.consume(d);
     }
-
-    /** @type {import('../common/direction.js').Direction} */
-    let selectedDirection = DIRECTION.NONE;
-    if (Phaser.Input.Keyboard.JustDown(this.#cursorKeys.left)) {
-      selectedDirection = DIRECTION.LEFT;
-    } else if (Phaser.Input.Keyboard.JustDown(this.#cursorKeys.right)) {
-      selectedDirection = DIRECTION.RIGHT;
-    } else if (Phaser.Input.Keyboard.JustDown(this.#cursorKeys.up)) {
-      selectedDirection = DIRECTION.UP;
-    } else if (Phaser.Input.Keyboard.JustDown(this.#cursorKeys.down)) {
-      selectedDirection = DIRECTION.DOWN;
-    }
-
-    return selectedDirection;
+    return /** @type {import('../common/direction.js').Direction} */ (DIRECTION[d]);
   }
 
   /** @returns {import('../common/direction.js').Direction} */
   getDirectionKeyPressedDown() {
-    if (this.#cursorKeys === undefined) {
-      return DIRECTION.NONE;
-    }
-
-    /** @type {import('../common/direction.js').Direction} */
-    let selectedDirection = DIRECTION.NONE;
-    if (this.#cursorKeys.left.isDown) {
-      selectedDirection = DIRECTION.LEFT;
-    } else if (this.#cursorKeys.right.isDown) {
-      selectedDirection = DIRECTION.RIGHT;
-    } else if (this.#cursorKeys.up.isDown) {
-      selectedDirection = DIRECTION.UP;
-    } else if (this.#cursorKeys.down.isDown) {
-      selectedDirection = DIRECTION.DOWN;
-    }
-
-    return selectedDirection;
+    this.update();
+    return /** @type {import('../common/direction.js').Direction} */ (DIRECTION[inputManager.heldDirection()]);
   }
 }

@@ -1,8 +1,7 @@
 import Phaser from '../../lib/phaser.js';
 import { Character } from './character.js';
-import { CHARACTER_ASSET_KEYS } from '../../assets/asset-keys.js';
 import { DIRECTION } from '../../common/direction.js';
-import { exhaustiveGuard } from '../../utils/guard.js';
+import { IDLE_FRAMES } from './player.js';
 
 /**
  * @typedef {keyof typeof NPC_MOVEMENT_PATTERN} NpcMovementPattern
@@ -11,6 +10,8 @@ import { exhaustiveGuard } from '../../utils/guard.js';
 /** @enum {NpcMovementPattern} */
 export const NPC_MOVEMENT_PATTERN = Object.freeze({
   IDLE: 'IDLE',
+  LOOK: 'LOOK',
+  WANDER: 'WANDER',
   CLOCKWISE: 'CLOCKWISE',
   SET_PATH: 'SET_PATH',
 });
@@ -23,35 +24,34 @@ export const NPC_MOVEMENT_PATTERN = Object.freeze({
 /**
  * @typedef NPCConfigProps
  * @type {object}
- * @property {number} frame
- * @property {NPCPath} npcPath
+ * @property {string} assetKey CHAR_* spritesheet
+ * @property {NPCPath} [npcPath]
  * @property {NpcMovementPattern} movementPattern
- * @property {import('../../types/typedef.js').NpcEvent[]} events
- * @property {string} animationKeyPrefix
- * @property {number} id
+ * @property {string} id
+ * @property {any} [data] the map's NPC definition (script, trainer, ...)
  */
 
 /**
- * @typedef {Omit<import('./character').CharacterConfig, 'assetKey' | 'idleFrameConfig'> & NPCConfigProps} NPCConfig
+ * @typedef {Omit<import('./character').CharacterConfig, 'idleFrameConfig'> & NPCConfigProps} NPCConfig
  */
 
+const DIRS = [DIRECTION.UP, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.RIGHT];
+const OPPOSITE = { UP: 'DOWN', DOWN: 'UP', LEFT: 'RIGHT', RIGHT: 'LEFT', NONE: 'NONE' };
+
 export class NPC extends Character {
-  /** @type {boolean} */
-  #talkingToPlayer;
+  #talkingToPlayer = false;
   /** @type {NPCPath} */
   #npcPath;
-  /** @type {number} */
-  #currentPathIndex;
+  #currentPathIndex = 0;
   /** @type {NpcMovementPattern} */
   #movementPattern;
-  /** @type {number} */
   #lastMovementTime;
-  /** @type {import('../../types/typedef.js').NpcEvent[]} */
-  #events;
-  /** @type {string} */
-  #animationKeyPrefix;
-  /** @type {number} */
+  #assetKey;
   #id;
+  #home;
+  /** @type {any} */
+  data;
+  frozen = false;
 
   /**
    * @param {NPCConfig} config
@@ -59,204 +59,170 @@ export class NPC extends Character {
   constructor(config) {
     super({
       ...config,
-      assetKey: CHARACTER_ASSET_KEYS.NPC,
-      origin: { x: 0, y: 0 },
-      idleFrameConfig: {
-        DOWN: config.frame,
-        UP: config.frame + 1,
-        NONE: config.frame,
-        LEFT: config.frame + 2,
-        RIGHT: config.frame + 2,
-      },
+      origin: { x: 0, y: 1 / 3 },
+      idleFrameConfig: IDLE_FRAMES,
     });
-
-    this.#talkingToPlayer = false;
-    this.#npcPath = config.npcPath;
-    this.#currentPathIndex = 0;
+    this.#npcPath = config.npcPath || { 0: { ...config.position } };
     this.#movementPattern = config.movementPattern;
-    this.#lastMovementTime = Phaser.Math.Between(3500, 5000);
-    this._phaserGameObject.setScale(4);
-    this.#events = config.events;
-    this.#animationKeyPrefix = config.animationKeyPrefix;
+    this.#lastMovementTime = Phaser.Math.Between(1500, 4000);
+    this.#assetKey = config.assetKey;
     this.#id = config.id;
+    this.#home = { ...config.position };
+    this.data = config.data || {};
   }
 
-  /** @type {import('../../types/typedef.js').NpcEvent[]} */
-  get events() {
-    return [...this.#events];
-  }
-
-  /** @type {boolean} */
-  get isTalkingToPlayer() {
-    return this.#talkingToPlayer;
-  }
-
-  /**
-   * @param {boolean} val
-   */
-  set isTalkingToPlayer(val) {
-    this.#talkingToPlayer = val;
-  }
-
-  /** @type {number} */
+  /** @type {string} */
   get id() {
     return this.#id;
   }
 
-  /** @type {NPCPath} */
+  get isTalkingToPlayer() {
+    return this.#talkingToPlayer;
+  }
+
+  set isTalkingToPlayer(val) {
+    this.#talkingToPlayer = val;
+  }
+
   get npcPath() {
     return this.#npcPath;
   }
 
-  /**
-   * @param {NPCPath} val
-   */
   set npcPath(val) {
     this.#npcPath = val;
+    this.#currentPathIndex = 0;
   }
 
-  /**
-   * @param {NpcMovementPattern} val
-   */
+  /** @param {NpcMovementPattern} val */
   set npcMovementPattern(val) {
     this.#movementPattern = val;
   }
 
-  /**
-   * @param {() => void | undefined} val
-   */
   set finishedMovementCallback(val) {
     this._spriteGridMovementFinishedCallback = val;
   }
 
-  /**
-   * Resets the lastMovementTime, which is used for when we want to have an npc start moving
-   * immediately. This is needed for cutscene support so after the npc appears, that npc starts
-   * moving directly to the player.
-   * @returns {void}
-   */
   resetMovementTime() {
     this.#lastMovementTime = 0;
   }
 
   /**
+   * Turn to look at the player, given the direction the player is facing.
    * @param {import('../../common/direction.js').Direction} playerDirection
-   * @returns {void}
    */
   facePlayer(playerDirection) {
-    switch (playerDirection) {
-      case DIRECTION.DOWN:
-        this._phaserGameObject.setFrame(this._idleFrameConfig.UP).setFlipX(false);
-        break;
-      case DIRECTION.LEFT:
-        this._phaserGameObject.setFrame(this._idleFrameConfig.RIGHT).setFlipX(false);
-        break;
-      case DIRECTION.RIGHT:
-        this._phaserGameObject.setFrame(this._idleFrameConfig.LEFT).setFlipX(true);
-        break;
-      case DIRECTION.UP:
-        this._phaserGameObject.setFrame(this._idleFrameConfig.DOWN).setFlipX(false);
-        break;
-      case DIRECTION.NONE:
-        break;
-      default:
-        exhaustiveGuard(playerDirection);
-    }
+    this.face(/** @type {any} */ (OPPOSITE[playerDirection]));
   }
 
   /**
-   * @param {DOMHighResTimeStamp} time
-   * @returns {void}
+   * Walks a list of steps; resolves when finished.
+   * @param {import('../../common/direction.js').Direction[]} steps
+   * @param {boolean} [ignoreCollisions=false]
+   * @returns {Promise<void>}
    */
+  walk(steps, ignoreCollisions = false) {
+    return new Promise((resolve) => {
+      const queue = [...steps];
+      const prevPattern = this.#movementPattern;
+      this.#movementPattern = NPC_MOVEMENT_PATTERN.IDLE;
+      const next = () => {
+        if (queue.length === 0) {
+          this._spriteGridMovementFinishedCallback = undefined;
+          this.#movementPattern = prevPattern === NPC_MOVEMENT_PATTERN.SET_PATH ? NPC_MOVEMENT_PATTERN.IDLE : prevPattern;
+          this.#home = { ...this._targetPosition };
+          this.update(0);
+          resolve();
+          return;
+        }
+        const dir = queue.shift();
+        this._spriteGridMovementFinishedCallback = next;
+        if (ignoreCollisions) {
+          const saved = this._collisionLayer;
+          const savedChars = this._otherCharactersToCheckForCollisionsWith;
+          this._collisionLayer = undefined;
+          this._otherCharactersToCheckForCollisionsWith = [];
+          this.moveCharacter(dir);
+          this._collisionLayer = saved;
+          this._otherCharactersToCheckForCollisionsWith = savedChars;
+        } else {
+          this.moveCharacter(dir);
+        }
+        if (!this._isMoving) {
+          // blocked: give up on this step
+          this.face(dir);
+          this._scene.time.delayedCall(10, next);
+        }
+      };
+      next();
+    });
+  }
+
+  /** @param {DOMHighResTimeStamp} time */
   update(time) {
     if (this._isMoving) {
       return;
     }
-    if (this.#talkingToPlayer) {
-      return;
-    }
     super.update(time);
-
-    if (this.#movementPattern === NPC_MOVEMENT_PATTERN.IDLE) {
+    if (this.#talkingToPlayer || this.frozen) {
       return;
     }
-
-    if (this.#lastMovementTime < time) {
-      /** @type {import('../../common/direction.js').Direction} */
-      let characterDirection = DIRECTION.NONE;
-      let nextPosition = this.#npcPath[this.#currentPathIndex + 1];
-
-      // validate if we actually moved to the next position, if not, skip updating index
-      const prevPosition = this.#npcPath[this.#currentPathIndex];
-      if (prevPosition.x !== this._phaserGameObject.x || prevPosition.y !== this._phaserGameObject.y) {
-        nextPosition = this.#npcPath[this.#currentPathIndex];
-      } else {
-        if (nextPosition === undefined) {
-          // if npc is following a set path, once we reach the end, stop moving the npc
-          if (this.#movementPattern === NPC_MOVEMENT_PATTERN.SET_PATH) {
-            this.#movementPattern = NPC_MOVEMENT_PATTERN.IDLE;
-            this.#currentPathIndex = 0;
-            return;
-          }
-          nextPosition = this.#npcPath[0];
-          this.#currentPathIndex = 0;
+    if (this.#lastMovementTime > time) {
+      return;
+    }
+    switch (this.#movementPattern) {
+      case NPC_MOVEMENT_PATTERN.LOOK:
+        this.face(DIRS[Phaser.Math.Between(0, 3)]);
+        this.#lastMovementTime = time + Phaser.Math.Between(1500, 4000);
+        return;
+      case NPC_MOVEMENT_PATTERN.WANDER: {
+        const dir = DIRS[Phaser.Math.Between(0, 3)];
+        const d = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] }[dir];
+        const nx = this._targetPosition.x + d[0] * 64;
+        const ny = this._targetPosition.y + d[1] * 64;
+        const radius = (this.data.wanderRadius ?? 2) * 64;
+        if (Math.abs(nx - this.#home.x) <= radius && Math.abs(ny - this.#home.y) <= radius) {
+          this.moveCharacter(dir);
         } else {
-          this.#currentPathIndex = this.#currentPathIndex + 1;
+          this.face(dir);
         }
+        this.#lastMovementTime = time + Phaser.Math.Between(1800, 4200);
+        return;
       }
-
-      if (nextPosition.x > this._phaserGameObject.x) {
-        characterDirection = DIRECTION.RIGHT;
-      } else if (nextPosition.x < this._phaserGameObject.x) {
-        characterDirection = DIRECTION.LEFT;
-      } else if (nextPosition.y < this._phaserGameObject.y) {
-        characterDirection = DIRECTION.UP;
-      } else if (nextPosition.y > this._phaserGameObject.y) {
-        characterDirection = DIRECTION.DOWN;
+      case NPC_MOVEMENT_PATTERN.CLOCKWISE: {
+        const keys = Object.keys(this.#npcPath).map(Number).sort((a, b) => a - b);
+        if (keys.length < 2) {
+          return;
+        }
+        const target = this.#npcPath[keys[(this.#currentPathIndex + 1) % keys.length]];
+        const cur = this._targetPosition;
+        let dir = DIRECTION.NONE;
+        if (target.x > cur.x) dir = DIRECTION.RIGHT;
+        else if (target.x < cur.x) dir = DIRECTION.LEFT;
+        else if (target.y > cur.y) dir = DIRECTION.DOWN;
+        else if (target.y < cur.y) dir = DIRECTION.UP;
+        if (dir === DIRECTION.NONE) {
+          this.#currentPathIndex = (this.#currentPathIndex + 1) % keys.length;
+          return;
+        }
+        this.moveCharacter(dir);
+        this.#lastMovementTime = time + 500;
+        return;
       }
-
-      this.moveCharacter(characterDirection);
-      if (this.#movementPattern === NPC_MOVEMENT_PATTERN.SET_PATH) {
-        this.#lastMovementTime = time;
-      } else {
-        this.#lastMovementTime = time + Phaser.Math.Between(2000, 5000);
-      }
+      default:
     }
   }
 
   /**
    * @param {import('../../common/direction.js').Direction} direction
-   * @returns {void}
    */
   moveCharacter(direction) {
     super.moveCharacter(direction);
-
-    switch (this._direction) {
-      case DIRECTION.DOWN:
-      case DIRECTION.RIGHT:
-      case DIRECTION.UP:
-        if (
-          !this._phaserGameObject.anims.isPlaying ||
-          this._phaserGameObject.anims.currentAnim?.key !== `${this.#animationKeyPrefix}_${this._direction}`
-        ) {
-          this._phaserGameObject.play(`${this.#animationKeyPrefix}_${this._direction}`);
-          this._phaserGameObject.setFlipX(false);
-        }
-        break;
-      case DIRECTION.LEFT:
-        if (
-          !this._phaserGameObject.anims.isPlaying ||
-          this._phaserGameObject.anims.currentAnim?.key !== `${this.#animationKeyPrefix}_${DIRECTION.RIGHT}`
-        ) {
-          this._phaserGameObject.play(`${this.#animationKeyPrefix}_${DIRECTION.RIGHT}`);
-          this._phaserGameObject.setFlipX(true);
-        }
-        break;
-      case DIRECTION.NONE:
-        break;
-      default:
-        // We should never reach this default case
-        exhaustiveGuard(this._direction);
+    if (!this._isMoving) {
+      return;
+    }
+    const key = `${this.#assetKey}_${this._direction}`;
+    if (!this._phaserGameObject.anims.isPlaying || this._phaserGameObject.anims.currentAnim?.key !== key) {
+      this._phaserGameObject.play(key);
     }
   }
 }

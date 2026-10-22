@@ -1,0 +1,1580 @@
+[
+ {
+  "id": 1,
+  "name": "Bump",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 35,
+  "priority": 0,
+  "description": "A clumsy full-body bump.",
+  "effect": null
+ },
+ {
+  "id": 2,
+  "name": "Scratch",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 35,
+  "priority": 0,
+  "description": "Rakes the foe with sharp claws.",
+  "effect": null
+ },
+ {
+  "id": 3,
+  "name": "Honk",
+  "type": "NORMAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 40,
+  "priority": 0,
+  "description": "A deafening horn blast that lowers the foe's ATK.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "ATK": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 4,
+  "name": "Tail Wag",
+  "type": "NORMAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "Cutely wags its tail. Lowers the foe's DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "DEF": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 5,
+  "name": "Quick Dash",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 1,
+  "description": "Darts in before the foe can react. Usually goes first.",
+  "effect": null
+ },
+ {
+  "id": 6,
+  "name": "Headbutt",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A hard headbutt. May make the foe flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 30
+  }
+ },
+ {
+  "id": 7,
+  "name": "Belly Flop",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 85,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Flops onto the foe. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 30
+  }
+ },
+ {
+  "id": 8,
+  "name": "Rush Hour",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 120,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A reckless charge like peak-hour traffic. The user takes recoil.",
+  "effect": {
+   "kind": "recoil",
+   "ratio": 0.33
+  }
+ },
+ {
+  "id": 9,
+  "name": "Battle Cry",
+  "type": "NORMAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 30,
+  "priority": 0,
+  "description": "Psyches itself up. Raises ATK.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "ATK": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 10,
+  "name": "Siesta",
+  "type": "NORMAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 10,
+  "priority": 0,
+  "description": "A long afternoon nap. Fully heals, then sleeps for two turns.",
+  "effect": {
+   "kind": "rest"
+  }
+ },
+ {
+  "id": 11,
+  "name": "Meter Mele",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Charges one-and-a-half over the meter. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 12,
+  "name": "Fury Swipes",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 18,
+  "accuracy": 80,
+  "pp": 15,
+  "priority": 0,
+  "description": "Scratches 2 to 5 times in a row.",
+  "effect": {
+   "kind": "multi",
+   "min": 2,
+   "max": 5
+  }
+ },
+ {
+  "id": 13,
+  "name": "Peanut Toss",
+  "type": "NORMAL",
+  "category": "PHYSICAL",
+  "power": 15,
+  "accuracy": 90,
+  "pp": 20,
+  "priority": 0,
+  "description": "Throws peanuts 2 to 5 times.",
+  "effect": {
+   "kind": "multi",
+   "min": 2,
+   "max": 5
+  }
+ },
+ {
+  "id": 14,
+  "name": "Hard Stare",
+  "type": "NORMAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "An unblinking stare. Lowers the foe's SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 20,
+  "name": "Ember",
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "A small flame. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 10
+  }
+ },
+ {
+  "id": 21,
+  "name": "Steam Jet",
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A jet of scalding coffee steam. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 10
+  }
+ },
+ {
+  "id": 22,
+  "name": "Tandoor Fang",
+  "type": "FIRE",
+  "category": "PHYSICAL",
+  "power": 65,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "Bites with fangs hot as a tandoor. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 10
+  }
+ },
+ {
+  "id": 23,
+  "name": "Masala Blaze",
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A spicy firestorm. May burn.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 10
+  }
+ },
+ {
+  "id": 24,
+  "name": "Kaapi Cannon",
+  "type": "FIRE",
+  "category": "SPECIAL",
+  "power": 110,
+  "accuracy": 85,
+  "pp": 5,
+  "priority": 0,
+  "description": "Fires boiling decoction at full pressure.",
+  "effect": null
+ },
+ {
+  "id": 25,
+  "name": "Lamp Glow",
+  "type": "FIRE",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 75,
+  "pp": 15,
+  "priority": 0,
+  "description": "A hypnotic flame that burns the foe.",
+  "effect": {
+   "kind": "status",
+   "status": "BRN",
+   "chance": 100
+  }
+ },
+ {
+  "id": 26,
+  "name": "Filter Crash",
+  "type": "FIRE",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A blazing charge in a steel helmet. The user takes recoil.",
+  "effect": {
+   "kind": "recoil",
+   "ratio": 0.25
+  }
+ },
+ {
+  "id": 30,
+  "name": "Squirt",
+  "type": "WATER",
+  "category": "SPECIAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "Squirts water through a straw.",
+  "effect": null
+ },
+ {
+  "id": 31,
+  "name": "Bubble Burst",
+  "type": "WATER",
+  "category": "SPECIAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "Sprays bubbles. May lower SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -1
+   },
+   "chance": 10
+  }
+ },
+ {
+  "id": 32,
+  "name": "Monsoon Shower",
+  "type": "WATER",
+  "category": "SPECIAL",
+  "power": 65,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A sudden downpour.",
+  "effect": null
+ },
+ {
+  "id": 33,
+  "name": "Shell Ram",
+  "type": "WATER",
+  "category": "PHYSICAL",
+  "power": 75,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "Rams with a hard, wet shell.",
+  "effect": null
+ },
+ {
+  "id": 34,
+  "name": "Lake Surge",
+  "type": "WATER",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A huge wave from the lake.",
+  "effect": null
+ },
+ {
+  "id": 35,
+  "name": "Kere Flood",
+  "type": "WATER",
+  "category": "SPECIAL",
+  "power": 110,
+  "accuracy": 80,
+  "pp": 5,
+  "priority": 0,
+  "description": "Releases the whole lake at once.",
+  "effect": null
+ },
+ {
+  "id": 36,
+  "name": "Coconut Sip",
+  "type": "WATER",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 10,
+  "priority": 0,
+  "description": "Sips cool coconut water. Restores half max HP.",
+  "effect": {
+   "kind": "heal",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 37,
+  "name": "Withdraw",
+  "type": "WATER",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 30,
+  "priority": 0,
+  "description": "Retreats into its shell. Raises DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "DEF": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 40,
+  "name": "Creeper Lash",
+  "type": "GRASS",
+  "category": "PHYSICAL",
+  "power": 45,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "Whips the foe with a creeper vine.",
+  "effect": null
+ },
+ {
+  "id": 41,
+  "name": "Petal Shower",
+  "type": "GRASS",
+  "category": "SPECIAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "Showers the foe with sharp petals.",
+  "effect": null
+ },
+ {
+  "id": 42,
+  "name": "Root Drain",
+  "type": "GRASS",
+  "category": "SPECIAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Drains energy through roots. Heals the user.",
+  "effect": {
+   "kind": "drain",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 43,
+  "name": "Mallige Scent",
+  "type": "GRASS",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 75,
+  "pp": 15,
+  "priority": 0,
+  "description": "A heady jasmine scent that puts the foe to sleep.",
+  "effect": {
+   "kind": "status",
+   "status": "SLP",
+   "chance": 100
+  }
+ },
+ {
+  "id": 44,
+  "name": "Jacaranda Bloom",
+  "type": "GRASS",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A storm of purple blossoms.",
+  "effect": null
+ },
+ {
+  "id": 45,
+  "name": "Thorn Charge",
+  "type": "GRASS",
+  "category": "PHYSICAL",
+  "power": 85,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "A charge with spiky skin. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 46,
+  "name": "Sunbeam",
+  "type": "GRASS",
+  "category": "SPECIAL",
+  "power": 120,
+  "accuracy": 90,
+  "pp": 5,
+  "priority": 0,
+  "description": "Focuses harsh afternoon sunlight into a beam.",
+  "effect": null
+ },
+ {
+  "id": 47,
+  "name": "Pollen Puff",
+  "type": "GRASS",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 75,
+  "pp": 30,
+  "priority": 0,
+  "description": "Scatters pollen that paralyzes the foe.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 100
+  }
+ },
+ {
+  "id": 48,
+  "name": "Garden City",
+  "type": "GRASS",
+  "category": "SPECIAL",
+  "power": 130,
+  "accuracy": 95,
+  "pp": 5,
+  "priority": 0,
+  "description": "The guardian calls on every tree in the city. Heals the user a little.",
+  "effect": {
+   "kind": "drain",
+   "ratio": 0.25
+  }
+ },
+ {
+  "id": 50,
+  "name": "Spark",
+  "type": "ELECTRIC",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "An electric tackle. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 10
+  }
+ },
+ {
+  "id": 51,
+  "name": "Power Cut",
+  "type": "ELECTRIC",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 90,
+  "pp": 20,
+  "priority": 0,
+  "description": "\"Current hogide!\" Paralyzes the foe.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 100
+  }
+ },
+ {
+  "id": 52,
+  "name": "Live Wire",
+  "type": "ELECTRIC",
+  "category": "SPECIAL",
+  "power": 75,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Lashes with a live cable. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 10
+  }
+ },
+ {
+  "id": 53,
+  "name": "Thunderclap",
+  "type": "ELECTRIC",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A monsoon thunderbolt. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 10
+  }
+ },
+ {
+  "id": 54,
+  "name": "Overload",
+  "type": "ELECTRIC",
+  "category": "SPECIAL",
+  "power": 110,
+  "accuracy": 85,
+  "pp": 5,
+  "priority": 0,
+  "description": "Overloads the grid in one huge discharge.",
+  "effect": null
+ },
+ {
+  "id": 55,
+  "name": "Charge Up",
+  "type": "ELECTRIC",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "Stores power. Raises SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "SPC": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 56,
+  "name": "Pantograph",
+  "type": "ELECTRIC",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Strikes with crackling overhead wires.",
+  "effect": null
+ },
+ {
+  "id": 60,
+  "name": "Mud Slap",
+  "type": "EARTH",
+  "category": "SPECIAL",
+  "power": 20,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Hurls mud. Lowers the foe's accuracy.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "ACC": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 61,
+  "name": "Sand Toss",
+  "type": "EARTH",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Throws sand in the foe's eyes. Lowers accuracy.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "ACC": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 62,
+  "name": "Pothole",
+  "type": "EARTH",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Opens a pothole under the foe.",
+  "effect": null
+ },
+ {
+  "id": 63,
+  "name": "Stampede",
+  "type": "EARTH",
+  "category": "PHYSICAL",
+  "power": 75,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "A heavy stampede. May make the foe flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 20
+  }
+ },
+ {
+  "id": 64,
+  "name": "Earth Shake",
+  "type": "EARTH",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Shakes the ground violently.",
+  "effect": null
+ },
+ {
+  "id": 65,
+  "name": "Bath Time",
+  "type": "EARTH",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 10,
+  "priority": 0,
+  "description": "Sprays dust and water over itself. Restores half max HP.",
+  "effect": {
+   "kind": "heal",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 70,
+  "name": "Pebble Throw",
+  "type": "ROCK",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "Flicks sharp pebbles.",
+  "effect": null
+ },
+ {
+  "id": 71,
+  "name": "Rock Slide",
+  "type": "ROCK",
+  "category": "PHYSICAL",
+  "power": 75,
+  "accuracy": 90,
+  "pp": 10,
+  "priority": 0,
+  "description": "Rolls rocks onto the foe. May make it flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 30
+  }
+ },
+ {
+  "id": 72,
+  "name": "Boulder Crash",
+  "type": "ROCK",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 80,
+  "pp": 5,
+  "priority": 0,
+  "description": "Drops a boulder on the foe.",
+  "effect": null
+ },
+ {
+  "id": 73,
+  "name": "Granite Wall",
+  "type": "ROCK",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "Hardens like granite. Sharply raises DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "DEF": 2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 74,
+  "name": "Concrete Pour",
+  "type": "ROCK",
+  "category": "PHYSICAL",
+  "power": 95,
+  "accuracy": 95,
+  "pp": 10,
+  "priority": 0,
+  "description": "Buries the foe in wet concrete. Lowers its SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 75,
+  "name": "Gem Shard",
+  "type": "ROCK",
+  "category": "SPECIAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Fires a glittering shard of gemstone.",
+  "effect": null
+ },
+ {
+  "id": 80,
+  "name": "Peck",
+  "type": "SKY",
+  "category": "PHYSICAL",
+  "power": 35,
+  "accuracy": 100,
+  "pp": 35,
+  "priority": 0,
+  "description": "Jabs with a beak.",
+  "effect": null
+ },
+ {
+  "id": 81,
+  "name": "Gust",
+  "type": "SKY",
+  "category": "SPECIAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 35,
+  "priority": 0,
+  "description": "Whips up a gust of wind.",
+  "effect": null
+ },
+ {
+  "id": 82,
+  "name": "Wing Slice",
+  "type": "SKY",
+  "category": "PHYSICAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "Slices with sharp wings.",
+  "effect": null
+ },
+ {
+  "id": 83,
+  "name": "Kite Dive",
+  "type": "SKY",
+  "category": "PHYSICAL",
+  "power": 90,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "A screaming dive from high above. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 84,
+  "name": "Feather Dance",
+  "type": "SKY",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A dazzling dance. Sharply lowers the foe's ATK.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "ATK": -2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 85,
+  "name": "Monsoon Wind",
+  "type": "SKY",
+  "category": "SPECIAL",
+  "power": 100,
+  "accuracy": 85,
+  "pp": 10,
+  "priority": 0,
+  "description": "A howling monsoon wind.",
+  "effect": null
+ },
+ {
+  "id": 86,
+  "name": "Roost",
+  "type": "SKY",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 10,
+  "priority": 0,
+  "description": "Lands to rest. Restores half max HP.",
+  "effect": {
+   "kind": "heal",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 90,
+  "name": "Sting",
+  "type": "BUG",
+  "category": "PHYSICAL",
+  "power": 35,
+  "accuracy": 100,
+  "pp": 35,
+  "priority": 0,
+  "description": "A jab with a stinger. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 20
+  }
+ },
+ {
+  "id": 91,
+  "name": "Silk Thread",
+  "type": "BUG",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 95,
+  "pp": 40,
+  "priority": 0,
+  "description": "Wraps the foe in silk. Sharply lowers SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 92,
+  "name": "Swarm",
+  "type": "BUG",
+  "category": "PHYSICAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A buzzing swarm attack.",
+  "effect": null
+ },
+ {
+  "id": 93,
+  "name": "Leech Bite",
+  "type": "BUG",
+  "category": "PHYSICAL",
+  "power": 60,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Sucks blood. Heals the user.",
+  "effect": {
+   "kind": "drain",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 94,
+  "name": "Wing Dust",
+  "type": "BUG",
+  "category": "SPECIAL",
+  "power": 75,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Scatters shimmering wing scales. May lower SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPC": -1
+   },
+   "chance": 20
+  }
+ },
+ {
+  "id": 95,
+  "name": "Beetle Ram",
+  "type": "BUG",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 85,
+  "pp": 10,
+  "priority": 0,
+  "description": "A ramming charge.",
+  "effect": null
+ },
+ {
+  "id": 96,
+  "name": "Cocoon",
+  "type": "BUG",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "Wraps itself in silk. Sharply raises DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "DEF": 2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 100,
+  "name": "Toxic Jab",
+  "type": "TOXIC",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "A venomous jab. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 30
+  }
+ },
+ {
+  "id": 101,
+  "name": "Smog",
+  "type": "TOXIC",
+  "category": "SPECIAL",
+  "power": 30,
+  "accuracy": 70,
+  "pp": 20,
+  "priority": 0,
+  "description": "Exhaust fumes. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 40
+  }
+ },
+ {
+  "id": 102,
+  "name": "Sludge",
+  "type": "TOXIC",
+  "category": "SPECIAL",
+  "power": 65,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "Hurls sludge. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 30
+  }
+ },
+ {
+  "id": 103,
+  "name": "Foam Flood",
+  "type": "TOXIC",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A wave of toxic foam. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 20
+  }
+ },
+ {
+  "id": 104,
+  "name": "Toxic Fumes",
+  "type": "TOXIC",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 90,
+  "pp": 20,
+  "priority": 0,
+  "description": "Releases choking fumes that poison the foe.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 100
+  }
+ },
+ {
+  "id": 105,
+  "name": "Venom Fang",
+  "type": "TOXIC",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "A bite dripping venom. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 30
+  }
+ },
+ {
+  "id": 106,
+  "name": "Gunk Shot",
+  "type": "TOXIC",
+  "category": "PHYSICAL",
+  "power": 120,
+  "accuracy": 80,
+  "pp": 5,
+  "priority": 0,
+  "description": "Hurls a mass of garbage-dump gunk. May poison.",
+  "effect": {
+   "kind": "status",
+   "status": "PSN",
+   "chance": 30
+  }
+ },
+ {
+  "id": 110,
+  "name": "Kusti Chop",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 50,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "A wrestler's chop.",
+  "effect": null
+ },
+ {
+  "id": 111,
+  "name": "Leg Spin",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 60,
+  "accuracy": 90,
+  "pp": 20,
+  "priority": 0,
+  "description": "A spinning kick. May make the foe flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 20
+  }
+ },
+ {
+  "id": 112,
+  "name": "Yorker",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 95,
+  "pp": 15,
+  "priority": 0,
+  "description": "Aims right at the toes. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 113,
+  "name": "Bulk Up",
+  "type": "FIGHT",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "Flexes. Raises ATK and DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "ATK": 1,
+    "DEF": 1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 114,
+  "name": "Pailwan Slam",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 85,
+  "pp": 10,
+  "priority": 0,
+  "description": "Lifts and slams the foe into the mud.",
+  "effect": null
+ },
+ {
+  "id": 115,
+  "name": "Tiger Stomp",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A stomping dance step. May make the foe flinch.",
+  "effect": {
+   "kind": "flinch",
+   "chance": 20
+  }
+ },
+ {
+  "id": 116,
+  "name": "Counter Punch",
+  "type": "FIGHT",
+  "category": "PHYSICAL",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 1,
+  "description": "A fast jab that always goes first.",
+  "effect": null
+ },
+ {
+  "id": 120,
+  "name": "Brain Wave",
+  "type": "MIND",
+  "category": "SPECIAL",
+  "power": 50,
+  "accuracy": 100,
+  "pp": 25,
+  "priority": 0,
+  "description": "A wave of psychic power.",
+  "effect": null
+ },
+ {
+  "id": 121,
+  "name": "Third Eye",
+  "type": "MIND",
+  "category": "SPECIAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A beam from a glowing third eye. May lower SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -1
+   },
+   "chance": 10
+  }
+ },
+ {
+  "id": 122,
+  "name": "Mind Bomb",
+  "type": "MIND",
+  "category": "SPECIAL",
+  "power": 90,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "A massive psychic blast. May lower SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPC": -1
+   },
+   "chance": 10
+  }
+ },
+ {
+  "id": 123,
+  "name": "Dhyana",
+  "type": "MIND",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 20,
+  "priority": 0,
+  "description": "Deep meditation. Sharply raises SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "SPC": 2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 124,
+  "name": "Lullaby",
+  "type": "MIND",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 60,
+  "pp": 20,
+  "priority": 0,
+  "description": "A soft lullaby that puts the foe to sleep.",
+  "effect": {
+   "kind": "status",
+   "status": "SLP",
+   "chance": 100
+  }
+ },
+ {
+  "id": 125,
+  "name": "Exam Pressure",
+  "type": "MIND",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "Overwhelms the foe with homework. Lowers SPC and SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPC": -1,
+    "SPD": -1
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 126,
+  "name": "Wish Jewel",
+  "type": "MIND",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 10,
+  "priority": 0,
+  "description": "Makes a wish on its jewel. Restores half max HP.",
+  "effect": {
+   "kind": "heal",
+   "ratio": 0.5
+  }
+ },
+ {
+  "id": 130,
+  "name": "Shadow Touch",
+  "type": "SPIRIT",
+  "category": "PHYSICAL",
+  "power": 30,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "description": "A chilling touch. May paralyze.",
+  "effect": {
+   "kind": "status",
+   "status": "PAR",
+   "chance": 30
+  }
+ },
+ {
+  "id": 131,
+  "name": "Midnight Haunt",
+  "type": "SPIRIT",
+  "category": "SPECIAL",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Haunts the foe. Deals damage equal to the user's level.",
+  "effect": {
+   "kind": "fixed",
+   "damage": "level"
+  }
+ },
+ {
+  "id": 132,
+  "name": "Spirit Orb",
+  "type": "SPIRIT",
+  "category": "SPECIAL",
+  "power": 85,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Hurls a ball of spirit fire. May lower SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPC": -1
+   },
+   "chance": 20
+  }
+ },
+ {
+  "id": 133,
+  "name": "Ghostly Glare",
+  "type": "SPIRIT",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "description": "A terrifying stare. Sharply lowers the foe's SPD.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPD": -2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 134,
+  "name": "Phantom Claw",
+  "type": "SPIRIT",
+  "category": "PHYSICAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Slashes from the shadows. High critical-hit ratio.",
+  "effect": {
+   "kind": "highCrit"
+  }
+ },
+ {
+  "id": 135,
+  "name": "Power-Cut Prowl",
+  "type": "SPIRIT",
+  "category": "PHYSICAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Strikes from the darkness of a power cut.",
+  "effect": null
+ },
+ {
+  "id": 140,
+  "name": "Metal Claw",
+  "type": "METAL",
+  "category": "PHYSICAL",
+  "power": 50,
+  "accuracy": 95,
+  "pp": 35,
+  "priority": 0,
+  "description": "Rakes with steel claws. May raise ATK.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "ATK": 1
+   },
+   "chance": 10
+  }
+ },
+ {
+  "id": 141,
+  "name": "Steel Plating",
+  "type": "METAL",
+  "category": "STATUS",
+  "power": 0,
+  "accuracy": 0,
+  "pp": 15,
+  "priority": 0,
+  "description": "Bolts on steel plates. Sharply raises DEF.",
+  "effect": {
+   "kind": "stat",
+   "target": "self",
+   "stats": {
+    "DEF": 2
+   },
+   "chance": 100
+  }
+ },
+ {
+  "id": 142,
+  "name": "Tumbler Toss",
+  "type": "METAL",
+  "category": "SPECIAL",
+  "power": 80,
+  "accuracy": 100,
+  "pp": 10,
+  "priority": 0,
+  "description": "Flings a spinning steel tumbler. May lower SPC.",
+  "effect": {
+   "kind": "stat",
+   "target": "foe",
+   "stats": {
+    "SPC": -1
+   },
+   "chance": 10
+  }
+ },
+ {
+  "id": 143,
+  "name": "Rail Slam",
+  "type": "METAL",
+  "category": "PHYSICAL",
+  "power": 100,
+  "accuracy": 90,
+  "pp": 10,
+  "priority": 0,
+  "description": "Slams down like a speeding train.",
+  "effect": null
+ },
+ {
+  "id": 144,
+  "name": "Data Spike",
+  "type": "METAL",
+  "category": "SPECIAL",
+  "power": 70,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": 0,
+  "description": "Fires a spike of compressed data.",
+  "effect": null
+ },
+ {
+  "id": 145,
+  "name": "Crane Swing",
+  "type": "METAL",
+  "category": "PHYSICAL",
+  "power": 110,
+  "accuracy": 85,
+  "pp": 5,
+  "priority": 0,
+  "description": "Swings a crane arm with full force.",
+  "effect": null
+ }
+]

@@ -1,245 +1,83 @@
-import Phaser from '../lib/phaser.js';
-import TweakPane from '../lib/tweakpane.js';
-import { Background } from '../battle/background.js';
-import { ATTACK_KEYS } from '../battle/attacks/attack-keys.js';
-import { IceShard } from '../battle/attacks/ice-shard.js';
-import { Slash } from '../battle/attacks/slash.js';
-import { BATTLE_ASSET_KEYS, MONSTER_ASSET_KEYS } from '../assets/asset-keys.js';
 import { SCENE_KEYS } from './scene-keys.js';
-import { makeDraggable } from '../utils/draggable.js';
-import { Ball } from '../battle/ball.js';
-import { sleep } from '../utils/time-utils.js';
+import { BaseScene } from './base-scene.js';
+import { dataManager } from '../utils/data-manager.js';
+import { createMonster } from '../battle/engine/monster.js';
+import { gameData } from '../game/game-data.js';
+import { buildTrainerTeam } from '../world/trainers.js';
 
-export class TestScene extends Phaser.Scene {
-  /** @type {import('../battle/attacks/attack-keys.js').AttackKeys} */
-  #selectedAttack;
-  /** @type {IceShard} */
-  #iceShardAttack;
-  /** @type {Slash} */
-  #slashAttack;
-  /** @type {Phaser.GameObjects.Image} */
-  #playerMonster;
-  /** @type {Phaser.GameObjects.Image} */
-  #enemyMonster;
-  /** @type {Ball} */
-  #ball;
-
+/**
+ * Developer sandbox, opened with ?scene=test. Query params:
+ *   map=<id>[&x=&y=]           jump straight into a map with a test party
+ *   battle=wild&species=&level= start a wild battle
+ *   battle=trainer&trainer=<id> start a trainer battle
+ *   party=4:12,10:8            species:level list for the test party (default a strong mixed team)
+ *   flags=A,B                   flags to set
+ */
+export class TestScene extends BaseScene {
   constructor() {
     super({ key: SCENE_KEYS.TEST_SCENE });
   }
 
-  /**
-   * @returns {void}
-   */
-  init() {
-    this.#selectedAttack = ATTACK_KEYS.SLASH;
-  }
-
-  /**
-   * @returns {void}
-   */
   create() {
-    const background = new Background(this);
-    background.showForest();
+    super.create();
+    const p = new URLSearchParams(window.location.search);
+    dataManager.startNewGame();
+    dataManager.state.player.name = p.get('name') || 'Tester';
+    dataManager.state.player.gender = /** @type {any} */ (p.get('gender') || 'boy');
+    const party = (p.get('party') || '6:30,25:28,48:27,44:26,53:27,33:28')
+      .split(',')
+      .map((s) => s.split(':').map(Number));
+    party.forEach(([sp, lvl]) => dataManager.addMonster(createMonster(sp, lvl)));
+    dataManager.state.vars.starter = 4;
+    dataManager.state.vars.rivalStarter = 7;
+    dataManager.state.vars.starterName = 'Kaapup';
+    dataManager.state.vars.rivalStarterName = 'Elanee';
+    dataManager.addItem(2, 20);
+    dataManager.addItem(3, 10);
+    dataManager.addItem(7, 3);
+    (p.get('flags') || '').split(',').filter(Boolean).forEach((f) => dataManager.addFlag(f));
+    dataManager.state.gameStarted = true;
 
-    this.#playerMonster = this.add.image(256, 316, MONSTER_ASSET_KEYS.IGUANIGNITE, 0).setFlipX(true);
-    this.#enemyMonster = this.add.image(768, 144, MONSTER_ASSET_KEYS.CARNODUSK, 0).setFlipX(false);
-    makeDraggable(this.#enemyMonster);
-
-    this.#iceShardAttack = new IceShard(this, { x: 256, y: 344 });
-    this.#slashAttack = new Slash(this, { x: 745, y: 140 });
-
-    this.#ball = new Ball({
-      scene: this,
-      assetKey: BATTLE_ASSET_KEYS.DAMAGED_BALL,
-      assetFrame: 0,
-      scale: 0.1,
-    });
-    this.#ball.showBallPath();
-
-    this.#addDataGui();
-  }
-
-  /**
-   * @returns {void}
-   */
-  #addDataGui() {
-    const pane = new TweakPane.Pane();
-
-    const f1 = pane.addFolder({
-      title: 'Monsters',
-      expanded: false,
-    });
-    const playerMonsterFolder = f1.addFolder({
-      title: 'Player',
-      expanded: true,
-    });
-    playerMonsterFolder.addBinding(this.#playerMonster, 'x', {
-      min: 0,
-      max: 1024,
-      step: 1,
-    });
-    playerMonsterFolder.addBinding(this.#playerMonster, 'y', {
-      min: 0,
-      max: 576,
-      step: 1,
-    });
-
-    const enemyMonsterFolder = f1.addFolder({
-      title: 'Enemy',
-      expanded: true,
-    });
-    enemyMonsterFolder.addBinding(this.#enemyMonster, 'x', { readonly: true });
-    enemyMonsterFolder.addBinding(this.#enemyMonster, 'y', { readonly: true });
-
-    const f2Params = {
-      attack: this.#selectedAttack,
-      x: 745,
-      y: 120,
-    };
-    const f2 = pane.addFolder({
-      title: 'Attacks',
-      expanded: false,
-    });
-    f2.addBinding(f2Params, 'attack', {
-      options: {
-        [ATTACK_KEYS.SLASH]: ATTACK_KEYS.SLASH,
-        [ATTACK_KEYS.ICE_SHARD]: ATTACK_KEYS.ICE_SHARD,
-      },
-    }).on('change', (ev) => {
-      if (ev.value === ATTACK_KEYS.ICE_SHARD) {
-        this.#selectedAttack = ATTACK_KEYS.ICE_SHARD;
-        f2Params.x = this.#iceShardAttack.gameObject.x;
-        f2Params.y = this.#iceShardAttack.gameObject.y;
-        f2.refresh();
-        return;
-      }
-      if (ev.value === ATTACK_KEYS.SLASH) {
-        this.#selectedAttack = ATTACK_KEYS.SLASH;
-        f2Params.x = this.#slashAttack.gameObject.x;
-        f2Params.y = this.#slashAttack.gameObject.y;
-        f2.refresh();
-        return;
-      }
-    });
-
-    const playAttackButton = f2.addButton({
-      title: 'Play',
-    });
-    playAttackButton.on('click', () => {
-      if (this.#selectedAttack === ATTACK_KEYS.ICE_SHARD) {
-        this.#iceShardAttack.playAnimation();
-        return;
-      }
-      if (this.#selectedAttack === ATTACK_KEYS.SLASH) {
-        this.#slashAttack.playAnimation();
-        return;
-      }
-    });
-
-    f2.addBinding(f2Params, 'x', {
-      min: 0,
-      max: 1024,
-      step: 1,
-    }).on('change', (ev) => {
-      this.#updateAttackGameObjectPosition('x', ev.value);
-    });
-    f2.addBinding(f2Params, 'y', {
-      min: 0,
-      max: 576,
-      step: 1,
-    }).on('change', (ev) => {
-      this.#updateAttackGameObjectPosition('y', ev.value);
-    });
-
-    const f3 = pane.addFolder({
-      title: 'Monster Ball',
-      expanded: true,
-    });
-    const f3Params = {
-      showPath: true,
-    };
-    f3.addBinding(f3Params, 'showPath', {
-      label: 'show path',
-    }).on('change', (ev) => {
-      if (ev.value) {
-        this.#ball.showBallPath();
+    const battle = p.get('battle');
+    if (battle) {
+      this.scene.launch(SCENE_KEYS.DIALOG_SCENE);
+      this.game.events.once('battle-finished', (result) => {
+        window.__lastBattleResult = result;
+        this.add.text(40, 40, `battle finished: ${JSON.stringify(result)}`, { fontSize: '24px', color: '#fff' });
+      });
+      if (battle === 'trainer') {
+        const id = p.get('trainer') || Object.keys(gameData.trainers)[0];
+        const t = gameData.trainers[id];
+        this.scene.launch(SCENE_KEYS.BATTLE_SCENE, {
+          trainer: { id, name: t.name, title: t.title, portrait: `TRAINER_${t.portrait}`, team: buildTrainerTeam(t), prize: t.prize, defeatText: t.defeat || [], aiLevel: t.aiLevel ?? 1, isLeader: t.isLeader },
+          environment: p.get('env') || 'grass',
+        });
       } else {
-        this.#ball.hideBallPath();
+        this.scene.launch(SCENE_KEYS.BATTLE_SCENE, {
+          wild: createMonster(Number(p.get('species') || 10), Number(p.get('level') || 5)),
+          environment: p.get('env') || 'grass',
+        });
       }
-    });
-    const playThrowBallButton = f3.addButton({
-      title: 'Play Catch Animation',
-    });
-    playThrowBallButton.on('click', async () => {
-      await this.#ball.playThrowBallAnimation();
-      await this.#catchEnemy();
-      await this.#ball.playShakeBallAnimation(2);
-      await sleep(500, this);
-      this.#ball.hide();
-      await this.#catchEnemyFailed();
-    });
-  }
-
-  /**
-   * @param {'x' | 'y'} param
-   * @param {number} value
-   * @returns {void}
-   */
-  #updateAttackGameObjectPosition(param, value) {
-    if (param === 'x') {
-      if (this.#selectedAttack === ATTACK_KEYS.SLASH) {
-        this.#slashAttack.gameObject.setX(value);
-        return;
-      }
-      if (this.#selectedAttack === ATTACK_KEYS.ICE_SHARD) {
-        this.#iceShardAttack.gameObject.setX(value);
-        return;
-      }
-    }
-    if (this.#selectedAttack === ATTACK_KEYS.SLASH) {
-      this.#slashAttack.gameObject.setY(value);
       return;
     }
-    if (this.#selectedAttack === ATTACK_KEYS.ICE_SHARD) {
-      this.#iceShardAttack.gameObject.setY(value);
-      return;
+    const map = p.get('map') || 'basavanagudi';
+    let x = p.get('x');
+    let y = p.get('y');
+    let warpId = p.get('warp') || undefined;
+    const uru = this.cache.tilemap.get(`MAP_${map}`)?.data?.uru || {};
+    if (x === null && !warpId) {
+      if (uru.spawn) {
+        x = uru.spawn.x;
+        y = uru.spawn.y;
+      } else {
+        warpId = (uru.warps || []).find((w) => w.mode !== 'step')?.id;
+      }
     }
-  }
-
-  #catchEnemy() {
-    return new Promise((resolve) => {
-      this.tweens.add({
-        duration: 500,
-        targets: this.#enemyMonster,
-        alpha: {
-          from: 1,
-          start: 1,
-          to: 0,
-        },
-        ease: Phaser.Math.Easing.Sine.InOut,
-        onComplete: () => {
-          resolve();
-        },
-      });
-    });
-  }
-
-  #catchEnemyFailed() {
-    return new Promise((resolve) => {
-      this.tweens.add({
-        duration: 500,
-        targets: this.#enemyMonster,
-        alpha: {
-          from: 0,
-          start: 0,
-          to: 1,
-        },
-        ease: Phaser.Math.Easing.Sine.InOut,
-        onComplete: () => {
-          resolve();
-        },
-      });
+    dataManager.state.player.location = { area: map };
+    this.scene.start(SCENE_KEYS.WORLD_SCENE, {
+      area: map,
+      position: x !== null && y !== null ? { x: Number(x) * 64, y: Number(y) * 64 } : undefined,
+      warpId: x === null ? warpId : undefined,
     });
   }
 }

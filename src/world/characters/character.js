@@ -82,7 +82,9 @@ export class Character {
     this._otherCharactersToCheckForCollisionsWith = config.otherCharactersToCheckForCollisionsWith || [];
     this._phaserGameObject = this._scene.add
       .sprite(config.position.x, config.position.y, config.assetKey, this._getIdleFrame())
-      .setOrigin(this._origin.x, this._origin.y);
+      .setOrigin(this._origin.x, this._origin.y)
+      .setScale(4);
+    this._phaserGameObject.setDepth(config.position.y + 1);
     this._spriteGridMovementFinishedCallback = config.spriteGridMovementFinishedCallback;
     this._spriteChangedDirectionCallback = config.spriteChangedDirectionCallback;
     this._objectsToCheckForCollisionsWith = config.objectsToCheckForCollisionsWith || [];
@@ -115,6 +117,49 @@ export class Character {
     }
     this._isRunning = isRunning;
     this._moveSprite(direction);
+  }
+
+  /**
+   * Instantly places the character on a tile.
+   * @param {number} x
+   * @param {number} y
+   */
+  teleport(x, y) {
+    this._phaserGameObject.setPosition(x, y).setDepth(y + 1);
+    this._targetPosition = { x, y };
+    this._previousTargetPosition = { x, y };
+  }
+
+  /**
+   * Turns to face a direction without moving.
+   * @param {import('../../common/direction.js').Direction} direction
+   */
+  face(direction) {
+    if (direction === DIRECTION.NONE) {
+      return;
+    }
+    this._direction = direction;
+    this._phaserGameObject.anims.stop();
+    this._phaserGameObject.setFrame(this._idleFrameConfig[direction]);
+  }
+
+  /** @type {import('../../types/typedef.js').Coordinate} */
+  get tilePosition() {
+    return { ...this._targetPosition };
+  }
+
+  /**
+   * @param {Character[]} characters
+   */
+  setCharactersToCheckForCollisionsWith(characters) {
+    this._otherCharactersToCheckForCollisionsWith = characters;
+  }
+
+  /**
+   * @param {{position: import('../../types/typedef.js').Coordinate}[]} objects
+   */
+  setObjectsToCheckForCollisionsWith(objects) {
+    this._objectsToCheckForCollisionsWith = objects;
   }
 
   /**
@@ -224,7 +269,7 @@ export class Character {
 
     this._scene.add.tween({
       delay: 0,
-      duration: this._isRunning ? 300 : 600,
+      duration: this._isRunning ? 130 : 240,
       y: {
         from: this._phaserGameObject.y,
         start: this._phaserGameObject.y,
@@ -236,7 +281,11 @@ export class Character {
         to: this._targetPosition.x,
       },
       targets: this._phaserGameObject,
+      onUpdate: () => {
+        this._phaserGameObject.setDepth(this._phaserGameObject.y + 1);
+      },
       onComplete: () => {
+        this._phaserGameObject.setDepth(this._phaserGameObject.y + 1);
         this._isMoving = false;
         this._isRunning = false;
         this._previousTargetPosition = { ...this._targetPosition };
@@ -257,9 +306,10 @@ export class Character {
     }
 
     const { x, y } = position;
-    const tile = this._collisionLayer.getTileAtWorldXY(x, y, true);
+    const tile = this._collisionLayer.getTileAtWorldXY(x + 1, y + 1, true);
     if (!tile) {
-      return false;
+      // outside the map is always blocked
+      return true;
     }
     return tile.index !== -1;
   }

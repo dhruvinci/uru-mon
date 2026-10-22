@@ -1,387 +1,224 @@
 import Phaser from '../lib/phaser.js';
-import { INVENTORY_ASSET_KEYS, UI_ASSET_KEYS } from '../assets/asset-keys.js';
-import { KENNEY_FUTURE_NARROW_FONT_NAME } from '../assets/font-keys.js';
-import { DIRECTION } from '../common/direction.js';
-import { dataManager } from '../utils/data-manager.js';
-import { exhaustiveGuard } from '../utils/guard.js';
-import { NineSlice } from '../utils/nine-slice.js';
 import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
-import { ITEM_CATEGORY } from '../types/typedef.js';
-
-const CANCEL_TEXT_DESCRIPTION = 'Close your bag, and go back to adventuring!';
-const CANNOT_USE_ITEM_TEXT = 'That item cannot be used right now.';
-
-const INVENTORY_ITEM_POSITION = Object.freeze({
-  x: 50,
-  y: 14,
-  space: 50,
-});
-
-/** @type {Phaser.Types.GameObjects.Text.TextStyle} */
-const INVENTORY_TEXT_STYLE = {
-  fontFamily: KENNEY_FUTURE_NARROW_FONT_NAME,
-  color: '#000000',
-  fontSize: '30px',
-};
-
-/**
- * @typedef InventoryItemGameObjects
- * @type {object}
- * @property {Phaser.GameObjects.Text} [itemName]
- * @property {Phaser.GameObjects.Text} [quantitySign]
- * @property {Phaser.GameObjects.Text} [quantity]
- */
-
-/**
- * @typedef {import('../types/typedef.js').InventoryItem & { gameObjects: InventoryItemGameObjects }} InventoryItemWithGameObjects
- */
-
-/**
- * @typedef CustomInventory
- * @type {InventoryItemWithGameObjects[]}
- */
+import { dataManager } from '../utils/data-manager.js';
+import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { playSoundFx } from '../utils/audio-utils.js';
+import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
 /**
  * @typedef InventorySceneData
  * @type {object}
  * @property {string} previousSceneName
- * @property {import('../types/typedef.js').ItemCategory[]} [itemCategoriesThatCannotBeUsed]
+ * @property {'world'|'battle'} [mode='world']
+ * @property {boolean} [isTrainerBattle]
  */
 
-/**
- * @typedef InventorySceneWasResumedData
- * @type {object}
- * @property {boolean} wasItemUsed
- */
-
-/**
- * @typedef InventorySceneItemUsedData
- * @type {object}
- * @property {boolean} wasItemUsed
- * @property {import('../types/typedef.js').Item} [item]
- */
+const POCKETS = [
+  { name: 'ITEMS', categories: ['HEAL', 'STATUS', 'REVIVE', 'PP', 'REPEL'] },
+  { name: 'DABBAS', categories: ['CAPTURE'] },
+  { name: 'KEY ITEMS', categories: ['KEY'] },
+];
 
 export class InventoryScene extends BaseScene {
-  /** @type {InventorySceneData} */
-  #sceneData;
-  /** @type {NineSlice} */
-  #nineSliceMainContainer;
-  /** @type {Phaser.GameObjects.Text} */
-  #selectedInventoryDescriptionText;
-  /** @type {Phaser.GameObjects.Image} */
-  #userInputCursor;
-  /** @type {CustomInventory} */
-  #inventory;
-  /** @type {number} */
-  #selectedInventoryOptionIndex;
-  /** @type {boolean} */
-  #waitingForInput;
-
   constructor() {
-    super({
-      key: SCENE_KEYS.INVENTORY_SCENE,
-    });
+    super({ key: SCENE_KEYS.INVENTORY_SCENE });
   }
 
-  /**
-   * @param {InventorySceneData} data
-   * @returns {void}
-   */
+  /** @param {InventorySceneData} data */
   init(data) {
-    super.init(data);
-
-    this.#waitingForInput = false;
-    this.#sceneData = data;
-    this.#selectedInventoryOptionIndex = 0;
-    const inventory = dataManager.getInventory(this);
-    this.#inventory = inventory.map((inventoryItem) => {
-      return {
-        item: inventoryItem.item,
-        quantity: inventoryItem.quantity,
-        gameObjects: {},
-      };
-    });
-    this.#nineSliceMainContainer = new NineSlice({
-      cornerCutSize: 32,
-      textureManager: this.sys.textures,
-      assetKeys: [UI_ASSET_KEYS.MENU_BACKGROUND],
-    });
+    super.init();
+    this.sceneData = { mode: 'world', ...data };
+    this.pocket = this.lastPocket ?? 0;
+    /** @type {ListMenu | null} */
+    this.actionMenu = null;
+    this.busy = false;
   }
 
-  /**
-   * @returns {void}
-   */
   create() {
     super.create();
+    this.add.rectangle(0, 0, 1024, 576, 0xe8c070).setOrigin(0);
+    const g = this.add.graphics();
+    g.fillStyle(0xd8a850, 1);
+    for (let y = 0; y < 576; y += 24) {
+      g.fillRect(0, y, 1024, 8);
+    }
+    // the bag: a cloth jhola
+    const bag = this.add.graphics();
+    bag.fillStyle(0x3a3058, 1);
+    bag.fillRoundedRect(70, 130, 240, 200, 28);
+    bag.fillStyle(0xc0505a, 1);
+    bag.fillRoundedRect(78, 138, 224, 184, 24);
+    bag.fillStyle(0xe8d070, 1);
+    for (let i = 0; i < 4; i += 1) {
+      bag.fillRect(90, 166 + i * 38, 200, 8);
+    }
+    bag.lineStyle(10, 0x3a3058, 1);
+    bag.strokeEllipse(190, 130, 170, 110);
+    this.pocketTitle = text(this, 190, 342, '', 'title').setOrigin(0.5, 0);
+    this.pocketHint = text(this, 190, 388, '◀  pocket  ▶', 'small').setOrigin(0.5, 0);
+    this.money = text(this, 40, 40, '', 'body');
 
-    // create custom background
-    this.add.image(0, 0, INVENTORY_ASSET_KEYS.INVENTORY_BACKGROUND).setOrigin(0);
-    this.add.image(40, 120, INVENTORY_ASSET_KEYS.INVENTORY_BAG).setOrigin(0).setScale(0.5);
+    this.list = new ListMenu(this, {
+      x: 380,
+      y: 20,
+      width: 630,
+      items: [],
+      visibleRows: 8,
+      onChange: () => this.#updateDescription(),
+    });
+    this.desc = new MessageBox(this, { x: 0, y: 432, width: 1024, height: 144 });
+    this.#refresh();
+  }
 
-    const container = this.#nineSliceMainContainer
-      .createNineSliceContainer(this, 700, 360, UI_ASSET_KEYS.MENU_BACKGROUND)
-      .setPosition(300, 20);
-    const containerBackground = this.add.rectangle(4, 4, 692, 352, 0xffff88).setOrigin(0).setAlpha(0.6);
-    container.add(containerBackground);
+  #entries() {
+    const cats = POCKETS[this.pocket].categories;
+    return dataManager.getInventory(this).filter((e) => cats.includes(e.item.category));
+  }
 
-    const titleContainer = this.#nineSliceMainContainer
-      .createNineSliceContainer(this, 240, 64, UI_ASSET_KEYS.MENU_BACKGROUND)
-      .setPosition(64, 20);
-    const titleContainerBackground = this.add.rectangle(4, 4, 232, 56, 0xffff88).setOrigin(0).setAlpha(0.6);
-    titleContainer.add(titleContainerBackground);
+  #refresh() {
+    this.entries = this.#entries();
+    const labels = this.entries.map((e) => e.item.name);
+    const qty = this.entries.map((e) => (e.item.category === 'KEY' ? '' : `x${e.quantity}`));
+    labels.push('CLOSE BAG');
+    qty.push('');
+    this.list.setItems(labels, qty);
+    this.pocketTitle.setText(POCKETS[this.pocket].name);
+    this.money.setText(`₹${dataManager.money}`);
+    this.#updateDescription();
+  }
 
-    const textTitle = this.add.text(116, 28, 'Items', INVENTORY_TEXT_STYLE).setOrigin(0.5);
-    titleContainer.add(textTitle);
+  #updateDescription() {
+    const e = this.entries?.[this.list.index];
+    this.desc.setText(e ? e.item.description : 'Close the bag.');
+  }
 
-    // create inventory text from available items
-    this.#inventory.forEach((inventoryItem, index) => {
-      const itemText = this.add.text(
-        INVENTORY_ITEM_POSITION.x,
-        INVENTORY_ITEM_POSITION.y + index * INVENTORY_ITEM_POSITION.space,
-        inventoryItem.item.name,
-        INVENTORY_TEXT_STYLE
-      );
-      const qty1Text = this.add.text(620, INVENTORY_ITEM_POSITION.y + 2 + index * INVENTORY_ITEM_POSITION.space, 'x', {
-        color: '#000000',
-        fontSize: '30px',
+  update(time) {
+    super.update(time);
+    if (!this._controls || this.busy) {
+      return;
+    }
+    const input = readMenuInput(this._controls);
+    if (!input) {
+      return;
+    }
+    if (this.desc.isWaiting) {
+      if (input === 'OK' || input === 'CANCEL') {
+        this.desc.handleConfirm(true);
+      }
+      return;
+    }
+    if (this.actionMenu) {
+      const r = this.actionMenu.handleInput(input);
+      if (r) {
+        const choice = r.type === 'select' ? this.actionItems[r.index] : 'CANCEL';
+        this.actionMenu.destroy();
+        this.actionMenu = null;
+        this.#onAction(choice);
+      }
+      return;
+    }
+    if (input === 'LEFT' || input === 'RIGHT') {
+      this.pocket = (this.pocket + (input === 'LEFT' ? POCKETS.length - 1 : 1)) % POCKETS.length;
+      this.lastPocket = this.pocket;
+      this.list.setIndex(0);
+      this.#refresh();
+      return;
+    }
+    const r = this.list.handleInput(input);
+    if (!r) {
+      return;
+    }
+    if (r.type === 'cancel' || r.index >= this.entries.length) {
+      this.#close({});
+      return;
+    }
+    playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+    const entry = this.entries[r.index];
+    this.selected = entry.item;
+    const canUse = this.#canUseHere(entry.item);
+    this.actionItems = canUse ? ['USE', 'CANCEL'] : ['CANCEL'];
+    this.actionMenu = new ListMenu(this, { x: 1024 - 250, y: 432 - (this.actionItems.length * 46 + 36) - 4, width: 240, items: this.actionItems, depth: 30 });
+    this.desc.setText(`${entry.item.name} is selected.`);
+  }
+
+  /** @param {import('../game/game-data.js').ItemData} item */
+  #canUseHere(item) {
+    if (this.sceneData.mode === 'battle') {
+      return ['HEAL', 'STATUS', 'REVIVE', 'PP', 'CAPTURE'].includes(item.category);
+    }
+    return ['HEAL', 'STATUS', 'REVIVE', 'PP', 'REPEL', 'KEY'].includes(item.category);
+  }
+
+  /** @param {string} choice */
+  async #onAction(choice) {
+    const item = this.selected;
+    if (choice !== 'USE' || !item) {
+      this.#updateDescription();
+      return;
+    }
+    if (this.sceneData.mode === 'battle') {
+      if (item.category === 'CAPTURE') {
+        this.#close({ item });
+        return;
+      }
+      const target = await this.#pickTarget(item, true);
+      if (target === undefined) {
+        this.#refresh();
+        return;
+      }
+      this.#close({ item, targetIndex: target });
+      return;
+    }
+    // world use
+    if (item.category === 'REPEL') {
+      dataManager.removeItem(item.id, 1);
+      dataManager.state.repelSteps = item.effect.steps;
+      playSoundFx(this, AUDIO_KEYS.SFX_ITEM);
+      await this.desc.show('You lit a Mosquito Coil. Weak wild Urumon will stay away for a while.');
+      this.#refresh();
+      return;
+    }
+    if (item.category === 'KEY') {
+      await this.desc.show(item.name === 'Metro Card' ? 'Tap it at any Metro station to ride the train.' : "This isn't the time to use that.");
+      this.#updateDescription();
+      return;
+    }
+    if (dataManager.party.length === 0) {
+      await this.desc.show('You have no Urumon to use that on.');
+      this.#updateDescription();
+      return;
+    }
+    await this.#pickTarget(item, false);
+    this.#refresh();
+  }
+
+  /**
+   * Opens the party to choose a target.
+   * @param {import('../game/game-data.js').ItemData} item
+   * @param {boolean} returnTargetOnly true in battle (the battle engine applies the item)
+   * @returns {Promise<number | undefined>}
+   */
+  #pickTarget(item, returnTargetOnly) {
+    return new Promise((resolve) => {
+      this.busy = true;
+      this.events.once(Phaser.Scenes.Events.RESUME, (sys, data) => {
+        this.busy = false;
+        resolve(data && data.selectedIndex !== undefined ? data.selectedIndex : undefined);
       });
-      const qty2Text = this.add.text(
-        650,
-        INVENTORY_ITEM_POSITION.y + index * INVENTORY_ITEM_POSITION.space,
-        `${inventoryItem.quantity}`,
-        INVENTORY_TEXT_STYLE
-      );
-      container.add([itemText, qty1Text, qty2Text]);
-      inventoryItem.gameObjects = {
-        itemName: itemText,
-        quantity: qty2Text,
-        quantitySign: qty1Text,
-      };
-    });
-
-    // create cancel text
-    const cancelText = this.add.text(
-      INVENTORY_ITEM_POSITION.x,
-      INVENTORY_ITEM_POSITION.y + this.#inventory.length * INVENTORY_ITEM_POSITION.space,
-      'Cancel',
-      INVENTORY_TEXT_STYLE
-    );
-    container.add(cancelText);
-
-    // create player input cursor
-    this.#userInputCursor = this.add.image(30, 30, UI_ASSET_KEYS.CURSOR).setScale(3);
-    container.add(this.#userInputCursor);
-
-    // create inventory description text
-    this.#selectedInventoryDescriptionText = this.add.text(25, 420, '', {
-      ...INVENTORY_TEXT_STYLE,
-      ...{
-        wordWrap: {
-          width: this.scale.width - 18,
-        },
-        color: '#ffffff',
-      },
-    });
-    this.#updateItemDescriptionText();
-  }
-
-  /**
-   * @returns {void}
-   */
-  update() {
-    super.update();
-
-    if (this._controls.isInputLocked) {
-      return;
-    }
-
-    if (this._controls.wasBackKeyPressed()) {
-      if (this.#waitingForInput) {
-        // update text description and let player select new items
-        this.#updateItemDescriptionText();
-        this.#waitingForInput = false;
-        return;
-      }
-
-      this.#goBackToPreviousScene(false);
-      return;
-    }
-
-    const wasSpaceKeyPressed = this._controls.wasSpaceKeyPressed();
-    if (wasSpaceKeyPressed) {
-      if (this.#waitingForInput) {
-        // update text description and let player select new items
-        this.#updateItemDescriptionText();
-        this.#waitingForInput = false;
-        return;
-      }
-
-      if (this.#isCancelButtonSelected()) {
-        this.#goBackToPreviousScene(false);
-        return;
-      }
-
-      if (this.#inventory[this.#selectedInventoryOptionIndex].quantity < 1) {
-        return;
-      }
-
-      const selectedItem = this.#inventory[this.#selectedInventoryOptionIndex].item;
-
-      if (
-        this.#sceneData.itemCategoriesThatCannotBeUsed !== undefined &&
-        this.#sceneData.itemCategoriesThatCannotBeUsed.includes(selectedItem.category)
-      ) {
-        // display message to player that the item cant be used now
-        this.#selectedInventoryDescriptionText.setText(CANNOT_USE_ITEM_TEXT);
-        this.#waitingForInput = true;
-        return;
-      }
-
-      // validate that the item can be used if we are outside battle (capture ball example)
-      if (this.#sceneData.previousSceneName === SCENE_KEYS.BATTLE_SCENE) {
-        // check to see if the selected item needs a target monster, example if selecting
-        // a capture ball, no monster needed, vs selecting a potion, player needs to choose the
-        // target monster
-        if (selectedItem.category === ITEM_CATEGORY.CAPTURE) {
-          // TODO: this logic will need to be updated if we support a monster storage system
-          // validate we have room in our party before attempting capture
-          if (dataManager.isPartyFull()) {
-            this.#selectedInventoryDescriptionText.setText('You have no room in your party! Cannot use that item.');
-            this.#waitingForInput = true;
-            return;
-          }
-
-          this.#handleItemUsed();
-          this.#goBackToPreviousScene(true, selectedItem);
-          return;
-        }
-      }
-
-      this._controls.lockInput = true;
-      // pause this scene and launch the monster party scene
-      /** @type {import('./monster-party-scene.js').MonsterPartySceneData} */
-      const sceneDataToPass = {
+      this.scene.launch(SCENE_KEYS.MONSTER_PARTY_SCENE, {
         previousSceneName: SCENE_KEYS.INVENTORY_SCENE,
-        itemSelected: this.#inventory[this.#selectedInventoryOptionIndex].item,
-      };
-      this.scene.launch(SCENE_KEYS.MONSTER_PARTY_SCENE, sceneDataToPass);
-      this.scene.pause(SCENE_KEYS.INVENTORY_SCENE);
-
-      // in a future update
-      // TODO: add submenu for accept/cancel after picking an item
-      return;
-    }
-
-    if (this.#waitingForInput) {
-      return;
-    }
-
-    const selectedDirection = this._controls.getDirectionKeyJustPressed();
-    if (selectedDirection !== DIRECTION.NONE) {
-      this.#movePlayerInputCursor(selectedDirection);
-      this.#updateItemDescriptionText();
-    }
+        mode: 'use-item',
+        item,
+        returnTargetOnly,
+      });
+      this.scene.pause();
+    });
   }
 
-  /**
-   * @param {Phaser.Scenes.Systems} sys
-   * @param {InventorySceneWasResumedData | undefined} [data]
-   * @returns {void}
-   */
-  handleSceneResume(sys, data) {
-    super.handleSceneResume(sys, data);
-
-    if (!data || !data.wasItemUsed) {
-      return;
-    }
-
-    const updatedItem = this.#handleItemUsed();
-    // TODO: add logic to handle when the last of an item was just used
-
-    // if previous scene was battle scene, switch back to that scene
-    if (this.#sceneData.previousSceneName === SCENE_KEYS.BATTLE_SCENE) {
-      this.#goBackToPreviousScene(true, updatedItem.item);
-    }
-  }
-
-  /**
-   * @returns {void}
-   */
-  #updateItemDescriptionText() {
-    if (this.#isCancelButtonSelected()) {
-      this.#selectedInventoryDescriptionText.setText(CANCEL_TEXT_DESCRIPTION);
-      return;
-    }
-
-    this.#selectedInventoryDescriptionText.setText(
-      this.#inventory[this.#selectedInventoryOptionIndex].item.description
-    );
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  #isCancelButtonSelected() {
-    return this.#selectedInventoryOptionIndex === this.#inventory.length;
-  }
-
-  /**
-   * @param {boolean} wasItemUsed
-   * @param {import('../types/typedef.js').Item} [item]
-   * @returns {void}
-   */
-  #goBackToPreviousScene(wasItemUsed, item) {
-    this._controls.lockInput = true;
-    this.scene.stop(SCENE_KEYS.INVENTORY_SCENE);
-    /** @type {InventorySceneItemUsedData} */
-    const sceneDataToPass = {
-      wasItemUsed,
-      item,
-    };
-    this.scene.resume(this.#sceneData.previousSceneName, sceneDataToPass);
-  }
-
-  /**
-   * @param {import('../common/direction.js').Direction} direction
-   * @returns {void}
-   */
-  #movePlayerInputCursor(direction) {
-    switch (direction) {
-      case DIRECTION.UP:
-        this.#selectedInventoryOptionIndex -= 1;
-        if (this.#selectedInventoryOptionIndex < 0) {
-          this.#selectedInventoryOptionIndex = this.#inventory.length;
-        }
-        break;
-      case DIRECTION.DOWN:
-        this.#selectedInventoryOptionIndex += 1;
-        if (this.#selectedInventoryOptionIndex > this.#inventory.length) {
-          this.#selectedInventoryOptionIndex = 0;
-        }
-        break;
-      case DIRECTION.LEFT:
-      case DIRECTION.RIGHT:
-        return;
-      case DIRECTION.NONE:
-        break;
-      default:
-        exhaustiveGuard(direction);
-    }
-
-    const y = 30 + this.#selectedInventoryOptionIndex * 50;
-
-    this.#userInputCursor.setY(y);
-  }
-
-  /**
-   * @returns {InventoryItemWithGameObjects}
-   */
-  #handleItemUsed() {
-    const selectedItem = this.#inventory[this.#selectedInventoryOptionIndex];
-    selectedItem.quantity -= 1;
-    selectedItem.gameObjects.quantity.setText(`${selectedItem.quantity}`);
-    dataManager.updateInventory(this.#inventory);
-    return selectedItem;
+  /** @param {object} data */
+  #close(data) {
+    this.scene.stop();
+    this.scene.resume(this.sceneData.previousSceneName, data);
   }
 }

@@ -1,179 +1,184 @@
-import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { BaseScene } from './base-scene.js';
-import { KENNEY_FUTURE_NARROW_FONT_NAME } from '../assets/font-keys.js';
-import { animateText } from '../utils/text-utils.js';
-import { DATA_MANAGER_STORE_KEYS, dataManager } from '../utils/data-manager.js';
-import { UI_ASSET_KEYS } from '../assets/asset-keys.js';
-import { MENU_COLOR } from '../config.js';
-import { exhaustiveGuard } from '../utils/guard.js';
+import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { dataManager } from '../utils/data-manager.js';
 
-/** @type {Phaser.Types.GameObjects.Text.TextStyle} */
-const UI_TEXT_STYLE = Object.freeze({
-  fontFamily: KENNEY_FUTURE_NARROW_FONT_NAME,
-  color: 'white',
-  fontSize: '32px',
-  wordWrap: { width: 0 },
-});
-
+/**
+ * Overlay used by the world for dialog, yes/no questions and choice lists. It owns its own fixed camera so
+ * the world camera's scroll never affects it. All methods are promise based.
+ */
 export class DialogScene extends BaseScene {
-  /** @type {number} */
-  #padding;
-  /** @type {number} */
-  #width;
-  /** @type {number} */
-  #height;
-  /** @type {Phaser.GameObjects.Container} */
-  #container;
-  /** @type {boolean} */
-  #isVisible;
-  /** @type {Phaser.GameObjects.Image} */
-  #userInputCursor;
-  /** @type {Phaser.Tweens.Tween} */
-  #userInputCursorTween;
-  /** @type {Phaser.GameObjects.Text} */
-  #uiText;
-  /** @type {boolean} */
-  #textAnimationPlaying;
-  /** @type {string[]} */
-  #messagesToShow;
-
   constructor() {
-    super({
-      key: SCENE_KEYS.DIALOG_SCENE,
-    });
+    super({ key: SCENE_KEYS.DIALOG_SCENE });
   }
 
-  /** @type {boolean} */
-  get isVisible() {
-    return this.#isVisible;
-  }
-
-  /** @type {boolean} */
-  get isAnimationPlaying() {
-    return this.#textAnimationPlaying;
-  }
-
-  /** @type {boolean} */
-  get moreMessagesToShow() {
-    return this.#messagesToShow.length > 0;
-  }
-
-  /**
-   * @returns {void}
-   */
   create() {
-    this.#padding = 90;
-    this.#width = 1280 - this.#padding * 2;
-    this.#height = 124;
-    this.#textAnimationPlaying = false;
-    this.#messagesToShow = [];
-    this.cameras.main.setZoom(0.8);
-
-    const menuColor = this.#getMenuColorsFromDataManager();
-    const panel = this.add
-      .rectangle(0, 0, this.#width, this.#height, menuColor.main, 0.9)
-      .setOrigin(0)
-      .setStrokeStyle(8, menuColor.border, 1);
-    this.#container = this.add.container(0, 0, [panel]);
-    this.#uiText = this.add.text(18, 12, '', {
-      ...UI_TEXT_STYLE,
-      ...{ wordWrap: { width: this.#width - 18 } },
-    });
-    this.#container.add(this.#uiText);
-    this.#createPlayerInputCursor();
-    this.hideDialogModal();
-    this.scene.bringToTop();
+    super.create();
+    this.box = new MessageBox(this, { height: 144, depth: 10 });
+    this.box.setVisible(false);
+    this.speaker = this.add.container(24, 432 - 44).setDepth(11).setVisible(false);
+    this.speakerBg = this.add.graphics();
+    this.speakerText = text(this, 20, 8, '', 'lightSmall');
+    this.speaker.add([this.speakerBg, this.speakerText]);
+    /** @type {null | ((input: string) => void)} */
+    this.inputHandler = null;
+    this.moneyBox = null;
+    this.busyCount = 0;
   }
 
-  /**
-   * @param {string[]} messages
-   * @returns {void}
-   */
-  showDialogModal(messages) {
-    this.#messagesToShow = [...messages];
-
-    const { x, bottom } = this.cameras.main.worldView;
-    const startX = x + this.#padding;
-    const startY = bottom - this.#height - this.#padding / 4;
-
-    this.#container.setPosition(startX, startY);
-    this.#userInputCursorTween.restart();
-    this.#container.setAlpha(1);
-    this.#isVisible = true;
-
-    this.showNextMessage();
+  /** True while any dialog UI is on screen. */
+  get busy() {
+    return this.busyCount > 0;
   }
 
-  /**
-   * @returns {void}
-   */
-  showNextMessage() {
-    if (this.#messagesToShow.length === 0) {
+  // kept for older call sites
+  get isVisible() {
+    return this.busy;
+  }
+
+  update(time) {
+    super.update(time);
+    if (!this._controls || !this.busy) {
       return;
     }
-
-    this.#uiText.setText('').setAlpha(1);
-    animateText(this, this.#uiText, this.#messagesToShow.shift(), {
-      delay: dataManager.getAnimatedTextSpeed(),
-      callback: () => {
-        this.#textAnimationPlaying = false;
-      },
-    });
-    this.#textAnimationPlaying = true;
+    const input = readMenuInput(this._controls);
+    if (!input) {
+      return;
+    }
+    if (this.box.isWaiting && (input === 'OK' || input === 'CANCEL')) {
+      this.box.handleConfirm(true);
+      return;
+    }
+    this.inputHandler?.(input);
   }
 
   /**
-   * @returns {void}
+   * @param {string} s
+   * @returns {string}
    */
+  format(s) {
+    const st = dataManager.state;
+    return s
+      .replaceAll('{PLAYER}', st.player.name)
+      .replaceAll('{RIVAL}', 'Rohan')
+      .replaceAll('{STARTER}', st.vars.starterName || 'your partner')
+      .replaceAll('{RIVAL_STARTER}', st.vars.rivalStarterName || 'his partner')
+      .replaceAll('{MONEY}', `₹${dataManager.money}`);
+  }
+
+  /**
+   * Shows one or more lines, waiting for A after each.
+   * @param {string | string[]} lines
+   * @param {{speaker?: string, keepOpen?: boolean}} [opts]
+   */
+  async say(lines, opts = {}) {
+    const list = Array.isArray(lines) ? lines : [lines];
+    this.busyCount += 1;
+    this.#setSpeaker(opts.speaker);
+    for (const line of list) {
+      await this.box.show(this.format(line), { wait: true });
+    }
+    this.busyCount -= 1;
+    if (!opts.keepOpen && !this.busy) {
+      this.close();
+    }
+  }
+
+  /** @param {string} [name] */
+  #setSpeaker(name) {
+    if (!name) {
+      this.speaker.setVisible(false);
+      return;
+    }
+    this.speakerText.setText(name);
+    this.speakerBg.clear();
+    this.speakerBg.fillStyle(0x3a3058, 1);
+    this.speakerBg.fillRoundedRect(0, 0, this.speakerText.width + 40, 40, 10);
+    this.speaker.setVisible(true);
+  }
+
+  close() {
+    this.box.setVisible(false);
+    this.speaker.setVisible(false);
+  }
+
+  /**
+   * Asks a question and resolves true for YES.
+   * @param {string} question
+   * @param {{speaker?: string}} [opts]
+   * @returns {Promise<boolean>}
+   */
+  async ask(question, opts = {}) {
+    this.busyCount += 1;
+    this.#setSpeaker(opts.speaker);
+    await this.box.show(this.format(question), { wait: false, pause: 0 });
+    const idx = await this.choose(['YES', 'NO'], { cancelValue: 1 });
+    this.busyCount -= 1;
+    if (!this.busy) {
+      this.close();
+    }
+    return idx === 0;
+  }
+
+  /**
+   * Shows a list menu above the message box. Resolves the index, or cancelValue (default -1) on B.
+   * @param {string[]} items
+   * @param {{cancelValue?: number, rightLabels?: string[], width?: number, prompt?: string, x?: number, y?: number, visibleRows?: number}} [opts]
+   * @returns {Promise<number>}
+   */
+  async choose(items, opts = {}) {
+    this.busyCount += 1;
+    if (opts.prompt) {
+      await this.box.show(this.format(opts.prompt), { wait: false, pause: 0 });
+    }
+    const width = opts.width ?? Math.max(220, ...items.map((s) => s.length * 17 + 100));
+    const visibleRows = Math.min(items.length, opts.visibleRows ?? 6);
+    const menu = new ListMenu(this, {
+      x: opts.x ?? 1024 - width - 12,
+      y: opts.y ?? 432 - (visibleRows * 46 + 36) - 8,
+      width,
+      items,
+      visibleRows,
+      rightLabels: opts.rightLabels,
+      depth: 20,
+    });
+    const result = await new Promise((resolve) => {
+      this.inputHandler = (input) => {
+        const r = menu.handleInput(/** @type {any} */ (input));
+        if (!r) {
+          return;
+        }
+        this.inputHandler = null;
+        resolve(r.type === 'select' ? r.index : opts.cancelValue ?? -1);
+      };
+    });
+    menu.destroy();
+    this.busyCount -= 1;
+    return /** @type {number} */ (result);
+  }
+
+  /** Shows (or refreshes) the money window in the top-right corner. */
+  showMoney() {
+    this.hideMoney();
+    const c = this.add.container(1024 - 250, 12).setDepth(15);
+    c.add(panel(this, 0, 0, 238, 70));
+    c.add(text(this, 28, 18, `₹${dataManager.money}`, 'body'));
+    this.moneyBox = c;
+  }
+
+  hideMoney() {
+    this.moneyBox?.destroy();
+    this.moneyBox = null;
+  }
+
+  // ---- compatibility with the original API -----------------------------------------------------
+
+  /** @param {string[]} messages */
+  showDialogModal(messages) {
+    this.say(messages);
+  }
+
   hideDialogModal() {
-    this.#container.setAlpha(0);
-    this.#userInputCursorTween.pause();
-    this.#isVisible = false;
-  }
-
-  /**
-   * @returns {void}
-   */
-  #createPlayerInputCursor() {
-    const y = this.#height - 24;
-    this.#userInputCursor = this.add.image(this.#width - 16, y, UI_ASSET_KEYS.CURSOR);
-    this.#userInputCursor.setAngle(90).setScale(4.5, 2);
-
-    this.#userInputCursorTween = this.add.tween({
-      delay: 0,
-      duration: 500,
-      repeat: -1,
-      y: {
-        from: y,
-        start: y,
-        to: y + 6,
-      },
-      targets: this.#userInputCursor,
-    });
-    this.#userInputCursorTween.pause();
-    this.#container.add(this.#userInputCursor);
-  }
-
-  /**
-   * @returns {{ main: number; border: number}}
-   */
-  #getMenuColorsFromDataManager() {
-    /** @type {import('../common/options.js').MenuColorOptions} */
-    const chosenMenuColor = dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_MENU_COLOR);
-    if (chosenMenuColor === undefined) {
-      return MENU_COLOR[1];
-    }
-
-    switch (chosenMenuColor) {
-      case 0:
-        return MENU_COLOR[1];
-      case 1:
-        return MENU_COLOR[2];
-      case 2:
-        return MENU_COLOR[3];
-      default:
-        exhaustiveGuard(chosenMenuColor);
-    }
+    this.close();
   }
 }

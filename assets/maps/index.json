@@ -1,0 +1,233 @@
+[
+ {
+  "id": "player_house_2f",
+  "name": "Your Room",
+  "width": 9,
+  "height": 8,
+  "interior": true
+ },
+ {
+  "id": "player_house_1f",
+  "name": "Home",
+  "width": 11,
+  "height": 8,
+  "interior": true
+ },
+ {
+  "id": "rival_house",
+  "name": "Rohan's House",
+  "width": 10,
+  "height": 8,
+  "interior": true
+ },
+ {
+  "id": "lab",
+  "name": "Urumon Lab",
+  "width": 13,
+  "height": 10,
+  "interior": true
+ },
+ {
+  "id": "basavanagudi",
+  "name": "Basavanagudi",
+  "width": 32,
+  "height": 26,
+  "interior": false
+ },
+ {
+  "id": "route1",
+  "name": "Route 1 - South End Road",
+  "width": 22,
+  "height": 44,
+  "interior": false
+ },
+ {
+  "id": "darshini",
+  "name": "Darshini",
+  "width": 11,
+  "height": 9,
+  "interior": true
+ },
+ {
+  "id": "kirana",
+  "name": "Kirana Store",
+  "width": 10,
+  "height": 8,
+  "interior": true
+ },
+ {
+  "id": "lalbagh",
+  "name": "Lalbagh",
+  "width": 38,
+  "height": 32,
+  "interior": false
+ },
+ {
+  "id": "glass_house",
+  "name": "Glass House Arena",
+  "width": 15,
+  "height": 16,
+  "interior": true
+ },
+ {
+  "id": "cubbon_park",
+  "name": "Cubbon Park",
+  "width": 32,
+  "height": 48,
+  "interior": false
+ },
+ {
+  "id": "mg_road",
+  "name": "MG Road",
+  "width": 44,
+  "height": 34,
+  "interior": false
+ },
+ {
+  "id": "stadium",
+  "name": "Cubbon Cricket Stadium",
+  "width": 15,
+  "height": 16,
+  "interior": true
+ },
+ {
+  "id": "silk_board",
+  "name": "Route 3 - Silk Board Junction",
+  "width": 52,
+  "height": 24,
+  "interior": false
+ },
+ {
+  "id": "whitefield",
+  "name": "Whitefield",
+  "width": 40,
+  "height": 32,
+  "interior": false
+ },
+ {
+  "id": "tech_park",
+  "name": "Tech Park Arena",
+  "width": 15,
+  "height": 15,
+  "interior": true
+ },
+ {
+  "id": "bellandur",
+  "name": "Bellandur Lake",
+  "width": 38,
+  "height": 36,
+  "interior": false
+ },
+ {
+  "id": "bellandur_site",
+  "name": "Syndicate Site Office",
+  "width": 13,
+  "height": 11,
+  "interior": true
+ },
+ {
+  "id": "sankey_tank",
+  "name": "Route 5 - Sankey Tank",
+  "width": 28,
+  "height": 44,
+  "interior": false
+ },
+ {
+  "id": "malleshwaram",
+  "name": "Malleshwaram",
+  "width": 40,
+  "height": 32,
+  "interior": false
+ },
+ {
+  "id": "tutor_house",
+  "name": "Vidya's Tuition House",
+  "width": 13,
+  "height": 13,
+  "interior": true
+ },
+ {
+  "id": "palace_road",
+  "name": "Palace Road",
+  "width": 42,
+  "height": 36,
+  "interior": false
+ },
+ {
+  "id": "palace",
+  "name": "Bangalore Palace Arena",
+  "width": 17,
+  "height": 15,
+  "interior": true
+ },
+ {
+  "id": "hebbal",
+  "name": "Route 7 - Hebbal",
+  "width": 28,
+  "height": 46,
+  "interior": false
+ },
+ {
+  "id": "nandi_hills",
+  "name": "Nandi Hills",
+  "width": 36,
+  "height": 48,
+  "interior": false
+ },
+ {
+  "id": "nandi_cave",
+  "name": "Nandi Cave",
+  "width": 30,
+  "height": 26,
+  "interior": true
+ },
+ {
+  "id": "hill_pavilion",
+  "name": "Hill Pavilion Arena",
+  "width": 13,
+  "height": 13,
+  "interior": true
+ },
+ {
+  "id": "vidhana_soudha",
+  "name": "Vidhana Soudha",
+  "width": 36,
+  "height": 30,
+  "interior": false
+ },
+ {
+  "id": "council_1",
+  "name": "Nagaraj's Chamber",
+  "width": 13,
+  "height": 12,
+  "interior": true
+ },
+ {
+  "id": "council_2",
+  "name": "Basappa's Chamber",
+  "width": 13,
+  "height": 12,
+  "interior": true
+ },
+ {
+  "id": "council_3",
+  "name": "Kaveri's Chamber",
+  "width": 13,
+  "height": 12,
+  "interior": true
+ },
+ {
+  "id": "council_4",
+  "name": "Agni's Chamber",
+  "width": 13,
+  "height": 12,
+  "interior": true
+ },
+ {
+  "id": "champion_room",
+  "name": "Champion's Hall",
+  "width": 15,
+  "height": 14,
+  "interior": true
+ }
+]

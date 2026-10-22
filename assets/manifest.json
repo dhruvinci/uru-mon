@@ -1,0 +1,934 @@
+{
+ "images": [
+  {
+   "key": "MON_001",
+   "url": "assets/images/creatures/001.png"
+  },
+  {
+   "key": "MON_002",
+   "url": "assets/images/creatures/002.png"
+  },
+  {
+   "key": "MON_003",
+   "url": "assets/images/creatures/003.png"
+  },
+  {
+   "key": "MON_004",
+   "url": "assets/images/creatures/004.png"
+  },
+  {
+   "key": "MON_005",
+   "url": "assets/images/creatures/005.png"
+  },
+  {
+   "key": "MON_006",
+   "url": "assets/images/creatures/006.png"
+  },
+  {
+   "key": "MON_007",
+   "url": "assets/images/creatures/007.png"
+  },
+  {
+   "key": "MON_008",
+   "url": "assets/images/creatures/008.png"
+  },
+  {
+   "key": "MON_009",
+   "url": "assets/images/creatures/009.png"
+  },
+  {
+   "key": "MON_010",
+   "url": "assets/images/creatures/010.png"
+  },
+  {
+   "key": "MON_011",
+   "url": "assets/images/creatures/011.png"
+  },
+  {
+   "key": "MON_012",
+   "url": "assets/images/creatures/012.png"
+  },
+  {
+   "key": "MON_013",
+   "url": "assets/images/creatures/013.png"
+  },
+  {
+   "key": "MON_014",
+   "url": "assets/images/creatures/014.png"
+  },
+  {
+   "key": "MON_015",
+   "url": "assets/images/creatures/015.png"
+  },
+  {
+   "key": "MON_016",
+   "url": "assets/images/creatures/016.png"
+  },
+  {
+   "key": "MON_017",
+   "url": "assets/images/creatures/017.png"
+  },
+  {
+   "key": "MON_018",
+   "url": "assets/images/creatures/018.png"
+  },
+  {
+   "key": "MON_019",
+   "url": "assets/images/creatures/019.png"
+  },
+  {
+   "key": "MON_020",
+   "url": "assets/images/creatures/020.png"
+  },
+  {
+   "key": "MON_021",
+   "url": "assets/images/creatures/021.png"
+  },
+  {
+   "key": "MON_022",
+   "url": "assets/images/creatures/022.png"
+  },
+  {
+   "key": "MON_023",
+   "url": "assets/images/creatures/023.png"
+  },
+  {
+   "key": "MON_024",
+   "url": "assets/images/creatures/024.png"
+  },
+  {
+   "key": "MON_025",
+   "url": "assets/images/creatures/025.png"
+  },
+  {
+   "key": "MON_026",
+   "url": "assets/images/creatures/026.png"
+  },
+  {
+   "key": "MON_027",
+   "url": "assets/images/creatures/027.png"
+  },
+  {
+   "key": "MON_028",
+   "url": "assets/images/creatures/028.png"
+  },
+  {
+   "key": "MON_029",
+   "url": "assets/images/creatures/029.png"
+  },
+  {
+   "key": "MON_030",
+   "url": "assets/images/creatures/030.png"
+  },
+  {
+   "key": "MON_031",
+   "url": "assets/images/creatures/031.png"
+  },
+  {
+   "key": "MON_032",
+   "url": "assets/images/creatures/032.png"
+  },
+  {
+   "key": "MON_033",
+   "url": "assets/images/creatures/033.png"
+  },
+  {
+   "key": "MON_034",
+   "url": "assets/images/creatures/034.png"
+  },
+  {
+   "key": "MON_035",
+   "url": "assets/images/creatures/035.png"
+  },
+  {
+   "key": "MON_036",
+   "url": "assets/images/creatures/036.png"
+  },
+  {
+   "key": "MON_037",
+   "url": "assets/images/creatures/037.png"
+  },
+  {
+   "key": "MON_038",
+   "url": "assets/images/creatures/038.png"
+  },
+  {
+   "key": "MON_039",
+   "url": "assets/images/creatures/039.png"
+  },
+  {
+   "key": "MON_040",
+   "url": "assets/images/creatures/040.png"
+  },
+  {
+   "key": "MON_041",
+   "url": "assets/images/creatures/041.png"
+  },
+  {
+   "key": "MON_042",
+   "url": "assets/images/creatures/042.png"
+  },
+  {
+   "key": "MON_043",
+   "url": "assets/images/creatures/043.png"
+  },
+  {
+   "key": "MON_044",
+   "url": "assets/images/creatures/044.png"
+  },
+  {
+   "key": "MON_045",
+   "url": "assets/images/creatures/045.png"
+  },
+  {
+   "key": "MON_046",
+   "url": "assets/images/creatures/046.png"
+  },
+  {
+   "key": "MON_047",
+   "url": "assets/images/creatures/047.png"
+  },
+  {
+   "key": "MON_048",
+   "url": "assets/images/creatures/048.png"
+  },
+  {
+   "key": "MON_049",
+   "url": "assets/images/creatures/049.png"
+  },
+  {
+   "key": "MON_050",
+   "url": "assets/images/creatures/050.png"
+  },
+  {
+   "key": "MON_051",
+   "url": "assets/images/creatures/051.png"
+  },
+  {
+   "key": "MON_052",
+   "url": "assets/images/creatures/052.png"
+  },
+  {
+   "key": "MON_053",
+   "url": "assets/images/creatures/053.png"
+  },
+  {
+   "key": "MON_054",
+   "url": "assets/images/creatures/054.png"
+  },
+  {
+   "key": "MON_055",
+   "url": "assets/images/creatures/055.png"
+  },
+  {
+   "key": "MON_056",
+   "url": "assets/images/creatures/056.png"
+  },
+  {
+   "key": "MON_057",
+   "url": "assets/images/creatures/057.png"
+  },
+  {
+   "key": "MON_058",
+   "url": "assets/images/creatures/058.png"
+  },
+  {
+   "key": "MON_059",
+   "url": "assets/images/creatures/059.png"
+  },
+  {
+   "key": "MON_060",
+   "url": "assets/images/creatures/060.png"
+  },
+  {
+   "key": "MON_061",
+   "url": "assets/images/creatures/061.png"
+  },
+  {
+   "key": "MON_062",
+   "url": "assets/images/creatures/062.png"
+  },
+  {
+   "key": "MON_063",
+   "url": "assets/images/creatures/063.png"
+  },
+  {
+   "key": "MON_064",
+   "url": "assets/images/creatures/064.png"
+  },
+  {
+   "key": "MON_065",
+   "url": "assets/images/creatures/065.png"
+  },
+  {
+   "key": "TRAINER_admin",
+   "url": "assets/images/trainers/admin.png"
+  },
+  {
+   "key": "TRAINER_agni",
+   "url": "assets/images/trainers/agni.png"
+  },
+  {
+   "key": "TRAINER_akash",
+   "url": "assets/images/trainers/akash.png"
+  },
+  {
+   "key": "TRAINER_auto_driver",
+   "url": "assets/images/trainers/auto_driver.png"
+  },
+  {
+   "key": "TRAINER_basappa",
+   "url": "assets/images/trainers/basappa.png"
+  },
+  {
+   "key": "TRAINER_bhaskar",
+   "url": "assets/images/trainers/bhaskar.png"
+  },
+  {
+   "key": "TRAINER_college_f",
+   "url": "assets/images/trainers/college_f.png"
+  },
+  {
+   "key": "TRAINER_college_m",
+   "url": "assets/images/trainers/college_m.png"
+  },
+  {
+   "key": "TRAINER_cricketer",
+   "url": "assets/images/trainers/cricketer.png"
+  },
+  {
+   "key": "TRAINER_dancer",
+   "url": "assets/images/trainers/dancer.png"
+  },
+  {
+   "key": "TRAINER_fisher",
+   "url": "assets/images/trainers/fisher.png"
+  },
+  {
+   "key": "TRAINER_gardener",
+   "url": "assets/images/trainers/gardener.png"
+  },
+  {
+   "key": "TRAINER_grunt_f",
+   "url": "assets/images/trainers/grunt_f.png"
+  },
+  {
+   "key": "TRAINER_grunt_m",
+   "url": "assets/images/trainers/grunt_m.png"
+  },
+  {
+   "key": "TRAINER_gundappa",
+   "url": "assets/images/trainers/gundappa.png"
+  },
+  {
+   "key": "TRAINER_hoovamma",
+   "url": "assets/images/trainers/hoovamma.png"
+  },
+  {
+   "key": "TRAINER_jogger",
+   "url": "assets/images/trainers/jogger.png"
+  },
+  {
+   "key": "TRAINER_kaveri",
+   "url": "assets/images/trainers/kaveri.png"
+  },
+  {
+   "key": "TRAINER_nagaraj",
+   "url": "assets/images/trainers/nagaraj.png"
+  },
+  {
+   "key": "TRAINER_player_boy",
+   "url": "assets/images/trainers/player_boy.png"
+  },
+  {
+   "key": "TRAINER_player_girl",
+   "url": "assets/images/trainers/player_girl.png"
+  },
+  {
+   "key": "TRAINER_professor",
+   "url": "assets/images/trainers/professor.png"
+  },
+  {
+   "key": "TRAINER_rival",
+   "url": "assets/images/trainers/rival.png"
+  },
+  {
+   "key": "TRAINER_rukmini",
+   "url": "assets/images/trainers/rukmini.png"
+  },
+  {
+   "key": "TRAINER_schoolboy",
+   "url": "assets/images/trainers/schoolboy.png"
+  },
+  {
+   "key": "TRAINER_schoolgirl",
+   "url": "assets/images/trainers/schoolgirl.png"
+  },
+  {
+   "key": "TRAINER_tanvi",
+   "url": "assets/images/trainers/tanvi.png"
+  },
+  {
+   "key": "TRAINER_techie_f",
+   "url": "assets/images/trainers/techie_f.png"
+  },
+  {
+   "key": "TRAINER_techie_m",
+   "url": "assets/images/trainers/techie_m.png"
+  },
+  {
+   "key": "TRAINER_vendor",
+   "url": "assets/images/trainers/vendor.png"
+  },
+  {
+   "key": "TRAINER_vidya",
+   "url": "assets/images/trainers/vidya.png"
+  },
+  {
+   "key": "TRAINER_wrestler",
+   "url": "assets/images/trainers/wrestler.png"
+  },
+  {
+   "key": "BATTLE_BG_ARENA",
+   "url": "assets/images/battle/arena.png"
+  },
+  {
+   "key": "BATTLE_BG_CAVE",
+   "url": "assets/images/battle/cave.png"
+  },
+  {
+   "key": "BATTLE_BG_CITY",
+   "url": "assets/images/battle/city.png"
+  },
+  {
+   "key": "BATTLE_BG_GRASS",
+   "url": "assets/images/battle/grass.png"
+  },
+  {
+   "key": "BATTLE_BG_HILL",
+   "url": "assets/images/battle/hill.png"
+  },
+  {
+   "key": "BATTLE_BG_INDOOR",
+   "url": "assets/images/battle/indoor.png"
+  },
+  {
+   "key": "BATTLE_BG_LAKE",
+   "url": "assets/images/battle/lake.png"
+  },
+  {
+   "key": "BATTLE_BG_PARK",
+   "url": "assets/images/battle/park.png"
+  },
+  {
+   "key": "UI_DABBA",
+   "url": "assets/images/ui/dabba.png"
+  },
+  {
+   "key": "UI_DABBA_OPEN",
+   "url": "assets/images/ui/dabba_open.png"
+  },
+  {
+   "key": "UI_EXCLAIM",
+   "url": "assets/images/ui/exclaim.png"
+  },
+  {
+   "key": "WORLD_COLLISION",
+   "url": "assets/images/world/collision.png"
+  },
+  {
+   "key": "WORLD_ENCOUNTER",
+   "url": "assets/images/world/encounter.png"
+  },
+  {
+   "key": "WORLD_ITEM_BALL",
+   "url": "assets/images/world/item_ball.png"
+  },
+  {
+   "key": "WORLD_TALL_GRASS",
+   "url": "assets/images/world/tall_grass.png"
+  }
+ ],
+ "spritesheets": [
+  {
+   "key": "CHAR_agni",
+   "url": "assets/images/characters/agni.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_ajja",
+   "url": "assets/images/characters/ajja.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_ajji",
+   "url": "assets/images/characters/ajji.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_akash",
+   "url": "assets/images/characters/akash.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_amma",
+   "url": "assets/images/characters/amma.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_auto_driver",
+   "url": "assets/images/characters/auto_driver.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_basappa",
+   "url": "assets/images/characters/basappa.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_bhaskar",
+   "url": "assets/images/characters/bhaskar.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_birdwatcher",
+   "url": "assets/images/characters/birdwatcher.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_college_f",
+   "url": "assets/images/characters/college_f.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_college_m",
+   "url": "assets/images/characters/college_m.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_cricketer",
+   "url": "assets/images/characters/cricketer.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_dancer",
+   "url": "assets/images/characters/dancer.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_darshini_owner",
+   "url": "assets/images/characters/darshini_owner.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_delivery_rider",
+   "url": "assets/images/characters/delivery_rider.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_fisher",
+   "url": "assets/images/characters/fisher.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_gardener",
+   "url": "assets/images/characters/gardener.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_grunt_f",
+   "url": "assets/images/characters/grunt_f.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_grunt_m",
+   "url": "assets/images/characters/grunt_m.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_gundappa",
+   "url": "assets/images/characters/gundappa.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_hoovamma",
+   "url": "assets/images/characters/hoovamma.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_jogger",
+   "url": "assets/images/characters/jogger.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_kaveri",
+   "url": "assets/images/characters/kaveri.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_kid1",
+   "url": "assets/images/characters/kid1.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_kid2",
+   "url": "assets/images/characters/kid2.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_man1",
+   "url": "assets/images/characters/man1.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_man2",
+   "url": "assets/images/characters/man2.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_man3",
+   "url": "assets/images/characters/man3.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_man4",
+   "url": "assets/images/characters/man4.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_metro_staff",
+   "url": "assets/images/characters/metro_staff.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_nagaraj",
+   "url": "assets/images/characters/nagaraj.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_officer",
+   "url": "assets/images/characters/officer.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_player_boy",
+   "url": "assets/images/characters/player_boy.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_player_girl",
+   "url": "assets/images/characters/player_girl.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_professor",
+   "url": "assets/images/characters/professor.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_rival",
+   "url": "assets/images/characters/rival.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_rohan_mom",
+   "url": "assets/images/characters/rohan_mom.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_rukmini",
+   "url": "assets/images/characters/rukmini.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_schoolboy",
+   "url": "assets/images/characters/schoolboy.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_schoolgirl",
+   "url": "assets/images/characters/schoolgirl.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_shopkeeper",
+   "url": "assets/images/characters/shopkeeper.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_tanvi",
+   "url": "assets/images/characters/tanvi.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_techie_f",
+   "url": "assets/images/characters/techie_f.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_techie_m",
+   "url": "assets/images/characters/techie_m.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_traffic_cop",
+   "url": "assets/images/characters/traffic_cop.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_vendor",
+   "url": "assets/images/characters/vendor.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_vidya",
+   "url": "assets/images/characters/vidya.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_woman1",
+   "url": "assets/images/characters/woman1.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_woman2",
+   "url": "assets/images/characters/woman2.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_woman3",
+   "url": "assets/images/characters/woman3.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_woman4",
+   "url": "assets/images/characters/woman4.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  },
+  {
+   "key": "CHAR_wrestler",
+   "url": "assets/images/characters/wrestler.png",
+   "frameWidth": 16,
+   "frameHeight": 24
+  }
+ ],
+ "maps": [
+  {
+   "key": "MAP_player_house_2f",
+   "url": "assets/maps/player_house_2f/map.json",
+   "bg": "assets/maps/player_house_2f/bg.png"
+  },
+  {
+   "key": "MAP_player_house_1f",
+   "url": "assets/maps/player_house_1f/map.json",
+   "bg": "assets/maps/player_house_1f/bg.png"
+  },
+  {
+   "key": "MAP_rival_house",
+   "url": "assets/maps/rival_house/map.json",
+   "bg": "assets/maps/rival_house/bg.png"
+  },
+  {
+   "key": "MAP_lab",
+   "url": "assets/maps/lab/map.json",
+   "bg": "assets/maps/lab/bg.png"
+  },
+  {
+   "key": "MAP_basavanagudi",
+   "url": "assets/maps/basavanagudi/map.json",
+   "bg": "assets/maps/basavanagudi/bg.png"
+  },
+  {
+   "key": "MAP_route1",
+   "url": "assets/maps/route1/map.json",
+   "bg": "assets/maps/route1/bg.png"
+  },
+  {
+   "key": "MAP_darshini",
+   "url": "assets/maps/darshini/map.json",
+   "bg": "assets/maps/darshini/bg.png"
+  },
+  {
+   "key": "MAP_kirana",
+   "url": "assets/maps/kirana/map.json",
+   "bg": "assets/maps/kirana/bg.png"
+  },
+  {
+   "key": "MAP_lalbagh",
+   "url": "assets/maps/lalbagh/map.json",
+   "bg": "assets/maps/lalbagh/bg.png"
+  },
+  {
+   "key": "MAP_glass_house",
+   "url": "assets/maps/glass_house/map.json",
+   "bg": "assets/maps/glass_house/bg.png"
+  },
+  {
+   "key": "MAP_cubbon_park",
+   "url": "assets/maps/cubbon_park/map.json",
+   "bg": "assets/maps/cubbon_park/bg.png"
+  },
+  {
+   "key": "MAP_mg_road",
+   "url": "assets/maps/mg_road/map.json",
+   "bg": "assets/maps/mg_road/bg.png"
+  },
+  {
+   "key": "MAP_stadium",
+   "url": "assets/maps/stadium/map.json",
+   "bg": "assets/maps/stadium/bg.png"
+  },
+  {
+   "key": "MAP_silk_board",
+   "url": "assets/maps/silk_board/map.json",
+   "bg": "assets/maps/silk_board/bg.png"
+  },
+  {
+   "key": "MAP_whitefield",
+   "url": "assets/maps/whitefield/map.json",
+   "bg": "assets/maps/whitefield/bg.png"
+  },
+  {
+   "key": "MAP_tech_park",
+   "url": "assets/maps/tech_park/map.json",
+   "bg": "assets/maps/tech_park/bg.png"
+  },
+  {
+   "key": "MAP_bellandur",
+   "url": "assets/maps/bellandur/map.json",
+   "bg": "assets/maps/bellandur/bg.png"
+  },
+  {
+   "key": "MAP_bellandur_site",
+   "url": "assets/maps/bellandur_site/map.json",
+   "bg": "assets/maps/bellandur_site/bg.png"
+  },
+  {
+   "key": "MAP_sankey_tank",
+   "url": "assets/maps/sankey_tank/map.json",
+   "bg": "assets/maps/sankey_tank/bg.png"
+  },
+  {
+   "key": "MAP_malleshwaram",
+   "url": "assets/maps/malleshwaram/map.json",
+   "bg": "assets/maps/malleshwaram/bg.png"
+  },
+  {
+   "key": "MAP_tutor_house",
+   "url": "assets/maps/tutor_house/map.json",
+   "bg": "assets/maps/tutor_house/bg.png"
+  },
+  {
+   "key": "MAP_palace_road",
+   "url": "assets/maps/palace_road/map.json",
+   "bg": "assets/maps/palace_road/bg.png"
+  },
+  {
+   "key": "MAP_palace",
+   "url": "assets/maps/palace/map.json",
+   "bg": "assets/maps/palace/bg.png"
+  },
+  {
+   "key": "MAP_hebbal",
+   "url": "assets/maps/hebbal/map.json",
+   "bg": "assets/maps/hebbal/bg.png"
+  },
+  {
+   "key": "MAP_nandi_hills",
+   "url": "assets/maps/nandi_hills/map.json",
+   "bg": "assets/maps/nandi_hills/bg.png"
+  },
+  {
+   "key": "MAP_nandi_cave",
+   "url": "assets/maps/nandi_cave/map.json",
+   "bg": "assets/maps/nandi_cave/bg.png"
+  },
+  {
+   "key": "MAP_hill_pavilion",
+   "url": "assets/maps/hill_pavilion/map.json",
+   "bg": "assets/maps/hill_pavilion/bg.png"
+  },
+  {
+   "key": "MAP_vidhana_soudha",
+   "url": "assets/maps/vidhana_soudha/map.json",
+   "bg": "assets/maps/vidhana_soudha/bg.png"
+  },
+  {
+   "key": "MAP_council_1",
+   "url": "assets/maps/council_1/map.json",
+   "bg": "assets/maps/council_1/bg.png"
+  },
+  {
+   "key": "MAP_council_2",
+   "url": "assets/maps/council_2/map.json",
+   "bg": "assets/maps/council_2/bg.png"
+  },
+  {
+   "key": "MAP_council_3",
+   "url": "assets/maps/council_3/map.json",
+   "bg": "assets/maps/council_3/bg.png"
+  },
+  {
+   "key": "MAP_council_4",
+   "url": "assets/maps/council_4/map.json",
+   "bg": "assets/maps/council_4/bg.png"
+  },
+  {
+   "key": "MAP_champion_room",
+   "url": "assets/maps/champion_room/map.json",
+   "bg": "assets/maps/champion_room/bg.png"
+  }
+ ],
+ "audio": []
+}

@@ -1,0 +1,1726 @@
+{
+ "rival_lab": {
+  "name": "Rohan",
+  "title": "Rival",
+  "portrait": "rival",
+  "sprite": "rival",
+  "team": [
+   {
+    "species": "RIVAL:1",
+    "level": 5
+   }
+  ],
+  "prize": 225,
+  "aiLevel": 1,
+  "intro": [
+   "Wait, {PLAYER}! Let's see whose Urumon is stronger. Best of one - no rematches!"
+  ],
+  "defeat": [
+   "What?! I picked the wrong one... no, I just need practice!"
+  ],
+  "after": null,
+  "canLose": true,
+  "music": "MUSIC_RIVAL"
+ },
+ "rival_mg": {
+  "name": "Rohan",
+  "title": "Rival",
+  "portrait": "rival",
+  "sprite": "rival",
+  "team": [
+   {
+    "species": 11,
+    "level": 14
+   },
+   {
+    "species": 13,
+    "level": 13
+   },
+   {
+    "species": "RIVAL:1",
+    "level": 16
+   }
+  ],
+  "prize": 720,
+  "aiLevel": 1,
+  "intro": [
+   "{PLAYER}! Took you long enough to get through Cubbon Park.",
+   "I've been training at the stadium nets every evening. Watch this!"
+  ],
+  "defeat": [
+   "Arre! I was this close. I'm going to beat Gundappa first, just watch."
+  ],
+  "after": null,
+  "music": "MUSIC_RIVAL"
+ },
+ "rival_whitefield": {
+  "name": "Rohan",
+  "title": "Rival",
+  "portrait": "rival",
+  "sprite": "rival",
+  "team": [
+   {
+    "species": 11,
+    "level": 24
+   },
+   {
+    "species": 45,
+    "level": 23
+   },
+   {
+    "species": 28,
+    "level": 23
+   },
+   {
+    "species": "RIVAL:2",
+    "level": 26
+   }
+  ],
+  "prize": 1170,
+  "aiLevel": 1,
+  "intro": [
+   "Silk Board took me three hours. THREE HOURS, {PLAYER}.",
+   "I'm in a terrible mood. Perfect for a battle!"
+  ],
+  "defeat": [
+   "Fine, fine. You're good. Annoyingly good."
+  ],
+  "after": null,
+  "music": "MUSIC_RIVAL"
+ },
+ "rival_palace": {
+  "name": "Rohan",
+  "title": "Rival",
+  "portrait": "rival",
+  "sprite": "rival",
+  "team": [
+   {
+    "species": 12,
+    "level": 36
+   },
+   {
+    "species": 46,
+    "level": 35
+   },
+   {
+    "species": 29,
+    "level": 35
+   },
+   {
+    "species": 57,
+    "level": 35
+   },
+   {
+    "species": "RIVAL:3",
+    "level": 38
+   }
+  ],
+  "prize": 1710,
+  "aiLevel": 2,
+  "intro": [
+   "The Syndicate is heading for Nandi Hills. Grandma's worried sick.",
+   "Before we go after them, I need to know you're ready. Show me!"
+  ],
+  "defeat": [
+   "...Yeah. You're ready. Let's stop them together. You go first - I'll cover the hill roads."
+  ],
+  "after": null,
+  "music": "MUSIC_RIVAL"
+ },
+ "champion": {
+  "name": "Rohan",
+  "title": "Champion",
+  "portrait": "rival",
+  "sprite": "rival",
+  "team": [
+   {
+    "species": 12,
+    "level": 50
+   },
+   {
+    "species": 57,
+    "level": 51
+   },
+   {
+    "species": 41,
+    "level": 50
+   },
+   {
+    "species": 50,
+    "level": 51
+   },
+   {
+    "species": 46,
+    "level": 50
+   },
+   {
+    "species": "RIVAL:3",
+    "level": 53
+   }
+  ],
+  "prize": 10600,
+  "aiLevel": 2,
+  "intro": [
+   "Hey, {PLAYER}. Surprised? I beat the Council an hour before you.",
+   "Every route, every Arena - I was always one step ahead. Or one step behind.",
+   "This is it. The Champion of Namma Bengaluru is decided right here. No holding back!"
+  ],
+  "defeat": [
+   "...I lost. You really are the best, {PLAYER}.",
+   "Grandma's going to be insufferable about this. Congratulations, Champion."
+  ],
+  "after": null,
+  "music": "MUSIC_RIVAL",
+  "environment": "arena",
+  "isLeader": true
+ },
+ "leader_hoovamma": {
+  "name": "Hoovamma",
+  "title": "Arena Leader",
+  "portrait": "hoovamma",
+  "sprite": "hoovamma",
+  "team": [
+   {
+    "species": 54,
+    "level": 10
+   },
+   {
+    "species": 52,
+    "level": 11
+   },
+   {
+    "species": 2,
+    "level": 13
+   }
+  ],
+  "prize": 1430,
+  "aiLevel": 2,
+  "intro": [
+   "Ah, a young visitor in my Glass House! Mind the orchids, dear.",
+   "Sixty years I have tended these gardens. Plants are patient, and patience wins battles.",
+   "Show me what you have grown into!"
+  ],
+  "defeat": [
+   "My, my. You bloom quickly. Take this - the GRASS Badge."
+  ],
+  "after": [
+   "Water your Urumon with kindness and they will grow tall.",
+   "Keep the GRASS Badge shining, dear. The flower-show crowd will let you pass north now."
+  ],
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_LEADER",
+  "onWin": [
+   {
+    "badge": "GRASS"
+   }
+  ]
+ },
+ "leader_gundappa": {
+  "name": "Gundappa",
+  "title": "Arena Leader",
+  "portrait": "gundappa",
+  "sprite": "gundappa",
+  "team": [
+   {
+    "species": 30,
+    "level": 17
+   },
+   {
+    "species": 60,
+    "level": 17
+   },
+   {
+    "species": 31,
+    "level": 19
+   }
+  ],
+  "prize": 2090,
+  "aiLevel": 2,
+  "intro": [
+   "Thirty years ago I bowled the fastest spell this stadium ever saw.",
+   "Now I coach. Rule one: no fear of the short ball.",
+   "Pad up, kid. Let's play!"
+  ],
+  "defeat": [
+   "Clean bowled! Superb line and length. The FIGHT Badge is yours."
+  ],
+  "after": [
+   "The traffic police at the east junction will let you through with that badge.",
+   "Silk Board is... well. You'll see. Carry snacks."
+  ],
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_LEADER",
+  "onWin": [
+   {
+    "badge": "FIGHT"
+   }
+  ]
+ },
+ "leader_tanvi": {
+  "name": "Tanvi",
+  "title": "Arena Leader",
+  "portrait": "tanvi",
+  "sprite": "tanvi",
+  "team": [
+   {
+    "species": 47,
+    "level": 22
+   },
+   {
+    "species": 49,
+    "level": 22
+   },
+   {
+    "species": 56,
+    "level": 23
+   },
+   {
+    "species": 48,
+    "level": 25
+   }
+  ],
+  "prize": 2750,
+  "aiLevel": 2,
+  "intro": [
+   "Welcome to my startup's demo day! Today's pitch: you, losing.",
+   "We iterate fast here. Let's ship this battle!"
+  ],
+  "defeat": [
+   "Okay, pivot... pivot... no, I'm out of runway. Here's the ELECTRIC Badge."
+  ],
+  "after": [
+   "Something weird is going on at Bellandur Lake. My sensors show the foam spiking.",
+   "The security folks at the south gate will let a badge-holder through. Go check it out?"
+  ],
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_LEADER",
+  "onWin": [
+   {
+    "badge": "ELECTRIC"
+   }
+  ]
+ },
+ "leader_vidya": {
+  "name": "Vidya",
+  "title": "Arena Leader",
+  "portrait": "vidya",
+  "sprite": "vidya",
+  "team": [
+   {
+    "species": 38,
+    "level": 29
+   },
+   {
+    "species": 35,
+    "level": 29
+   },
+   {
+    "species": 39,
+    "level": 31
+   }
+  ],
+  "prize": 3410,
+  "aiLevel": 2,
+  "intro": [
+   "Sit down. Notebooks out. Today's lesson: type matchups.",
+   "There will be a test. It starts now."
+  ],
+  "defeat": [
+   "Full marks. I'm proud of you. Here is the MIND Badge."
+  ],
+  "after": [
+   "Revision is the secret. Revisit your weak matchups.",
+   "The old palace to the east has a Leader who deals in spirits. Be brave."
+  ],
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_LEADER",
+  "onWin": [
+   {
+    "badge": "MIND"
+   }
+  ]
+ },
+ "leader_rukmini": {
+  "name": "Rukmini",
+  "title": "Arena Leader",
+  "portrait": "rukmini",
+  "sprite": "rukmini",
+  "team": [
+   {
+    "species": 36,
+    "level": 32
+   },
+   {
+    "species": 33,
+    "level": 33
+   },
+   {
+    "species": 63,
+    "level": 34
+   },
+   {
+    "species": 37,
+    "level": 36
+   }
+  ],
+  "prize": 3960,
+  "aiLevel": 2,
+  "intro": [
+   "The palace was built for a king. Now it belongs to the spirits who stayed behind.",
+   "They have been whispering about you... shall we see if they're right?"
+  ],
+  "defeat": [
+   "The spirits are smiling. They accept you. Take the SPIRIT Badge."
+  ],
+  "after": [
+   "The spirits are restless tonight. They say the northern hills are in danger.",
+   "Rohan rushed north on Palace Road. You should follow him."
+  ],
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_LEADER",
+  "onWin": [
+   {
+    "badge": "SPIRIT"
+   }
+  ]
+ },
+ "leader_akash": {
+  "name": "Akash",
+  "title": "Arena Leader",
+  "portrait": "akash",
+  "sprite": "akash",
+  "team": [
+   {
+    "species": 17,
+    "level": 40
+   },
+   {
+    "species": 42,
+    "level": 41
+   },
+   {
+    "species": 12,
+    "level": 41
+   },
+   {
+    "species": 25,
+    "level": 43
+   }
+  ],
+  "prize": 4730,
+  "aiLevel": 2,
+  "intro": [
+   "Up here the wind does whatever it wants. Sunrise, mist, monsoon - all in an hour.",
+   "My team rides those winds. Can you keep your feet on the ground?"
+  ],
+  "defeat": [
+   "Grounded! What a battle. You've earned the SKY Badge - your sixth!"
+  ],
+  "after": [
+   "Six badges! The guards at Vidhana Soudha will open the gates for you now.",
+   "Take the Metro back to MG Road. The Namma Council is waiting."
+  ],
+  "isLeader": true,
+  "environment": "hill",
+  "music": "MUSIC_LEADER",
+  "onWin": [
+   {
+    "badge": "SKY"
+   }
+  ]
+ },
+ "council_nagaraj": {
+  "name": "Nagaraj",
+  "title": "Council",
+  "portrait": "nagaraj",
+  "sprite": "nagaraj",
+  "team": [
+   {
+    "species": 44,
+    "level": 44
+   },
+   {
+    "species": 21,
+    "level": 44
+   },
+   {
+    "species": 19,
+    "level": 45
+   },
+   {
+    "species": 23,
+    "level": 46
+   }
+  ],
+  "prize": 6440,
+  "aiLevel": 2,
+  "intro": [
+   "I am Nagaraj of the Namma Council. My Urumon were born where the city's waste goes.",
+   "Poison is just what the city leaves behind. Can you survive it?"
+  ],
+  "defeat": [
+   "You've cleared the fumes. Go on, the next councillor awaits."
+  ],
+  "after": null,
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_COUNCIL"
+ },
+ "council_basappa": {
+  "name": "Basappa",
+  "title": "Council",
+  "portrait": "basappa",
+  "sprite": "basappa",
+  "team": [
+   {
+    "species": 27,
+    "level": 45
+   },
+   {
+    "species": 53,
+    "level": 45
+   },
+   {
+    "species": 41,
+    "level": 46
+   },
+   {
+    "species": 59,
+    "level": 47
+   }
+  ],
+  "prize": 6580,
+  "aiLevel": 2,
+  "intro": [
+   "Ho ho! Basappa's the name. These rocks are older than the city itself.",
+   "You'll need more than a shovel to move them!"
+  ],
+  "defeat": [
+   "Hah! You dug right through us. Off you go!"
+  ],
+  "after": null,
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_COUNCIL"
+ },
+ "council_kaveri": {
+  "name": "Kaveri",
+  "title": "Council",
+  "portrait": "kaveri",
+  "sprite": "kaveri",
+  "team": [
+   {
+    "species": 46,
+    "level": 46
+   },
+   {
+    "species": 23,
+    "level": 46
+   },
+   {
+    "species": 9,
+    "level": 47
+   },
+   {
+    "species": 25,
+    "level": 48
+   }
+  ],
+  "prize": 6720,
+  "aiLevel": 2,
+  "intro": [
+   "Every lake in this city was once full and clear. I fight so they will be again.",
+   "Let the water decide who is worthy."
+  ],
+  "defeat": [
+   "The water flows your way. One councillor remains."
+  ],
+  "after": null,
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_COUNCIL"
+ },
+ "council_agni": {
+  "name": "Agni",
+  "title": "Council",
+  "portrait": "agni",
+  "sprite": "agni",
+  "team": [
+   {
+    "species": 55,
+    "level": 47
+   },
+   {
+    "species": 63,
+    "level": 48
+   },
+   {
+    "species": 61,
+    "level": 48
+   },
+   {
+    "species": 6,
+    "level": 49
+   }
+  ],
+  "prize": 6860,
+  "aiLevel": 2,
+  "intro": [
+   "They call me Agni. I'm the last fire before the Champion.",
+   "Let's turn the heat all the way up!"
+  ],
+  "defeat": [
+   "Burned out... You're the real thing. The Champion is waiting beyond that door."
+  ],
+  "after": null,
+  "isLeader": true,
+  "environment": "arena",
+  "music": "MUSIC_COUNCIL"
+ },
+ "grunt_cubbon1": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_m",
+  "sprite": "grunt_m",
+  "team": [
+   {
+    "species": 20,
+    "level": 10
+   },
+   {
+    "species": 43,
+    "level": 11
+   }
+  ],
+  "prize": 286,
+  "aiLevel": 1,
+  "intro": [
+   "Oi! This park is going to be a parking lot. Move it, kid!"
+  ],
+  "defeat": [
+   "Ugh. The boss won't like this."
+  ],
+  "after": [
+   "We were only cutting the dead trees! ...Mostly."
+  ]
+ },
+ "grunt_cubbon2": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_f",
+  "sprite": "grunt_f",
+  "team": [
+   {
+    "species": 18,
+    "level": 11
+   },
+   {
+    "species": 20,
+    "level": 12
+   }
+  ],
+  "prize": 312,
+  "aiLevel": 1,
+  "intro": [
+   "The Concrete Syndicate builds the future! Trees don't pay rent!"
+  ],
+  "defeat": [
+   "Fine! We'll find another park. There's always another park."
+  ],
+  "after": null
+ },
+ "grunt_bell1": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_m",
+  "sprite": "grunt_m",
+  "team": [
+   {
+    "species": 22,
+    "level": 23
+   },
+   {
+    "species": 20,
+    "level": 24
+   }
+  ],
+  "prize": 624,
+  "aiLevel": 1,
+  "intro": [
+   "The foam? Totally natural. Nothing to see here."
+  ],
+  "defeat": [
+   "Okay, maybe it's not natural."
+  ],
+  "after": null
+ },
+ "grunt_bell2": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_f",
+  "sprite": "grunt_f",
+  "team": [
+   {
+    "species": 21,
+    "level": 24
+   },
+   {
+    "species": 43,
+    "level": 23
+   },
+   {
+    "species": 18,
+    "level": 24
+   }
+  ],
+  "prize": 624,
+  "aiLevel": 1,
+  "intro": [
+   "You're not allowed past the hoarding. Site is under construction!"
+  ],
+  "defeat": [
+   "Our site! Our beautiful site..."
+  ],
+  "after": null
+ },
+ "grunt_bell3": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_m",
+  "sprite": "grunt_m",
+  "team": [
+   {
+    "species": 26,
+    "level": 24
+   },
+   {
+    "species": 22,
+    "level": 25
+   }
+  ],
+  "prize": 650,
+  "aiLevel": 1,
+  "intro": [
+   "Admin Shetty is busy dumping - I mean, disposing of - very important stuff."
+  ],
+  "defeat": [
+   "Shetty sir is going to fire me."
+  ],
+  "after": null
+ },
+ "admin_shetty": {
+  "name": "Shetty",
+  "title": "Syndicate Admin",
+  "portrait": "admin",
+  "sprite": "bhaskar",
+  "team": [
+   {
+    "species": 22,
+    "level": 26
+   },
+   {
+    "species": 21,
+    "level": 26
+   },
+   {
+    "species": 53,
+    "level": 27
+   }
+  ],
+  "prize": 1350,
+  "aiLevel": 2,
+  "intro": [
+   "Who let a child onto my site? Do you know how much this land is worth per square foot?",
+   "This lake is just a very large, very wet plot. And I'm going to fill it."
+  ],
+  "defeat": [
+   "Bah! Boss Bhaskar has bigger plans anyway. Up on the hills, the real project begins.",
+   "Enjoy your stinky lake, kid."
+  ],
+  "after": null
+ },
+ "grunt_nandi1": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_m",
+  "sprite": "grunt_m",
+  "team": [
+   {
+    "species": 21,
+    "level": 34
+   },
+   {
+    "species": 59,
+    "level": 33
+   }
+  ],
+  "prize": 884,
+  "aiLevel": 1,
+  "intro": [
+   "Halt! The hill is closed for a private event. Very private."
+  ],
+  "defeat": [
+   "The private event has been... postponed."
+  ],
+  "after": null
+ },
+ "grunt_nandi2": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_f",
+  "sprite": "grunt_f",
+  "team": [
+   {
+    "species": 19,
+    "level": 34
+   },
+   {
+    "species": 44,
+    "level": 34
+   },
+   {
+    "species": 20,
+    "level": 35
+   }
+  ],
+  "prize": 910,
+  "aiLevel": 1,
+  "intro": [
+   "We're going to put a resort on the summit. Infinity pool! Helipad!"
+  ],
+  "defeat": [
+   "There goes my employee discount."
+  ],
+  "after": null
+ },
+ "grunt_nandi3": {
+  "name": "Grunt",
+  "title": "Syndicate Grunt",
+  "portrait": "grunt_m",
+  "sprite": "grunt_m",
+  "team": [
+   {
+    "species": 27,
+    "level": 35
+   },
+   {
+    "species": 62,
+    "level": 35
+   }
+  ],
+  "prize": 910,
+  "aiLevel": 1,
+  "intro": [
+   "The boss is waiting for sunrise. That's when the guardian shows itself."
+  ],
+  "defeat": [
+   "Ow. Okay, you can go see the boss. Your funeral."
+  ],
+  "after": null
+ },
+ "boss_bhaskar": {
+  "name": "Bhaskar",
+  "title": "Syndicate Boss",
+  "portrait": "bhaskar",
+  "sprite": "bhaskar",
+  "team": [
+   {
+    "species": 21,
+    "level": 38
+   },
+   {
+    "species": 59,
+    "level": 38
+   },
+   {
+    "species": 65,
+    "level": 41
+   }
+  ],
+  "prize": 3690,
+  "aiLevel": 2,
+  "intro": [
+   "So you're the brat who keeps wrecking my projects.",
+   "Do you know what this city needs? Flyovers. Malls. Towers. Concrete.",
+   "And the guardian of this 'Garden City' keeps everything green and wet and SLOW.",
+   "At sunrise I capture it, and Bengaluru finally becomes what it should be: mine.",
+   "Concretor! Pour!"
+  ],
+  "defeat": [
+   "My Concretor... cracked? By a child?",
+   "Fine. FINE. Keep your trees and your lakes and your traffic.",
+   "But the city will choose concrete in the end. It always does."
+  ],
+  "after": null,
+  "isLeader": true,
+  "music": "MUSIC_SYNDICATE",
+  "environment": "cave"
+ },
+ "r1_kid": {
+  "name": "Chinnu",
+  "title": "Schoolkid",
+  "portrait": "schoolboy",
+  "sprite": "schoolboy",
+  "team": [
+   {
+    "species": 13,
+    "level": 4
+   },
+   {
+    "species": 10,
+    "level": 4
+   }
+  ],
+  "prize": 48,
+  "aiLevel": 1,
+  "intro": [
+   "Summer holidays! No homework, only battles!"
+  ],
+  "defeat": [
+   "Waaah! Okay, maybe I'll do my homework."
+  ],
+  "after": null
+ },
+ "r1_jogger": {
+  "name": "Priya",
+  "title": "Jogger",
+  "portrait": "jogger",
+  "sprite": "jogger",
+  "team": [
+   {
+    "species": 10,
+    "level": 5
+   },
+   {
+    "species": 28,
+    "level": 5
+   }
+  ],
+  "prize": 110,
+  "aiLevel": 1,
+  "intro": [
+   "I jog this road every morning before the traffic starts. Keep up!"
+  ],
+  "defeat": [
+   "Phew... I need a coconut."
+  ],
+  "after": null
+ },
+ "r1_vendor": {
+  "name": "Manju",
+  "title": "Street Vendor",
+  "portrait": "vendor",
+  "sprite": "vendor",
+  "team": [
+   {
+    "species": 52,
+    "level": 6
+   }
+  ],
+  "prize": 120,
+  "aiLevel": 1,
+  "intro": [
+   "Hot bajji! Hot bajji! ...And a battle, if you want."
+  ],
+  "defeat": [
+   "Here, take a free bajji for the road. Wait, I ate it."
+  ],
+  "after": null
+ },
+ "lb_gardener": {
+  "name": "Ramesh",
+  "title": "Gardener",
+  "portrait": "gardener",
+  "sprite": "gardener",
+  "team": [
+   {
+    "species": 54,
+    "level": 9
+   },
+   {
+    "species": 52,
+    "level": 9
+   }
+  ],
+  "prize": 180,
+  "aiLevel": 1,
+  "intro": [
+   "The Glass House is no place for weeds like you!"
+  ],
+  "defeat": [
+   "You're no weed. You're a whole tree."
+  ],
+  "after": null
+ },
+ "lb_college": {
+  "name": "Sneha",
+  "title": "College Student",
+  "portrait": "college_f",
+  "sprite": "college_f",
+  "team": [
+   {
+    "species": 15,
+    "level": 8
+   },
+   {
+    "species": 16,
+    "level": 10
+   }
+  ],
+  "prize": 180,
+  "aiLevel": 1,
+  "intro": [
+   "We're on a botany field trip. You're my field test!"
+  ],
+  "defeat": [
+   "Note to self: study harder."
+  ],
+  "after": null
+ },
+ "cp_bird": {
+  "name": "Arvind",
+  "title": "Birdwatcher",
+  "portrait": "birdwatcher",
+  "sprite": "birdwatcher",
+  "team": [
+   {
+    "species": 10,
+    "level": 9
+   },
+   {
+    "species": 34,
+    "level": 9
+   },
+   {
+    "species": 11,
+    "level": 10
+   }
+  ],
+  "prize": 240,
+  "aiLevel": 1,
+  "intro": [
+   "Shh! I'm counting sparrows. Unless you'd like to battle, quietly."
+  ],
+  "defeat": [
+   "Oh! A rare sighting: my own defeat."
+  ],
+  "after": null
+ },
+ "cp_jogger": {
+  "name": "Kavitha",
+  "title": "Jogger",
+  "portrait": "jogger",
+  "sprite": "jogger",
+  "team": [
+   {
+    "species": 13,
+    "level": 10
+   },
+   {
+    "species": 30,
+    "level": 11
+   }
+  ],
+  "prize": 242,
+  "aiLevel": 1,
+  "intro": [
+   "Ten laps of Cubbon Park before office. Battle you in between!"
+  ],
+  "defeat": [
+   "Nine laps. Good enough."
+  ],
+  "after": null
+ },
+ "cp_kid": {
+  "name": "Tejas",
+  "title": "Schoolkid",
+  "portrait": "schoolboy",
+  "sprite": "schoolboy",
+  "team": [
+   {
+    "species": 15,
+    "level": 8
+   },
+   {
+    "species": 18,
+    "level": 9
+   },
+   {
+    "species": 15,
+    "level": 9
+   }
+  ],
+  "prize": 108,
+  "aiLevel": 1,
+  "intro": [
+   "I caught this one near the bandstand!"
+  ],
+  "defeat": [
+   "I'll catch a stronger one tomorrow."
+  ],
+  "after": null
+ },
+ "cp_college": {
+  "name": "Farhan",
+  "title": "College Student",
+  "portrait": "college_m",
+  "sprite": "college_m",
+  "team": [
+   {
+    "species": 32,
+    "level": 11
+   },
+   {
+    "species": 36,
+    "level": 10
+   }
+  ],
+  "prize": 198,
+  "aiLevel": 1,
+  "intro": [
+   "Bunking class to battle? Totally worth it."
+  ],
+  "defeat": [
+   "Okay maybe not totally worth it."
+  ],
+  "after": null
+ },
+ "st_cricketer1": {
+  "name": "Vinay",
+  "title": "Cricketer",
+  "portrait": "cricketer",
+  "sprite": "cricketer",
+  "team": [
+   {
+    "species": 28,
+    "level": 15
+   },
+   {
+    "species": 60,
+    "level": 16
+   }
+  ],
+  "prize": 416,
+  "aiLevel": 1,
+  "intro": [
+   "Coach Gundappa says I bowl like a sleepy cow. Let's see what you say!"
+  ],
+  "defeat": [
+   "Wide ball. Wide everything."
+  ],
+  "after": null
+ },
+ "st_cricketer2": {
+  "name": "Shreya",
+  "title": "Cricketer",
+  "portrait": "cricketer",
+  "sprite": "cricketer",
+  "team": [
+   {
+    "species": 30,
+    "level": 16
+   },
+   {
+    "species": 31,
+    "level": 17
+   }
+  ],
+  "prize": 442,
+  "aiLevel": 1,
+  "intro": [
+   "Nets session is on. You're the batter. I'm the fast bowler."
+  ],
+  "defeat": [
+   "Six! Out of the stadium. Wow."
+  ],
+  "after": null
+ },
+ "mg_techie": {
+  "name": "Nikhil",
+  "title": "Techie",
+  "portrait": "techie_m",
+  "sprite": "techie_m",
+  "team": [
+   {
+    "species": 49,
+    "level": 14
+   },
+   {
+    "species": 47,
+    "level": 15
+   }
+  ],
+  "prize": 480,
+  "aiLevel": 1,
+  "intro": [
+   "I have a standup in ten minutes. This'll be quick."
+  ],
+  "defeat": [
+   "...I'm going to be late for standup."
+  ],
+  "after": null
+ },
+ "mg_dancer": {
+  "name": "Lakshmi",
+  "title": "Dancer",
+  "portrait": "dancer",
+  "sprite": "dancer",
+  "team": [
+   {
+    "species": 60,
+    "level": 15
+   },
+   {
+    "species": 34,
+    "level": 15
+   }
+  ],
+  "prize": 390,
+  "aiLevel": 1,
+  "intro": [
+   "My Urumon learned their steps at the Ranga Shankara workshop!"
+  ],
+  "defeat": [
+   "Beautiful footwork. Yours, not mine."
+  ],
+  "after": null
+ },
+ "sb_auto1": {
+  "name": "Raju",
+  "title": "Auto Driver",
+  "portrait": "auto_driver",
+  "sprite": "auto_driver",
+  "team": [
+   {
+    "species": 51,
+    "level": 18
+   },
+   {
+    "species": 28,
+    "level": 17
+   }
+  ],
+  "prize": 432,
+  "aiLevel": 1,
+  "intro": [
+   "Whitefield? Meter plus fifty. Or battle me for a free ride!"
+  ],
+  "defeat": [
+   "Okay okay, meter only. Final offer."
+  ],
+  "after": null
+ },
+ "sb_auto2": {
+  "name": "Shiva",
+  "title": "Auto Driver",
+  "portrait": "auto_driver",
+  "sprite": "auto_driver",
+  "team": [
+   {
+    "species": 20,
+    "level": 17
+   },
+   {
+    "species": 21,
+    "level": 18
+   },
+   {
+    "species": 51,
+    "level": 19
+   }
+  ],
+  "prize": 456,
+  "aiLevel": 1,
+  "intro": [
+   "Signal is red for another forty minutes. Plenty of time!"
+  ],
+  "defeat": [
+   "Oh, signal is green. Bye!"
+  ],
+  "after": null
+ },
+ "sb_rider": {
+  "name": "Imran",
+  "title": "Delivery Rider",
+  "portrait": "delivery_rider",
+  "sprite": "delivery_rider",
+  "team": [
+   {
+    "species": 47,
+    "level": 18
+   },
+   {
+    "species": 11,
+    "level": 19
+   }
+  ],
+  "prize": 456,
+  "aiLevel": 1,
+  "intro": [
+   "Your order is arriving in ten minutes! ...After this battle."
+  ],
+  "defeat": [
+   "Order delayed due to unexpected defeat."
+  ],
+  "after": null
+ },
+ "sb_techie": {
+  "name": "Divya",
+  "title": "Techie",
+  "portrait": "techie_f",
+  "sprite": "techie_f",
+  "team": [
+   {
+    "species": 49,
+    "level": 18
+   },
+   {
+    "species": 56,
+    "level": 18
+   }
+  ],
+  "prize": 576,
+  "aiLevel": 1,
+  "intro": [
+   "I left the office at six. It is now nine. Battle me so I feel productive."
+  ],
+  "defeat": [
+   "At least my code compiles."
+  ],
+  "after": null
+ },
+ "sb_college": {
+  "name": "Rahul",
+  "title": "College Student",
+  "portrait": "college_m",
+  "sprite": "college_m",
+  "team": [
+   {
+    "species": 18,
+    "level": 18
+   },
+   {
+    "species": 32,
+    "level": 19
+   }
+  ],
+  "prize": 342,
+  "aiLevel": 1,
+  "intro": [
+   "Engineering college in the morning, Silk Board all evening."
+  ],
+  "defeat": [
+   "My CGPA and my battle record are similar."
+  ],
+  "after": null
+ },
+ "wf_techie1": {
+  "name": "Arjun",
+  "title": "Techie",
+  "portrait": "techie_m",
+  "sprite": "techie_m",
+  "team": [
+   {
+    "species": 49,
+    "level": 21
+   },
+   {
+    "species": 47,
+    "level": 22
+   }
+  ],
+  "prize": 704,
+  "aiLevel": 1,
+  "intro": [
+   "Our Leader's demo day is legendary. Pass my code review first!"
+  ],
+  "defeat": [
+   "LGTM. Looks good to... you."
+  ],
+  "after": null
+ },
+ "wf_techie2": {
+  "name": "Meghana",
+  "title": "Techie",
+  "portrait": "techie_f",
+  "sprite": "techie_f",
+  "team": [
+   {
+    "species": 56,
+    "level": 22
+   },
+   {
+    "species": 49,
+    "level": 22
+   }
+  ],
+  "prize": 704,
+  "aiLevel": 1,
+  "intro": [
+   "Ping! You've got a battle invite. Accept?"
+  ],
+  "defeat": [
+   "Merged and deployed. Right into the ground."
+  ],
+  "after": null
+ },
+ "bl_fisher": {
+  "name": "Bhoja",
+  "title": "Fisher",
+  "portrait": "fisher",
+  "sprite": "fisher",
+  "team": [
+   {
+    "species": 24,
+    "level": 22
+   },
+   {
+    "species": 24,
+    "level": 23
+   },
+   {
+    "species": 22,
+    "level": 23
+   }
+  ],
+  "prize": 414,
+  "aiLevel": 1,
+  "intro": [
+   "The fish have all gone weird since the foam came."
+  ],
+  "defeat": [
+   "Even my Meenu is ashamed of me."
+  ],
+  "after": null
+ },
+ "sk_ajja": {
+  "name": "Ramaiah",
+  "title": "Ajja",
+  "portrait": "ajja",
+  "sprite": "ajja",
+  "team": [
+   {
+    "species": 29,
+    "level": 24
+   },
+   {
+    "species": 34,
+    "level": 25
+   }
+  ],
+  "prize": 750,
+  "aiLevel": 1,
+  "intro": [
+   "In my day, Sankey Tank was clear enough to see your face in. Let's battle like old times!"
+  ],
+  "defeat": [
+   "Ha! You remind me of my younger days. Here, have some peanuts."
+  ],
+  "after": null
+ },
+ "sk_ajji": {
+  "name": "Saroja",
+  "title": "Ajji",
+  "portrait": "ajji",
+  "sprite": "ajji",
+  "team": [
+   {
+    "species": 38,
+    "level": 24
+   },
+   {
+    "species": 36,
+    "level": 25
+   }
+  ],
+  "prize": 750,
+  "aiLevel": 1,
+  "intro": [
+   "Eat properly before you battle, child! You look thin."
+  ],
+  "defeat": [
+   "Good, good. Now go eat something."
+  ],
+  "after": null
+ },
+ "sk_bird": {
+  "name": "Gautam",
+  "title": "Birdwatcher",
+  "portrait": "birdwatcher",
+  "sprite": "birdwatcher",
+  "team": [
+   {
+    "species": 42,
+    "level": 25
+   },
+   {
+    "species": 35,
+    "level": 26
+   }
+  ],
+  "prize": 624,
+  "aiLevel": 1,
+  "intro": [
+   "The kites circle highest over Sankey Tank in the afternoon."
+  ],
+  "defeat": [
+   "I need better binoculars. And Urumon."
+  ],
+  "after": null
+ },
+ "ml_college": {
+  "name": "Ananya",
+  "title": "College Student",
+  "portrait": "college_f",
+  "sprite": "college_f",
+  "team": [
+   {
+    "species": 38,
+    "level": 27
+   },
+   {
+    "species": 34,
+    "level": 28
+   }
+  ],
+  "prize": 504,
+  "aiLevel": 1,
+  "intro": [
+   "Vidya ma'am's tuition is the hardest in the city. Prove you're ready!"
+  ],
+  "defeat": [
+   "I should revise chapter four again."
+  ],
+  "after": null
+ },
+ "ml_kid": {
+  "name": "Pavan",
+  "title": "Schoolkid",
+  "portrait": "schoolboy",
+  "sprite": "schoolboy",
+  "team": [
+   {
+    "species": 39,
+    "level": 28
+   }
+  ],
+  "prize": 336,
+  "aiLevel": 1,
+  "intro": [
+   "I get top marks in class AND in battles!"
+  ],
+  "defeat": [
+   "...I'm crying because of onions. Not because I lost."
+  ],
+  "after": null
+ },
+ "pr_dancer": {
+  "name": "Meera",
+  "title": "Dancer",
+  "portrait": "dancer",
+  "sprite": "dancer",
+  "team": [
+   {
+    "species": 62,
+    "level": 31
+   },
+   {
+    "species": 36,
+    "level": 31
+   }
+  ],
+  "prize": 806,
+  "aiLevel": 1,
+  "intro": [
+   "The palace corridors are a perfect stage. Watch!"
+  ],
+  "defeat": [
+   "The spirits applauded you, not me."
+  ],
+  "after": null
+ },
+ "pr_ajja": {
+  "name": "Narasimha",
+  "title": "Ajja",
+  "portrait": "ajja",
+  "sprite": "ajja",
+  "team": [
+   {
+    "species": 33,
+    "level": 32
+   },
+   {
+    "species": 37,
+    "level": 32
+   }
+  ],
+  "prize": 960,
+  "aiLevel": 1,
+  "intro": [
+   "I've walked past this palace for seventy years and I still hear things at night."
+  ],
+  "defeat": [
+   "Brr. You give me shivers too."
+  ],
+  "after": null
+ },
+ "pr_cricketer": {
+  "name": "Sachin",
+  "title": "Cricketer",
+  "portrait": "cricketer",
+  "sprite": "cricketer",
+  "team": [
+   {
+    "species": 31,
+    "level": 31
+   },
+   {
+    "species": 61,
+    "level": 32
+   },
+   {
+    "species": 29,
+    "level": 31
+   }
+  ],
+  "prize": 832,
+  "aiLevel": 1,
+  "intro": [
+   "Palace grounds has the best pitch for gully cricket. And battles!"
+  ],
+  "defeat": [
+   "Run out! By a mile!"
+  ],
+  "after": null
+ },
+ "hb_rider": {
+  "name": "Faisal",
+  "title": "Delivery Rider",
+  "portrait": "delivery_rider",
+  "sprite": "delivery_rider",
+  "team": [
+   {
+    "species": 51,
+    "level": 33
+   },
+   {
+    "species": 47,
+    "level": 34
+   }
+  ],
+  "prize": 816,
+  "aiLevel": 1,
+  "intro": [
+   "Delivering biryani to Nandi Hills. Don't ask."
+  ],
+  "defeat": [
+   "Biryani's getting cold. Go, go!"
+  ],
+  "after": null
+ },
+ "hb_wrestler": {
+  "name": "Hanuma",
+  "title": "Wrestler",
+  "portrait": "wrestler",
+  "sprite": "wrestler",
+  "team": [
+   {
+    "species": 31,
+    "level": 34
+   },
+   {
+    "species": 61,
+    "level": 35
+   }
+  ],
+  "prize": 980,
+  "aiLevel": 1,
+  "intro": [
+   "Morning kusti practice by the lake. You're my sparring partner!"
+  ],
+  "defeat": [
+   "Pinned! I'm proud of you, small one."
+  ],
+  "after": null
+ },
+ "hb_fisher": {
+  "name": "Kiran",
+  "title": "Fisher",
+  "portrait": "fisher",
+  "sprite": "fisher",
+  "team": [
+   {
+    "species": 25,
+    "level": 33
+   },
+   {
+    "species": 46,
+    "level": 33
+   }
+  ],
+  "prize": 594,
+  "aiLevel": 1,
+  "intro": [
+   "Hebbal lake's still got some fight in it. Like me!"
+  ],
+  "defeat": [
+   "Okay, okay, the fish win today. And you."
+  ],
+  "after": null
+ },
+ "nh_bird": {
+  "name": "Shalini",
+  "title": "Birdwatcher",
+  "portrait": "birdwatcher",
+  "sprite": "birdwatcher",
+  "team": [
+   {
+    "species": 12,
+    "level": 36
+   },
+   {
+    "species": 35,
+    "level": 37
+   }
+  ],
+  "prize": 888,
+  "aiLevel": 1,
+  "intro": [
+   "You can see clouds BELOW you up here. Beautiful, isn't it?"
+  ],
+  "defeat": [
+   "The view is still beautiful. I'm not."
+  ],
+  "after": null
+ },
+ "nh_wrestler": {
+  "name": "Bheema",
+  "title": "Wrestler",
+  "portrait": "wrestler",
+  "sprite": "wrestler",
+  "team": [
+   {
+    "species": 31,
+    "level": 38
+   },
+   {
+    "species": 61,
+    "level": 37
+   }
+  ],
+  "prize": 1064,
+  "aiLevel": 1,
+  "intro": [
+   "I climbed the 1,200 steps for training. Every morning!"
+  ],
+  "defeat": [
+   "...I'm taking the bus down."
+  ],
+  "after": null
+ }
+}

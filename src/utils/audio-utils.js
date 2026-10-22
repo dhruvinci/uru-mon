@@ -1,58 +1,71 @@
 import { SOUND_OPTIONS } from '../common/options.js';
-import { DATA_MANAGER_STORE_KEYS, dataManager } from './data-manager.js';
+import { dataManager } from './data-manager.js';
+
+/** Key of the music track that should be playing (kept even while sound is off, so turning it on resumes it). */
+let currentMusicKey = null;
 
 /**
- * @param {Phaser.Scene} scene The Phaser 3 scene to play audio in
- * @param {string} audioKey The key of the audio asset that should be played
- * @returns {void}
+ * Plays a looping music track, replacing whatever music is playing. Missing tracks are ignored.
+ * @param {Phaser.Scene} scene
+ * @param {string} audioKey
+ * @param {{restart?: boolean}} [opts]
  */
-export function playBackgroundMusic(scene, audioKey) {
-  if (dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_SOUND) !== SOUND_OPTIONS.ON) {
+export function playBackgroundMusic(scene, audioKey, opts = {}) {
+  if (!audioKey) {
     return;
   }
-
-  // get all of the audio objects that are currently playing so we can check if the sound we
-  // want to play is already playing, and to stop all other sounds
-  const existingSounds = scene.sound.getAllPlaying();
-  let musicAlreadyPlaying = false;
-
-  existingSounds.forEach((sound) => {
-    if (sound.key === audioKey) {
-      musicAlreadyPlaying = true;
+  const sm = scene.sound;
+  if (currentMusicKey === audioKey && !opts.restart) {
+    const playing = sm.getAll(audioKey).some((s) => s.isPlaying);
+    if (playing || dataManager.state.options.sound !== SOUND_OPTIONS.ON) {
       return;
     }
-    sound.stop();
-  });
-
-  if (!musicAlreadyPlaying) {
-    scene.sound.play(audioKey, {
-      loop: true,
-    });
   }
-}
-
-/**
- * @param {Phaser.Scene} scene The Phaser 3 scene to play audio in
- * @param {string} audioKey The key of the audio asset that should be played
- * @returns {void}
- */
-export function playSoundFx(scene, audioKey) {
-  if (dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_SOUND) !== SOUND_OPTIONS.ON) {
+  currentMusicKey = audioKey;
+  sm.getAllPlaying().forEach((s) => {
+    if (/** @type {any} */ (s).__isMusic) {
+      s.stop();
+    }
+  });
+  if (dataManager.state.options.sound !== SOUND_OPTIONS.ON || !scene.cache.audio.exists(audioKey)) {
     return;
   }
+  const music = sm.add(audioKey, { loop: true, volume: 0.55 });
+  /** @type {any} */ (music).__isMusic = true;
+  music.once('stop', () => music.destroy());
+  music.play();
+}
 
-  const baseVolume = dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_VOLUME) * 0.25;
-
-  scene.sound.play(audioKey, {
-    volume: 20 * baseVolume,
+/** @param {Phaser.Scene} scene */
+export function stopMusic(scene) {
+  currentMusicKey = null;
+  scene.sound.getAllPlaying().forEach((s) => {
+    if (/** @type {any} */ (s).__isMusic) {
+      s.stop();
+    }
   });
 }
 
+/** @returns {string | null} */
+export function currentMusic() {
+  return currentMusicKey;
+}
+
 /**
- * @param {Phaser.Scene} scene The Phaser 3 scene to get the sound manager reference from
- * @returns {void}
+ * Plays a one-shot sound effect if it exists.
+ * @param {Phaser.Scene} scene
+ * @param {string} audioKey
+ * @param {number} [volume=0.8]
  */
+export function playSoundFx(scene, audioKey, volume = 0.8) {
+  if (dataManager.state.options.sound !== SOUND_OPTIONS.ON || !audioKey || !scene.cache.audio.exists(audioKey)) {
+    return;
+  }
+  scene.sound.play(audioKey, { volume });
+}
+
+/** @param {Phaser.Scene} scene */
 export function setGlobalSoundSettings(scene) {
-  scene.sound.setVolume(dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_VOLUME) * 0.25);
-  scene.sound.setMute(dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_SOUND) === SOUND_OPTIONS.OFF);
+  scene.sound.setVolume(dataManager.state.options.volume * 0.25);
+  scene.sound.setMute(dataManager.state.options.sound === SOUND_OPTIONS.OFF);
 }

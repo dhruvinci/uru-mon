@@ -1,0 +1,34 @@
+[
+ {
+  "file": "grass.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: a sunny grassy meadow beside a quiet South Indian suburban road, a distant row of big rain trees, light blue sky with soft clouds."
+ },
+ {
+  "file": "park.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: a shady botanical garden lawn with purple jacaranda trees in bloom and red flower beds, dappled sunlight."
+ },
+ {
+  "file": "city.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: a lively Bengaluru street at golden hour: low colorful shop buildings with blank signboards, an elevated metro line in the distance, a paved plaza in the foreground."
+ },
+ {
+  "file": "lake.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: the grassy edge of a large city lake with reeds and lily pads, a hazy city skyline across the water, calm water."
+ },
+ {
+  "file": "cave.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: a dim rocky cave interior with glowing blue crystals and a flat stone floor, mysterious blue-purple light."
+ },
+ {
+  "file": "arena.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: an indoor battle arena hall with a polished patterned stone floor, colorful banners and soft spotlights."
+ },
+ {
+  "file": "hill.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: a misty granite hilltop at sunrise with big boulders, distant hills and a sea of clouds below, orange and pink sky."
+ },
+ {
+  "file": "indoor.png",
+  "prompt": "Wide panoramic pixel-art background for the battle screen of a GBA-era (2004) monster-collecting RPG, aspect ratio about 2.4:1. Authentic pixel art as if drawn at 256x108 pixels and upscaled: crisp pixels, limited palette, soft bright colors with low contrast so creature sprites stand out on top. The lower third is a simple, mostly flat ground area. No creatures, no people, no text, no user interface, no borders. Scene: a cozy research lab interior with wooden floor, bookshelves and potted plants, warm afternoon light."
+ }
+]

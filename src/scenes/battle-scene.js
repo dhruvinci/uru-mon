@@ -1,1026 +1,852 @@
 import Phaser from '../lib/phaser.js';
-import { BattleMenu } from '../battle/ui/menu/battle-menu.js';
 import { SCENE_KEYS } from './scene-keys.js';
-import { DIRECTION } from '../common/direction.js';
-import { EnemyBattleMonster } from '../battle/monsters/enemy-battle-monster.js';
-import { PlayerBattleMonster } from '../battle/monsters/player-battle-monster.js';
-import { StateMachine } from '../utils/state-machine.js';
-import { Background } from '../battle/background.js';
-import { ATTACK_TARGET, AttackManager } from '../battle/attacks/attack-manager.js';
-import { createSceneTransition } from '../utils/scene-transition.js';
-import { DATA_MANAGER_STORE_KEYS, dataManager } from '../utils/data-manager.js';
-import { BATTLE_SCENE_OPTIONS } from '../common/options.js';
 import { BaseScene } from './base-scene.js';
-import { DataUtils } from '../utils/data-utils.js';
-import { AUDIO_ASSET_KEYS, BATTLE_ASSET_KEYS } from '../assets/asset-keys.js';
+import { Battle } from '../battle/engine/battle-engine.js';
+import {
+  displayName,
+  expYield,
+  gainExp,
+  getMaxHp,
+  getMove,
+  getSpecies,
+  pendingEvolution,
+  evolve,
+  generateUid,
+} from '../battle/engine/monster.js';
+import { BattleHud } from '../battle/ui/battle-hud.js';
+import { playMoveFx, shakeAndBlink, statChangeFx, statusFx } from '../battle/ui/move-fx.js';
+import { MessageBox, ListMenu, panel, text, typeBadge, readMenuInput, wait, tween, cursor } from '../ui/ui-kit.js';
+import { promptLearnMove } from '../ui/learn-move.js';
+import { dataManager } from '../utils/data-manager.js';
+import { BATTLE_SCENE_OPTIONS } from '../common/options.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
-import { calculateExpGainedFromMonster, handleMonsterGainingExperience } from '../utils/leveling-utils.js';
-import { ITEM_CATEGORY } from '../types/typedef.js';
-import { exhaustiveGuard } from '../utils/guard.js';
-import { Ball } from '../battle/ball.js';
-import { sleep } from '../utils/time-utils.js';
-import { generateUuid } from '../utils/random.js';
-import { calculateMonsterCaptureResults } from '../utils/catch-utils.js';
-import { EnemyBattleNpc } from '../battle/enemy-battle-npc.js';
+import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
 
-const BATTLE_STATES = Object.freeze({
-  INTRO: 'INTRO',
-  PRE_BATTLE_INFO: 'PRE_BATTLE_INFO',
-  PRE_BATTLE_INFO_NPC: 'PRE_BATTLE_INFO_NPC',
-  BRING_OUT_MONSTER: 'BRING_OUT_MONSTER',
-  PLAYER_INPUT: 'PLAYER_INPUT',
-  ENEMY_INPUT: 'ENEMY_INPUT',
-  BATTLE: 'BATTLE',
-  POST_ATTACK_CHECK: 'POST_ATTACK_CHECK',
-  FINISHED: 'FINISHED',
-  FLEE_ATTEMPT: 'FLEE_ATTEMPT',
-  GAIN_EXPERIENCE: 'GAIN_EXPERIENCE',
-  SWITCH_MONSTER: 'SWITCH_MONSTER',
-  NPC_SWITCH_MONSTER: 'NPC_SWITCH_MONSTER',
-  USED_ITEM: 'USED_ITEM',
-  HEAL_ITEM_USED: 'HEAL_ITEM_USED',
-  CAPTURE_ITEM_USED: 'CAPTURE_ITEM_USED',
-  CAUGHT_MONSTER: 'CAUGHT_MONSTER',
-});
+/**
+ * @typedef TrainerBattleInfo
+ * @type {object}
+ * @property {string} id
+ * @property {string} name
+ * @property {string} [title] trainer class shown before the name
+ * @property {string} portrait texture key
+ * @property {import('../battle/engine/monster.js').Monster[]} team
+ * @property {number} prize
+ * @property {string[]} defeatText
+ * @property {number} [aiLevel]
+ * @property {boolean} [isLeader]
+ */
 
 /**
  * @typedef BattleSceneData
  * @type {object}
- * @property {import('../types/typedef.js').Monster[]} playerMonsters
- * @property {import('../types/typedef.js').Monster[]} enemyMonsters
- * @property {boolean} [isTrainerBattle=false]
- * @property {object} [npc]
- * @property {number} npc.id
- * @property {string} npc.assetKey
- * @property {string} npc.name
- * @property {string[]} npc.trainerLostMessages
+ * @property {import('../battle/engine/monster.js').Monster} [wild]
+ * @property {TrainerBattleInfo} [trainer]
+ * @property {string} [environment]
+ * @property {boolean} [canLose] story battles where losing doesn't black you out
+ * @property {string} [music]
  */
 
 /**
- * @typedef BattleSceneWasResumedData
+ * @typedef BattleResult
  * @type {object}
- * @property {boolean} wasMonsterSelected
- * @property {number} [selectedMonsterIndex]
- * @property {boolean} wasItemUsed
- * @property {import('../types/typedef.js').Item} [item]
+ * @property {'win'|'lose'|'fled'|'caught'} outcome
+ * @property {string} [trainerId]
+ * @property {boolean} [canLose]
  */
 
+const ENEMY_POS = { x: 760, y: 236 };
+const PLAYER_POS = { x: 250, y: 440 };
+const TRAINER_POS = { x: 760, y: 318 };
+const SPRITE_SCALE = 4;
+const MAIN_OPTIONS = ['FIGHT', 'BAG', 'PARTY', 'RUN'];
+
 export class BattleScene extends BaseScene {
-  /** @type {BattleMenu} */
-  #battleMenu;
-  /** @type {EnemyBattleMonster} */
-  #activeEnemyMonster;
-  /** @type {PlayerBattleMonster} */
-  #activePlayerMonster;
-  /** @type {number} */
-  #activePlayerAttackIndex;
-  /** @type {StateMachine} */
-  #battleStateMachine;
-  /** @type {AttackManager} */
-  #attackManager;
-  /** @type {boolean} */
-  #skipAnimations;
-  /** @type {number} */
-  #activeEnemyAttackIndex;
-  /** @type {BattleSceneData} */
-  #sceneData;
-  /** @type {number} */
-  #activePlayerMonsterPartyIndex;
-  /** @type {boolean} */
-  #playerKnockedOut;
-  /** @type {boolean} */
-  #switchingActiveMonster;
-  /** @type {boolean} */
-  #activeMonsterKnockedOut;
-  /** @type {Phaser.GameObjects.Container} */
-  #availableMonstersUiContainerForPlayer;
-  /** @type {boolean} */
-  #monsterCaptured;
-  /** @type {Ball} */
-  #ball;
-  /** @type {boolean} */
-  #isTrainerBattle;
-  /** @type {number} */
-  #activeEnemyMonsterPartyIndex;
-  /** @type {Phaser.GameObjects.Container | undefined } */
-  #availableMonstersUiContainerForNpc;
-  /** @type {EnemyBattleNpc | undefined} */
-  #enemyBattleNpc;
-
   constructor() {
-    super({
-      key: SCENE_KEYS.BATTLE_SCENE,
-    });
+    super({ key: SCENE_KEYS.BATTLE_SCENE });
   }
 
-  /**
-   * @param {BattleSceneData} data
-   * @returns {void}
-   */
+  /** @param {BattleSceneData} data */
   init(data) {
-    super.init(data);
-    this.#sceneData = data;
-
-    // added for testing from preload scene
-    if (Object.keys(data).length === 0) {
-      this.#sceneData = {
-        enemyMonsters: [DataUtils.getMonsterById(this, 2)],
-        playerMonsters: [...dataManager.store.get(DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY)],
-        isTrainerBattle: false,
-        npc: undefined,
-      };
-    }
-
-    this.#isTrainerBattle = this.#sceneData.isTrainerBattle || false;
-    this.#activePlayerAttackIndex = -1;
-    this.#activeEnemyAttackIndex = -1;
-    this.#activePlayerMonsterPartyIndex = 0;
-    this.#activeEnemyMonsterPartyIndex = 0;
-    this.#skipAnimations = true;
-    this.#playerKnockedOut = false;
-    this.#switchingActiveMonster = false;
-    this.#activeMonsterKnockedOut = false;
-    this.#monsterCaptured = false;
-    this.#availableMonstersUiContainerForNpc = undefined;
-    this.#enemyBattleNpc = undefined;
-
-    /** @type {import('../common/options.js').BattleSceneMenuOptions | undefined} */
-    const chosenBattleSceneOption = dataManager.store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_BATTLE_SCENE_ANIMATIONS);
-    if (chosenBattleSceneOption === undefined || chosenBattleSceneOption === BATTLE_SCENE_OPTIONS.ON) {
-      this.#skipAnimations = false;
-    }
+    super.init();
+    /** @type {BattleSceneData} */
+    this.data_ = data;
+    this.skipAnim = dataManager.state.options.battleSceneAnimations === BATTLE_SCENE_OPTIONS.OFF;
+    /** @type {null | ((input: string) => void)} */
+    this.inputHandler = null;
+    this.levelledUp = new Set();
+    this.finished = false;
   }
 
-  /**
-   * @returns {void}
-   */
   create() {
     super.create();
-
-    // create main background
-    const background = new Background(this);
-    background.showForest();
-
-    // create the player and enemy monsters
-    this.#activeEnemyMonster = new EnemyBattleMonster({
-      scene: this,
-      monsterDetails: this.#sceneData.enemyMonsters[this.#activeEnemyMonsterPartyIndex],
-      skipBattleAnimations: this.#skipAnimations,
-    });
-    // find first monster in party that is able to battle
-    const eligibleMonsterIndex = this.#sceneData.playerMonsters.findIndex((monster) => monster.currentHp > 0);
-    this.#activePlayerMonsterPartyIndex = eligibleMonsterIndex;
-    this.#activePlayerMonster = new PlayerBattleMonster({
-      scene: this,
-      monsterDetails: this.#sceneData.playerMonsters[this.#activePlayerMonsterPartyIndex],
-      skipBattleAnimations: this.#skipAnimations,
+    const d = this.data_;
+    const party = dataManager.party;
+    this.isTrainer = Boolean(d.trainer);
+    const enemyParty = this.isTrainer ? d.trainer.team : [d.wild];
+    this.battle = new Battle({
+      playerParty: party,
+      enemyParty,
+      isTrainer: this.isTrainer,
+      aiLevel: this.isTrainer ? d.trainer.aiLevel ?? 1 : 0,
     });
 
-    // create the enemy npc if trainer battle
-    if (this.#isTrainerBattle) {
-      this.#enemyBattleNpc = new EnemyBattleNpc({
-        scene: this,
-        assetKey: this.#sceneData.npc.assetKey,
-        skipBattleAnimations: this.#skipAnimations,
-      });
+    this.#createBackground(d.environment || 'grass');
+    this.enemySprite = this.add.image(ENEMY_POS.x, ENEMY_POS.y, getSpecies(this.battle.enemyActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(SPRITE_SCALE).setDepth(10);
+    this.playerSprite = this.add.image(PLAYER_POS.x, PLAYER_POS.y, getSpecies(this.battle.playerActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(SPRITE_SCALE).setFlipX(true).setDepth(11);
+    this.enemySprite.setVisible(false);
+    this.playerSprite.setVisible(false);
+    if (this.isTrainer) {
+      this.trainerSprite = this.add.image(TRAINER_POS.x, TRAINER_POS.y, d.trainer.portrait).setOrigin(0.5, 1).setScale(4).setDepth(10).setVisible(false);
     }
 
-    // render out the main info and sub info panes
-    this.#battleMenu = new BattleMenu(this, this.#activePlayerMonster, this.#skipAnimations, this.#isTrainerBattle);
-    this.#createBattleStateMachine();
-    this.#attackManager = new AttackManager(this, this.#skipAnimations);
-    this.#createAvailableMonstersUi();
-    this.#ball = new Ball({
-      scene: this,
-      assetKey: BATTLE_ASSET_KEYS.DAMAGED_BALL,
-      assetFrame: 0,
-      scale: 0.1,
-      skipBattleAnimations: this.#skipAnimations,
+    this.enemyHud = new BattleHud(this, 'enemy');
+    this.playerHud = new BattleHud(this, 'player');
+    this.messageBox = new MessageBox(this, { height: 144 });
+    this.messageBox.setText('');
+    this.#createPartyIndicators();
+
+    const music = d.music || (this.isTrainer ? (d.trainer.isLeader ? AUDIO_KEYS.MUSIC_LEADER : AUDIO_KEYS.MUSIC_TRAINER) : AUDIO_KEYS.MUSIC_WILD);
+    playBackgroundMusic(this, music);
+
+    this.#run().catch((err) => {
+      console.error('[BattleScene] battle flow crashed', err);
+      this.#finish({ outcome: 'fled' });
     });
-
-    this._controls.lockInput = true;
-
-    // add audio
-    playBackgroundMusic(this, AUDIO_ASSET_KEYS.BATTLE);
   }
 
-  /**
-   * @returns {void}
-   */
-  update() {
-    super.update();
-
-    this.#battleStateMachine.update();
-
-    if (this._controls.isInputLocked) {
+  update(time) {
+    super.update(time);
+    if (!this._controls) {
       return;
     }
-
-    const wasSpaceKeyPressed = this._controls.wasSpaceKeyPressed();
-    // limit input based on the current battle state we are in
-    // if we are not in the right battle state, return early and do not process input
-    if (
-      wasSpaceKeyPressed &&
-      (this.#battleStateMachine.currentStateName === BATTLE_STATES.PRE_BATTLE_INFO ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.PRE_BATTLE_INFO_NPC ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.POST_ATTACK_CHECK ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.GAIN_EXPERIENCE ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.SWITCH_MONSTER ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.NPC_SWITCH_MONSTER ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.CAPTURE_ITEM_USED ||
-        this.#battleStateMachine.currentStateName === BATTLE_STATES.FLEE_ATTEMPT)
-    ) {
-      this.#battleMenu.handlePlayerInput('OK');
+    const input = readMenuInput(this._controls);
+    if (!input) {
       return;
     }
-    if (this.#battleStateMachine.currentStateName !== BATTLE_STATES.PLAYER_INPUT) {
+    if (this.messageBox.isWaiting && (input === 'OK' || input === 'CANCEL')) {
+      this.messageBox.handleConfirm(true);
       return;
     }
-
-    if (wasSpaceKeyPressed) {
-      this.#battleMenu.handlePlayerInput('OK');
-
-      // check if the player used an item
-      if (this.#battleMenu.wasItemUsed) {
-        this.#battleStateMachine.setState(BATTLE_STATES.ENEMY_INPUT);
-        return;
-      }
-
-      // check if the player attempted to flee
-      if (this.#battleMenu.isAttemptingToFlee) {
-        this.#battleStateMachine.setState(BATTLE_STATES.FLEE_ATTEMPT);
-        return;
-      }
-
-      // check if the player attempted to switch monsters
-      if (this.#battleMenu.isAttemptingToSwitchMonsters) {
-        this.#battleStateMachine.setState(BATTLE_STATES.SWITCH_MONSTER);
-        return;
-      }
-
-      // check if the player selected an attack, and start battle sequence for the fight
-      if (this.#battleMenu.selectedAttack === undefined) {
-        return;
-      }
-      this.#activePlayerAttackIndex = this.#battleMenu.selectedAttack;
-
-      if (!this.#activePlayerMonster.attacks[this.#activePlayerAttackIndex]) {
-        return;
-      }
-
-      console.log(
-        `Player selected the following move: ${this.#activePlayerMonster.attacks[this.#activePlayerAttackIndex].name}`
-      );
-      this.#battleMenu.hideMonsterAttackSubMenu();
-      this.#battleStateMachine.setState(BATTLE_STATES.ENEMY_INPUT);
-      return;
-    }
-
-    if (this._controls.wasBackKeyPressed()) {
-      this.#battleMenu.handlePlayerInput('CANCEL');
-      return;
-    }
-
-    const selectedDirection = this._controls.getDirectionKeyJustPressed();
-    if (selectedDirection !== DIRECTION.NONE) {
-      this.#battleMenu.handlePlayerInput(selectedDirection);
+    if (this.inputHandler) {
+      this.inputHandler(input);
     }
   }
 
-  /**
-   * @param {() => void} callback
-   * @returns {void}
-   */
-  #playerAttack(callback) {
-    if (this.#activePlayerMonster.isFainted) {
-      callback();
-      return;
-    }
+  // ------------------------------------------------------------------------------------------
+  // scenery
+  // ------------------------------------------------------------------------------------------
 
-    this.#battleMenu.updateInfoPaneMessageNoInputRequired(
-      `${this.#activePlayerMonster.name} used ${this.#activePlayerMonster.attacks[this.#activePlayerAttackIndex].name}`,
-      () => {
-        // play attack animation based on the selected attack
-        // when attack is finished, play damage animation and then update health bar
-        this.time.delayedCall(500, () => {
-          this.time.delayedCall(100, () => {
-            playSoundFx(this, this.#activePlayerMonster.attacks[this.#activePlayerAttackIndex].audioKey);
-          });
-          this.#attackManager.playAttackAnimation(
-            this.#activePlayerMonster.attacks[this.#activePlayerAttackIndex].animationName,
-            ATTACK_TARGET.ENEMY,
-            () => {
-              this.#activeEnemyMonster.playTakeDamageAnimation(() => {
-                this.#activeEnemyMonster.takeDamage(this.#activePlayerMonster.baseAttack, () => {
-                  callback();
-                });
-              });
-            }
-          );
-        });
-      }
-    );
+  /** @param {string} env */
+  #createBackground(env) {
+    const key = `BATTLE_BG_${env.toUpperCase()}`;
+    if (this.textures.exists(key)) {
+      this.add.image(0, 0, key).setOrigin(0).setScale(4);
+    } else {
+      const g = this.add.graphics();
+      g.fillGradientStyle(0xa8d8f0, 0xa8d8f0, 0xe8f4d8, 0xe8f4d8, 1);
+      g.fillRect(0, 0, 1024, 432);
+    }
+    const g = this.add.graphics().setDepth(5);
+    // platforms the creatures stand on
+    g.fillStyle(0x000000, 0.18);
+    g.fillEllipse(ENEMY_POS.x, ENEMY_POS.y - 8, 330, 70);
+    g.fillEllipse(PLAYER_POS.x, PLAYER_POS.y - 8, 390, 80);
   }
 
-  /**
-   * @param {() => void} callback
-   * @returns {void}
-   */
-  #enemyAttack(callback) {
-    if (this.#activeEnemyMonster.isFainted) {
-      callback();
-      return;
-    }
-
-    this.#battleMenu.updateInfoPaneMessageNoInputRequired(
-      `foe ${this.#activeEnemyMonster.name} used ${
-        this.#activeEnemyMonster.attacks[this.#activeEnemyAttackIndex].name
-      }`,
-      () => {
-        // play attack animation based on the selected attack
-        // when attack is finished, play damage animation and then update health bar
-        this.time.delayedCall(500, () => {
-          this.time.delayedCall(100, () => {
-            playSoundFx(this, this.#activeEnemyMonster.attacks[this.#activeEnemyAttackIndex].audioKey);
-          });
-          this.#attackManager.playAttackAnimation(
-            this.#activeEnemyMonster.attacks[this.#activeEnemyAttackIndex].animationName,
-            ATTACK_TARGET.PLAYER,
-            () => {
-              this.#activePlayerMonster.playTakeDamageAnimation(() => {
-                this.#activePlayerMonster.takeDamage(this.#activeEnemyMonster.baseAttack, () => {
-                  callback();
-                });
-              });
-            }
-          );
-        });
+  #createPartyIndicators() {
+    /** @param {import('../battle/engine/monster.js').Monster[]} team @param {number} x @param {number} y @param {number} dir */
+    const make = (team, x, y, dir) => {
+      const c = this.add.container(x, y).setDepth(21);
+      for (let i = 0; i < 6; i += 1) {
+        const m = team[i];
+        const key = UI_KEYS.DABBA;
+        const icon = this.textures.exists(key)
+          ? this.add.image(dir * i * 36, 0, key).setScale(2)
+          : this.add.circle(dir * i * 36, 0, 12, 0xd0d0d8).setStrokeStyle(3, 0x3a3058);
+        icon.setAlpha(!m ? 0.15 : m.hp > 0 ? 1 : 0.4);
+        c.add(icon);
       }
-    );
-  }
-
-  /**
-   * @returns {void}
-   */
-  #postBattleSequenceCheck() {
-    this._controls.lockInput = true;
-
-    // update monster details in scene data and data manager to align with changes from battle
-    this.#sceneData.playerMonsters[this.#activePlayerMonsterPartyIndex].currentHp = this.#activePlayerMonster.currentHp;
-    dataManager.store.set(DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY, this.#sceneData.playerMonsters);
-    this.#sceneData.enemyMonsters[this.#activeEnemyMonsterPartyIndex].currentHp = this.#activeEnemyMonster.currentHp;
-
-    if (this.#monsterCaptured) {
-      // enemy monster was captured
-      this.#activeEnemyMonster.playDeathAnimation(() => {
-        this.#showMessagesAndWaitForInput([`You caught ${this.#activeEnemyMonster.name}.`], () => {
-          this.#battleStateMachine.setState(BATTLE_STATES.GAIN_EXPERIENCE);
-        });
-      });
-      return;
-    }
-
-    if (this.#activeEnemyMonster.isFainted) {
-      // if trainer battle, update ui to show monster fainted
-      if (this.#isTrainerBattle) {
-        /** @type {Phaser.GameObjects.Image} */
-        (this.#availableMonstersUiContainerForNpc.getAt(this.#activeEnemyMonsterPartyIndex)).setAlpha(0.4);
-      }
-
-      // play monster fainted animation and wait for animation to finish
-      this.#activeEnemyMonster.playDeathAnimation(() => {
-        const text = this.#isTrainerBattle
-          ? `${this.#activeEnemyMonster.name} has been knocked out.`
-          : `Wild ${this.#activeEnemyMonster.name} fainted.`;
-        this.#showMessagesAndWaitForInput([text], () => {
-          this.#battleStateMachine.setState(BATTLE_STATES.GAIN_EXPERIENCE);
-        });
-      });
-      return;
-    }
-
-    if (this.#activePlayerMonster.isFainted) {
-      // play monster fainted animation and wait for animation to finish
-      this.#activePlayerMonster.playDeathAnimation(() => {
-        // update ui to show monster fainted
-        /** @type {Phaser.GameObjects.Image} */
-        (this.#availableMonstersUiContainerForPlayer.getAt(this.#activePlayerMonsterPartyIndex)).setAlpha(0.4);
-
-        // check to see if we have other monsters that are able to battle
-        const hasOtherActiveMonsters = this.#sceneData.playerMonsters.some((monster) => {
-          return (
-            monster.id !== this.#sceneData.playerMonsters[this.#activePlayerMonsterPartyIndex].id &&
-            monster.currentHp > 0
-          );
-        });
-
-        // if not, player faints and battle is over
-        if (!hasOtherActiveMonsters) {
-          const text = this.#isTrainerBattle
-            ? `${this.#sceneData.npc.name} has won the battle!`
-            : 'You have no more monsters, escaping to safety...';
-
-          this.#showMessagesAndWaitForInput([`${this.#activePlayerMonster.name} fainted.`, text], () => {
-            this.#playerKnockedOut = true;
-            this.#battleStateMachine.setState(BATTLE_STATES.FINISHED);
-          });
-          return;
-        }
-
-        // we have active monsters, so show message about monster fainting and then show monster party scene
-        // so player can choose next monster
-        this.#showMessagesAndWaitForInput(
-          [`${this.#activePlayerMonster.name} fainted.`, 'Choose another monster to continue the battle.'],
-          () => {
-            this.#activeMonsterKnockedOut = true;
-            this.#battleStateMachine.setState(BATTLE_STATES.SWITCH_MONSTER);
-          }
-        );
-      });
-      return;
-    }
-
-    this.#battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
-  }
-
-  /**
-   * @returns {void}
-   */
-  #transitionToNextScene() {
-    /** @type {import('./world-scene.js').WorldSceneData} */
-    const sceneDataToPass = {
-      isPlayerKnockedOut: this.#playerKnockedOut,
+      c.setVisible(false);
+      return c;
     };
-    this.cameras.main.fadeOut(600, 0, 0, 0);
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      this.scene.start(SCENE_KEYS.WORLD_SCENE, sceneDataToPass);
-    });
+    this.playerBalls = make(dataManager.party, 980, 262, -1);
+    this.enemyBalls = this.isTrainer ? make(this.data_.trainer.team, 52, 150, 1) : null;
+  }
+
+  #refreshPartyIndicators() {
+    /** @param {Phaser.GameObjects.Container | null} c @param {import('../battle/engine/monster.js').Monster[]} team */
+    const upd = (c, team) => {
+      if (!c) {
+        return;
+      }
+      c.list.forEach((icon, i) => {
+        const m = team[i];
+        /** @type {any} */ (icon).setAlpha(!m ? 0.15 : m.hp > 0 ? 1 : 0.4);
+      });
+    };
+    upd(this.playerBalls, dataManager.party);
+    upd(this.enemyBalls, this.isTrainer ? this.data_.trainer.team : []);
+  }
+
+  // ------------------------------------------------------------------------------------------
+  // dialog helpers
+  // ------------------------------------------------------------------------------------------
+
+  /** @param {string} msg */
+  say(msg) {
+    return this.messageBox.show(msg, { wait: true });
+  }
+
+  /** @param {string} msg */
+  note(msg) {
+    return this.messageBox.show(msg, { wait: false, pause: this.skipAnim ? 250 : 550 });
   }
 
   /**
-   * @returns {void}
+   * Shows a small choice list over the bottom-right corner.
+   * @param {string[]} items
+   * @param {{cancelable?: boolean, title?: string}} [opts]
+   * @returns {Promise<number>}
    */
-  #createBattleStateMachine() {
-    /**
-     * General state flow for battle scene
-     *
-     * scene transition to the battle menu
-     * battle states
-     * intro -> setup everything that is needed
-     * pre-battle-npc -> animations as characters appear
-     * pre-battle -> animations as monsters appear
-     * monster info text renders onto the page & wait for player input
-     * any key press, and now menu stuff shows up
-     * player_turn -> choose what to do, wait for input from player
-     * enemy_turn -> random choice,
-     * battle_fight -> enemy and player options evaluated, play each attack animation
-     * battle_fight_post_check -> see if one of the characters died, repeat
-     *
-     * // TODO:FUTURE update with latest set of states
-     */
-
-    this.#battleStateMachine = new StateMachine('battle', this);
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.INTRO,
-      onEnter: () => {
-        // wait for any scene setup and transitions to complete
-        createSceneTransition(this, {
-          skipSceneTransition: this.#skipAnimations,
-          callback: () => {
-            if (this.#isTrainerBattle) {
-              this.#battleStateMachine.setState(BATTLE_STATES.PRE_BATTLE_INFO_NPC);
-              return;
-            }
-            this.#battleStateMachine.setState(BATTLE_STATES.PRE_BATTLE_INFO);
-          },
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.PRE_BATTLE_INFO_NPC,
-      onEnter: async () => {
-        // wait for enemy npc to appear on screen and notify player they want to battle
-        await this.#enemyBattleNpc.playAppearAnimation();
-
-        // wait for text animation to complete and move to next state
-        this.#showMessagesAndWaitForInput([`${this.#sceneData.npc.name} would like to battle!`], () => {
-          // hide npc as they bring out their monster
-          this.#enemyBattleNpc.hide();
-          this.#battleStateMachine.setState(BATTLE_STATES.PRE_BATTLE_INFO);
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.PRE_BATTLE_INFO,
-      onEnter: () => {
-        // wait for enemy monster to appear on the screen and notify player about the wild monster
-        this.#activeEnemyMonster.playMonsterAppearAnimation(() => {
-          // don't wait for health bar to appear, play at the same time
-          this.#activeEnemyMonster.playMonsterHealthBarAppearAnimation(() => {
-            // if this is a trainer battle show number of enemies
-            if (this.#isTrainerBattle) {
-              this.#availableMonstersUiContainerForNpc.setAlpha(1);
-            }
-          });
-
-          const text = this.#isTrainerBattle
-            ? `${this.#sceneData.npc.name} brought out ${this.#activeEnemyMonster.name}.`
-            : `wild ${this.#activeEnemyMonster.name} appeared!`;
-          this.#showMessagesAndWaitForInput([text], () => {
-            // wait for text animation to complete and move to next state
-            this.#battleStateMachine.setState(BATTLE_STATES.BRING_OUT_MONSTER);
-          });
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.BRING_OUT_MONSTER,
-      onEnter: () => {
-        // wait for player monster to appear on the screen and notify the player about monster
-        this.#activePlayerMonster.playMonsterAppearAnimation(() => {
-          this.#activePlayerMonster.playMonsterHealthBarAppearAnimation(() => {
-            this.#availableMonstersUiContainerForPlayer.setAlpha(1);
-          });
-          this.#battleMenu.updateInfoPaneMessageNoInputRequired(`go ${this.#activePlayerMonster.name}!`, () => {
-            // wait for text animation to complete and move to next state
-            this.time.delayedCall(1200, () => {
-              if (this.#switchingActiveMonster && !this.#activeMonsterKnockedOut) {
-                this.#battleStateMachine.setState(BATTLE_STATES.ENEMY_INPUT);
-                return;
-              }
-
-              this.#switchingActiveMonster = false;
-              this.#activeMonsterKnockedOut = false;
-              this.#battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
-            });
-          });
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.PLAYER_INPUT,
-      onEnter: () => {
-        this._controls.lockInput = false;
-        this.#battleMenu.showMainBattleMenu();
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.ENEMY_INPUT,
-      onEnter: () => {
-        // pick a random move for the enemy monster, and in the future implement some type of AI behavior
-        this.#activeEnemyAttackIndex = this.#activeEnemyMonster.pickRandomMove();
-        this.#battleStateMachine.setState(BATTLE_STATES.BATTLE);
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.BATTLE,
-      onEnter: () => {
-        // general battle flow
-        // show attack used, brief pause
-        // then play attack animation, brief pause
-        // then play damage animation, brief pause
-        // then play health bar animation, brief pause
-        // then repeat the steps above for the other monster
-
-        // if item was used, only have enemy attack
-        if (this.#battleMenu.wasItemUsed) {
-          this.#battleStateMachine.setState(BATTLE_STATES.USED_ITEM);
+  choose(items, opts = {}) {
+    return new Promise((resolve) => {
+      const width = Math.max(220, ...items.map((s) => s.length * 17 + 90));
+      const menu = new ListMenu(this, {
+        x: 1024 - width - 12,
+        y: 432 - (items.length * 46 + 36) - 8,
+        width,
+        items,
+        cancelable: opts.cancelable ?? true,
+        depth: 60,
+      });
+      if (opts.title) {
+        this.messageBox.setText(opts.title);
+      }
+      this.inputHandler = (input) => {
+        const r = menu.handleInput(/** @type {any} */ (input));
+        if (!r) {
           return;
         }
+        this.inputHandler = null;
+        menu.destroy();
+        resolve(r.type === 'select' ? r.index : -1);
+      };
+    });
+  }
 
-        // if player failed to flee, only have enemy attack
-        if (this.#battleMenu.isAttemptingToFlee) {
-          this.time.delayedCall(500, () => {
-            this.#enemyAttack(() => {
-              this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-            });
-          });
-          return;
+  // ------------------------------------------------------------------------------------------
+  // main flow
+  // ------------------------------------------------------------------------------------------
+
+  async #run() {
+    await this.#intro();
+    for (;;) {
+      const action = await this.#chooseAction();
+      if (!action) {
+        continue;
+      }
+      const { events, fled, caught } = this.battle.resolveTurn(action);
+      await this.#playEvents(events);
+      if (fled) {
+        playSoundFx(this, AUDIO_KEYS.SFX_RUN);
+        return this.#finish({ outcome: 'fled' });
+      }
+      if (caught) {
+        await this.#onCaught();
+        return this.#finish({ outcome: 'caught' });
+      }
+      const done = await this.#afterTurn();
+      if (done) {
+        return;
+      }
+    }
+  }
+
+  async #intro() {
+    const d = this.data_;
+    const enemy = this.battle.enemyActive;
+    dataManager.markSeen(enemy.speciesId);
+    await this.#fadeInFromBlack();
+    if (this.isTrainer) {
+      this.trainerSprite.setVisible(true).setX(1200);
+      await tween(this, { targets: this.trainerSprite, x: TRAINER_POS.x, duration: this.skipAnim ? 1 : 600, ease: 'Cubic.out' });
+      this.enemyBalls?.setVisible(true);
+      const who = d.trainer.title ? `${d.trainer.title} ${d.trainer.name}` : d.trainer.name;
+      await this.say(`${who} wants to battle!`);
+      await tween(this, { targets: this.trainerSprite, x: 1250, duration: this.skipAnim ? 1 : 450, ease: 'Cubic.in' });
+      this.trainerSprite.setVisible(false);
+      await this.#sendOut('enemy', `${d.trainer.name} sent out ${displayName(enemy)}!`);
+    } else {
+      this.enemySprite.setVisible(true).setX(1200);
+      await tween(this, { targets: this.enemySprite, x: ENEMY_POS.x, duration: this.skipAnim ? 1 : 700, ease: 'Cubic.out' });
+      this.enemyHud.bind(enemy);
+      await this.enemyHud.slideIn();
+      await this.say(`A wild ${displayName(enemy)} appeared!`);
+    }
+    await this.#sendOut('player', `Go! ${displayName(this.battle.playerActive)}!`);
+  }
+
+  #fadeInFromBlack() {
+    if (this.skipAnim) {
+      return Promise.resolve();
+    }
+    const cover = this.add.rectangle(0, 0, 1024, 576, 0x000000).setOrigin(0).setDepth(100);
+    return tween(this, { targets: cover, alpha: 0, duration: 450 }).then(() => cover.destroy());
+  }
+
+  /**
+   * @param {'player'|'enemy'} side
+   * @param {string} message
+   */
+  async #sendOut(side, message) {
+    const mon = this.battle.active(side);
+    const sprite = side === 'player' ? this.playerSprite : this.enemySprite;
+    const hud = side === 'player' ? this.playerHud : this.enemyHud;
+    const home = side === 'player' ? PLAYER_POS : ENEMY_POS;
+    dataManager.markSeen(mon.speciesId);
+    sprite.setTexture(getSpecies(mon.speciesId).assetKey).setPosition(home.x, home.y).setVisible(true).setAlpha(1);
+    const scale = SPRITE_SCALE;
+    if (side === 'player') {
+      this.playerBalls.setVisible(true);
+    }
+    this.messageBox.setText(message);
+    playSoundFx(this, AUDIO_KEYS.SFX_SEND_OUT);
+    if (!this.skipAnim) {
+      sprite.setScale(0.2).setTintFill(0xffffff);
+      await tween(this, { targets: sprite, scale, duration: 320, ease: 'Back.out' });
+      sprite.clearTint();
+    } else {
+      sprite.setScale(scale);
+    }
+    hud.bind(mon);
+    await hud.slideIn();
+    await wait(this, 350);
+  }
+
+  /** @returns {Promise<import('../battle/engine/battle-engine.js').BattleAction | null>} */
+  async #chooseAction() {
+    const mon = this.battle.playerActive;
+    for (;;) {
+      this.messageBox.setText(`What will ${displayName(mon)} do?`);
+      const choice = await this.#mainMenu();
+      if (choice === 'FIGHT') {
+        if (mon.moves.every((m) => m.pp <= 0)) {
+          await this.say(`${displayName(mon)} has no moves left!`);
+          return { kind: 'MOVE', slot: -1 };
         }
-
-        // if player switched active monster, only have enemy attack
-        if (this.#switchingActiveMonster) {
-          this.time.delayedCall(500, () => {
-            this.#enemyAttack(() => {
-              this.#switchingActiveMonster = false;
-              this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-            });
-          });
-          return;
+        const slot = await this.#moveMenu();
+        if (slot >= 0) {
+          return { kind: 'MOVE', slot };
         }
-
-        const randomNumber = Phaser.Math.Between(0, 1);
-        if (randomNumber === 0) {
-          this.#playerAttack(() => {
-            this.#enemyAttack(() => {
-              this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-            });
-          });
-          return;
-        }
-
-        this.#enemyAttack(() => {
-          this.#playerAttack(() => {
-            this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-          });
+        continue;
+      }
+      if (choice === 'BAG') {
+        const result = await this.#openSub(SCENE_KEYS.INVENTORY_SCENE, {
+          previousSceneName: SCENE_KEYS.BATTLE_SCENE,
+          mode: 'battle',
+          isTrainerBattle: this.isTrainer,
         });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.POST_ATTACK_CHECK,
-      onEnter: () => {
-        this.#postBattleSequenceCheck();
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.FINISHED,
-      onEnter: () => {
-        // update the data manager with latest monster data
-        dataManager.store.set(DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY, this.#sceneData.playerMonsters);
-        // update the data manager with the npc that was defeated
-        if (this.#isTrainerBattle && this.#sceneData.npc !== undefined && this.#sceneData.npc.id !== undefined) {
-          dataManager.addDefeatedNpc(this.#sceneData.npc.id);
+        if (!result || !result.item) {
+          continue;
         }
-        this.#transitionToNextScene();
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.FLEE_ATTEMPT,
-      onEnter: () => {
-        const randomNumber = Phaser.Math.Between(1, 10);
-        if (randomNumber > 5) {
-          // player has run away successfully
-          this.#showMessagesAndWaitForInput(['You got away safely!'], () => {
-            this.time.delayedCall(200, () => {
-              playSoundFx(this, AUDIO_ASSET_KEYS.FLEE);
-              this.#battleStateMachine.setState(BATTLE_STATES.FINISHED);
-            });
-          });
-          return;
+        if (result.item.category === 'CAPTURE') {
+          if (this.isTrainer) {
+            await this.say("You can't catch another trainer's Urumon!");
+            continue;
+          }
+          dataManager.removeItem(result.item.id, 1);
+          return { kind: 'CATCH', item: result.item };
         }
-        // player failed to run away, allow enemy to take their turn
-        this.#showMessagesAndWaitForInput(['You failed to run away...'], () => {
-          this.time.delayedCall(200, () => {
-            this.#battleStateMachine.setState(BATTLE_STATES.ENEMY_INPUT);
-          });
+        dataManager.removeItem(result.item.id, 1);
+        return { kind: 'ITEM', item: result.item, targetIndex: result.targetIndex ?? this.battle.sides.player.active };
+      }
+      if (choice === 'PARTY') {
+        const result = await this.#openSub(SCENE_KEYS.MONSTER_PARTY_SCENE, {
+          previousSceneName: SCENE_KEYS.BATTLE_SCENE,
+          mode: 'battle',
+          activeIndex: this.battle.sides.player.active,
         });
-      },
+        if (result && result.selectedIndex !== undefined && result.selectedIndex !== this.battle.sides.player.active) {
+          return { kind: 'SWITCH', index: result.selectedIndex };
+        }
+        continue;
+      }
+      if (choice === 'RUN') {
+        if (this.isTrainer) {
+          await this.say("No! There's no running from a trainer battle!");
+          continue;
+        }
+        return { kind: 'RUN' };
+      }
+    }
+  }
+
+  /** @returns {Promise<string>} */
+  #mainMenu() {
+    return new Promise((resolve) => {
+      const c = this.add.container(604, 432).setDepth(55);
+      c.add(panel(this, 0, 0, 420, 144, { radius: 12 }));
+      const pos = [
+        [60, 30],
+        [236, 30],
+        [60, 82],
+        [236, 82],
+      ];
+      MAIN_OPTIONS.forEach((label, i) => c.add(text(this, pos[i][0], pos[i][1], label, 'body')));
+      const cur = cursor(this);
+      c.add(cur);
+      let idx = this.lastMainIndex ?? 0;
+      const place = () => cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
+      place();
+      this.inputHandler = (input) => {
+        if (input === 'LEFT' || input === 'RIGHT') {
+          idx ^= 1;
+        } else if (input === 'UP' || input === 'DOWN') {
+          idx ^= 2;
+        } else if (input === 'OK') {
+          this.inputHandler = null;
+          this.lastMainIndex = idx;
+          c.destroy();
+          playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+          resolve(MAIN_OPTIONS[idx]);
+          return;
+        } else if (input === 'CANCEL') {
+          idx = 3;
+        }
+        place();
+      };
     });
+  }
 
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.GAIN_EXPERIENCE,
-      onEnter: () => {
-        // update exp bar based on experience gained, then transition to finished state
-        const gainedExpForActiveMonster = calculateExpGainedFromMonster(
-          this.#activeEnemyMonster.baseExpValue,
-          this.#activeEnemyMonster.level,
-          true
-        );
-        const gainedExpForInactiveMonster = calculateExpGainedFromMonster(
-          this.#activeEnemyMonster.baseExpValue,
-          this.#activeEnemyMonster.level,
-          false
-        );
-
-        /** @type {string[]} */
-        const messages = [];
-        let didActiveMonsterLevelUp = false;
-        this.#sceneData.playerMonsters.forEach((monster, index) => {
-          // ensure only monsters that are not knocked out gain exp
-          if (this.#sceneData.playerMonsters[index].currentHp <= 0) {
+  /** @returns {Promise<number>} slot or -1 */
+  #moveMenu() {
+    const mon = this.battle.playerActive;
+    return new Promise((resolve) => {
+      const c = this.add.container(0, 432).setDepth(55);
+      c.add(panel(this, 0, 0, 660, 144, { radius: 12 }));
+      c.add(panel(this, 660, 0, 364, 144, { radius: 12 }));
+      const pos = [
+        [60, 30],
+        [350, 30],
+        [60, 82],
+        [350, 82],
+      ];
+      for (let i = 0; i < 4; i += 1) {
+        const m = mon.moves[i];
+        c.add(text(this, pos[i][0], pos[i][1], m ? getMove(m.id).name : '-', 'body').setAlpha(m && m.pp <= 0 ? 0.5 : 1));
+      }
+      const ppText = text(this, 690, 30, '', 'body');
+      const typeLabel = text(this, 690, 84, 'TYPE/', 'small');
+      c.add([ppText, typeLabel]);
+      /** @type {Phaser.GameObjects.Container | null} */
+      let badge = null;
+      const cur = cursor(this);
+      c.add(cur);
+      let idx = Math.min(this.lastMoveIndex ?? 0, mon.moves.length - 1);
+      const place = () => {
+        cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
+        const m = mon.moves[idx];
+        const data = getMove(m.id);
+        ppText.setText(`PP  ${m.pp}/${data.pp}`).setColor(m.pp === 0 ? '#c4404a' : m.pp <= data.pp / 4 ? '#d08020' : '#2d2a3a');
+        badge?.destroy();
+        badge = typeBadge(this, 790, 82, data.type);
+        c.add(badge);
+      };
+      place();
+      this.inputHandler = (input) => {
+        const n = mon.moves.length;
+        let next = idx;
+        if (input === 'LEFT' || input === 'RIGHT') {
+          next = idx ^ 1;
+        } else if (input === 'UP' || input === 'DOWN') {
+          next = idx ^ 2;
+        } else if (input === 'OK') {
+          if (mon.moves[idx].pp <= 0) {
+            this.inputHandler = null;
+            c.setVisible(false);
+            this.say("There's no PP left for this move!").then(() => {
+              c.setVisible(true);
+              this.inputHandler = handler;
+            });
             return;
           }
-
-          /** @type {import('../utils/leveling-utils.js').StatChanges} */
-          let statChanges;
-          /** @type {string[]} */
-          const monsterMessages = [];
-          if (index === this.#activePlayerMonsterPartyIndex) {
-            statChanges = this.#activePlayerMonster.updateMonsterExp(gainedExpForActiveMonster);
-            monsterMessages.push(
-              `${this.#sceneData.playerMonsters[index].name} gained ${gainedExpForActiveMonster} exp.`
-            );
-            if (statChanges.level !== 0) {
-              didActiveMonsterLevelUp = true;
-            }
-          } else {
-            statChanges = handleMonsterGainingExperience(
-              this.#sceneData.playerMonsters[index],
-              gainedExpForInactiveMonster
-            );
-            monsterMessages.push(
-              `${this.#sceneData.playerMonsters[index].name} gained ${gainedExpForInactiveMonster} exp.`
-            );
-          }
-          if (statChanges !== undefined && statChanges.level !== 0) {
-            monsterMessages.push(
-              `${this.#sceneData.playerMonsters[index].name} level increased to ${
-                this.#sceneData.playerMonsters[index].currentLevel
-              }!`,
-              `${this.#sceneData.playerMonsters[index].name} attack increased by ${
-                statChanges.attack
-              } and health increased by ${statChanges.health}`
-            );
-          }
-
-          if (index === this.#activePlayerMonsterPartyIndex) {
-            messages.unshift(...monsterMessages);
-          } else {
-            messages.push(...monsterMessages);
-          }
-        });
-
-        this._controls.lockInput = true;
-        this.#activePlayerMonster.updateMonsterExpBar(didActiveMonsterLevelUp, false, () => {
-          this.#showMessagesAndWaitForInput(messages, () => {
-            this.time.delayedCall(200, () => {
-              if (this.#monsterCaptured) {
-                this.#battleStateMachine.setState(BATTLE_STATES.CAUGHT_MONSTER);
-                return;
-              }
-
-              /**
-               * When a monster faints, we need to give experience to the active monster.
-               * After giving experience, we need to check if there are more active monsters,
-               * and if so we need to have the npc bring out the next monster. If no more
-               * monsters, then we can go to the end of the battle.
-               */
-
-              // check to see if there are more active monsters
-              const hasOtherActiveMonsters = this.#sceneData.enemyMonsters.some((monster) => {
-                return (
-                  monster.id !== this.#sceneData.enemyMonsters[this.#activeEnemyMonsterPartyIndex].id &&
-                  monster.currentHp > 0
-                );
-              });
-
-              if (hasOtherActiveMonsters) {
-                // if npc has other monsters, we need to switch to the next monster in their party
-                this.#battleStateMachine.setState(BATTLE_STATES.NPC_SWITCH_MONSTER);
-                return;
-              }
-
-              // if npc battle have npc re-appear and show message to player
-              if (this.#isTrainerBattle) {
-                this.#activePlayerMonster.playDeathAnimation(async () => {
-                  this.#availableMonstersUiContainerForPlayer.setAlpha(0);
-                  this.#availableMonstersUiContainerForNpc.setAlpha(0);
-                  await this.#enemyBattleNpc.playAppearAnimation();
-                  this.#showMessagesAndWaitForInput(this.#sceneData.npc.trainerLostMessages, () => {
-                    this.#battleStateMachine.setState(BATTLE_STATES.FINISHED);
-                  });
-                });
-                return;
-              }
-
-              // if no more monsters, go to the end of the battle
-              this.#battleStateMachine.setState(BATTLE_STATES.FINISHED);
-            });
-          });
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.SWITCH_MONSTER,
-      onEnter: () => {
-        // check to see if the player has other monsters they can switch to
-        const hasOtherActiveMonsters = this.#sceneData.playerMonsters.some((monster) => {
-          return (
-            monster.id !== this.#sceneData.playerMonsters[this.#activePlayerMonsterPartyIndex].id &&
-            monster.currentHp > 0
-          );
-        });
-        if (!hasOtherActiveMonsters) {
-          this.#showMessagesAndWaitForInput(['You have no other monsters able to fight in your party'], () => {
-            this.#battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
-          });
+          this.inputHandler = null;
+          this.lastMoveIndex = idx;
+          c.destroy();
+          playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+          resolve(idx);
+          return;
+        } else if (input === 'CANCEL') {
+          this.inputHandler = null;
+          c.destroy();
+          resolve(-1);
           return;
         }
-
-        // otherwise, there are other available monsters to switch to, need to show ui so player can select monster
-        // pause this scene and launch the monster party scene
-        /** @type {import('./monster-party-scene.js').MonsterPartySceneData} */
-        const sceneDataToPass = {
-          previousSceneName: SCENE_KEYS.BATTLE_SCENE,
-          activeBattleMonsterPartyIndex: this.#activePlayerMonsterPartyIndex,
-          activeMonsterKnockedOut: this.#activeMonsterKnockedOut,
-        };
-        this.scene.launch(SCENE_KEYS.MONSTER_PARTY_SCENE, sceneDataToPass);
-        this.scene.pause(SCENE_KEYS.BATTLE_SCENE);
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.NPC_SWITCH_MONSTER,
-      onEnter: () => {
-        // npc has other monsters that can be switched to, for now npc will just switch to the next monster in the battle line
-        // TODO:FUTURE this could be enhanced if we wanted the npc to pick a random monster, choose one based on the monster
-        // the player has out, etc.
-        this.#activeEnemyMonsterPartyIndex += 1;
-
-        // show text about bringing out next monster
-        const nextMonster = this.#sceneData.enemyMonsters[this.#activeEnemyMonsterPartyIndex];
-        this.#showMessagesAndWaitForInput([`Foe is about to send in ${nextMonster.name}.`], () => {
-          this.#activeEnemyMonster.switchMonster(nextMonster);
-          // have monster appear, and show updated health bar
-          this.#activeEnemyMonster.playMonsterAppearAnimation(() => {
-            this.#activeEnemyMonster.playMonsterHealthBarAppearAnimation(() => {
-              // transition to player input state
-              this.#availableMonstersUiContainerForNpc.setAlpha(1);
-              this.#battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
-            });
-          });
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.USED_ITEM,
-      onEnter: () => {
-        switch (this.#battleMenu.itemUsed.category) {
-          case ITEM_CATEGORY.CAPTURE:
-            this.#battleStateMachine.setState(BATTLE_STATES.CAPTURE_ITEM_USED);
-            break;
-          case ITEM_CATEGORY.HEAL:
-            this.#battleStateMachine.setState(BATTLE_STATES.HEAL_ITEM_USED);
-            break;
-          default:
-            exhaustiveGuard(this.#battleMenu.itemUsed.category);
+        if (next < n) {
+          idx = next;
+          place();
         }
-      },
+      };
+      const handler = this.inputHandler;
     });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.HEAL_ITEM_USED,
-      onEnter: () => {
-        this.#activePlayerMonster.updateMonsterHealth(
-          /** @type {import('../types/typedef.js').Monster[]} */ (
-            dataManager.store.get(DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY)
-          )[this.#activePlayerMonsterPartyIndex].currentHp
-        );
-        this.time.delayedCall(500, () => {
-          this.#enemyAttack(() => {
-            this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-          });
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.CAPTURE_ITEM_USED,
-      onEnter: async () => {
-        // we throw the monster ball to attempt to capture the monster
-        // play ball shake animation depending on success of capture
-        // 3 shakes - caught, 2 shakes - off by 10, 1 shakes off by 30, 0 shakes off by more than 30
-        // 1. throw ball animation, 2. shake ball animation, 3. break animation if needed, 4. monster re-appear if needed
-
-        const captureResults = calculateMonsterCaptureResults(this.#activeEnemyMonster);
-        const diffInCapture = captureResults.requiredCaptureValue - captureResults.actualCaptureValue;
-        let numberOfShakes = 0;
-        if (diffInCapture <= 10) {
-          numberOfShakes = 2;
-        } else if (diffInCapture <= 30) {
-          numberOfShakes = 1;
-        }
-        if (captureResults.wasCaptured) {
-          numberOfShakes = 3;
-        }
-
-        await this.#ball.playThrowBallAnimation();
-        await this.#activeEnemyMonster.playCatchAnimation();
-        if (numberOfShakes > 0) {
-          await this.#ball.playShakeBallAnimation(numberOfShakes - 1);
-        } else {
-          await this.#ball.playShakeBallAnimation(0);
-        }
-
-        if (captureResults.wasCaptured) {
-          this.#monsterCaptured = true;
-          this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-          return;
-        }
-
-        await sleep(500, this);
-        this.#ball.hide();
-        await this.#activeEnemyMonster.playCatchAnimationFailed();
-
-        // TODO: refactor to use async/await
-        this.#showMessagesAndWaitForInput(['The wild monster breaks free!'], () => {
-          this.time.delayedCall(500, () => {
-            this.#enemyAttack(() => {
-              this.#battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
-            });
-          });
-        });
-      },
-    });
-
-    this.#battleStateMachine.addState({
-      name: BATTLE_STATES.CAUGHT_MONSTER,
-      onEnter: () => {
-        // add monster to the players party
-        /** @type {import('../types/typedef.js').Monster} */
-        const updatedMonster = {
-          ...this.#sceneData.enemyMonsters[0],
-          id: generateUuid(),
-          currentHp: this.#activeEnemyMonster.currentHp,
-        };
-        this.#sceneData.playerMonsters.push(updatedMonster);
-
-        this.#battleStateMachine.setState(BATTLE_STATES.FINISHED);
-      },
-    });
-
-    // start state machine
-    this.#battleStateMachine.setState(BATTLE_STATES.INTRO);
   }
 
   /**
-   * @param {Phaser.Scenes.Systems} sys
-   * @param {BattleSceneWasResumedData | undefined} [data]
-   * @returns {void}
+   * Launches a menu scene over this one and resolves with whatever it passes back on resume.
+   * @param {string} key
+   * @param {object} data
+   * @returns {Promise<any>}
    */
-  handleSceneResume(sys, data) {
-    super.handleSceneResume(sys, data);
+  #openSub(key, data) {
+    return new Promise((resolve) => {
+      this.events.once(Phaser.Scenes.Events.RESUME, (sys, resumeData) => resolve(resumeData));
+      this.scene.launch(key, data);
+      this.scene.pause();
+    });
+  }
 
-    if (!data || !data.wasMonsterSelected || data.selectedMonsterIndex === undefined) {
-      this.#battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
+  // ------------------------------------------------------------------------------------------
+  // event playback
+  // ------------------------------------------------------------------------------------------
+
+  /** @param {import('../battle/engine/battle-engine.js').BattleEvent[]} events */
+  async #playEvents(events) {
+    for (const e of events) {
+      const sprite = e.side === 'player' ? this.playerSprite : this.enemySprite;
+      const hud = e.side === 'player' ? this.playerHud : this.enemyHud;
+      switch (e.type) {
+        case 'MESSAGE':
+        case 'MISS':
+          await this.note(e.text);
+          break;
+        case 'MOVE_USED': {
+          this.messageBox.setText(e.text);
+          await wait(this, this.skipAnim ? 200 : 400);
+          const move = e.moveId === 0 ? { type: 'NORMAL', category: 'PHYSICAL', effect: null } : getMove(e.moveId);
+          const attacker = e.side === 'player' ? this.playerSprite : this.enemySprite;
+          const target = e.side === 'player' ? this.enemySprite : this.playerSprite;
+          await playMoveFx(this, { attacker, target, move: /** @type {any} */ (move), side: e.side, skip: this.skipAnim });
+          break;
+        }
+        case 'DAMAGE':
+          playSoundFx(this, e.effectiveness > 1 ? AUDIO_KEYS.SFX_HIT_SUPER : e.effectiveness < 1 ? AUDIO_KEYS.SFX_HIT_WEAK : AUDIO_KEYS.SFX_HIT);
+          if (!this.skipAnim) {
+            await shakeAndBlink(this, sprite);
+          }
+          await hud.animateHp(e.hp, e.maxHp);
+          break;
+        case 'HEAL':
+          playSoundFx(this, AUDIO_KEYS.SFX_HEAL);
+          await hud.animateHp(e.hp, e.maxHp);
+          break;
+        case 'STATUS':
+          hud.setStatus(e.status);
+          if (!this.skipAnim) {
+            await statusFx(this, sprite, e.status);
+          }
+          break;
+        case 'STATUS_CURED':
+          hud.setStatus(null);
+          break;
+        case 'STAT_CHANGE':
+          if (!this.skipAnim) {
+            await statChangeFx(this, sprite, e.amount);
+          }
+          await this.note(e.text);
+          break;
+        case 'FAINT':
+          playSoundFx(this, AUDIO_KEYS.SFX_FAINT);
+          hud.setStatus('FNT');
+          await tween(this, { targets: sprite, y: sprite.y + 120, alpha: 0, duration: this.skipAnim ? 1 : 600, ease: 'Quad.in' });
+          sprite.setVisible(false);
+          hud.hide();
+          this.#refreshPartyIndicators();
+          await this.say(e.text);
+          break;
+        case 'SWITCH_IN':
+          if (e.side === 'player') {
+            await tween(this, { targets: this.playerSprite, x: -200, duration: this.skipAnim ? 1 : 300 });
+            this.playerHud.hide();
+            await this.#sendOut('player', e.text);
+          } else {
+            await this.#sendOut('enemy', e.text);
+          }
+          break;
+        case 'CATCH':
+          await this.#playCatch(e.shakes, e.success);
+          await this.say(e.text);
+          break;
+        case 'RUN':
+          await this.say(e.text);
+          break;
+        default:
+          break;
+      }
+    }
+    this.#refreshPartyIndicators();
+  }
+
+  /**
+   * @param {number} shakes
+   * @param {boolean} success
+   */
+  async #playCatch(shakes, success) {
+    playSoundFx(this, AUDIO_KEYS.SFX_THROW);
+    const key = UI_KEYS.DABBA;
+    const dabba = this.textures.exists(key)
+      ? this.add.image(PLAYER_POS.x, PLAYER_POS.y - 160, key).setScale(4).setDepth(40)
+      : this.add.circle(PLAYER_POS.x, PLAYER_POS.y - 160, 22, 0xd8d8e0).setStrokeStyle(4, 0x3a3058).setDepth(40);
+    const target = { x: ENEMY_POS.x, y: ENEMY_POS.y - 90 };
+    await new Promise((resolve) => {
+      this.tweens.addCounter({
+        from: 0,
+        to: 1,
+        duration: this.skipAnim ? 1 : 650,
+        onUpdate: (tw) => {
+          const t = tw.getValue();
+          dabba.setPosition(PLAYER_POS.x + (target.x - PLAYER_POS.x) * t, PLAYER_POS.y - 160 + (target.y - (PLAYER_POS.y - 160)) * t - Math.sin(Math.PI * t) * 220);
+          dabba.setAngle(t * 720);
+        },
+        onComplete: resolve,
+      });
+    });
+    dabba.setAngle(0);
+    this.enemySprite.setTintFill(0xffffff);
+    await tween(this, { targets: this.enemySprite, scale: 0.1, alpha: 0, duration: this.skipAnim ? 1 : 350 });
+    await tween(this, { targets: dabba, y: ENEMY_POS.y - 20, duration: this.skipAnim ? 1 : 300, ease: 'Bounce.out' });
+    for (let i = 0; i < shakes; i += 1) {
+      await wait(this, 350);
+      playSoundFx(this, AUDIO_KEYS.SFX_SHAKE);
+      await tween(this, { targets: dabba, angle: 18, duration: this.skipAnim ? 1 : 110, yoyo: true, repeat: 1 });
+    }
+    await wait(this, 300);
+    if (success) {
+      playSoundFx(this, AUDIO_KEYS.SFX_CATCH);
+      dabba.setTint?.(0xb0b0b0);
+      for (let i = 0; i < 6; i += 1) {
+        const star = this.add.star(dabba.x, dabba.y - 10, 5, 6, 14, 0xfff0a0).setDepth(41);
+        this.tweens.add({ targets: star, x: dabba.x + Math.cos(i) * 90, y: dabba.y - 60 - Math.sin(i) * 40, alpha: 0, duration: 600, onComplete: () => star.destroy() });
+      }
+      await wait(this, 500);
+      this.caughtDabba = dabba;
       return;
     }
-
-    this._controls.lockInput = true;
-    this.#switchingActiveMonster = true;
-
-    // if monster was selected, then we need to play animation for switching monsters and let enemy monster attack
-    // if previous monster was not knocked out
-    this.#activePlayerMonster.playDeathAnimation(() => {
-      this.#activePlayerMonsterPartyIndex = data.selectedMonsterIndex;
-      this.#activePlayerMonster.switchMonster(this.#sceneData.playerMonsters[data.selectedMonsterIndex]);
-      this.#battleMenu.updateMonsterAttackSubMenu();
-      this._controls.lockInput = false;
-      this.#battleStateMachine.setState(BATTLE_STATES.BRING_OUT_MONSTER);
-    });
+    dabba.destroy();
+    this.enemySprite.clearTint().setAlpha(1);
+    await tween(this, { targets: this.enemySprite, scale: SPRITE_SCALE, duration: this.skipAnim ? 1 : 250, ease: 'Back.out' });
   }
 
-  /**
-   * Creates the UI component that shows the ball icons that represent the available monsters in the
-   * players current party. A transparent ball means a monster is knocked out, while a non-transparent
-   * ball means the monster is eligible to battle.
-   *
-   * Updated to support showing ball icons that represent the available monsters in the npc party as well.
-   * @returns {void}
-   */
-  #createAvailableMonstersUi() {
-    this.#availableMonstersUiContainerForPlayer = this.add.container(this.scale.width - 24, 304, []);
-    this.#sceneData.playerMonsters.forEach((monster, index) => {
-      const alpha = monster.currentHp > 0 ? 1 : 0.4;
-      const ball = this.add
-        .image(30 * -index, 0, BATTLE_ASSET_KEYS.BALL_THUMBNAIL, 0)
-        .setScale(0.8)
-        .setAlpha(alpha);
-      this.#availableMonstersUiContainerForPlayer.add(ball);
-    });
-    this.#availableMonstersUiContainerForPlayer.setAlpha(0);
+  // ------------------------------------------------------------------------------------------
+  // outcomes
+  // ------------------------------------------------------------------------------------------
 
-    // add logic to show available enemy monsters during trainer battles
-    if (this.#isTrainerBattle) {
-      this.#availableMonstersUiContainerForNpc = this.add.container(24, 116, []);
-      this.#sceneData.enemyMonsters.forEach((monster, index) => {
-        const alpha = monster.currentHp > 0 ? 1 : 0.4;
-        const ball = this.add
-          .image(30 * index, 0, BATTLE_ASSET_KEYS.BALL_THUMBNAIL, 0)
-          .setScale(0.8)
-          .setAlpha(alpha);
-        this.#availableMonstersUiContainerForNpc.add(ball);
+  /** @returns {Promise<boolean>} true when the battle is over */
+  async #afterTurn() {
+    const enemy = this.battle.enemyActive;
+    if (enemy.hp <= 0) {
+      await this.#awardExp(enemy);
+      if (this.isTrainer && this.battle.nextEnemyIndex() >= 0) {
+        const next = this.data_.trainer.team[this.battle.nextEnemyIndex()];
+        await this.say(`${this.data_.trainer.name} is about to send in ${displayName(next)}.`);
+        await this.#playEvents(this.battle.sendNextEnemy());
+      } else {
+        await this.#onWin();
+        return true;
+      }
+    }
+    if (this.battle.playerActive.hp <= 0) {
+      if (!this.battle.hasUsableMonsters('player')) {
+        await this.#onLose();
+        return true;
+      }
+      const idx = await this.#forceSwitch();
+      await this.#playEvents(this.battle.replacePlayerMonster(idx));
+    }
+    return false;
+  }
+
+  /** @returns {Promise<number>} */
+  async #forceSwitch() {
+    for (;;) {
+      const result = await this.#openSub(SCENE_KEYS.MONSTER_PARTY_SCENE, {
+        previousSceneName: SCENE_KEYS.BATTLE_SCENE,
+        mode: 'battle-forced',
+        activeIndex: this.battle.sides.player.active,
       });
-      this.#availableMonstersUiContainerForNpc.setAlpha(0);
+      if (result && result.selectedIndex !== undefined && dataManager.party[result.selectedIndex]?.hp > 0) {
+        return result.selectedIndex;
+      }
+    }
+  }
+
+  /** @param {import('../battle/engine/monster.js').Monster} enemy */
+  async #awardExp(enemy) {
+    const base = expYield(enemy, this.isTrainer);
+    const shares = this.battle.expShares(base);
+    const ctx = { say: (m) => this.say(m), choose: (items, opts) => this.choose(items, opts) };
+    for (const { index, amount } of shares) {
+      const mon = dataManager.party[index];
+      const isActive = index === this.battle.sides.player.active;
+      await this.say(`${displayName(mon)} gained ${amount} EXP. Points!`);
+      const result = gainExp(mon, amount);
+      if (isActive) {
+        if (result.toLevel > result.fromLevel) {
+          await this.playerHud.expMeter.animateTo(1, 500);
+          this.playerHud.expMeter.set(0);
+        }
+        await this.playerHud.expMeter.animateTo(this.playerHud.expRatio(mon), 500);
+      }
+      if (result.toLevel > result.fromLevel) {
+        this.levelledUp.add(mon.uid);
+        playSoundFx(this, AUDIO_KEYS.SFX_LEVEL_UP);
+        if (isActive) {
+          this.playerHud.bind(mon);
+        }
+        await this.say(`${displayName(mon)} grew to Lv. ${mon.level}!`);
+        const a = result.before;
+        const b = result.after;
+        await this.say(`HP +${b.hp - a.hp}  ATK +${b.atk - a.atk}  DEF +${b.def - a.def}  SPC +${b.spc - a.spc}  SPD +${b.spd - a.spd}`);
+        for (const moveId of result.learned) {
+          await this.say(`${displayName(mon)} learned ${getMove(moveId).name}!`);
+        }
+        for (const moveId of result.pendingMoves) {
+          await promptLearnMove(ctx, mon, moveId);
+        }
+      }
+    }
+  }
+
+  async #onWin() {
+    playBackgroundMusic(this, AUDIO_KEYS.MUSIC_VICTORY);
+    if (this.isTrainer) {
+      const t = this.data_.trainer;
+      this.trainerSprite.setVisible(true).setX(1200).setAlpha(1);
+      await tween(this, { targets: this.trainerSprite, x: TRAINER_POS.x, duration: this.skipAnim ? 1 : 500, ease: 'Cubic.out' });
+      await this.say(`You defeated ${t.title ? `${t.title} ${t.name}` : t.name}!`);
+      for (const line of t.defeatText || []) {
+        await this.say(line);
+      }
+      if (t.prize > 0) {
+        dataManager.addMoney(t.prize);
+        await this.say(`${dataManager.state.player.name} got ₹${t.prize} for winning!`);
+      }
+    }
+    await this.#evolutions();
+    this.#finish({ outcome: 'win', trainerId: this.data_.trainer?.id });
+  }
+
+  async #onLose() {
+    const name = dataManager.state.player.name;
+    if (this.data_.canLose) {
+      await this.say(`${name}'s team has no Urumon left that can fight...`);
+      this.#finish({ outcome: 'lose', trainerId: this.data_.trainer?.id, canLose: true });
+      return;
+    }
+    await this.say(`${name} is out of usable Urumon!`);
+    const lost = Math.floor(dataManager.money / 2);
+    if (lost > 0) {
+      dataManager.addMoney(-lost);
+      await this.say(`${name} panicked and dropped ₹${lost}...`);
+    }
+    await this.say(`... ... ${name} blacked out!`);
+    this.#finish({ outcome: 'lose', trainerId: this.data_.trainer?.id });
+  }
+
+  async #onCaught() {
+    const caughtMon = this.battle.enemyActive;
+    const sp = getSpecies(caughtMon.speciesId);
+    const firstTime = !dataManager.state.pustaka.caught.includes(sp.id);
+    caughtMon.uid = generateUid();
+    caughtMon.status = caughtMon.status || null;
+    const where = dataManager.addMonster(caughtMon);
+    if (firstTime) {
+      await this.say(`${sp.name}'s data was added to the Uru-Pustaka.`);
+    }
+    if (where === 'box') {
+      await this.say(`Your party is full, so ${sp.name} was sent to the Namma Cloud.`);
+    }
+    await this.#evolutions();
+  }
+
+  /** Evolve any party member that levelled up this battle and reached its evolution level. */
+  async #evolutions() {
+    for (const mon of dataManager.party) {
+      if (!this.levelledUp.has(mon.uid) || mon.hp <= 0) {
+        continue;
+      }
+      const into = pendingEvolution(mon);
+      if (into === null) {
+        continue;
+      }
+      await this.#evolveSequence(mon, into);
     }
   }
 
   /**
-   * Wrapper for the battle menu method to show messages to the player were we
-   * want to wait until the player has confirmed they have read the message. The
-   * wrapper will handle locking and unlocking our input so player can interact
-   * with the dialog window.
-   * @param {string[]} messages array of messages to show the player
-   * @param {() => void} callback function to invoke after all messages have been shown to the player and confirmed
+   * @param {import('../battle/engine/monster.js').Monster} mon
+   * @param {number} into
    */
-  #showMessagesAndWaitForInput(messages, callback) {
-    this._controls.lockInput = false;
-    this.#battleMenu.updateInfoPaneMessagesAndWaitForInput(messages, () => {
-      this._controls.lockInput = true;
-      callback();
+  async #evolveSequence(mon, into) {
+    const oldName = displayName(mon);
+    const cover = this.add.rectangle(0, 0, 1024, 432, 0x1c1430).setOrigin(0).setDepth(70);
+    const fromKey = getSpecies(mon.speciesId).assetKey;
+    const toKey = getSpecies(into).assetKey;
+    const sprite = this.add.image(512, 330, fromKey).setOrigin(0.5, 1).setScale(4).setDepth(71);
+    playBackgroundMusic(this, AUDIO_KEYS.MUSIC_EVOLUTION);
+    await this.say(`What? ${oldName} is evolving!`);
+    let cancelled = false;
+    this.inputHandler = (input) => {
+      if (input === 'CANCEL') {
+        cancelled = true;
+      }
+    };
+    for (let i = 0; i < 10 && !cancelled; i += 1) {
+      const dur = Math.max(70, 260 - i * 22);
+      sprite.setTexture(i % 2 ? toKey : fromKey).setTintFill(0xffffff);
+      await tween(this, { targets: sprite, scaleX: 3.4, duration: dur, yoyo: true });
+    }
+    this.inputHandler = null;
+    if (cancelled) {
+      sprite.setTexture(fromKey).clearTint().setScale(4);
+      await this.say(`Huh? ${oldName} stopped evolving!`);
+    } else {
+      const flash = this.add.rectangle(0, 0, 1024, 432, 0xffffff).setOrigin(0).setDepth(72);
+      await tween(this, { targets: flash, alpha: 0, duration: 600 });
+      flash.destroy();
+      sprite.setTexture(toKey).clearTint().setScale(4);
+      const learnedNow = evolve(mon, into);
+      dataManager.markCaught(into);
+      playSoundFx(this, AUDIO_KEYS.SFX_LEVEL_UP);
+      await this.say(`Congratulations! Your ${oldName} evolved into ${getSpecies(into).name}!`);
+      const ctx = { say: (m) => this.say(m), choose: (items, opts) => this.choose(items, opts) };
+      for (const moveId of learnedNow.learned) {
+        await this.say(`${displayName(mon)} learned ${getMove(moveId).name}!`);
+      }
+      for (const moveId of learnedNow.pendingMoves) {
+        await promptLearnMove(ctx, mon, moveId);
+      }
+    }
+    sprite.destroy();
+    cover.destroy();
+  }
+
+  /** @param {BattleResult} result */
+  #finish(result) {
+    if (this.finished) {
+      return;
+    }
+    this.finished = true;
+    // statuses persist but battle-only state does not; fainted monsters stay fainted
+    dataManager.party.forEach((m) => {
+      if (m.hp > getMaxHp(m)) {
+        m.hp = getMaxHp(m);
+      }
+    });
+    this.inputHandler = null;
+    this.cameras.main.fadeOut(this.skipAnim ? 100 : 500, 0, 0, 0);
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      this.game.events.emit('battle-finished', result);
+      this.scene.stop();
     });
   }
 }

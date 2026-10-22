@@ -1,27 +1,28 @@
-import { CHARACTER_ASSET_KEYS } from '../../assets/asset-keys.js';
 import { DIRECTION } from '../../common/direction.js';
-import { exhaustiveGuard } from '../../utils/guard.js';
 import { Character } from './character.js';
 import { getTargetPositionFromGameObjectPositionAndDirection } from '../../utils/grid-utils.js';
-import { TILE_SIZE } from '../../config.js';
+
+/** Standard idle frames for CHAR_* sheets (row * 3). */
+export const IDLE_FRAMES = Object.freeze({ DOWN: 0, UP: 3, LEFT: 6, RIGHT: 9, NONE: 0 });
 
 /**
  * @typedef PlayerConfigProps
  * @type {object}
+ * @property {string} assetKey CHAR_* spritesheet
  * @property {Phaser.Tilemaps.TilemapLayer} collisionLayer
- * @property {Phaser.Tilemaps.ObjectLayer} [entranceLayer]
- * @property {(entranceName: string, entranceId: string, isBuildingEntrance: boolean) => void} enterEntranceCallback
+ * @property {(target: {x: number, y: number}) => void} [bumpCallback] called when the player walks into something blocking
  */
 
 /**
- * @typedef {Omit<import('./character').CharacterConfig, 'assetKey' | 'idleFrameConfig'> & PlayerConfigProps} PlayerConfig
+ * @typedef {Omit<import('./character').CharacterConfig, 'idleFrameConfig'> & PlayerConfigProps} PlayerConfig
  */
 
 export class Player extends Character {
-  /** @type {Phaser.Tilemaps.ObjectLayer | undefined} */
-  #entranceLayer;
-  /** @type {(entranceName: string, entranceId: string, isBuildingEntrance: boolean) => void} */
-  #enterEntranceCallback;
+  /** @type {(target: {x: number, y: number}) => void} */
+  #bumpCallback;
+  /** @type {string} */
+  #assetKey;
+  #lastBump = 0;
 
   /**
    * @param {PlayerConfig} config
@@ -29,71 +30,49 @@ export class Player extends Character {
   constructor(config) {
     super({
       ...config,
-      assetKey: CHARACTER_ASSET_KEYS.PLAYER,
-      origin: { x: 0, y: 0.2 },
-      idleFrameConfig: {
-        DOWN: 7,
-        UP: 1,
-        NONE: 7,
-        LEFT: 10,
-        RIGHT: 4,
-      },
+      origin: { x: 0, y: 1 / 3 },
+      idleFrameConfig: IDLE_FRAMES,
     });
-    this.#entranceLayer = config.entranceLayer;
-    this.#enterEntranceCallback = config.enterEntranceCallback;
+    this.#assetKey = config.assetKey;
+    this.#bumpCallback = config.bumpCallback;
   }
 
   /**
    * @param {import('../../common/direction.js').Direction} direction
    * @param {boolean} [isRunning=false]
-   * @returns {void}
    */
   moveCharacter(direction, isRunning = false) {
+    if (this._isMoving || direction === DIRECTION.NONE) {
+      return;
+    }
     super.moveCharacter(direction, isRunning);
 
-    switch (this._direction) {
-      case DIRECTION.DOWN:
-      case DIRECTION.LEFT:
-      case DIRECTION.RIGHT:
-      case DIRECTION.UP:
-        if (
-          !this._phaserGameObject.anims.isPlaying ||
-          this._phaserGameObject.anims.currentAnim?.key !== `PLAYER_${this._direction}`
-        ) {
-          this._phaserGameObject.play(`PLAYER_${this._direction}`);
-        }
-        this._phaserGameObject.anims.timeScale = this._isRunning ? 2 : 1;
-        break;
-      case DIRECTION.NONE:
-        break;
-      default:
-        // We should never reach this default case
-        exhaustiveGuard(this._direction);
-    }
-
-    // validate character is not moving and that the target position belongs to an entrance
-    if (!this._isMoving && this.#entranceLayer !== undefined) {
-      const targetPosition = getTargetPositionFromGameObjectPositionAndDirection(
-        { x: this._phaserGameObject.x, y: this._phaserGameObject.y },
-        this._direction
-      );
-      const nearbyEntrance = this.#entranceLayer.objects.find((object) => {
-        if (!object.x || !object.y) {
-          return false;
-        }
-        return object.x === targetPosition.x && object.y - TILE_SIZE === targetPosition.y;
-      });
-
-      if (!nearbyEntrance) {
-        return;
+    const key = `${this.#assetKey}_${this._direction}`;
+    if (this._isMoving) {
+      if (!this._phaserGameObject.anims.isPlaying || this._phaserGameObject.anims.currentAnim?.key !== key) {
+        this._phaserGameObject.play(key);
       }
-
-      // entrance is nearby and the player is trying to enter that location
-      const entranceName = nearbyEntrance.properties.find((property) => property.name === 'connects_to').value;
-      const entranceId = nearbyEntrance.properties.find((property) => property.name === 'entrance_id').value;
-      const isBuildingEntrance =
-        nearbyEntrance.properties.find((property) => property.name === 'is_building')?.value || false;
-      this.#enterEntranceCallback(entranceName, entranceId, isBuildingEntrance);
+      this._phaserGameObject.anims.timeScale = this._isRunning ? 1.8 : 1;
+      return;
     }
+
+    // blocked: face the way we tried to go and report what we bumped into
+    this._phaserGameObject.anims.stop();
+    this._phaserGameObject.setFrame(IDLE_FRAMES[this._direction]);
+    const target = getTargetPositionFromGameObjectPositionAndDirection(
+      { x: this._phaserGameObject.x, y: this._phaserGameObject.y },
+      this._direction
+    );
+    const now = this._scene.time.now;
+    if (now - this.#lastBump > 120) {
+      this.#lastBump = now;
+      this.#bumpCallback?.(target);
+    }
+  }
+
+  /** @param {string} assetKey */
+  setAppearance(assetKey) {
+    this.#assetKey = assetKey;
+    this._phaserGameObject.setTexture(assetKey, IDLE_FRAMES[this._direction]);
   }
 }

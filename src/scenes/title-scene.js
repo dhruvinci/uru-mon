@@ -1,332 +1,138 @@
-import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
-import { AUDIO_ASSET_KEYS, EXTERNAL_LINKS_ASSET_KEYS, TITLE_ASSET_KEYS, UI_ASSET_KEYS } from '../assets/asset-keys.js';
-import { KENNEY_FUTURE_NARROW_FONT_NAME } from '../assets/font-keys.js';
-import { DIRECTION } from '../common/direction.js';
-import { exhaustiveGuard } from '../utils/guard.js';
-import { NineSlice } from '../utils/nine-slice.js';
-import { DATA_MANAGER_STORE_KEYS, dataManager } from '../utils/data-manager.js';
-import { SHOW_SOCIAL_LINKS } from '../config.js';
 import { BaseScene } from './base-scene.js';
-import { playBackgroundMusic } from '../utils/audio-utils.js';
-
-/** @type {Phaser.Types.GameObjects.Text.TextStyle} */
-const MENU_TEXT_STYLE = Object.freeze({
-  fontFamily: KENNEY_FUTURE_NARROW_FONT_NAME,
-  color: '#4D4A49',
-  fontSize: '30px',
-});
-
-const PLAYER_INPUT_CURSOR_POSITION = Object.freeze({
-  x: 150,
-  y: 41,
-});
-
-/**
- * @typedef {keyof typeof MAIN_MENU_OPTIONS} MainMenuOptions
- */
-
-/** @enum {MainMenuOptions} */
-const MAIN_MENU_OPTIONS = Object.freeze({
-  NEW_GAME: 'NEW_GAME',
-  CONTINUE: 'CONTINUE',
-  OPTIONS: 'OPTIONS',
-});
+import { dataManager } from '../utils/data-manager.js';
+import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
+import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
+import { FONT, ListMenu, readMenuInput, text } from '../ui/ui-kit.js';
+import { allSpecies } from '../battle/engine/monster.js';
 
 export class TitleScene extends BaseScene {
-  /** @type {Phaser.GameObjects.Image} */
-  #mainMenuCursorPhaserImageGameObject;
-  /** @type {MainMenuOptions} */
-  #selectedMenuOption;
-  /** @type {boolean} */
-  #isContinueButtonEnabled;
-  /** @type {NineSlice} */
-  #nineSliceMenu;
-
   constructor() {
     super({ key: SCENE_KEYS.TITLE_SCENE });
   }
 
-  /**
-   * @returns {void}
-   */
   init() {
     super.init();
-
-    this.#nineSliceMenu = new NineSlice({
-      cornerCutSize: 32,
-      textureManager: this.sys.textures,
-      assetKeys: [UI_ASSET_KEYS.MENU_BACKGROUND],
-    });
+    this.stage = 'press';
+    /** @type {ListMenu | null} */
+    this.menu = null;
   }
 
-  /**
-   * @returns {void}
-   */
   create() {
     super.create();
-
-    this.#selectedMenuOption = MAIN_MENU_OPTIONS.NEW_GAME;
-    this.#isContinueButtonEnabled = dataManager.store.get(DATA_MANAGER_STORE_KEYS.GAME_STARTED) || false;
-
-    // create title scene background
-    this.add.image(0, 0, TITLE_ASSET_KEYS.BACKGROUND).setOrigin(0).setScale(0.58);
-    this.add
-      .image(this.scale.width / 2, 150, TITLE_ASSET_KEYS.PANEL)
-      .setScale(0.25, 0.25)
-      .setAlpha(0.5);
-    this.add
-      .image(this.scale.width / 2, 150, TITLE_ASSET_KEYS.TITLE)
-      .setScale(0.55)
-      .setAlpha(0.5);
-
-    // create menu
-    const menuBgWidth = 500;
-    const menuBgContainer = this.#nineSliceMenu.createNineSliceContainer(
-      this,
-      menuBgWidth,
-      200,
-      UI_ASSET_KEYS.MENU_BACKGROUND
-    );
-    const newGameText = this.add.text(menuBgWidth / 2, 40, 'New Game', MENU_TEXT_STYLE).setOrigin(0.5);
-    const continueText = this.add.text(menuBgWidth / 2, 90, 'Continue', MENU_TEXT_STYLE).setOrigin(0.5);
-    if (!this.#isContinueButtonEnabled) {
-      continueText.setAlpha(0.5);
+    const { width, height } = this.scale;
+    if (this.textures.exists(UI_KEYS.TITLE_BG)) {
+      const bg = this.add.image(width / 2, height / 2, UI_KEYS.TITLE_BG);
+      bg.setScale(Math.max(width / bg.width, height / bg.height));
+    } else {
+      const g = this.add.graphics();
+      g.fillGradientStyle(0x2b1d5a, 0x2b1d5a, 0xe87a5a, 0xf2b46a, 1);
+      g.fillRect(0, 0, width, height);
     }
-    const optionText = this.add.text(menuBgWidth / 2, 140, 'Options', MENU_TEXT_STYLE).setOrigin(0.5);
-    const menuContainer = this.add.container(0, 0, [menuBgContainer, newGameText, continueText, optionText]);
-    menuContainer.setPosition(this.scale.width / 2 - menuBgWidth / 2, 300);
+    this.add.rectangle(0, 0, width, height, 0x120a26, 0.25).setOrigin(0);
 
-    // create cursors
-    this.#mainMenuCursorPhaserImageGameObject = this.add
-      .image(PLAYER_INPUT_CURSOR_POSITION.x, PLAYER_INPUT_CURSOR_POSITION.y, UI_ASSET_KEYS.CURSOR)
+    // a parade of creatures along the bottom
+    const species = allSpecies().filter((s) => s.id <= 63 && this.textures.exists(s.assetKey));
+    this.parade = this.add.container(0, 0);
+    for (let i = 0; i < 9 && species.length; i += 1) {
+      const sp = species[(i * 7 + 3) % species.length];
+      const img = this.add.image(-200 - i * 190, height - 18, sp.assetKey).setOrigin(0.5, 1).setScale(2.2);
+      this.parade.add(img);
+      this.tweens.add({ targets: img, y: height - 30, duration: 260, yoyo: true, repeat: -1, delay: i * 90 });
+    }
+
+    if (this.textures.exists(UI_KEYS.TITLE_LOGO)) {
+      const logo = this.add.image(width / 2, 150, UI_KEYS.TITLE_LOGO).setOrigin(0.5);
+      logo.setScale(Math.min(700 / logo.width, 220 / logo.height));
+      this.logo = logo;
+    } else {
+      this.logo = this.add
+        .text(width / 2, 140, 'uru-mon', { fontFamily: FONT, fontSize: '128px', color: '#fff4d6', fontStyle: 'bold' })
+        .setOrigin(0.5)
+        .setStroke('#3a1f5c', 18)
+        .setShadow(8, 8, '#00000066', 0, true, true);
+    }
+    this.tweens.add({ targets: this.logo, y: '+=8', duration: 1600, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
+    text(this, width / 2, 238, 'A  BENGALURU  ADVENTURE', { fontFamily: FONT, fontSize: '30px', color: '#ffe9a8', fontStyle: 'bold' })
       .setOrigin(0.5)
-      .setScale(2.5);
-    menuBgContainer.add(this.#mainMenuCursorPhaserImageGameObject);
-    this.tweens.add({
-      delay: 0,
-      duration: 500,
-      repeat: -1,
-      x: {
-        from: PLAYER_INPUT_CURSOR_POSITION.x,
-        start: PLAYER_INPUT_CURSOR_POSITION.x,
-        to: PLAYER_INPUT_CURSOR_POSITION.x + 3,
-      },
-      targets: this.#mainMenuCursorPhaserImageGameObject,
-    });
+      .setStroke('#3a1f5c', 8);
 
-    // add in social links
-    if (SHOW_SOCIAL_LINKS) {
-      this.#addInSocialLinks();
-    }
+    this.press = this.add
+      .text(width / 2, 318, 'PRESS START', { fontFamily: FONT, fontSize: '36px', color: '#ffffff', fontStyle: 'bold' })
+      .setOrigin(0.5)
+      .setStroke('#3a1f5c', 8);
+    this.tweens.add({ targets: this.press, alpha: 0.2, duration: 600, yoyo: true, repeat: -1 });
+    const hint = window.matchMedia('(pointer: coarse)').matches ? 'tap START or A' : 'Enter / Z to start  ·  arrows to move  ·  Z/Space = A  ·  X/Shift = B  ·  F fullscreen';
+    this.add.text(width / 2, 372, hint, { fontFamily: FONT, fontSize: '18px', color: '#fff4d6' }).setOrigin(0.5).setAlpha(0.85);
+    this.add.text(width - 12, 10, 'v1.0', { fontFamily: FONT, fontSize: '16px', color: '#fff4d6' }).setOrigin(1, 0).setAlpha(0.6);
 
-    // add in fade effects
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.OPTIONS) {
-        this.scene.start(SCENE_KEYS.OPTIONS_SCENE);
-        return;
-      }
-
-      if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.NEW_GAME) {
-        dataManager.startNewGame();
-      }
-
-      this.scene.start(SCENE_KEYS.WORLD_SCENE);
-    });
-
-    // play background music
-    playBackgroundMusic(this, AUDIO_ASSET_KEYS.TITLE);
+    playBackgroundMusic(this, AUDIO_KEYS.MUSIC_TITLE);
+    this.cameras.main.fadeIn(600, 0, 0, 0);
   }
 
-  /**
-   * @returns {void}
-   */
-  update() {
-    super.update();
-
-    if (this._controls.isInputLocked) {
+  update(time) {
+    super.update(time);
+    if (this.parade) {
+      this.parade.x += 1.2;
+      if (this.parade.x > this.scale.width + 1900) {
+        this.parade.x = 0;
+      }
+    }
+    if (!this._controls) {
       return;
     }
-
-    const wasSpaceKeyPressed = this._controls.wasSpaceKeyPressed();
-    if (wasSpaceKeyPressed) {
-      this.cameras.main.fadeOut(500, 0, 0, 0);
-      this._controls.lockInput = true;
+    const input = readMenuInput(this._controls);
+    const start = this.stage === 'press' && (input === 'OK' || this._controls.wasEnterKeyPressed());
+    if (start) {
+      playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+      this.#showMenu();
       return;
     }
-
-    const selectedDirection = this._controls.getDirectionKeyJustPressed();
-    if (selectedDirection !== DIRECTION.NONE) {
-      this.#moveMenuSelectCursor(selectedDirection);
+    if (this.stage !== 'menu' || !input || !this.menu) {
+      return;
     }
+    const r = this.menu.handleInput(input);
+    if (!r) {
+      return;
+    }
+    if (r.type === 'cancel') {
+      this.menu.destroy();
+      this.menu = null;
+      this.stage = 'press';
+      this.press.setVisible(true);
+      return;
+    }
+    playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
+    this.#choose(this.menuItems[r.index]);
   }
 
-  /**
-   * @param {import('../common/direction.js').Direction} direction
-   * @returns {void}
-   */
-  #moveMenuSelectCursor(direction) {
-    this.#updateSelectedMenuOptionFromInput(direction);
-    switch (this.#selectedMenuOption) {
-      case MAIN_MENU_OPTIONS.NEW_GAME:
-        this.#mainMenuCursorPhaserImageGameObject.setY(PLAYER_INPUT_CURSOR_POSITION.y);
-        break;
-      case MAIN_MENU_OPTIONS.CONTINUE:
-        this.#mainMenuCursorPhaserImageGameObject.setY(91);
-        break;
-      case MAIN_MENU_OPTIONS.OPTIONS:
-        this.#mainMenuCursorPhaserImageGameObject.setY(141);
-        break;
-      default:
-        exhaustiveGuard(this.#selectedMenuOption);
-    }
+  #showMenu() {
+    this.stage = 'menu';
+    this.press.setVisible(false);
+    this.menuItems = dataManager.hasSave() ? ['CONTINUE', 'NEW GAME', 'OPTIONS'] : ['NEW GAME', 'OPTIONS'];
+    this.menu = new ListMenu(this, { x: 1024 / 2 - 170, y: 290, width: 340, items: this.menuItems, depth: 10 });
   }
 
-  /**
-   * @param {import('../common/direction.js').Direction} direction
-   * @returns {void}
-   */
-  #updateSelectedMenuOptionFromInput(direction) {
-    switch (direction) {
-      case DIRECTION.UP:
-        if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.NEW_GAME) {
-          return;
-        }
-        if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.CONTINUE) {
-          this.#selectedMenuOption = MAIN_MENU_OPTIONS.NEW_GAME;
-          return;
-        }
-        if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.OPTIONS && !this.#isContinueButtonEnabled) {
-          this.#selectedMenuOption = MAIN_MENU_OPTIONS.NEW_GAME;
-          return;
-        }
-        this.#selectedMenuOption = MAIN_MENU_OPTIONS.CONTINUE;
-        return;
-      case DIRECTION.DOWN:
-        if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.OPTIONS) {
-          return;
-        }
-        if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.CONTINUE) {
-          this.#selectedMenuOption = MAIN_MENU_OPTIONS.OPTIONS;
-          return;
-        }
-        if (this.#selectedMenuOption === MAIN_MENU_OPTIONS.NEW_GAME && !this.#isContinueButtonEnabled) {
-          this.#selectedMenuOption = MAIN_MENU_OPTIONS.OPTIONS;
-          return;
-        }
-        this.#selectedMenuOption = MAIN_MENU_OPTIONS.CONTINUE;
-        return;
-      case DIRECTION.LEFT:
-      case DIRECTION.RIGHT:
-      case DIRECTION.NONE:
-        return;
-      default:
-        exhaustiveGuard(direction);
-    }
-  }
-
-  #addInSocialLinks() {
-    const githubImage = this.add
-      .image(this.scale.width, 0, EXTERNAL_LINKS_ASSET_KEYS.GITHUB_BANNER, 0)
-      .setOrigin(1, 0)
-      .setInteractive({
-        useHandCursor: true,
+  /** @param {string} choice */
+  #choose(choice) {
+    if (choice === 'OPTIONS') {
+      this.stage = 'sub';
+      this.events.once('resume', () => {
+        this.stage = 'menu';
       });
-    githubImage.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      window.open('https://github.com/devshareacademy/monster-tamer', '_blank').focus();
-    });
-
-    const containerPosition = {
-      maximized: this.scale.height - 235,
-      minimized: this.scale.height - 26,
-    };
-    const container = this.add.container(20, containerPosition.minimized, []);
-    container.on(Phaser.Input.Events.POINTER_OVER, () => {
-      container.y -= 1;
-    });
-
-    let containerTween = this.add
-      .tween({
-        delay: 0,
-        duration: 400,
-        y: {
-          from: container.y,
-          start: container.y,
-          to: containerPosition.maximized,
-        },
-        targets: container,
-      })
-      .pause();
-
-    const bg = this.add
-      .image(0, 0, EXTERNAL_LINKS_ASSET_KEYS.LEARN_MORE_BACKGROUND, 0)
-      .setOrigin(0)
-      .setScale(1.2, 1)
-      .setInteractive({
-        useHandCursor: true,
-      });
-    bg.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      window.open('https://www.youtube.com/playlist?list=PLmcXe0-sfoSgq-pyXrFx0GZjHbvoVUW8t', '_blank').focus();
-    });
-    bg.on(Phaser.Input.Events.POINTER_OVER, () => {
-      if (containerTween.isDestroyed()) {
-        containerTween = this.add.tween({
-          delay: 0,
-          duration: 400,
-          y: {
-            from: container.y,
-            start: container.y,
-            to: containerPosition.maximized,
-          },
-          targets: container,
-        });
+      this.scene.launch(SCENE_KEYS.OPTIONS_SCENE, { previousSceneName: SCENE_KEYS.TITLE_SCENE });
+      this.scene.pause();
+      return;
+    }
+    this.stage = 'leaving';
+    this.cameras.main.fadeOut(500, 0, 0, 0);
+    this.cameras.main.once('camerafadeoutcomplete', () => {
+      if (choice === 'CONTINUE') {
+        dataManager.loadData();
+        this.scene.start(SCENE_KEYS.WORLD_SCENE);
         return;
       }
-      if (containerTween.isPaused()) {
-        containerTween.resume();
-      }
-      containerTween.updateTo('y', containerPosition.maximized, true);
+      this.scene.start(SCENE_KEYS.INTRO_SCENE);
     });
-    bg.on(Phaser.Input.Events.POINTER_OUT, () => {
-      if (containerTween.isDestroyed()) {
-        containerTween = this.add.tween({
-          delay: 0,
-          duration: 400,
-          y: {
-            from: container.y,
-            start: container.y,
-            to: containerPosition.minimized,
-          },
-          targets: container,
-        });
-        return;
-      }
-      if (containerTween.isPaused()) {
-        containerTween.resume();
-      }
-      containerTween.updateTo('y', containerPosition.minimized, true);
-    });
-    container.add(bg);
-
-    const sideBarText = this.add
-      .text(20, 5, 'Learn To Build This Game!', {
-        fontSize: '18px',
-      })
-      .setOrigin(0, 0);
-    container.add(sideBarText);
-
-    container.add(
-      this.add.image(153, 90, EXTERNAL_LINKS_ASSET_KEYS.YOUTUBE_THUMB_NAIL, 0).setScale(0.65).setAlpha(0.9)
-    );
-    const youTubeLogo = this.add.image(150, 80, EXTERNAL_LINKS_ASSET_KEYS.YOUTUBE_BUTTON, 0).setScale(0.4);
-    container.add(youTubeLogo);
-
-    const moreInfoText = this.add
-      .text(20, 155, 'In this free series, learn how to build this Pokemon like RPG from scratch!', {
-        fontSize: '20px',
-        wordWrap: { width: 300 },
-      })
-      .setOrigin(0, 0);
-    container.add(moreInfoText);
   }
 }

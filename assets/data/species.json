@@ -1,0 +1,3892 @@
+[
+ {
+  "id": 1,
+  "name": "Jakkafawn",
+  "types": [
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 45,
+   "atk": 49,
+   "def": 49,
+   "spc": 60,
+   "spd": 50
+  },
+  "catchRate": 45,
+  "baseExp": 64,
+  "evolution": {
+   "level": 16,
+   "speciesId": 2
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 40
+   },
+   {
+    "level": 9,
+    "moveId": 47
+   },
+   {
+    "level": 13,
+    "moveId": 42
+   },
+   {
+    "level": 17,
+    "moveId": 41
+   },
+   {
+    "level": 22,
+    "moveId": 43
+   },
+   {
+    "level": 27,
+    "moveId": 6
+   },
+   {
+    "level": 32,
+    "moveId": 44
+   },
+   {
+    "level": 40,
+    "moveId": 45
+   },
+   {
+    "level": 46,
+    "moveId": 46
+   }
+  ],
+  "dex": "Born each March when the jacaranda trees bloom. It naps under purple canopies on quiet streets.",
+  "assetKey": "MON_001"
+ },
+ {
+  "id": 2,
+  "name": "Jakkadeer",
+  "types": [
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 62,
+   "def": 63,
+   "spc": 78,
+   "spd": 65
+  },
+  "catchRate": 45,
+  "baseExp": 142,
+  "evolution": {
+   "level": 36,
+   "speciesId": 3
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 40
+   },
+   {
+    "level": 9,
+    "moveId": 47
+   },
+   {
+    "level": 13,
+    "moveId": 42
+   },
+   {
+    "level": 17,
+    "moveId": 41
+   },
+   {
+    "level": 22,
+    "moveId": 43
+   },
+   {
+    "level": 27,
+    "moveId": 6
+   },
+   {
+    "level": 32,
+    "moveId": 44
+   },
+   {
+    "level": 40,
+    "moveId": 45
+   },
+   {
+    "level": 46,
+    "moveId": 46
+   }
+  ],
+  "dex": "Its antlers flower year-round. Petals it sheds are said to cool the hottest summer pavements.",
+  "assetKey": "MON_002"
+ },
+ {
+  "id": 3,
+  "name": "Jakkaranda",
+  "types": [
+   "GRASS",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 80,
+   "atk": 82,
+   "def": 83,
+   "spc": 100,
+   "spd": 85
+  },
+  "catchRate": 45,
+  "baseExp": 236,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 40
+   },
+   {
+    "level": 9,
+    "moveId": 47
+   },
+   {
+    "level": 13,
+    "moveId": 42
+   },
+   {
+    "level": 17,
+    "moveId": 41
+   },
+   {
+    "level": 22,
+    "moveId": 43
+   },
+   {
+    "level": 27,
+    "moveId": 6
+   },
+   {
+    "level": 32,
+    "moveId": 44
+   },
+   {
+    "level": 36,
+    "moveId": 120
+   },
+   {
+    "level": 40,
+    "moveId": 45
+   },
+   {
+    "level": 46,
+    "moveId": 46
+   },
+   {
+    "level": 52,
+    "moveId": 122
+   }
+  ],
+  "dex": "When it walks the avenues at dawn, every jacaranda it passes bursts into bloom.",
+  "assetKey": "MON_003"
+ },
+ {
+  "id": 4,
+  "name": "Kaapup",
+  "types": [
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 42,
+   "atk": 56,
+   "def": 43,
+   "spc": 55,
+   "spd": 62
+  },
+  "catchRate": 45,
+  "baseExp": 65,
+  "evolution": {
+   "level": 16,
+   "speciesId": 5
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 20
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 13,
+    "moveId": 21
+   },
+   {
+    "level": 17,
+    "moveId": 22
+   },
+   {
+    "level": 22,
+    "moveId": 9
+   },
+   {
+    "level": 27,
+    "moveId": 25
+   },
+   {
+    "level": 32,
+    "moveId": 23
+   },
+   {
+    "level": 40,
+    "moveId": 26
+   },
+   {
+    "level": 46,
+    "moveId": 24
+   }
+  ],
+  "dex": "The steel tumbler on its head is always warm. It follows the smell of fresh decoction for miles.",
+  "assetKey": "MON_004"
+ },
+ {
+  "id": 5,
+  "name": "Brewolf",
+  "types": [
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 58,
+   "atk": 72,
+   "def": 58,
+   "spc": 70,
+   "spd": 80
+  },
+  "catchRate": 45,
+  "baseExp": 142,
+  "evolution": {
+   "level": 36,
+   "speciesId": 6
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 20
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 13,
+    "moveId": 21
+   },
+   {
+    "level": 17,
+    "moveId": 22
+   },
+   {
+    "level": 22,
+    "moveId": 9
+   },
+   {
+    "level": 27,
+    "moveId": 25
+   },
+   {
+    "level": 32,
+    "moveId": 23
+   },
+   {
+    "level": 40,
+    "moveId": 26
+   },
+   {
+    "level": 46,
+    "moveId": 24
+   }
+  ],
+  "dex": "It pours scalding steam from its shoulders. Darshini owners leave out a cup for it at closing time.",
+  "assetKey": "MON_005"
+ },
+ {
+  "id": 6,
+  "name": "Kaapiraja",
+  "types": [
+   "FIRE",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 78,
+   "atk": 98,
+   "def": 78,
+   "spc": 90,
+   "spd": 96
+  },
+  "catchRate": 45,
+  "baseExp": 240,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 20
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 13,
+    "moveId": 21
+   },
+   {
+    "level": 17,
+    "moveId": 22
+   },
+   {
+    "level": 22,
+    "moveId": 9
+   },
+   {
+    "level": 27,
+    "moveId": 25
+   },
+   {
+    "level": 32,
+    "moveId": 23
+   },
+   {
+    "level": 36,
+    "moveId": 140
+   },
+   {
+    "level": 40,
+    "moveId": 26
+   },
+   {
+    "level": 46,
+    "moveId": 24
+   },
+   {
+    "level": 52,
+    "moveId": 142
+   }
+  ],
+  "dex": "Its steel crown is shaped like a coffee filter. Its roar smells of chicory and burnt sugar.",
+  "assetKey": "MON_006"
+ },
+ {
+  "id": 7,
+  "name": "Elanee",
+  "types": [
+   "WATER"
+  ],
+  "baseStats": {
+   "hp": 46,
+   "atk": 48,
+   "def": 62,
+   "spc": 52,
+   "spd": 44
+  },
+  "catchRate": 45,
+  "baseExp": 63,
+  "evolution": {
+   "level": 16,
+   "speciesId": 8
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 5,
+    "moveId": 30
+   },
+   {
+    "level": 9,
+    "moveId": 31
+   },
+   {
+    "level": 13,
+    "moveId": 33
+   },
+   {
+    "level": 17,
+    "moveId": 32
+   },
+   {
+    "level": 22,
+    "moveId": 36
+   },
+   {
+    "level": 27,
+    "moveId": 6
+   },
+   {
+    "level": 32,
+    "moveId": 34
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 35
+   }
+  ],
+  "dex": "Its shell is a tender coconut. It sips lake water through its straw and sprays it at bullies.",
+  "assetKey": "MON_007"
+ },
+ {
+  "id": 8,
+  "name": "Kobbari",
+  "types": [
+   "WATER"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 63,
+   "def": 80,
+   "spc": 65,
+   "spd": 58
+  },
+  "catchRate": 45,
+  "baseExp": 142,
+  "evolution": {
+   "level": 36,
+   "speciesId": 9
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 5,
+    "moveId": 30
+   },
+   {
+    "level": 9,
+    "moveId": 31
+   },
+   {
+    "level": 13,
+    "moveId": 33
+   },
+   {
+    "level": 17,
+    "moveId": 32
+   },
+   {
+    "level": 22,
+    "moveId": 36
+   },
+   {
+    "level": 27,
+    "moveId": 6
+   },
+   {
+    "level": 32,
+    "moveId": 34
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 35
+   }
+  ],
+  "dex": "Its husky shell has become tough and fibrous. It guards the steps of old temple tanks.",
+  "assetKey": "MON_008"
+ },
+ {
+  "id": 9,
+  "name": "Kerekurma",
+  "types": [
+   "WATER",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 82,
+   "atk": 85,
+   "def": 102,
+   "spc": 85,
+   "spd": 72
+  },
+  "catchRate": 45,
+  "baseExp": 239,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 5,
+    "moveId": 30
+   },
+   {
+    "level": 9,
+    "moveId": 31
+   },
+   {
+    "level": 13,
+    "moveId": 33
+   },
+   {
+    "level": 17,
+    "moveId": 32
+   },
+   {
+    "level": 22,
+    "moveId": 36
+   },
+   {
+    "level": 27,
+    "moveId": 6
+   },
+   {
+    "level": 32,
+    "moveId": 34
+   },
+   {
+    "level": 36,
+    "moveId": 62
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 35
+   }
+  ],
+  "dex": "Old stories say the city's lakes were dug by its footsteps. A small island grows on its back.",
+  "assetKey": "MON_009"
+ },
+ {
+  "id": 10,
+  "name": "Gubbi",
+  "types": [
+   "NORMAL",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 45,
+   "def": 40,
+   "spc": 35,
+   "spd": 56
+  },
+  "catchRate": 255,
+  "baseExp": 50,
+  "evolution": {
+   "level": 18,
+   "speciesId": 11
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 81
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 14,
+    "moveId": 84
+   },
+   {
+    "level": 19,
+    "moveId": 82
+   },
+   {
+    "level": 25,
+    "moveId": 86
+   },
+   {
+    "level": 31,
+    "moveId": 83
+   },
+   {
+    "level": 39,
+    "moveId": 85
+   },
+   {
+    "level": 45,
+    "moveId": 8
+   }
+  ],
+  "dex": "Once seen on every balcony. It chirps loudest when someone puts out rice on a steel plate.",
+  "assetKey": "MON_010"
+ },
+ {
+  "id": 11,
+  "name": "Haddu",
+  "types": [
+   "NORMAL",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 65,
+   "def": 55,
+   "spc": 50,
+   "spd": 75
+  },
+  "catchRate": 120,
+  "baseExp": 122,
+  "evolution": {
+   "level": 36,
+   "speciesId": 12
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 81
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 14,
+    "moveId": 84
+   },
+   {
+    "level": 19,
+    "moveId": 82
+   },
+   {
+    "level": 25,
+    "moveId": 86
+   },
+   {
+    "level": 31,
+    "moveId": 83
+   },
+   {
+    "level": 39,
+    "moveId": 85
+   },
+   {
+    "level": 45,
+    "moveId": 8
+   }
+  ],
+  "dex": "It circles over the city on warm air rising from the roads, then dives to snatch snacks from hands.",
+  "assetKey": "MON_011"
+ },
+ {
+  "id": 12,
+  "name": "Hadduraja",
+  "types": [
+   "NORMAL",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 80,
+   "atk": 90,
+   "def": 75,
+   "spc": 70,
+   "spd": 101
+  },
+  "catchRate": 45,
+  "baseExp": 216,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 81
+   },
+   {
+    "level": 9,
+    "moveId": 5
+   },
+   {
+    "level": 14,
+    "moveId": 84
+   },
+   {
+    "level": 19,
+    "moveId": 82
+   },
+   {
+    "level": 25,
+    "moveId": 86
+   },
+   {
+    "level": 31,
+    "moveId": 83
+   },
+   {
+    "level": 39,
+    "moveId": 85
+   },
+   {
+    "level": 45,
+    "moveId": 8
+   }
+  ],
+  "dex": "Its chestnut wings span a whole street. It nests on the tallest temple tower in town.",
+  "assetKey": "MON_012"
+ },
+ {
+  "id": 13,
+  "name": "Alilu",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 30,
+   "atk": 56,
+   "def": 35,
+   "spc": 25,
+   "spd": 72
+  },
+  "catchRate": 255,
+  "baseExp": 51,
+  "evolution": {
+   "level": 20,
+   "speciesId": 14
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 4,
+    "moveId": 5
+   },
+   {
+    "level": 8,
+    "moveId": 13
+   },
+   {
+    "level": 13,
+    "moveId": 12
+   },
+   {
+    "level": 18,
+    "moveId": 6
+   },
+   {
+    "level": 23,
+    "moveId": 9
+   },
+   {
+    "level": 29,
+    "moveId": 140
+   },
+   {
+    "level": 35,
+    "moveId": 7
+   },
+   {
+    "level": 42,
+    "moveId": 8
+   }
+  ],
+  "dex": "The three stripes on its back are said to be a blessing for helping build a bridge long ago.",
+  "assetKey": "MON_013"
+ },
+ {
+  "id": 14,
+  "name": "Alilord",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 55,
+   "atk": 81,
+   "def": 60,
+   "spc": 50,
+   "spd": 97
+  },
+  "catchRate": 127,
+  "baseExp": 145,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 4,
+    "moveId": 5
+   },
+   {
+    "level": 8,
+    "moveId": 13
+   },
+   {
+    "level": 13,
+    "moveId": 12
+   },
+   {
+    "level": 18,
+    "moveId": 6
+   },
+   {
+    "level": 23,
+    "moveId": 9
+   },
+   {
+    "level": 29,
+    "moveId": 140
+   },
+   {
+    "level": 35,
+    "moveId": 7
+   },
+   {
+    "level": 42,
+    "moveId": 8
+   }
+  ],
+  "dex": "It rules its tree like a tiny king and defends it with a shield made from a peanut shell.",
+  "assetKey": "MON_014"
+ },
+ {
+  "id": 15,
+  "name": "Reshmite",
+  "types": [
+   "BUG"
+  ],
+  "baseStats": {
+   "hp": 45,
+   "atk": 30,
+   "def": 35,
+   "spc": 20,
+   "spd": 45
+  },
+  "catchRate": 255,
+  "baseExp": 39,
+  "evolution": {
+   "level": 7,
+   "speciesId": 16
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 7,
+    "moveId": 96
+   },
+   {
+    "level": 10,
+    "moveId": 81
+   },
+   {
+    "level": 12,
+    "moveId": 47
+   },
+   {
+    "level": 15,
+    "moveId": 92
+   },
+   {
+    "level": 19,
+    "moveId": 124
+   },
+   {
+    "level": 24,
+    "moveId": 94
+   },
+   {
+    "level": 30,
+    "moveId": 120
+   },
+   {
+    "level": 36,
+    "moveId": 85
+   }
+  ],
+  "dex": "It eats only mulberry leaves. The thread it spins is softer than any machine-made silk.",
+  "assetKey": "MON_015"
+ },
+ {
+  "id": 16,
+  "name": "Koshoon",
+  "types": [
+   "BUG"
+  ],
+  "baseStats": {
+   "hp": 50,
+   "atk": 20,
+   "def": 55,
+   "spc": 25,
+   "spd": 30
+  },
+  "catchRate": 120,
+  "baseExp": 72,
+  "evolution": {
+   "level": 10,
+   "speciesId": 17
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 7,
+    "moveId": 96
+   },
+   {
+    "level": 10,
+    "moveId": 81
+   },
+   {
+    "level": 12,
+    "moveId": 47
+   },
+   {
+    "level": 15,
+    "moveId": 92
+   },
+   {
+    "level": 19,
+    "moveId": 124
+   },
+   {
+    "level": 24,
+    "moveId": 94
+   },
+   {
+    "level": 30,
+    "moveId": 120
+   },
+   {
+    "level": 36,
+    "moveId": 85
+   }
+  ],
+  "dex": "It wraps itself in golden silk and dreams. Weavers wait patiently for it to wake.",
+  "assetKey": "MON_016"
+ },
+ {
+  "id": 17,
+  "name": "Reshmoth",
+  "types": [
+   "BUG",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 70,
+   "atk": 45,
+   "def": 50,
+   "spc": 85,
+   "spd": 70
+  },
+  "catchRate": 45,
+  "baseExp": 160,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 91
+   },
+   {
+    "level": 7,
+    "moveId": 96
+   },
+   {
+    "level": 10,
+    "moveId": 81
+   },
+   {
+    "level": 12,
+    "moveId": 47
+   },
+   {
+    "level": 15,
+    "moveId": 92
+   },
+   {
+    "level": 19,
+    "moveId": 124
+   },
+   {
+    "level": 24,
+    "moveId": 94
+   },
+   {
+    "level": 30,
+    "moveId": 120
+   },
+   {
+    "level": 36,
+    "moveId": 85
+   }
+  ],
+  "dex": "Its wings are patterned like a wedding saree. Its scales shimmer gold in lamplight.",
+  "assetKey": "MON_017"
+ },
+ {
+  "id": 18,
+  "name": "Sollu",
+  "types": [
+   "BUG",
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 50,
+   "def": 30,
+   "spc": 35,
+   "spd": 60
+  },
+  "catchRate": 255,
+  "baseExp": 52,
+  "evolution": {
+   "level": 22,
+   "speciesId": 19
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 90
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 93
+   },
+   {
+    "level": 11,
+    "moveId": 100
+   },
+   {
+    "level": 16,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 104
+   },
+   {
+    "level": 26,
+    "moveId": 105
+   },
+   {
+    "level": 32,
+    "moveId": 95
+   },
+   {
+    "level": 38,
+    "moveId": 106
+   }
+  ],
+  "dex": "Swarms rise from still lake water at dusk. Its whine near your ear is impossible to ignore.",
+  "assetKey": "MON_018"
+ },
+ {
+  "id": 19,
+  "name": "Sollasura",
+  "types": [
+   "BUG",
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 65,
+   "atk": 85,
+   "def": 50,
+   "spc": 60,
+   "spd": 90
+  },
+  "catchRate": 90,
+  "baseExp": 159,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 90
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 93
+   },
+   {
+    "level": 11,
+    "moveId": 100
+   },
+   {
+    "level": 16,
+    "moveId": 92
+   },
+   {
+    "level": 21,
+    "moveId": 104
+   },
+   {
+    "level": 26,
+    "moveId": 105
+   },
+   {
+    "level": 32,
+    "moveId": 95
+   },
+   {
+    "level": 38,
+    "moveId": 106
+   }
+  ],
+  "dex": "A tyrant of the monsoon. One bite and you'll scratch for a week.",
+  "assetKey": "MON_019"
+ },
+ {
+  "id": 20,
+  "name": "Hoge",
+  "types": [
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 45,
+   "def": 65,
+   "spc": 60,
+   "spd": 35
+  },
+  "catchRate": 190,
+  "baseExp": 68,
+  "evolution": {
+   "level": 30,
+   "speciesId": 21
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 61
+   },
+   {
+    "level": 14,
+    "moveId": 104
+   },
+   {
+    "level": 20,
+    "moveId": 102
+   },
+   {
+    "level": 26,
+    "moveId": 3
+   },
+   {
+    "level": 32,
+    "moveId": 103
+   },
+   {
+    "level": 38,
+    "moveId": 8
+   },
+   {
+    "level": 44,
+    "moveId": 106
+   }
+  ],
+  "dex": "It is born from the exhaust of a thousand idling engines at red lights.",
+  "assetKey": "MON_020"
+ },
+ {
+  "id": 21,
+  "name": "Smogasura",
+  "types": [
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 70,
+   "atk": 70,
+   "def": 95,
+   "spc": 90,
+   "spd": 60
+  },
+  "catchRate": 60,
+  "baseExp": 172,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 61
+   },
+   {
+    "level": 14,
+    "moveId": 104
+   },
+   {
+    "level": 20,
+    "moveId": 102
+   },
+   {
+    "level": 26,
+    "moveId": 3
+   },
+   {
+    "level": 32,
+    "moveId": 103
+   },
+   {
+    "level": 38,
+    "moveId": 8
+   },
+   {
+    "level": 44,
+    "moveId": 106
+   }
+  ],
+  "dex": "It hangs over the worst junctions at rush hour. Its rumble sounds like a thousand horns.",
+  "assetKey": "MON_021"
+ },
+ {
+  "id": 22,
+  "name": "Norepuff",
+  "types": [
+   "WATER",
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 50,
+   "atk": 35,
+   "def": 45,
+   "spc": 60,
+   "spd": 45
+  },
+  "catchRate": 190,
+  "baseExp": 66,
+  "evolution": {
+   "level": 32,
+   "speciesId": 23
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 31
+   },
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 8,
+    "moveId": 30
+   },
+   {
+    "level": 14,
+    "moveId": 102
+   },
+   {
+    "level": 20,
+    "moveId": 104
+   },
+   {
+    "level": 26,
+    "moveId": 32
+   },
+   {
+    "level": 33,
+    "moveId": 103
+   },
+   {
+    "level": 40,
+    "moveId": 34
+   },
+   {
+    "level": 46,
+    "moveId": 35
+   }
+  ],
+  "dex": "A clump of lake foam that came alive. Do not try to wash your hands in it.",
+  "assetKey": "MON_022"
+ },
+ {
+  "id": 23,
+  "name": "Noreyaksha",
+  "types": [
+   "WATER",
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 85,
+   "atk": 65,
+   "def": 75,
+   "spc": 100,
+   "spd": 70
+  },
+  "catchRate": 60,
+  "baseExp": 175,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 31
+   },
+   {
+    "level": 1,
+    "moveId": 101
+   },
+   {
+    "level": 8,
+    "moveId": 30
+   },
+   {
+    "level": 14,
+    "moveId": 102
+   },
+   {
+    "level": 20,
+    "moveId": 104
+   },
+   {
+    "level": 26,
+    "moveId": 32
+   },
+   {
+    "level": 33,
+    "moveId": 103
+   },
+   {
+    "level": 40,
+    "moveId": 34
+   },
+   {
+    "level": 46,
+    "moveId": 35
+   }
+  ],
+  "dex": "It rises out of polluted lakes as a wall of foam. It only calms when the water is clean again.",
+  "assetKey": "MON_023"
+ },
+ {
+  "id": 24,
+  "name": "Meenu",
+  "types": [
+   "WATER"
+  ],
+  "baseStats": {
+   "hp": 20,
+   "atk": 10,
+   "def": 55,
+   "spc": 20,
+   "spd": 80
+  },
+  "catchRate": 255,
+  "baseExp": 20,
+  "evolution": {
+   "level": 20,
+   "speciesId": 25
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 15,
+    "moveId": 31
+   }
+  ],
+  "dex": "It can do almost nothing except flop. Lake anglers throw it back out of pity.",
+  "assetKey": "MON_024"
+ },
+ {
+  "id": 25,
+  "name": "Meenaga",
+  "types": [
+   "WATER",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 95,
+   "atk": 125,
+   "def": 79,
+   "spc": 80,
+   "spd": 81
+  },
+  "catchRate": 45,
+  "baseExp": 214,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 20,
+    "moveId": 33
+   },
+   {
+    "level": 20,
+    "moveId": 133
+   },
+   {
+    "level": 25,
+    "moveId": 34
+   },
+   {
+    "level": 32,
+    "moveId": 83
+   },
+   {
+    "level": 40,
+    "moveId": 85
+   },
+   {
+    "level": 47,
+    "moveId": 35
+   }
+  ],
+  "dex": "No one believes a Meenu becomes this until they see it rise roaring from the lake.",
+  "assetKey": "MON_025"
+ },
+ {
+  "id": 26,
+  "name": "Bandekal",
+  "types": [
+   "ROCK",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 80,
+   "def": 100,
+   "spc": 30,
+   "spd": 20
+  },
+  "catchRate": 255,
+  "baseExp": 60,
+  "evolution": {
+   "level": 25,
+   "speciesId": 27
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 73
+   },
+   {
+    "level": 6,
+    "moveId": 70
+   },
+   {
+    "level": 11,
+    "moveId": 60
+   },
+   {
+    "level": 16,
+    "moveId": 71
+   },
+   {
+    "level": 21,
+    "moveId": 63
+   },
+   {
+    "level": 26,
+    "moveId": 62
+   },
+   {
+    "level": 32,
+    "moveId": 72
+   },
+   {
+    "level": 38,
+    "moveId": 64
+   }
+  ],
+  "dex": "It sits so still on hillsides that people paint signs on it.",
+  "assetKey": "MON_026"
+ },
+ {
+  "id": 27,
+  "name": "Bandeyodha",
+  "types": [
+   "ROCK",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 80,
+   "atk": 110,
+   "def": 130,
+   "spc": 55,
+   "spd": 45
+  },
+  "catchRate": 45,
+  "baseExp": 177,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 73
+   },
+   {
+    "level": 6,
+    "moveId": 70
+   },
+   {
+    "level": 11,
+    "moveId": 60
+   },
+   {
+    "level": 16,
+    "moveId": 71
+   },
+   {
+    "level": 21,
+    "moveId": 63
+   },
+   {
+    "level": 26,
+    "moveId": 62
+   },
+   {
+    "level": 32,
+    "moveId": 72
+   },
+   {
+    "level": 38,
+    "moveId": 64
+   }
+  ],
+  "dex": "Some say the old rocky hills around the city are sleeping Bandeyodha.",
+  "assetKey": "MON_027"
+ },
+ {
+  "id": 28,
+  "name": "Karu",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 55,
+   "atk": 55,
+   "def": 45,
+   "spc": 30,
+   "spd": 45
+  },
+  "catchRate": 190,
+  "baseExp": 58,
+  "evolution": {
+   "level": 24,
+   "speciesId": 29
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 14
+   },
+   {
+    "level": 10,
+    "moveId": 6
+   },
+   {
+    "level": 15,
+    "moveId": 60
+   },
+   {
+    "level": 20,
+    "moveId": 63
+   },
+   {
+    "level": 26,
+    "moveId": 7
+   },
+   {
+    "level": 32,
+    "moveId": 62
+   },
+   {
+    "level": 38,
+    "moveId": 8
+   },
+   {
+    "level": 44,
+    "moveId": 64
+   }
+  ],
+  "dex": "It wanders into traffic and simply stands there. Somehow every vehicle goes around it.",
+  "assetKey": "MON_028"
+ },
+ {
+  "id": 29,
+  "name": "Hori",
+  "types": [
+   "NORMAL",
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 85,
+   "atk": 100,
+   "def": 80,
+   "spc": 50,
+   "spd": 85
+  },
+  "catchRate": 75,
+  "baseExp": 172,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 5,
+    "moveId": 14
+   },
+   {
+    "level": 10,
+    "moveId": 6
+   },
+   {
+    "level": 15,
+    "moveId": 60
+   },
+   {
+    "level": 20,
+    "moveId": 63
+   },
+   {
+    "level": 26,
+    "moveId": 7
+   },
+   {
+    "level": 32,
+    "moveId": 62
+   },
+   {
+    "level": 38,
+    "moveId": 8
+   },
+   {
+    "level": 44,
+    "moveId": 64
+   }
+  ],
+  "dex": "At harvest festivals its horns are painted bright colors. Its charge can topple a bus.",
+  "assetKey": "MON_029"
+ },
+ {
+  "id": 30,
+  "name": "Mangaa",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 80,
+   "def": 35,
+   "spc": 35,
+   "spd": 70
+  },
+  "catchRate": 190,
+  "baseExp": 61,
+  "evolution": {
+   "level": 28,
+   "speciesId": 31
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 110
+   },
+   {
+    "level": 10,
+    "moveId": 12
+   },
+   {
+    "level": 15,
+    "moveId": 5
+   },
+   {
+    "level": 20,
+    "moveId": 111
+   },
+   {
+    "level": 25,
+    "moveId": 113
+   },
+   {
+    "level": 31,
+    "moveId": 112
+   },
+   {
+    "level": 38,
+    "moveId": 114
+   }
+  ],
+  "dex": "It ambushes tourists on hilltops and steals bananas, sunglasses and phones.",
+  "assetKey": "MON_030"
+ },
+ {
+  "id": 31,
+  "name": "Kapikusti",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 65,
+   "atk": 105,
+   "def": 60,
+   "spc": 60,
+   "spd": 95
+  },
+  "catchRate": 75,
+  "baseExp": 159,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 5,
+    "moveId": 110
+   },
+   {
+    "level": 10,
+    "moveId": 12
+   },
+   {
+    "level": 15,
+    "moveId": 5
+   },
+   {
+    "level": 20,
+    "moveId": 111
+   },
+   {
+    "level": 25,
+    "moveId": 113
+   },
+   {
+    "level": 31,
+    "moveId": 112
+   },
+   {
+    "level": 38,
+    "moveId": 114
+   }
+  ],
+  "dex": "It trains in mud pits at dawn and challenges any wrestler who dares enter.",
+  "assetKey": "MON_031"
+ },
+ {
+  "id": 32,
+  "name": "Bekku",
+  "types": [
+   "NORMAL"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 45,
+   "def": 35,
+   "spc": 40,
+   "spd": 90
+  },
+  "catchRate": 255,
+  "baseExp": 58,
+  "evolution": {
+   "level": 28,
+   "speciesId": 33
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 12
+   },
+   {
+    "level": 16,
+    "moveId": 130
+   },
+   {
+    "level": 21,
+    "moveId": 6
+   },
+   {
+    "level": 26,
+    "moveId": 133
+   },
+   {
+    "level": 31,
+    "moveId": 134
+   },
+   {
+    "level": 37,
+    "moveId": 132
+   },
+   {
+    "level": 43,
+    "moveId": 135
+   }
+  ],
+  "dex": "Every street has one. It knows exactly which house gives out milk.",
+  "assetKey": "MON_032"
+ },
+ {
+  "id": 33,
+  "name": "Kaalbekku",
+  "types": [
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 65,
+   "atk": 70,
+   "def": 60,
+   "spc": 85,
+   "spd": 115
+  },
+  "catchRate": 90,
+  "baseExp": 158,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 12
+   },
+   {
+    "level": 16,
+    "moveId": 130
+   },
+   {
+    "level": 21,
+    "moveId": 6
+   },
+   {
+    "level": 26,
+    "moveId": 133
+   },
+   {
+    "level": 31,
+    "moveId": 134
+   },
+   {
+    "level": 37,
+    "moveId": 132
+   },
+   {
+    "level": 43,
+    "moveId": 135
+   }
+  ],
+  "dex": "If it crosses your path, people wait a moment before walking on. It finds this very funny.",
+  "assetKey": "MON_033"
+ },
+ {
+  "id": 34,
+  "name": "Goobe",
+  "types": [
+   "SKY",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 30,
+   "def": 30,
+   "spc": 50,
+   "spd": 50
+  },
+  "catchRate": 255,
+  "baseExp": 52,
+  "evolution": {
+   "level": 20,
+   "speciesId": 35
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 81
+   },
+   {
+    "level": 11,
+    "moveId": 124
+   },
+   {
+    "level": 16,
+    "moveId": 120
+   },
+   {
+    "level": 22,
+    "moveId": 86
+   },
+   {
+    "level": 28,
+    "moveId": 121
+   },
+   {
+    "level": 35,
+    "moveId": 125
+   },
+   {
+    "level": 41,
+    "moveId": 122
+   }
+  ],
+  "dex": "It stares at you all night from the banyan tree. Nobody knows what it is thinking.",
+  "assetKey": "MON_034"
+ },
+ {
+  "id": 35,
+  "name": "Goobeguru",
+  "types": [
+   "SKY",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 100,
+   "atk": 50,
+   "def": 50,
+   "spc": 86,
+   "spd": 70
+  },
+  "catchRate": 90,
+  "baseExp": 155,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 6,
+    "moveId": 81
+   },
+   {
+    "level": 11,
+    "moveId": 124
+   },
+   {
+    "level": 16,
+    "moveId": 120
+   },
+   {
+    "level": 22,
+    "moveId": 86
+   },
+   {
+    "level": 28,
+    "moveId": 121
+   },
+   {
+    "level": 35,
+    "moveId": 125
+   },
+   {
+    "level": 41,
+    "moveId": 122
+   }
+  ],
+  "dex": "It tutors students in exam season. It is strict but never wrong.",
+  "assetKey": "MON_035"
+ },
+ {
+  "id": 36,
+  "name": "Neralu",
+  "types": [
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 30,
+   "atk": 35,
+   "def": 30,
+   "spc": 80,
+   "spd": 70
+  },
+  "catchRate": 190,
+  "baseExp": 62,
+  "evolution": {
+   "level": 25,
+   "speciesId": 37
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 131
+   },
+   {
+    "level": 14,
+    "moveId": 133
+   },
+   {
+    "level": 20,
+    "moveId": 124
+   },
+   {
+    "level": 27,
+    "moveId": 132
+   },
+   {
+    "level": 34,
+    "moveId": 134
+   },
+   {
+    "level": 42,
+    "moveId": 123
+   }
+  ],
+  "dex": "During power cuts it slips out of the shadows and plays with candle flames.",
+  "assetKey": "MON_036"
+ },
+ {
+  "id": 37,
+  "name": "Neraluga",
+  "types": [
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 65,
+   "def": 60,
+   "spc": 120,
+   "spd": 100
+  },
+  "catchRate": 45,
+  "baseExp": 225,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 130
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 131
+   },
+   {
+    "level": 14,
+    "moveId": 133
+   },
+   {
+    "level": 20,
+    "moveId": 124
+   },
+   {
+    "level": 27,
+    "moveId": 132
+   },
+   {
+    "level": 34,
+    "moveId": 134
+   },
+   {
+    "level": 42,
+    "moveId": 123
+   }
+  ],
+  "dex": "It haunts the old palace corridors. Portraits' eyes seem to follow you when it is near.",
+  "assetKey": "MON_037"
+ },
+ {
+  "id": 38,
+  "name": "Chintu",
+  "types": [
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 35,
+   "atk": 20,
+   "def": 35,
+   "spc": 90,
+   "spd": 70
+  },
+  "catchRate": 190,
+  "baseExp": 62,
+  "evolution": {
+   "level": 26,
+   "speciesId": 39
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 120
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 124
+   },
+   {
+    "level": 14,
+    "moveId": 75
+   },
+   {
+    "level": 20,
+    "moveId": 121
+   },
+   {
+    "level": 27,
+    "moveId": 126
+   },
+   {
+    "level": 33,
+    "moveId": 123
+   },
+   {
+    "level": 40,
+    "moveId": 122
+   }
+  ],
+  "dex": "It floats near people deep in thought, nibbling on stray ideas.",
+  "assetKey": "MON_038"
+ },
+ {
+  "id": 39,
+  "name": "Chintamani",
+  "types": [
+   "MIND",
+   "ROCK"
+  ],
+  "baseStats": {
+   "hp": 70,
+   "atk": 50,
+   "def": 80,
+   "spc": 120,
+   "spd": 80
+  },
+  "catchRate": 45,
+  "baseExp": 220,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 120
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 124
+   },
+   {
+    "level": 14,
+    "moveId": 75
+   },
+   {
+    "level": 20,
+    "moveId": 121
+   },
+   {
+    "level": 27,
+    "moveId": 126
+   },
+   {
+    "level": 33,
+    "moveId": 123
+   },
+   {
+    "level": 39,
+    "moveId": 71
+   },
+   {
+    "level": 40,
+    "moveId": 122
+   }
+  ],
+  "dex": "A wish-granting jewel in old tales. It only listens to wishes made for others.",
+  "assetKey": "MON_039"
+ },
+ {
+  "id": 40,
+  "name": "Aanemari",
+  "types": [
+   "EARTH"
+  ],
+  "baseStats": {
+   "hp": 70,
+   "atk": 70,
+   "def": 60,
+   "spc": 40,
+   "spd": 30
+  },
+  "catchRate": 120,
+  "baseExp": 66,
+  "evolution": {
+   "level": 30,
+   "speciesId": 41
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 6,
+    "moveId": 60
+   },
+   {
+    "level": 11,
+    "moveId": 30
+   },
+   {
+    "level": 16,
+    "moveId": 63
+   },
+   {
+    "level": 22,
+    "moveId": 65
+   },
+   {
+    "level": 28,
+    "moveId": 62
+   },
+   {
+    "level": 34,
+    "moveId": 140
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 143
+   }
+  ],
+  "dex": "It loves bath time in the river and sprays water at everyone nearby.",
+  "assetKey": "MON_040"
+ },
+ {
+  "id": 41,
+  "name": "Ambaari",
+  "types": [
+   "EARTH",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 110,
+   "atk": 110,
+   "def": 110,
+   "spc": 65,
+   "spd": 45
+  },
+  "catchRate": 45,
+  "baseExp": 228,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 4
+   },
+   {
+    "level": 6,
+    "moveId": 60
+   },
+   {
+    "level": 11,
+    "moveId": 30
+   },
+   {
+    "level": 16,
+    "moveId": 63
+   },
+   {
+    "level": 22,
+    "moveId": 65
+   },
+   {
+    "level": 28,
+    "moveId": 62
+   },
+   {
+    "level": 30,
+    "moveId": 141
+   },
+   {
+    "level": 34,
+    "moveId": 140
+   },
+   {
+    "level": 40,
+    "moveId": 64
+   },
+   {
+    "level": 46,
+    "moveId": 143
+   }
+  ],
+  "dex": "It leads the grand autumn procession carrying a golden howdah. The crowds go silent as it passes.",
+  "assetKey": "MON_041"
+ },
+ {
+  "id": 42,
+  "name": "Navilu",
+  "types": [
+   "SKY",
+   "MIND"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 80,
+   "def": 70,
+   "spc": 95,
+   "spd": 100
+  },
+  "catchRate": 45,
+  "baseExp": 210,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 80
+   },
+   {
+    "level": 1,
+    "moveId": 84
+   },
+   {
+    "level": 10,
+    "moveId": 81
+   },
+   {
+    "level": 20,
+    "moveId": 121
+   },
+   {
+    "level": 28,
+    "moveId": 82
+   },
+   {
+    "level": 34,
+    "moveId": 123
+   },
+   {
+    "level": 40,
+    "moveId": 85
+   },
+   {
+    "level": 46,
+    "moveId": 122
+   }
+  ],
+  "dex": "It dances only when the first monsoon clouds roll in. Seeing it is said to bring rain.",
+  "assetKey": "MON_042"
+ },
+ {
+  "id": 43,
+  "name": "Haavu",
+  "types": [
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 35,
+   "atk": 60,
+   "def": 44,
+   "spc": 40,
+   "spd": 55
+  },
+  "catchRate": 255,
+  "baseExp": 58,
+  "evolution": {
+   "level": 22,
+   "speciesId": 44
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 100
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 7,
+    "moveId": 61
+   },
+   {
+    "level": 13,
+    "moveId": 105
+   },
+   {
+    "level": 19,
+    "moveId": 104
+   },
+   {
+    "level": 25,
+    "moveId": 102
+   },
+   {
+    "level": 31,
+    "moveId": 133
+   },
+   {
+    "level": 38,
+    "moveId": 106
+   }
+  ],
+  "dex": "It hides in termite mounds and rock walls. It means no harm if left alone.",
+  "assetKey": "MON_043"
+ },
+ {
+  "id": 44,
+  "name": "Nagarahaavu",
+  "types": [
+   "TOXIC"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 95,
+   "def": 69,
+   "spc": 65,
+   "spd": 80
+  },
+  "catchRate": 90,
+  "baseExp": 157,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 100
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 7,
+    "moveId": 61
+   },
+   {
+    "level": 13,
+    "moveId": 105
+   },
+   {
+    "level": 19,
+    "moveId": 104
+   },
+   {
+    "level": 25,
+    "moveId": 102
+   },
+   {
+    "level": 31,
+    "moveId": 133
+   },
+   {
+    "level": 38,
+    "moveId": 106
+   }
+  ],
+  "dex": "When it raises its great hood, even the boldest Mangaa backs away.",
+  "assetKey": "MON_044"
+ },
+ {
+  "id": 45,
+  "name": "Kappe",
+  "types": [
+   "WATER"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 50,
+   "def": 40,
+   "spc": 40,
+   "spd": 90
+  },
+  "catchRate": 255,
+  "baseExp": 60,
+  "evolution": {
+   "level": 25,
+   "speciesId": 46
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 31
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 30
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 50
+   },
+   {
+    "level": 21,
+    "moveId": 32
+   },
+   {
+    "level": 27,
+    "moveId": 52
+   },
+   {
+    "level": 33,
+    "moveId": 34
+   },
+   {
+    "level": 40,
+    "moveId": 53
+   }
+  ],
+  "dex": "Its croaking chorus after the first rain keeps whole neighbourhoods awake.",
+  "assetKey": "MON_045"
+ },
+ {
+  "id": 46,
+  "name": "Malekappe",
+  "types": [
+   "WATER",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 75,
+   "def": 70,
+   "spc": 85,
+   "spd": 95
+  },
+  "catchRate": 75,
+  "baseExp": 165,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 31
+   },
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 6,
+    "moveId": 30
+   },
+   {
+    "level": 11,
+    "moveId": 5
+   },
+   {
+    "level": 16,
+    "moveId": 50
+   },
+   {
+    "level": 21,
+    "moveId": 32
+   },
+   {
+    "level": 25,
+    "moveId": 53
+   },
+   {
+    "level": 27,
+    "moveId": 52
+   },
+   {
+    "level": 33,
+    "moveId": 34
+   }
+  ],
+  "dex": "It summons a raincloud and rides the thunder. Flash floods follow its song.",
+  "assetKey": "MON_046"
+ },
+ {
+  "id": 47,
+  "name": "Volti",
+  "types": [
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 35,
+   "atk": 30,
+   "def": 35,
+   "spc": 65,
+   "spd": 75
+  },
+  "catchRate": 190,
+  "baseExp": 62,
+  "evolution": {
+   "level": 26,
+   "speciesId": 48
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 55
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 51
+   },
+   {
+    "level": 16,
+    "moveId": 52
+   },
+   {
+    "level": 22,
+    "moveId": 14
+   },
+   {
+    "level": 28,
+    "moveId": 53
+   },
+   {
+    "level": 36,
+    "moveId": 135
+   },
+   {
+    "level": 44,
+    "moveId": 54
+   }
+  ],
+  "dex": "When it gets excited the whole street's lights flicker. Then the power goes out.",
+  "assetKey": "MON_047"
+ },
+ {
+  "id": 48,
+  "name": "Currentaa",
+  "types": [
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 60,
+   "atk": 60,
+   "def": 60,
+   "spc": 95,
+   "spd": 110
+  },
+  "catchRate": 75,
+  "baseExp": 168,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 55
+   },
+   {
+    "level": 6,
+    "moveId": 5
+   },
+   {
+    "level": 11,
+    "moveId": 51
+   },
+   {
+    "level": 16,
+    "moveId": 52
+   },
+   {
+    "level": 22,
+    "moveId": 14
+   },
+   {
+    "level": 28,
+    "moveId": 53
+   },
+   {
+    "level": 36,
+    "moveId": 135
+   },
+   {
+    "level": 44,
+    "moveId": 54
+   }
+  ],
+  "dex": "\"Current hogide!\" is the cry when it feeds on a transformer. It is always gone before the linemen arrive.",
+  "assetKey": "MON_048"
+ },
+ {
+  "id": 49,
+  "name": "Chiplet",
+  "types": [
+   "ELECTRIC",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 30,
+   "atk": 35,
+   "def": 65,
+   "spc": 75,
+   "spd": 45
+  },
+  "catchRate": 190,
+  "baseExp": 65,
+  "evolution": {
+   "level": 30,
+   "speciesId": 50
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 141
+   },
+   {
+    "level": 7,
+    "moveId": 144
+   },
+   {
+    "level": 13,
+    "moveId": 55
+   },
+   {
+    "level": 19,
+    "moveId": 52
+   },
+   {
+    "level": 25,
+    "moveId": 51
+   },
+   {
+    "level": 31,
+    "moveId": 142
+   },
+   {
+    "level": 38,
+    "moveId": 53
+   },
+   {
+    "level": 45,
+    "moveId": 54
+   }
+  ],
+  "dex": "It lives inside office laptops and gets cranky after midnight deploys.",
+  "assetKey": "MON_049"
+ },
+ {
+  "id": 50,
+  "name": "Siliconda",
+  "types": [
+   "ELECTRIC",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 65,
+   "atk": 70,
+   "def": 95,
+   "spc": 110,
+   "spd": 80
+  },
+  "catchRate": 45,
+  "baseExp": 210,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 1,
+    "moveId": 141
+   },
+   {
+    "level": 7,
+    "moveId": 144
+   },
+   {
+    "level": 13,
+    "moveId": 55
+   },
+   {
+    "level": 19,
+    "moveId": 52
+   },
+   {
+    "level": 25,
+    "moveId": 51
+   },
+   {
+    "level": 31,
+    "moveId": 142
+   },
+   {
+    "level": 38,
+    "moveId": 53
+   },
+   {
+    "level": 45,
+    "moveId": 54
+   }
+  ],
+  "dex": "It coils through the server rooms of tech parks. Its hiss sounds like a cooling fan.",
+  "assetKey": "MON_050"
+ },
+ {
+  "id": 51,
+  "name": "Autorikshasa",
+  "types": [
+   "NORMAL",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 70,
+   "atk": 100,
+   "def": 70,
+   "spc": 60,
+   "spd": 115
+  },
+  "catchRate": 75,
+  "baseExp": 180,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 3
+   },
+   {
+    "level": 1,
+    "moveId": 5
+   },
+   {
+    "level": 12,
+    "moveId": 140
+   },
+   {
+    "level": 18,
+    "moveId": 6
+   },
+   {
+    "level": 24,
+    "moveId": 11
+   },
+   {
+    "level": 30,
+    "moveId": 62
+   },
+   {
+    "level": 36,
+    "moveId": 8
+   },
+   {
+    "level": 42,
+    "moveId": 143
+   }
+  ],
+  "dex": "It never goes where you ask. It always asks for one-and-a-half over the meter.",
+  "assetKey": "MON_051"
+ },
+ {
+  "id": 52,
+  "name": "Halasu",
+  "types": [
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 55,
+   "atk": 50,
+   "def": 75,
+   "spc": 40,
+   "spd": 25
+  },
+  "catchRate": 190,
+  "baseExp": 62,
+  "evolution": {
+   "level": 28,
+   "speciesId": 53
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 40
+   },
+   {
+    "level": 11,
+    "moveId": 70
+   },
+   {
+    "level": 16,
+    "moveId": 42
+   },
+   {
+    "level": 21,
+    "moveId": 45
+   },
+   {
+    "level": 27,
+    "moveId": 71
+   },
+   {
+    "level": 33,
+    "moveId": 73
+   },
+   {
+    "level": 40,
+    "moveId": 72
+   }
+  ],
+  "dex": "Its spiky skin hides a sweet smell. Squirrels follow it everywhere.",
+  "assetKey": "MON_052"
+ },
+ {
+  "id": 53,
+  "name": "Halasuru",
+  "types": [
+   "GRASS",
+   "ROCK"
+  ],
+  "baseStats": {
+   "hp": 90,
+   "atk": 95,
+   "def": 120,
+   "spc": 60,
+   "spd": 40
+  },
+  "catchRate": 60,
+  "baseExp": 180,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 37
+   },
+   {
+    "level": 6,
+    "moveId": 40
+   },
+   {
+    "level": 11,
+    "moveId": 70
+   },
+   {
+    "level": 16,
+    "moveId": 42
+   },
+   {
+    "level": 21,
+    "moveId": 45
+   },
+   {
+    "level": 27,
+    "moveId": 71
+   },
+   {
+    "level": 28,
+    "moveId": 62
+   },
+   {
+    "level": 33,
+    "moveId": 73
+   },
+   {
+    "level": 40,
+    "moveId": 72
+   }
+  ],
+  "dex": "So heavy that it leaves potholes. The city has stopped trying to fix them.",
+  "assetKey": "MON_053"
+ },
+ {
+  "id": 54,
+  "name": "Gulmo",
+  "types": [
+   "GRASS"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 40,
+   "def": 40,
+   "spc": 65,
+   "spd": 55
+  },
+  "catchRate": 190,
+  "baseExp": 64,
+  "evolution": {
+   "level": 30,
+   "speciesId": 55
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 47
+   },
+   {
+    "level": 7,
+    "moveId": 41
+   },
+   {
+    "level": 13,
+    "moveId": 20
+   },
+   {
+    "level": 19,
+    "moveId": 42
+   },
+   {
+    "level": 25,
+    "moveId": 43
+   },
+   {
+    "level": 31,
+    "moveId": 21
+   },
+   {
+    "level": 37,
+    "moveId": 44
+   },
+   {
+    "level": 43,
+    "moveId": 23
+   }
+  ],
+  "dex": "It blooms bright red in the hottest week of summer.",
+  "assetKey": "MON_054"
+ },
+ {
+  "id": 55,
+  "name": "Gulmohara",
+  "types": [
+   "GRASS",
+   "FIRE"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 80,
+   "def": 70,
+   "spc": 100,
+   "spd": 85
+  },
+  "catchRate": 60,
+  "baseExp": 182,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 40
+   },
+   {
+    "level": 1,
+    "moveId": 47
+   },
+   {
+    "level": 7,
+    "moveId": 41
+   },
+   {
+    "level": 13,
+    "moveId": 20
+   },
+   {
+    "level": 19,
+    "moveId": 42
+   },
+   {
+    "level": 25,
+    "moveId": 43
+   },
+   {
+    "level": 30,
+    "moveId": 23
+   },
+   {
+    "level": 31,
+    "moveId": 21
+   },
+   {
+    "level": 37,
+    "moveId": 44
+   }
+  ],
+  "dex": "Its flowers look like flames, and in May they really are.",
+  "assetKey": "MON_055"
+ },
+ {
+  "id": 56,
+  "name": "Railu",
+  "types": [
+   "METAL",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 45,
+   "atk": 60,
+   "def": 60,
+   "spc": 45,
+   "spd": 60
+  },
+  "catchRate": 120,
+  "baseExp": 70,
+  "evolution": {
+   "level": 34,
+   "speciesId": 57
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 8,
+    "moveId": 140
+   },
+   {
+    "level": 14,
+    "moveId": 55
+   },
+   {
+    "level": 20,
+    "moveId": 56
+   },
+   {
+    "level": 27,
+    "moveId": 141
+   },
+   {
+    "level": 34,
+    "moveId": 143
+   },
+   {
+    "level": 41,
+    "moveId": 53
+   },
+   {
+    "level": 48,
+    "moveId": 54
+   }
+  ],
+  "dex": "It runs back and forth along the same track all day and never gets bored.",
+  "assetKey": "MON_056"
+ },
+ {
+  "id": 57,
+  "name": "Metrovaha",
+  "types": [
+   "METAL",
+   "ELECTRIC"
+  ],
+  "baseStats": {
+   "hp": 85,
+   "atk": 110,
+   "def": 100,
+   "spc": 85,
+   "spd": 100
+  },
+  "catchRate": 45,
+  "baseExp": 245,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 1
+   },
+   {
+    "level": 1,
+    "moveId": 50
+   },
+   {
+    "level": 8,
+    "moveId": 140
+   },
+   {
+    "level": 14,
+    "moveId": 55
+   },
+   {
+    "level": 20,
+    "moveId": 56
+   },
+   {
+    "level": 27,
+    "moveId": 141
+   },
+   {
+    "level": 34,
+    "moveId": 143
+   },
+   {
+    "level": 41,
+    "moveId": 53
+   },
+   {
+    "level": 48,
+    "moveId": 54
+   }
+  ],
+  "dex": "It carries thousands across the city every day and is never on time, except when you are late.",
+  "assetKey": "MON_057"
+ },
+ {
+  "id": 58,
+  "name": "Chinnu",
+  "types": [
+   "ROCK",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 30,
+   "atk": 55,
+   "def": 85,
+   "spc": 30,
+   "spd": 40
+  },
+  "catchRate": 190,
+  "baseExp": 64,
+  "evolution": {
+   "level": 30,
+   "speciesId": 59
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 141
+   },
+   {
+    "level": 8,
+    "moveId": 140
+   },
+   {
+    "level": 14,
+    "moveId": 75
+   },
+   {
+    "level": 20,
+    "moveId": 71
+   },
+   {
+    "level": 27,
+    "moveId": 73
+   },
+   {
+    "level": 34,
+    "moveId": 143
+   },
+   {
+    "level": 41,
+    "moveId": 72
+   }
+  ],
+  "dex": "It sparkles in old mine shafts east of the city. Prospectors once followed it for luck.",
+  "assetKey": "MON_058"
+ },
+ {
+  "id": 59,
+  "name": "Chinnasura",
+  "types": [
+   "ROCK",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 75,
+   "atk": 110,
+   "def": 130,
+   "spc": 60,
+   "spd": 45
+  },
+  "catchRate": 45,
+  "baseExp": 190,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 70
+   },
+   {
+    "level": 1,
+    "moveId": 141
+   },
+   {
+    "level": 8,
+    "moveId": 140
+   },
+   {
+    "level": 14,
+    "moveId": 75
+   },
+   {
+    "level": 20,
+    "moveId": 71
+   },
+   {
+    "level": 27,
+    "moveId": 73
+   },
+   {
+    "level": 34,
+    "moveId": 143
+   },
+   {
+    "level": 41,
+    "moveId": 72
+   }
+  ],
+  "dex": "Its body is veined with gold. It guards abandoned mines and hates trespassers.",
+  "assetKey": "MON_059"
+ },
+ {
+  "id": 60,
+  "name": "Hulimari",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 45,
+   "atk": 70,
+   "def": 40,
+   "spc": 35,
+   "spd": 65
+  },
+  "catchRate": 120,
+  "baseExp": 64,
+  "evolution": {
+   "level": 30,
+   "speciesId": 61
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 9
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 12,
+    "moveId": 5
+   },
+   {
+    "level": 18,
+    "moveId": 111
+   },
+   {
+    "level": 24,
+    "moveId": 12
+   },
+   {
+    "level": 31,
+    "moveId": 115
+   },
+   {
+    "level": 38,
+    "moveId": 113
+   },
+   {
+    "level": 45,
+    "moveId": 114
+   }
+  ],
+  "dex": "It pounces at drumbeats and dances until it tires out.",
+  "assetKey": "MON_060"
+ },
+ {
+  "id": 61,
+  "name": "Hulivesha",
+  "types": [
+   "FIGHT"
+  ],
+  "baseStats": {
+   "hp": 80,
+   "atk": 120,
+   "def": 70,
+   "spc": 55,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 195,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 2
+   },
+   {
+    "level": 1,
+    "moveId": 9
+   },
+   {
+    "level": 6,
+    "moveId": 110
+   },
+   {
+    "level": 12,
+    "moveId": 5
+   },
+   {
+    "level": 18,
+    "moveId": 111
+   },
+   {
+    "level": 24,
+    "moveId": 12
+   },
+   {
+    "level": 31,
+    "moveId": 115
+   },
+   {
+    "level": 38,
+    "moveId": 113
+   },
+   {
+    "level": 45,
+    "moveId": 114
+   }
+  ],
+  "dex": "It leads the tiger dance at festivals. Its stomp shakes the whole street.",
+  "assetKey": "MON_061"
+ },
+ {
+  "id": 62,
+  "name": "Hanate",
+  "types": [
+   "FIRE",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 40,
+   "atk": 30,
+   "def": 45,
+   "spc": 70,
+   "spd": 50
+  },
+  "catchRate": 120,
+  "baseExp": 66,
+  "evolution": {
+   "level": 32,
+   "speciesId": 63
+  },
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 130
+   },
+   {
+    "level": 14,
+    "moveId": 25
+   },
+   {
+    "level": 20,
+    "moveId": 131
+   },
+   {
+    "level": 27,
+    "moveId": 21
+   },
+   {
+    "level": 33,
+    "moveId": 132
+   },
+   {
+    "level": 40,
+    "moveId": 23
+   },
+   {
+    "level": 47,
+    "moveId": 123
+   }
+  ],
+  "dex": "A lamp that was never blown out. It lights the way for lost children.",
+  "assetKey": "MON_062"
+ },
+ {
+  "id": 63,
+  "name": "Jyotiyaksha",
+  "types": [
+   "FIRE",
+   "SPIRIT"
+  ],
+  "baseStats": {
+   "hp": 65,
+   "atk": 50,
+   "def": 70,
+   "spc": 120,
+   "spd": 90
+  },
+  "catchRate": 45,
+  "baseExp": 205,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 20
+   },
+   {
+    "level": 1,
+    "moveId": 14
+   },
+   {
+    "level": 8,
+    "moveId": 130
+   },
+   {
+    "level": 14,
+    "moveId": 25
+   },
+   {
+    "level": 20,
+    "moveId": 131
+   },
+   {
+    "level": 27,
+    "moveId": 21
+   },
+   {
+    "level": 32,
+    "moveId": 132
+   },
+   {
+    "level": 40,
+    "moveId": 23
+   },
+   {
+    "level": 47,
+    "moveId": 123
+   }
+  ],
+  "dex": "On festival nights it gathers every lamp in the city into a single robe of light.",
+  "assetKey": "MON_063"
+ },
+ {
+  "id": 64,
+  "name": "Udyanaga",
+  "types": [
+   "GRASS",
+   "SKY"
+  ],
+  "baseStats": {
+   "hp": 106,
+   "atk": 110,
+   "def": 100,
+   "spc": 130,
+   "spd": 104
+  },
+  "catchRate": 3,
+  "baseExp": 306,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 41
+   },
+   {
+    "level": 1,
+    "moveId": 82
+   },
+   {
+    "level": 1,
+    "moveId": 86
+   },
+   {
+    "level": 40,
+    "moveId": 44
+   },
+   {
+    "level": 45,
+    "moveId": 85
+   },
+   {
+    "level": 50,
+    "moveId": 48
+   }
+  ],
+  "dex": "Guardian of the Garden City. When the city forgets its trees and lakes, it sleeps atop the northern hills.",
+  "assetKey": "MON_064"
+ },
+ {
+  "id": 65,
+  "name": "Concretor",
+  "types": [
+   "ROCK",
+   "METAL"
+  ],
+  "baseStats": {
+   "hp": 100,
+   "atk": 120,
+   "def": 120,
+   "spc": 60,
+   "spd": 50
+  },
+  "catchRate": 3,
+  "baseExp": 250,
+  "evolution": null,
+  "learnset": [
+   {
+    "level": 1,
+    "moveId": 74
+   },
+   {
+    "level": 1,
+    "moveId": 145
+   },
+   {
+    "level": 1,
+    "moveId": 73
+   },
+   {
+    "level": 1,
+    "moveId": 64
+   }
+  ],
+  "dex": "Built by the Concrete Syndicate from cement mixers and cranes. Wherever it walks, grass stops growing.",
+  "assetKey": "MON_065"
+ }
+]

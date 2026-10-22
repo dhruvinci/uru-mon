@@ -3,94 +3,83 @@ import { DIRECTION } from '../common/direction.js';
 import { TEXT_SPEED } from '../config.js';
 import { TEXT_SPEED_OPTIONS, BATTLE_SCENE_OPTIONS, BATTLE_STYLE_OPTIONS, SOUND_OPTIONS } from '../common/options.js';
 import { exhaustiveGuard } from './guard.js';
-import { DataUtils } from './data-utils.js';
-import { GAME_FLAG } from '../types/typedef.js';
+import { getItem } from '../game/game-data.js';
 
-const LOCAL_STORAGE_KEY = 'MONSTER_TAMER_DATA';
+const LOCAL_STORAGE_KEY = 'URU_MON_SAVE_V1';
+export const PARTY_SIZE = 6;
+export const STARTING_AREA = 'player_house_2f';
 
 /**
  * @typedef PlayerLocation
  * @type {object}
  * @property {string} area
- * @property {boolean} isInterior
- */
-
-/**
- * @typedef MonsterData
- * @type {object}
- * @property {import('../types/typedef.js').Monster[]} inParty
+ * @property {boolean} [isInterior]
  */
 
 /**
  * @typedef GlobalState
  * @type {object}
  * @property {object} player
- * @property {object} player.position
- * @property {number} player.position.x
- * @property {number} player.position.y
- * @property {PlayerLocation} player.location
+ * @property {string} player.name
+ * @property {'boy'|'girl'} player.gender
+ * @property {{x: number, y: number}} player.position
  * @property {import('../common/direction.js').Direction} player.direction
  * @property {PlayerLocation} player.location
+ * @property {number} player.money
+ * @property {string[]} player.badges
+ * @property {number} player.playTimeSeconds
  * @property {object} options
- * @property {import('../common/options.js').TextSpeedMenuOptions} options.textSpeed
- * @property {import('../common/options.js').BattleSceneMenuOptions} options.battleSceneAnimations
- * @property {import('../common/options.js').BattleStyleMenuOptions} options.battleStyle
- * @property {import('../common/options.js').SoundMenuOptions} options.sound
- * @property {import('../common/options.js').VolumeMenuOptions} options.volume
- * @property {import('../common/options.js').MenuColorOptions} options.menuColor
  * @property {boolean} gameStarted
- * @property {MonsterData} monsters
- * @property {import('../types/typedef.js').Inventory} inventory
- * @property {number[]} itemsPickedUp
- * @property {number[]} viewedEvents
- * @property {import('../types/typedef.js').GameFlag[]} flags
+ * @property {{inParty: import('../battle/engine/monster.js').Monster[], boxes: import('../battle/engine/monster.js').Monster[]}} monsters
+ * @property {{itemId: number, quantity: number}[]} inventory
+ * @property {string[]} itemsPickedUp
+ * @property {string[]} viewedEvents
+ * @property {string[]} flags
  * @property {string[]} defeatedNpcs
+ * @property {{seen: number[], caught: number[]}} pustaka
+ * @property {{area: string, x: number, y: number}} respawn
+ * @property {{area: string, entranceId: string} | null} returnPoint
+ * @property {string[]} metroStations
+ * @property {number} repelSteps
+ * @property {Record<string, any>} vars
  */
 
-/** @type {GlobalState} */
-const initialState = {
-  player: {
-    position: {
-      x: 0,
-      y: 0,
+/** @returns {GlobalState} */
+function initialState() {
+  return {
+    player: {
+      name: 'Kiran',
+      gender: 'boy',
+      position: { x: 0, y: 0 },
+      direction: DIRECTION.DOWN,
+      location: { area: STARTING_AREA, isInterior: true },
+      money: 3000,
+      badges: [],
+      playTimeSeconds: 0,
     },
-    direction: DIRECTION.DOWN,
-    location: {
-      area: 'main_1',
-      isInterior: false,
+    options: {
+      textSpeed: TEXT_SPEED_OPTIONS.MID,
+      battleSceneAnimations: BATTLE_SCENE_OPTIONS.ON,
+      battleStyle: BATTLE_STYLE_OPTIONS.SHIFT,
+      sound: SOUND_OPTIONS.ON,
+      volume: 3,
+      menuColor: 0,
     },
-  },
-  options: {
-    textSpeed: TEXT_SPEED_OPTIONS.MID,
-    battleSceneAnimations: BATTLE_SCENE_OPTIONS.ON,
-    battleStyle: BATTLE_STYLE_OPTIONS.SHIFT,
-    sound: SOUND_OPTIONS.ON,
-    volume: 4,
-    menuColor: 0,
-  },
-  gameStarted: false,
-  monsters: {
-    inParty: [],
-  },
-  inventory: [
-    {
-      item: {
-        id: 1,
-      },
-      quantity: 10,
-    },
-    {
-      item: {
-        id: 2,
-      },
-      quantity: 5,
-    },
-  ],
-  itemsPickedUp: [],
-  viewedEvents: [],
-  flags: [],
-  defeatedNpcs: [],
-};
+    gameStarted: false,
+    monsters: { inParty: [], boxes: [] },
+    inventory: [{ itemId: 1, quantity: 3 }],
+    itemsPickedUp: [],
+    viewedEvents: [],
+    flags: [],
+    defeatedNpcs: [],
+    pustaka: { seen: [], caught: [] },
+    respawn: { area: 'player_house_1f', x: 0, y: 0 },
+    returnPoint: null,
+    metroStations: [],
+    repelSteps: 0,
+    vars: {},
+  };
+}
 
 export const DATA_MANAGER_STORE_KEYS = Object.freeze({
   PLAYER_POSITION: 'PLAYER_POSITION',
@@ -111,102 +100,146 @@ export const DATA_MANAGER_STORE_KEYS = Object.freeze({
   DEFEATED_NPCS: 'DEFEATED_NPCS',
 });
 
-class DataManager extends Phaser.Events.EventEmitter {
-  /** @type {Phaser.Data.DataManager} */
-  #store;
+/** key -> [getter, setter] over the state object */
+const KEY_PATHS = {
+  PLAYER_POSITION: ['player', 'position'],
+  PLAYER_DIRECTION: ['player', 'direction'],
+  PLAYER_LOCATION: ['player', 'location'],
+  OPTIONS_TEXT_SPEED: ['options', 'textSpeed'],
+  OPTIONS_BATTLE_SCENE_ANIMATIONS: ['options', 'battleSceneAnimations'],
+  OPTIONS_BATTLE_STYLE: ['options', 'battleStyle'],
+  OPTIONS_SOUND: ['options', 'sound'],
+  OPTIONS_VOLUME: ['options', 'volume'],
+  OPTIONS_MENU_COLOR: ['options', 'menuColor'],
+  GAME_STARTED: ['gameStarted'],
+  MONSTERS_IN_PARTY: ['monsters', 'inParty'],
+  INVENTORY: ['inventory'],
+  ITEMS_PICKED_UP: ['itemsPickedUp'],
+  VIEWED_EVENTS: ['viewedEvents'],
+  FLAGS: ['flags'],
+  DEFEATED_NPCS: ['defeatedNpcs'],
+};
 
-  constructor() {
-    super();
-    this.#store = new Phaser.Data.DataManager(this);
-    // initialize state with initial values
-    this.#updateDataManger(initialState);
+/** Minimal key/value facade kept for the scenes written against the original store API. */
+class StateStore {
+  /** @param {DataManager} dm */
+  constructor(dm) {
+    this.dm = dm;
   }
 
-  /** @type {Phaser.Data.DataManager} */
-  get store() {
-    return this.#store;
+  /** @param {string} key */
+  get(key) {
+    const path = KEY_PATHS[key];
+    if (!path) {
+      return undefined;
+    }
+    return path.reduce((obj, k) => (obj ? obj[k] : undefined), /** @type {any} */ (this.dm.state));
   }
 
-  /**
-   * @returns {void}
-   */
-  loadData() {
-    // attempt to load data from browser storage and populate the data manager
-    if (typeof Storage === 'undefined') {
-      console.warn(
-        `[${DataManager.name}:loadData] localStorage is not supported, will not be able to save and load data.`
-      );
+  /** @param {string} key @param {any} value */
+  set(key, value) {
+    const path = KEY_PATHS[key];
+    if (!path) {
       return;
     }
+    let obj = /** @type {any} */ (this.dm.state);
+    for (let i = 0; i < path.length - 1; i += 1) {
+      obj = obj[path[i]];
+    }
+    obj[path[path.length - 1]] = value;
+  }
+}
 
-    const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (savedData === null) {
+class DataManager extends Phaser.Events.EventEmitter {
+  constructor() {
+    super();
+    /** @type {GlobalState} */
+    this.state = initialState();
+    this.store = new StateStore(this);
+    this.sessionStart = Date.now();
+  }
+
+  /** @returns {boolean} whether a save exists */
+  hasSave() {
+    try {
+      return localStorage.getItem(LOCAL_STORAGE_KEY) !== null;
+    } catch {
+      return false;
+    }
+  }
+
+  loadData() {
+    let raw = null;
+    try {
+      raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    } catch {
+      console.warn('[DataManager] localStorage unavailable; progress will not persist.');
+      return;
+    }
+    if (raw === null) {
       return;
     }
     try {
-      // TODO: we should add error handling and data validation at this step to make sure we get the data we expect.
-      /** @type {GlobalState} */
-      const parsedData = JSON.parse(savedData);
-      // update the state with the saved data
-      this.#updateDataManger(parsedData);
+      const parsed = JSON.parse(raw);
+      const base = initialState();
+      this.state = {
+        ...base,
+        ...parsed,
+        player: { ...base.player, ...parsed.player },
+        options: { ...base.options, ...parsed.options },
+        monsters: { ...base.monsters, ...parsed.monsters },
+        pustaka: { ...base.pustaka, ...parsed.pustaka },
+      };
+      this.sessionStart = Date.now();
     } catch (error) {
-      console.warn(
-        `[${DataManager.name}:loadData] encountered an error while attempting to load and parse saved data.`
-      );
+      console.warn('[DataManager] could not parse saved data', error);
     }
   }
 
-  /**
-   * @returns {void}
-   */
   saveData() {
-    // attempt to storage data in browser storage from data manager
-    if (typeof Storage === 'undefined') {
-      console.warn(
-        `[${DataManager.name}:saveData] localStorage is not supported, will not be able to save and load data.`
-      );
-      return;
+    this.#accumulatePlayTime();
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.state));
+    } catch (error) {
+      console.warn('[DataManager] could not save', error);
     }
-    const dataToSave = this.#dataManagerDataToGlobalStateObject();
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
   }
 
-  /**
-   * @returns {void}
-   */
+  /** Persists options only (used from the title screen before a game exists). */
+  saveOptions() {
+    if (this.hasSave()) {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+        parsed.options = this.state.options;
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsed));
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
+  #accumulatePlayTime() {
+    const now = Date.now();
+    this.state.player.playTimeSeconds += Math.floor((now - this.sessionStart) / 1000);
+    this.sessionStart = now;
+  }
+
+  /** @returns {number} */
+  getPlayTimeSeconds() {
+    return this.state.player.playTimeSeconds + Math.floor((Date.now() - this.sessionStart) / 1000);
+  }
+
   startNewGame() {
-    // get existing data before resetting all of the data, so we can persist options data
-    const existingData = { ...this.#dataManagerDataToGlobalStateObject() };
-    existingData.player.position = { ...initialState.player.position };
-    existingData.player.location = { ...initialState.player.location };
-    existingData.player.direction = initialState.player.direction;
-    existingData.player.location = { ...initialState.player.location };
-    existingData.gameStarted = initialState.gameStarted;
-    existingData.monsters = {
-      inParty: [...initialState.monsters.inParty],
-    };
-    existingData.inventory = initialState.inventory;
-    existingData.itemsPickedUp = [...initialState.itemsPickedUp];
-    existingData.viewedEvents = [...initialState.viewedEvents];
-    existingData.flags = [...initialState.flags];
-    existingData.defeatedNpcs = [...initialState.defeatedNpcs];
-
-    this.#store.reset();
-    this.#updateDataManger(existingData);
-    this.saveData();
+    const options = { ...this.state.options };
+    this.state = initialState();
+    this.state.options = options;
+    this.sessionStart = Date.now();
   }
 
-  /**
-   * @returns {number}
-   */
+  /** @returns {number} */
   getAnimatedTextSpeed() {
-    /** @type {import('../common/options.js').TextSpeedMenuOptions | undefined} */
-    const chosenTextSpeed = this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_TEXT_SPEED);
-    if (chosenTextSpeed === undefined) {
-      return TEXT_SPEED.MEDIUM;
-    }
-
-    switch (chosenTextSpeed) {
+    const chosen = this.state.options.textSpeed;
+    switch (chosen) {
       case TEXT_SPEED_OPTIONS.FAST:
         return TEXT_SPEED.FAST;
       case TEXT_SPEED_OPTIONS.MID:
@@ -214,204 +247,176 @@ class DataManager extends Phaser.Events.EventEmitter {
       case TEXT_SPEED_OPTIONS.SLOW:
         return TEXT_SPEED.SLOW;
       default:
-        exhaustiveGuard(chosenTextSpeed);
+        exhaustiveGuard(chosen);
+        return TEXT_SPEED.MEDIUM;
     }
   }
 
+  // ---- party & storage ----------------------------------------------------------------------
+
+  /** @returns {import('../battle/engine/monster.js').Monster[]} */
+  get party() {
+    return this.state.monsters.inParty;
+  }
+
+  /** @returns {import('../battle/engine/monster.js').Monster[]} */
+  get boxes() {
+    return this.state.monsters.boxes;
+  }
+
+  isPartyFull() {
+    return this.party.length >= PARTY_SIZE;
+  }
+
   /**
-   * @param {Phaser.Scene} scene
-   * @returns {import('../types/typedef.js').InventoryItem[]}
+   * Adds a caught/received monster to the party, or to Namma Cloud storage if the party is full.
+   * @param {import('../battle/engine/monster.js').Monster} mon
+   * @returns {'party'|'box'}
    */
+  addMonster(mon) {
+    this.markCaught(mon.speciesId);
+    if (!this.isPartyFull()) {
+      this.party.push(mon);
+      return 'party';
+    }
+    this.boxes.push(mon);
+    return 'box';
+  }
+
+  /** @param {number} speciesId */
+  markSeen(speciesId) {
+    if (!this.state.pustaka.seen.includes(speciesId)) {
+      this.state.pustaka.seen.push(speciesId);
+    }
+  }
+
+  /** @param {number} speciesId */
+  markCaught(speciesId) {
+    this.markSeen(speciesId);
+    if (!this.state.pustaka.caught.includes(speciesId)) {
+      this.state.pustaka.caught.push(speciesId);
+    }
+  }
+
+  // ---- inventory ----------------------------------------------------------------------------
+
+  /**
+   * @param {Phaser.Scene} [scene] unused, kept for older callers
+   * @returns {{item: import('../game/game-data.js').ItemData, quantity: number}[]}
+   */
+  // eslint-disable-next-line no-unused-vars
   getInventory(scene) {
-    /** @type {import('../types/typedef.js').InventoryItem[]} */
-    const items = [];
-    /** @type {import('../types/typedef.js').Inventory} */
-    const inventory = this.#store.get(DATA_MANAGER_STORE_KEYS.INVENTORY);
-    inventory.forEach((baseItem) => {
-      const item = DataUtils.getItem(scene, baseItem.item.id);
-      items.push({
-        item: item,
-        quantity: baseItem.quantity,
-      });
-    });
-    return items;
+    return this.state.inventory
+      .filter((e) => e.quantity > 0)
+      .map((e) => ({ item: getItem(e.itemId), quantity: e.quantity }))
+      .filter((e) => e.item);
+  }
+
+  /** @param {number} itemId */
+  itemCount(itemId) {
+    return this.state.inventory.find((e) => e.itemId === itemId)?.quantity ?? 0;
   }
 
   /**
-   * @param {import('../types/typedef.js').InventoryItem[]} items
-   * @returns {void}
-   */
-  updateInventory(items) {
-    /** @type {import('../types/typedef.js').BaseInventoryItem[]} */
-    const inventory = items.map((item) => {
-      return {
-        item: {
-          id: item.item.id,
-        },
-        quantity: item.quantity,
-      };
-    });
-    this.#store.set(DATA_MANAGER_STORE_KEYS.INVENTORY, inventory);
-  }
-
-  /**
-   * @param {import('../types/typedef.js').Item} item
+   * @param {{id: number} | number} item
    * @param {number} quantity
-   * @returns {void}
    */
   addItem(item, quantity) {
-    /** @type {import('../types/typedef.js').Inventory} */
-    const inventory = this.#store.get(DATA_MANAGER_STORE_KEYS.INVENTORY);
-    const existingItem = inventory.find((inventoryItem) => {
-      return inventoryItem.item.id === item.id;
-    });
-    if (existingItem) {
-      existingItem.quantity += quantity;
+    const id = typeof item === 'number' ? item : item.id;
+    const existing = this.state.inventory.find((e) => e.itemId === id);
+    if (existing) {
+      existing.quantity += quantity;
     } else {
-      inventory.push({
-        item,
-        quantity,
-      });
+      this.state.inventory.push({ itemId: id, quantity });
     }
-    this.#store.set(DATA_MANAGER_STORE_KEYS.INVENTORY, inventory);
   }
 
   /**
    * @param {number} itemId
-   * @returns {void}
-   */
-  addItemPickedUp(itemId) {
-    /** @type {number[]} */
-    const itemsPickedUp = this.#store.get(DATA_MANAGER_STORE_KEYS.ITEMS_PICKED_UP) || [];
-    itemsPickedUp.push(itemId);
-    this.#store.set(DATA_MANAGER_STORE_KEYS.ITEMS_PICKED_UP, itemsPickedUp);
-  }
-
-  /**
+   * @param {number} [quantity=1]
    * @returns {boolean}
    */
-  isPartyFull() {
-    const partySize = this.#store.get(DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY).length;
-    return partySize === 6;
+  removeItem(itemId, quantity = 1) {
+    const existing = this.state.inventory.find((e) => e.itemId === itemId);
+    if (!existing || existing.quantity < quantity) {
+      return false;
+    }
+    existing.quantity -= quantity;
+    if (existing.quantity <= 0) {
+      this.state.inventory = this.state.inventory.filter((e) => e.itemId !== itemId);
+    }
+    return true;
   }
 
-  /**
-   * Adds the provided eventId to the viewed events in the data manager so player does
-   * not see the event again.
-   * @param {number} eventId
-   * @returns {void}
-   */
+  /** @param {string} id */
+  addItemPickedUp(id) {
+    if (!this.state.itemsPickedUp.includes(String(id))) {
+      this.state.itemsPickedUp.push(String(id));
+    }
+  }
+
+  // ---- money & progress ---------------------------------------------------------------------
+
+  get money() {
+    return this.state.player.money;
+  }
+
+  /** @param {number} delta */
+  addMoney(delta) {
+    this.state.player.money = Math.max(0, Math.min(999999, this.state.player.money + delta));
+  }
+
+  /** @param {string} badge */
+  addBadge(badge) {
+    if (!this.state.player.badges.includes(badge)) {
+      this.state.player.badges.push(badge);
+    }
+  }
+
+  /** @param {string | number} eventId */
   viewedEvent(eventId) {
-    /** @type {Set<number>} */
-    const viewedEvents = new Set(this.#store.get(DATA_MANAGER_STORE_KEYS.VIEWED_EVENTS) || []);
-    viewedEvents.add(eventId);
-    this.#store.set(DATA_MANAGER_STORE_KEYS.VIEWED_EVENTS, Array.from(viewedEvents));
+    if (!this.state.viewedEvents.includes(String(eventId))) {
+      this.state.viewedEvents.push(String(eventId));
+    }
   }
 
-  /**
-   * @returns {Set<string>}
-   */
+  /** @returns {Set<string>} */
   getFlags() {
-    return new Set(this.#store.get(DATA_MANAGER_STORE_KEYS.FLAGS) || []);
+    return new Set(this.state.flags);
   }
 
-  /**
-   * @param {GAME_FLAG} flag
-   * @returns {void}
-   */
+  /** @param {string} flag */
+  hasFlag(flag) {
+    return this.state.flags.includes(flag);
+  }
+
+  /** @param {string} flag */
   addFlag(flag) {
-    /** @type {Set<string>} */
-    const existingFlags = new Set(this.#store.get(DATA_MANAGER_STORE_KEYS.FLAGS) || []);
-    existingFlags.add(flag);
-    this.#store.set(DATA_MANAGER_STORE_KEYS.FLAGS, Array.from(existingFlags));
+    if (!this.state.flags.includes(flag)) {
+      this.state.flags.push(flag);
+    }
   }
 
-  /**
-   * @param {GAME_FLAG} flag
-   * @returns {void}
-   */
+  /** @param {string} flag */
   removeFlag(flag) {
-    /** @type {Set<string>} */
-    const existingFlags = new Set(this.#store.get(DATA_MANAGER_STORE_KEYS.FLAGS) || []);
-    existingFlags.delete(flag);
-    this.#store.set(DATA_MANAGER_STORE_KEYS.FLAGS, Array.from(existingFlags));
+    this.state.flags = this.state.flags.filter((f) => f !== flag);
   }
 
-  /**
-   * Adds the provided npcId to the defeated npc set in the data manager so player does
-   * not battle that npc again.
-   * @param {number} npcId
-   * @returns {void}
-   */
+  /** @param {string | number} npcId */
   addDefeatedNpc(npcId) {
-    /** @type {Set<number>} */
-    const defeatedNpcs = this.#store.get(DATA_MANAGER_STORE_KEYS.DEFEATED_NPCS);
-    defeatedNpcs.add(npcId);
+    if (!this.state.defeatedNpcs.includes(String(npcId))) {
+      this.state.defeatedNpcs.push(String(npcId));
+    }
   }
 
-  /**
-   * @returns {Set<number>}
-   */
+  /** @returns {Set<string>} */
   getDefeatedNpcs() {
-    return this.#store.get(DATA_MANAGER_STORE_KEYS.DEFEATED_NPCS);
+    return new Set(this.state.defeatedNpcs);
   }
 
-  /**
-   * @param {GlobalState} data
-   * @returns {void}
-   */
-  #updateDataManger(data) {
-    this.#store.set({
-      [DATA_MANAGER_STORE_KEYS.PLAYER_POSITION]: data.player.position,
-      [DATA_MANAGER_STORE_KEYS.PLAYER_DIRECTION]: data.player.direction,
-      [DATA_MANAGER_STORE_KEYS.PLAYER_LOCATION]: data.player.location || { ...initialState.player.location },
-      [DATA_MANAGER_STORE_KEYS.OPTIONS_TEXT_SPEED]: data.options.textSpeed,
-      [DATA_MANAGER_STORE_KEYS.OPTIONS_BATTLE_SCENE_ANIMATIONS]: data.options.battleSceneAnimations,
-      [DATA_MANAGER_STORE_KEYS.OPTIONS_BATTLE_STYLE]: data.options.battleStyle,
-      [DATA_MANAGER_STORE_KEYS.OPTIONS_SOUND]: data.options.sound,
-      [DATA_MANAGER_STORE_KEYS.OPTIONS_VOLUME]: data.options.volume,
-      [DATA_MANAGER_STORE_KEYS.OPTIONS_MENU_COLOR]: data.options.menuColor,
-      [DATA_MANAGER_STORE_KEYS.GAME_STARTED]: data.gameStarted,
-      [DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY]: data.monsters.inParty,
-      [DATA_MANAGER_STORE_KEYS.INVENTORY]: data.inventory,
-      [DATA_MANAGER_STORE_KEYS.ITEMS_PICKED_UP]: data.itemsPickedUp || [...initialState.itemsPickedUp],
-      [DATA_MANAGER_STORE_KEYS.VIEWED_EVENTS]: data.viewedEvents || [...initialState.viewedEvents],
-      [DATA_MANAGER_STORE_KEYS.FLAGS]: data.flags || [...initialState.flags],
-      [DATA_MANAGER_STORE_KEYS.DEFEATED_NPCS]: new Set(data.defeatedNpcs || []),
-    });
-  }
-
-  /**
-   * @returns {GlobalState}
-   */
-  #dataManagerDataToGlobalStateObject() {
-    return {
-      player: {
-        position: {
-          x: this.#store.get(DATA_MANAGER_STORE_KEYS.PLAYER_POSITION).x,
-          y: this.#store.get(DATA_MANAGER_STORE_KEYS.PLAYER_POSITION).y,
-        },
-        direction: this.#store.get(DATA_MANAGER_STORE_KEYS.PLAYER_DIRECTION),
-        location: { ...this.#store.get(DATA_MANAGER_STORE_KEYS.PLAYER_LOCATION) },
-      },
-      options: {
-        textSpeed: this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_TEXT_SPEED),
-        battleSceneAnimations: this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_BATTLE_SCENE_ANIMATIONS),
-        battleStyle: this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_BATTLE_STYLE),
-        sound: this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_SOUND),
-        volume: this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_VOLUME),
-        menuColor: this.#store.get(DATA_MANAGER_STORE_KEYS.OPTIONS_MENU_COLOR),
-      },
-      gameStarted: this.#store.get(DATA_MANAGER_STORE_KEYS.GAME_STARTED),
-      monsters: {
-        inParty: [...this.#store.get(DATA_MANAGER_STORE_KEYS.MONSTERS_IN_PARTY)],
-      },
-      inventory: this.#store.get(DATA_MANAGER_STORE_KEYS.INVENTORY),
-      itemsPickedUp: [...(this.#store.get(DATA_MANAGER_STORE_KEYS.ITEMS_PICKED_UP) || [])],
-      viewedEvents: [...(this.#store.get(DATA_MANAGER_STORE_KEYS.VIEWED_EVENTS) || [])],
-      flags: [...(this.#store.get(DATA_MANAGER_STORE_KEYS.FLAGS) || [])],
-      defeatedNpcs: Array.from(this.#store.get(DATA_MANAGER_STORE_KEYS.DEFEATED_NPCS) || new Set()),
-    };
+  /** @param {string | number} npcId */
+  isNpcDefeated(npcId) {
+    return this.state.defeatedNpcs.includes(String(npcId));
   }
 }
 

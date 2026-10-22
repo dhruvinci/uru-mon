@@ -1,56 +1,26 @@
-import { WORLD_ASSET_KEYS } from '../assets/asset-keys.js';
+import { WORLD_KEYS } from '../assets/asset-keys.js';
 
 /**
- * @typedef ItemConfig
- * @type {object}
- * @property {Phaser.Scene} scene the Phaser 3 Scene the battle menu will be added to
- * @property {import("../types/typedef").Coordinate} position the items position
- * @property {number} itemId
- * @property {number} id
+ * A dabba lying on the ground that the player can pick up.
  */
-
 export class Item {
-  /** @type {Phaser.Scene} */
-  #scene;
-  /** @type {Phaser.GameObjects.Image} */
-  #phaserGameObject;
-  /** @type {number} */
-  #id;
-  /** @type {number} */
-  #itemId;
-
   /**
-   * @param {ItemConfig} config
+   * @param {object} config
+   * @param {Phaser.Scene} config.scene
+   * @param {{x: number, y: number}} config.position tile top-left in world pixels
+   * @param {number} config.itemId
+   * @param {string} config.id unique pickup id
+   * @param {number} [config.quantity]
    */
   constructor(config) {
-    this.#id = config.id;
-    this.#itemId = config.itemId;
-    this.#scene = config.scene;
-    this.#phaserGameObject = this.#scene.add
-      .image(config.position.x, config.position.y, WORLD_ASSET_KEYS.BEACH, 22)
-      .setOrigin(0);
-  }
-
-  /** @type {Phaser.GameObjects.Image} */
-  get gameObject() {
-    return this.#phaserGameObject;
-  }
-
-  /** @type {import('../types/typedef').Coordinate} */
-  get position() {
-    return {
-      x: this.#phaserGameObject.x,
-      y: this.#phaserGameObject.y,
-    };
-  }
-
-  /** @type {number} */
-  get itemId() {
-    return this.#itemId;
-  }
-
-  /** @type {number} */
-  get id() {
-    return this.#id;
+    this.id = config.id;
+    this.itemId = config.itemId;
+    this.quantity = config.quantity ?? 1;
+    const scene = config.scene;
+    this.gameObject = scene.textures.exists(WORLD_KEYS.ITEM_BALL)
+      ? scene.add.image(config.position.x, config.position.y, WORLD_KEYS.ITEM_BALL).setOrigin(0).setScale(4)
+      : scene.add.circle(config.position.x + 32, config.position.y + 32, 18, 0xe04040).setStrokeStyle(4, 0x2a2230);
+    this.gameObject.setDepth(config.position.y);
+    this.position = { ...config.position };
   }
 }

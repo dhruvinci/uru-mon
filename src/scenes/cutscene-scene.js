@@ -23,6 +23,8 @@ export class CutsceneScene extends BaseScene {
       .setOrigin(0)
       .setVisible(false);
     this.scene.bringToTop();
+    // dialog must always draw above the letterbox bars
+    this.scene.bringToTop(SCENE_KEYS.DIALOG_SCENE);
   }
 
   /**
