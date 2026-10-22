@@ -63,7 +63,7 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
 - **Maps**: logical grid is 64 px (`TILE_SIZE`), art is 16 px shown ×4 with `pixelArt: true`. Building doors are
   *blocked* warp tiles triggered by bumping; `exits` on map edges generate paired warps (`N0`↔`S0`, ...).
   Shared interiors (Darshini, Kirana) exit to `@return`, set by the entering door's `setReturn`.
-- **Characters**: `CHAR_*` sheets are 3 columns × 4 rows (down, up, left, right) of 16×24 frames; walk anims are built
+- **Characters**: `CHAR_*` sheets are 3 columns × 4 rows (down, up, left, right) of 16×32 frames; walk anims are built
   in `PreloadScene`. Trainer species `"RIVAL:n"` resolves to stage n of Sudeep's starter line at runtime.
 - **Admin profile**: on localhost (or with `?admin`) the title menu shows ADMIN MODE, a separate save slot
   (`URU_MON_SAVE_V1_ADMIN`) with all 150 Urumon, every badge and item, and WARP in the START menu (src/game/admin-profile.js).
