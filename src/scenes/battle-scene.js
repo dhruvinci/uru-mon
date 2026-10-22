@@ -18,6 +18,7 @@ import { playMoveFx, shakeAndBlink, statChangeFx, statusFx } from '../battle/ui/
 import { MessageBox, ListMenu, panel, text, typeBadge, readMenuInput, wait, tween, cursor } from '../ui/ui-kit.js';
 import { promptLearnMove } from '../ui/learn-move.js';
 import { dataManager } from '../utils/data-manager.js';
+import { graphicsSetting, timeOfDay } from '../fx/world-fx.js';
 import { BATTLE_SCENE_OPTIONS } from '../common/options.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
@@ -92,6 +93,7 @@ export class BattleScene extends BaseScene {
     });
 
     this.#createBackground(d.environment || 'grass');
+    this.#atmosphere(d.environment || 'grass');
     this.enemySprite = this.add.image(ENEMY_POS.x, ENEMY_POS.y, getSpecies(this.battle.enemyActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(SPRITE_SCALE).setDepth(10);
     this.playerSprite = this.add.image(PLAYER_POS.x, PLAYER_POS.y, getSpecies(this.battle.playerActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(SPRITE_SCALE).setFlipX(true).setDepth(11);
     this.enemySprite.setVisible(false);
@@ -835,6 +837,26 @@ export class BattleScene extends BaseScene {
     }
     sprite.destroy();
     cover.destroy();
+  }
+
+  /**
+   * Matches the overworld's graphics setting: a soft vignette, and a cooler, dimmer grade for outdoor battles at night.
+   * @param {string} environment
+   */
+  #atmosphere(environment) {
+    const cam = /** @type {any} */ (this.cameras.main);
+    if (graphicsSetting() === 'CLASSIC' || !cam.postFX) {
+      return;
+    }
+    cam.postFX.addVignette(0.5, 0.5, 0.95, 0.22);
+    const indoor = ['indoor', 'arena', 'cave'].includes(environment);
+    const phase = timeOfDay();
+    if (!indoor && phase !== 'day') {
+      // tint only the backdrop (depth 0); the creatures and the UI stay true to colour
+      const night = phase === 'night';
+      this.add.rectangle(0, 0, 1024, 432, night ? 0x5868b8 : 0xf0a070, night ? 0.55 : 0.28).setOrigin(0).setDepth(1)
+        .setBlendMode(Phaser.BlendModes.MULTIPLY);
+    }
   }
 
   /** @param {BattleResult} result */
