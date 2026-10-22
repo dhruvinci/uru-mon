@@ -145,7 +145,7 @@ MAPS.append(dict(
             say("I heard a laugh in the palace corridors last night. Nobody was there.", speaker="Guard")]),
         npc("rohan_pr", 21, 7, "rival", facing="DOWN", showIf={"badge": "SPIRIT"}, hideIf="RIVAL4_DONE", script=[]),
     ],
-    triggers=[dict(id="rival4", x=19, y=9, w=2, h=4, requires={"badge": "SPIRIT"}, unless="RIVAL4_DONE", script=[
+    triggers=[dict(id="rival4", once=False, x=19, y=9, w=2, h=4, requires={"badge": "SPIRIT"}, unless="RIVAL4_DONE", script=[
         {"exclaim": "rohan_pr"},
         {"npcToPlayer": "rohan_pr"},
         {"battle": {"trainer": "rival_palace", "id": "rohan_pr"}},

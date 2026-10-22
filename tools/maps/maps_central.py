@@ -74,7 +74,7 @@ MAPS.append(dict(
                 "Getting there means crossing Silk Board, though. Pack lunch. And dinner.")]),
         npc("rohan_mg", 21, 29, "rival", facing="DOWN", showIf={"not": "RIVAL2_DONE"}, sight=0, script=[]),
     ],
-    triggers=[dict(id="rival2", x=20, y=31, w=2, h=1, unless="RIVAL2_DONE", script=[
+    triggers=[dict(id="rival2", once=False, x=20, y=31, w=2, h=1, unless="RIVAL2_DONE", script=[
         {"exclaim": "rohan_mg"},
         {"npcToPlayer": "rohan_mg"},
         {"battle": {"trainer": "rival_mg", "id": "rohan_mg"}},
@@ -199,7 +199,7 @@ MAPS.append(dict(
             say("Whitefield has eleven coffee places and zero parking spots.")]),
         npc("rohan_wf", 3, 15, "rival", facing="RIGHT", showIf={"not": "RIVAL3_DONE"}, script=[]),
     ],
-    triggers=[dict(id="rival3", x=1, y=14, w=1, h=2, unless="RIVAL3_DONE", script=[
+    triggers=[dict(id="rival3", once=False, x=1, y=14, w=1, h=2, unless="RIVAL3_DONE", script=[
         {"exclaim": "rohan_wf"},
         {"npcToPlayer": "rohan_wf"},
         {"battle": {"trainer": "rival_whitefield", "id": "rohan_wf"}},

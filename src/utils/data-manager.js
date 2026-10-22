@@ -196,12 +196,15 @@ class DataManager extends Phaser.Events.EventEmitter {
     }
   }
 
+  /** @returns {boolean} whether the save reached storage */
   saveData() {
     this.#accumulatePlayTime();
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.state));
+      return true;
     } catch (error) {
       console.warn('[DataManager] could not save', error);
+      return false;
     }
   }
 

@@ -67,6 +67,8 @@ try {
   await snap('after_lab');
   const st = await state(page);
   console.log('lab done:', ok, 'party', st.monsters.inParty.map((m) => `${m.speciesId}@${m.level}`), 'flags', st.flags, 'inv', JSON.stringify(st.inventory));
+  const sprite = await page.evaluate(() => { const p = window.__uruGame.scene.getScene('WORLD_SCENE').player.sprite; return [p.x / 64, p.y / 64]; });
+  console.log('saved position matches sprite:', st.player.position.x / 64 === sprite[0] && st.player.position.y / 64 === sprite[1], sprite);
   console.log('scenes', await activeScenes(page));
 } finally {
   console.log(errors.length ? `ERRORS:\n${errors.join('\n')}` : 'no errors');

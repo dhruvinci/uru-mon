@@ -120,6 +120,8 @@ class InputManager {
     });
     this.directionStack = [];
     this.downCodes.clear();
+    this.pending.clear();
+    this.pressedThisFrame.clear();
   }
 
   /**

@@ -34,6 +34,18 @@ import { displayName, getMaxHp, getMove, getSpecies, getStats } from './monster.
  * @type {{kind: 'MOVE', slot: number} | {kind: 'SWITCH', index: number} | {kind: 'ITEM', item: object, targetIndex: number} | {kind: 'CATCH', item: object} | {kind: 'RUN'}}
  */
 
+/**
+ * @param {import('./monster.js').Monster} mon
+ * @param {import('./monster.js').StatusCondition} status
+ */
+function statusImmune(mon, status) {
+  return (
+    (status === 'BRN' && hasType(mon, 'FIRE')) ||
+    (status === 'PSN' && (hasType(mon, 'TOXIC') || hasType(mon, 'METAL'))) ||
+    (status === 'PAR' && hasType(mon, 'ELECTRIC'))
+  );
+}
+
 export const STRUGGLE_MOVE = Object.freeze({
   id: 0,
   name: 'Struggle',
@@ -199,7 +211,7 @@ export class Battle {
     }
     switch (effect.kind) {
       case 'status':
-        return target.status ? -1 : 1.2;
+        return target.status || statusImmune(target, effect.status) ? -1 : 1.2;
       case 'heal':
       case 'rest': {
         const ratio = user.hp / getMaxHp(user);
@@ -208,7 +220,10 @@ export class Battle {
       case 'stat': {
         const tgt = effect.target === 'self' ? side : this.other(side);
         const stages = this.sides[tgt].vol.stages;
-        const room = Object.keys(effect.stats).some((k) => Math.abs(stages[k]) < 2);
+        const room = Object.entries(effect.stats).some(([k, delta]) => {
+          const v = stages[k.toLowerCase()];
+          return delta > 0 ? v < 2 : v > -2;
+        });
         return room ? 0.9 : -1;
       }
       default:
@@ -396,7 +411,7 @@ export class Battle {
       } else {
         const critChance = effect && effect.kind === 'highCrit' ? 12.5 : 6.25;
         crit = this.roll(critChance);
-        const stab = hasType(user, move.type) ? 1.5 : 1;
+        const stab = move.id !== STRUGGLE_MOVE.id && hasType(user, move.type) ? 1.5 : 1;
         const random = 0.85 + this.rng() * 0.15;
         damage = Math.floor(this.baseDamage(side, move, crit) * stab * eff * (crit ? 1.5 : 1) * random);
         damage = Math.max(1, damage);
@@ -553,11 +568,7 @@ export class Battle {
    */
   inflictStatus(side, status, events, announceFailure) {
     const mon = this.active(side);
-    const immune =
-      (status === 'BRN' && hasType(mon, 'FIRE')) ||
-      (status === 'PSN' && (hasType(mon, 'TOXIC') || hasType(mon, 'METAL'))) ||
-      (status === 'PAR' && hasType(mon, 'ELECTRIC'));
-    if (mon.status || immune || mon.hp <= 0) {
+    if (mon.status || statusImmune(mon, status) || mon.hp <= 0) {
       if (announceFailure) {
         events.push({ type: 'MESSAGE', text: 'But it failed!' });
       }

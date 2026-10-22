@@ -223,7 +223,7 @@ export class BattleScene extends BaseScene {
         width,
         items,
         cancelable: opts.cancelable ?? true,
-        depth: 60,
+        depth: 80,
       });
       if (opts.title) {
         this.messageBox.setText(opts.title);
@@ -655,10 +655,11 @@ export class BattleScene extends BaseScene {
         const next = this.data_.trainer.team[this.battle.nextEnemyIndex()];
         await this.say(`${this.data_.trainer.name} is about to send in ${displayName(next)}.`);
         await this.#playEvents(this.battle.sendNextEnemy());
-      } else {
+      } else if (this.battle.hasUsableMonsters('player')) {
         await this.#onWin();
         return true;
       }
+      // both sides went down together (recoil, Struggle): fall through to the loss below
     }
     if (this.battle.playerActive.hp <= 0) {
       if (!this.battle.hasUsableMonsters('player')) {

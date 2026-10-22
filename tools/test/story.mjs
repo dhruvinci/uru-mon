@@ -19,6 +19,12 @@ async function playUntil(cond, ms = 240000) {
   }
   return false;
 }
+// The driver only ever picks move 1, so keep the strongest move that still has PP there.
+const strongestMoveFirst = () => {
+  const { dataManager, gameData } = window.__uru;
+  const power = (m) => (m.pp > 0 ? gameData.moves.find((x) => x.id === m.id)?.power || 0 : -1);
+  dataManager.party.forEach((m) => m.moves.sort((a, b) => power(b) - power(a)));
+};
 const flags = async () => (await state(page)).flags;
 const idle = () => page.evaluate(() => { const w = window.__uruGame.scene.getScene('WORLD_SCENE'); return window.__uruGame.scene.isActive('WORLD_SCENE') && w.player && !w.inputLocked && !w.player.isMoving; });
 const go = async (q) => { await open(page, q); await waitScene(page, 'WORLD_SCENE'); await sleep(page, 900); };
@@ -38,6 +44,19 @@ try {
     await walk(page, 'UP', 1);
     const ok = await playUntil(async () => (await flags()).includes('RIVAL2_DONE') && (await idle()));
     console.log('rival2:', ok);
+  }
+  if (part === 'rival2lose') {
+    // lose to Rohan with a weak team, then come back: the encounter must happen again
+    await go(`?scene=test&map=mg_road&warp=S0&party=10:3&badges=GRASS`);
+    await walk(page, 'UP', 1);
+    const lost = await playUntil(async () => (await state(page)).player.location.area !== 'mg_road' && (await idle()));
+    console.log('lost and blacked out:', lost, 'at', (await state(page)).player.location.area);
+    await page.evaluate(() => window.__uru.dataManager.party.forEach((m) => window.__uru.fullyHeal(m)));
+    await page.evaluate(() => window.__uruGame.scene.getScene('WORLD_SCENE').warpTo({ area: 'mg_road', warpId: 'S0' }));
+    await sleep(page, 1500);
+    await walk(page, 'UP', 1);
+    const again = await playUntil(() => page.evaluate(() => window.__uruGame.scene.isActive('BATTLE_SCENE')), 30000);
+    console.log('rematch started:', again, 'RIVAL2_DONE', (await flags()).includes('RIVAL2_DONE'));
   }
   if (part === 'rival3') {
     await go(`?scene=test&map=whitefield&warp=W0&party=${STRONG}`);
@@ -94,6 +113,7 @@ try {
       await sleep(page, 300);
       await press(page, 'A');
       const ok = await playUntil(async () => {
+        await page.evaluate(strongestMoveFirst);
         const credits = await page.evaluate(() => window.__uruGame.scene.isActive('CREDITS_SCENE'));
         const s = await state(page);
         return credits || (s.defeatedNpcs.includes(npcId) && (await idle()));

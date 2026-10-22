@@ -18,7 +18,7 @@ import {
   getSpecies,
   fullyHeal,
 } from '../../src/battle/engine/monster.js';
-import { Battle, catchShakes, applyItem } from '../../src/battle/engine/battle-engine.js';
+import { Battle, catchShakes, applyItem, STRUGGLE_MOVE } from '../../src/battle/engine/battle-engine.js';
 import { typeEffectiveness } from '../../src/battle/engine/type-chart.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -145,4 +145,34 @@ test('level 5 starter vs level 3 wild: reasonable damage', () => {
   battle.resolveTurn({ kind: 'MOVE', slot: 0 }, { kind: 'MOVE', slot: 1 });
   const dealt = before - wild.hp;
   assert.ok(dealt >= 3 && dealt <= before, `dealt ${dealt} of ${before}`);
+});
+
+test('AI scores stat and status moves by what they can still do', () => {
+  const byName = (n) => moves.find((m) => m.name === n);
+  const battle = new Battle({ playerParty: [createMonster(47, 20)], enemyParty: [createMonster(13, 20)], aiLevel: 2 });
+  // Honk lowers the foe's ATK: worth it at neutral, pointless at -6 (move data uses upper-case stat keys)
+  assert.ok(battle.scoreMove('enemy', byName('Honk')) > 0);
+  battle.sides.player.vol.stages.atk = -6;
+  assert.equal(battle.scoreMove('enemy', byName('Honk')), -1);
+  // Battle Cry raises the user's ATK
+  assert.ok(battle.scoreMove('enemy', byName('Battle Cry')) > 0);
+  battle.sides.enemy.vol.stages.atk = 6;
+  assert.equal(battle.scoreMove('enemy', byName('Battle Cry')), -1);
+  // ELECTRIC can't be paralyzed, so Pollen Puff is useless against species 47
+  assert.equal(battle.scoreMove('enemy', byName('Pollen Puff')), -1);
+});
+
+test('Struggle is typeless: no same-type bonus for NORMAL users', () => {
+  const user = createMonster(13, 30); // Alilu, NORMAL
+  const foe = createMonster(26, 60);
+  fullyHeal(user);
+  fullyHeal(foe);
+  user.moves.forEach((m) => {
+    m.pp = 0;
+  });
+  const battle = new Battle({ playerParty: [user], enemyParty: [foe], rng: () => 0.5 });
+  const base = battle.baseDamage('player', STRUGGLE_MOVE, false);
+  const { events } = battle.resolveTurn({ kind: 'MOVE', slot: 0 });
+  const hit = events.find((e) => e.type === 'DAMAGE' && e.side === 'enemy');
+  assert.equal(hit.amount, Math.max(1, Math.floor(base * (0.85 + 0.5 * 0.15))));
 });

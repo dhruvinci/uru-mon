@@ -359,6 +359,7 @@ export class ScriptRunner {
       const prev = p._spriteGridMovementFinishedCallback;
       p._spriteGridMovementFinishedCallback = () => {
         p._spriteGridMovementFinishedCallback = prev;
+        prev?.();
         resolve();
       };
       p.moveCharacter(/** @type {any} */ (dir));

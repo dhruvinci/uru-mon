@@ -21,7 +21,7 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
 - Engine unit/fuzz tests: `node --test tools/test/engine.test.mjs`.
 - Browser tests (Playwright, `cd tools && npm install` once) expect the dev server on port 8080:
   `node test/world-smoke.mjs <shots_dir> <map,map>`, `newgame.mjs`, `services.mjs`, `systems.mjs <dir> catch|evolve`,
-  `progression.mjs <dir> leader|metro|blackout`, `story.mjs <dir> cubbon|rival2|rival3|bellandur|rival4|nandi|council`.
+  `progression.mjs <dir> leader|metro|blackout`, `story.mjs <dir> cubbon|rival2|rival2lose|rival3|bellandur|rival4|nandi|council`.
   `window.__uru` exposes `dataManager`, `gameData`, `createMonster` for tests.
 
 ## Generated files: edit the sources, not the outputs
@@ -48,6 +48,8 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   through `game.events` `'battle-finished'`.
 - **Scripts**: map NPCs, triggers and interactables carry JSON command lists run by `src/world/script-runner.js`
   (command reference at the top of that file); conditions are evaluated by `WorldScene.checkCondition`.
+  Triggers are one-time by default and are marked viewed *before* they run, so a trigger whose battle can be lost
+  must use `once=False` plus an `unless` flag set at the end of its script (see the rival triggers).
 - **Maps**: logical grid is 64 px (`TILE_SIZE`), art is 16 px shown ×4 with `pixelArt: true`. Building doors are
   *blocked* warp tiles triggered by bumping; `exits` on map edges generate paired warps (`N0`↔`S0`, ...).
   Shared interiors (Darshini, Kirana) exit to `@return`, set by the entering door's `setReturn`.

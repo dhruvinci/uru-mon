@@ -846,9 +846,12 @@ export class WorldScene extends BaseScene {
         if (choice === 'SAVE') {
           const yes = await this.ui.ask('Save your progress?');
           if (yes) {
-            dataManager.saveData();
-            playSoundFx(this, AUDIO_KEYS.SFX_SAVE);
-            await this.ui.say(`${dataManager.state.player.name} saved the game.`);
+            if (dataManager.saveData()) {
+              playSoundFx(this, AUDIO_KEYS.SFX_SAVE);
+              await this.ui.say(`${dataManager.state.player.name} saved the game.`);
+            } else {
+              await this.ui.say("The save didn't go through. Your browser may be blocking or out of storage.");
+            }
           } else {
             this.ui.close();
           }
