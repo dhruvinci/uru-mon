@@ -55,7 +55,7 @@ export class TitleScene extends BaseScene {
         .setShadow(8, 8, '#00000066', 0, true, true);
     }
     this.tweens.add({ targets: this.logo, y: '+=8', duration: 1600, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
-    text(this, width / 2, 238, 'A  BENGALURU  ADVENTURE', { fontFamily: FONT, fontSize: '30px', color: '#ffe9a8', fontStyle: 'bold' })
+    this.subtitle = text(this, width / 2, 238, 'A  BENGALURU  ADVENTURE', { fontFamily: FONT, fontSize: '30px', color: '#ffe9a8', fontStyle: 'bold' })
       .setOrigin(0.5)
       .setStroke('#3a1f5c', 8);
 
@@ -65,7 +65,7 @@ export class TitleScene extends BaseScene {
       .setStroke('#3a1f5c', 8);
     this.tweens.add({ targets: this.press, alpha: 0.2, duration: 600, yoyo: true, repeat: -1 });
     const hint = window.matchMedia('(pointer: coarse)').matches ? 'tap START or A' : 'Enter / Z to start  ·  arrows to move  ·  Z/Space = A  ·  X/Shift = B  ·  F fullscreen';
-    this.add.text(width / 2, 372, hint, { fontFamily: FONT, fontSize: '18px', color: '#fff4d6' }).setOrigin(0.5).setAlpha(0.85);
+    this.hint = this.add.text(width / 2, 372, hint, { fontFamily: FONT, fontSize: '18px', color: '#fff4d6' }).setOrigin(0.5).setAlpha(0.85);
     this.add.text(width - 12, 10, 'v1.0', { fontFamily: FONT, fontSize: '16px', color: '#fff4d6' }).setOrigin(1, 0).setAlpha(0.6);
 
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_TITLE);
@@ -102,6 +102,8 @@ export class TitleScene extends BaseScene {
       this.menu = null;
       this.stage = 'press';
       this.press.setVisible(true);
+      this.subtitle.setVisible(true);
+      this.hint.setVisible(true);
       return;
     }
     playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
@@ -115,13 +117,19 @@ export class TitleScene extends BaseScene {
     this.menuItems = [
       ...(dataManager.hasSave() ? ['CONTINUE'] : []),
       'NEW GAME',
+      'QUICK BATTLE',
       'URU-PUSTAKA',
       'BENGALURU MAP',
       'OPTIONS',
       ...(adminAvailable() ? ['ADMIN MODE'] : []),
     ];
-    const height = this.menuItems.length * 46 + 36;
-    this.menu = new ListMenu(this, { x: 1024 / 2 - 190, y: Math.min(290, 576 - height - 10), width: 380, items: this.menuItems, depth: 10 });
+    const rowHeight = 42;
+    const height = this.menuItems.length * rowHeight + 36;
+    this.subtitle.setVisible(height < 300);
+    this.hint.setVisible(false);
+    this.menu = new ListMenu(this, {
+      x: 1024 / 2 - 190, y: Math.min(290, 576 - height - 10), width: 380, items: this.menuItems, rowHeight, depth: 10,
+    });
   }
 
   /** @param {string} choice */
@@ -146,6 +154,10 @@ export class TitleScene extends BaseScene {
       if (choice === 'CONTINUE') {
         dataManager.loadData();
         this.scene.start(SCENE_KEYS.WORLD_SCENE);
+        return;
+      }
+      if (choice === 'QUICK BATTLE') {
+        this.scene.start(SCENE_KEYS.QUICK_BATTLE_SCENE);
         return;
       }
       if (choice === 'ADMIN MODE') {

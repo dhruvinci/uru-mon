@@ -47,6 +47,7 @@ import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
  * @property {string} [environment]
  * @property {boolean} [canLose] story battles where losing doesn't black you out
  * @property {string} [music]
+ * @property {boolean} [quick] Quick Battle from the title screen: no EXP (prize 0 and canLose are set by the caller)
  */
 
 /**
@@ -722,6 +723,9 @@ export class BattleScene extends BaseScene {
 
   /** @param {import('../battle/engine/monster.js').Monster} enemy */
   async #awardExp(enemy) {
+    if (this.data_.quick) {
+      return;
+    }
     const base = expYield(enemy, this.isTrainer);
     const shares = this.battle.expShares(base);
     const ctx = { say: (m) => this.say(m), choose: (items, opts) => this.choose(items, opts) };

@@ -20,6 +20,7 @@ import { CreditsScene } from './scenes/credits-scene.js';
 import { TestScene } from './scenes/test-scene.js';
 import { StarterScene } from './scenes/starter-scene.js';
 import { RegionMapScene } from './scenes/region-map-scene.js';
+import { QuickBattleScene } from './scenes/quick-battle-scene.js';
 import { setupTouchControls } from './input/touch-controls.js';
 import { inputManager } from './input/input-manager.js';
 import { dataManager } from './utils/data-manager.js';
@@ -62,6 +63,7 @@ const scenes = [
   [SCENE_KEYS.CREDITS_SCENE, CreditsScene],
   [SCENE_KEYS.STARTER_SCENE, StarterScene],
   [SCENE_KEYS.REGION_MAP_SCENE, RegionMapScene],
+  [SCENE_KEYS.QUICK_BATTLE_SCENE, QuickBattleScene],
   [SCENE_KEYS.TEST_SCENE, TestScene],
 ];
 scenes.forEach(([key, cls]) => game.scene.add(key, cls));

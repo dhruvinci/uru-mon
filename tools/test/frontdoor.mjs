@@ -1,5 +1,5 @@
 // The title-screen extras and the starter showcase: Pustaka browse, Bengaluru map, admin profile, starter choice.
-// Usage: node test/frontdoor.mjs <shots_dir> [pustaka|map|admin|starter|fishing]   (default: all)
+// Usage: node test/frontdoor.mjs <shots_dir> [pustaka|map|admin|starter|quick|fishing]   (default: all)
 import { launch, open, press, sleep, waitScene, state } from './harness.mjs';
 
 const shots = process.argv[2] || '/tmp';
@@ -101,6 +101,31 @@ try {
     console.log('warped to:', area, 'saved location', after.player.location.area);
     await snap('admin_warped');
     console.log('main save untouched by admin:', !mainSave || 'main save existed before');
+  }
+  if (want('quick')) {
+    await titleMenu('QUICK BATTLE');
+    await press(page, 'A');
+    await waitScene(page, 'QUICK_BATTLE_SCENE');
+    await sleep(page, 1500);
+    await snap('quick_matchup');
+    const teams = await page.evaluate(() => { const q = window.__uruGame.scene.getScene('QUICK_BATTLE_SCENE'); return { mine: q.mine, theirs: q.theirs, opp: q.opponent.name }; });
+    console.log('quick battle teams:', JSON.stringify(teams));
+    await press(page, 'A');
+    await waitScene(page, 'BATTLE_SCENE');
+    const levels = await page.evaluate(() => { const b = window.__uruGame.scene.getScene('BATTLE_SCENE'); return [b.battle.playerActive.level, b.battle.enemyActive.level]; });
+    let stage = '';
+    for (let i = 0; i < 700 && stage !== 'result'; i += 1) {
+      await press(page, 'A', 40);
+      await sleep(page, 120);
+      stage = await page.evaluate(() => window.__uruGame.scene.getScene('QUICK_BATTLE_SCENE').stage);
+    }
+    await snap('quick_result');
+    console.log('quick battle finished:', stage === 'result', 'levels', levels.join('/'));
+    // back to the title: the real state comes back and nothing was saved
+    await press(page, 'DOWN'); await press(page, 'DOWN'); await press(page, 'A');
+    await waitScene(page, 'TITLE_SCENE');
+    const after = await page.evaluate(() => ({ party: window.__uru.dataManager.party.length, saved: localStorage.getItem('URU_MON_SAVE_V1') }));
+    console.log('state restored after quick battle:', after.party === 0, 'saved anything:', Boolean(after.saved));
   }
   if (want('fishing')) {
     await open(page, '?scene=test&map=lalbagh&party=6:30');
