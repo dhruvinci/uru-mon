@@ -313,6 +313,18 @@
    "url": "assets/images/creatures/078.png"
   },
   {
+   "key": "MON_079",
+   "url": "assets/images/creatures/079.png"
+  },
+  {
+   "key": "MON_080",
+   "url": "assets/images/creatures/080.png"
+  },
+  {
+   "key": "MON_081",
+   "url": "assets/images/creatures/081.png"
+  },
+  {
    "key": "MON_082",
    "url": "assets/images/creatures/082.png"
   },
@@ -421,6 +433,10 @@
    "url": "assets/images/creatures/108.png"
   },
   {
+   "key": "MON_109",
+   "url": "assets/images/creatures/109.png"
+  },
+  {
    "key": "MON_110",
    "url": "assets/images/creatures/110.png"
   },
@@ -435,6 +451,154 @@
   {
    "key": "MON_113",
    "url": "assets/images/creatures/113.png"
+  },
+  {
+   "key": "MON_114",
+   "url": "assets/images/creatures/114.png"
+  },
+  {
+   "key": "MON_115",
+   "url": "assets/images/creatures/115.png"
+  },
+  {
+   "key": "MON_116",
+   "url": "assets/images/creatures/116.png"
+  },
+  {
+   "key": "MON_117",
+   "url": "assets/images/creatures/117.png"
+  },
+  {
+   "key": "MON_118",
+   "url": "assets/images/creatures/118.png"
+  },
+  {
+   "key": "MON_119",
+   "url": "assets/images/creatures/119.png"
+  },
+  {
+   "key": "MON_120",
+   "url": "assets/images/creatures/120.png"
+  },
+  {
+   "key": "MON_121",
+   "url": "assets/images/creatures/121.png"
+  },
+  {
+   "key": "MON_122",
+   "url": "assets/images/creatures/122.png"
+  },
+  {
+   "key": "MON_123",
+   "url": "assets/images/creatures/123.png"
+  },
+  {
+   "key": "MON_124",
+   "url": "assets/images/creatures/124.png"
+  },
+  {
+   "key": "MON_125",
+   "url": "assets/images/creatures/125.png"
+  },
+  {
+   "key": "MON_126",
+   "url": "assets/images/creatures/126.png"
+  },
+  {
+   "key": "MON_127",
+   "url": "assets/images/creatures/127.png"
+  },
+  {
+   "key": "MON_128",
+   "url": "assets/images/creatures/128.png"
+  },
+  {
+   "key": "MON_129",
+   "url": "assets/images/creatures/129.png"
+  },
+  {
+   "key": "MON_130",
+   "url": "assets/images/creatures/130.png"
+  },
+  {
+   "key": "MON_131",
+   "url": "assets/images/creatures/131.png"
+  },
+  {
+   "key": "MON_132",
+   "url": "assets/images/creatures/132.png"
+  },
+  {
+   "key": "MON_133",
+   "url": "assets/images/creatures/133.png"
+  },
+  {
+   "key": "MON_134",
+   "url": "assets/images/creatures/134.png"
+  },
+  {
+   "key": "MON_135",
+   "url": "assets/images/creatures/135.png"
+  },
+  {
+   "key": "MON_136",
+   "url": "assets/images/creatures/136.png"
+  },
+  {
+   "key": "MON_137",
+   "url": "assets/images/creatures/137.png"
+  },
+  {
+   "key": "MON_138",
+   "url": "assets/images/creatures/138.png"
+  },
+  {
+   "key": "MON_139",
+   "url": "assets/images/creatures/139.png"
+  },
+  {
+   "key": "MON_140",
+   "url": "assets/images/creatures/140.png"
+  },
+  {
+   "key": "MON_141",
+   "url": "assets/images/creatures/141.png"
+  },
+  {
+   "key": "MON_142",
+   "url": "assets/images/creatures/142.png"
+  },
+  {
+   "key": "MON_143",
+   "url": "assets/images/creatures/143.png"
+  },
+  {
+   "key": "MON_144",
+   "url": "assets/images/creatures/144.png"
+  },
+  {
+   "key": "MON_145",
+   "url": "assets/images/creatures/145.png"
+  },
+  {
+   "key": "MON_146",
+   "url": "assets/images/creatures/146.png"
+  },
+  {
+   "key": "MON_147",
+   "url": "assets/images/creatures/147.png"
+  },
+  {
+   "key": "MON_148",
+   "url": "assets/images/creatures/148.png"
+  },
+  {
+   "key": "MON_149",
+   "url": "assets/images/creatures/149.png"
+  },
+  {
+   "key": "MON_150",
+   "url": "assets/images/creatures/150.png"
   },
   {
    "key": "TRAINER_admin",

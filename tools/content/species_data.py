@@ -453,7 +453,7 @@ nsp(132, "Manju", ["FROST", "SPIRIT"], 260, "fastspec", "base", (36, 133),
     "a small floating wisp of white morning fog with a soft round face, trailing mist wisps, faint icy sparkles, playful ghostly")
 nsp(133, "Manjumaaye", ["FROST", "SPIRIT"], 440, "fastspec", "final", None,
     "It wraps the whole hill in fog at sunrise and reveals the view only to those it likes.",
-    "a tall elegant fog-spirit creature in a flowing gown made of mist and frost, pale blue glowing eyes, icy crystal jewellery, half-transparent, drifting above clouds")
+    "a large drifting fog spirit shaped like a wide billowing woollen shawl of grey-white mist with no body inside, two warm glowing lantern-like eyes in the folds, tiny frost crystals on its fringes, half-transparent, floating low over the ground")
 nsp(134, "Chiratemari", ["ROGUE"], 260, "fast", "base", (32, 135),
     "A leopard cub that hides in rocky scrub. It practises stalking on lizards.",
     "a small leopard cub with golden fur covered in black rosette spots, big bright eyes, a crouching playful stalking pose, long tail")
@@ -482,7 +482,7 @@ nsp(141, "Kalluhula", ["ROCK", "BUG"], 320, "tank", "rare", (40, 142),
     "a small trilobite-like ancient bug with a segmented grey-brown stone shell, many tiny legs, curious compound eyes, partly curled up")
 nsp(142, "Kalluveera", ["ROCK", "BUG"], 470, "phys", "final", None,
     "An ancient armoured hunter. Its shell is harder than the granite it was found in.",
-    "a large armoured ancient arthropod warrior with a segmented granite-like shell, long spiked tail, blade-like forelimbs, fossil patterns on its armour, standing upright")
+    "a huge armoured ancient millipede-like arthropod, partly coiled, with a long segmented granite shell covered in spiral fossil patterns, dozens of short sturdy legs, long whip antennae, glowing amber eyes, crawling low to the ground, no blades")
 nsp(143, "Yalimari", ["ROCK", "MYTH"], 300, "phys", "rare", (30, 144),
     "A temple-pillar cub that shook itself loose from the stone. It still has chisel marks on its paws.",
     "a small mythical yali cub carved from grey granite: a lion cub body, a tiny elephant trunk, curled mane, horse-like hooves, chisel marks, glowing amber eyes")
@@ -496,16 +496,16 @@ nsp(145, "Mahayali", ["MYTH", "ROCK"], 520, "phys", "final", None,
 # --- legendaries and the mythical No. 150 ----------------------------------------------------
 nsp(146, "Gandaberunda", ["SKY", "MYTH"], 580, "bal", "legend", None,
     "The two-headed eagle of the old kingdom's seal. It wakes only when the land needs a protector.",
-    "a colossal mythical two-headed eagle with two crowned heads facing opposite ways, golden and crimson feathers, huge spread wings, each head holding a curled trunk-like beak ornament, regal and fierce, legendary aura")
+    "a colossal heraldic eagle with TWO separate heads on two necks, the heads facing away from each other left and right like a royal emblem, each head wearing a small golden crown, deep crimson and gold feathers, broad wings spread symmetrically, standing upright like a coat of arms, each beak gripping a small elephant, regal")
 nsp(147, "Bisilu", ["FIRE", "EARTH"], 570, "phys", "legend", None,
     "The spirit of summer. In April it lies on the granite hills and the rocks glow with heat.",
-    "a powerful legendary lion made of sun-baked orange granite, a mane of shimmering heat-haze flames, cracked-earth patterns across its body, molten golden eyes, standing on a rocky outcrop")
+    "a massive legendary lion sculpted from sun-baked red-brown granite like an ancient temple statue, cracked-earth patterns across its stone body, a stone mane carved in tight curls, a large golden sun disk halo behind its head, faint heat shimmer, sitting upright on a boulder, calm and ancient, no flames")
 nsp(148, "Mungaru", ["WATER", "ELECTRIC"], 570, "bulky", "legend", None,
     "The spirit of the monsoon. Its trumpet is the first thunder of June.",
     "a giant legendary elephant made of dark storm clouds, lightning crackling along its tusks, rain pouring from its ears, a glowing blue rain-drop crest, trumpeting")
 nsp(149, "Chali", ["FROST", "MIND"], 570, "fastspec", "legend", None,
     "The spirit of winter mornings. It is seen only at sunrise, gliding over the sea of clouds.",
-    "a graceful legendary great hornbill made of pale morning fog and frost, a huge ivory casque on its beak, long white and silver tail feathers trailing mist, calm wise blue eyes, gliding above clouds")
+    "a giant legendary great hornbill perched on a rocky cliff edge, an enormous curved yellow-and-ivory casque on top of its long beak, black and white plumage edged with white frost, wisps of morning mist trailing from its folded wings, calm wise eyes, a few icicles hanging from its feathers")
 nsp(150, "Bendakaalu", ["CHARM", "MIND"], 560, "bal", "legend", None,
     "The boiled bean of the old legend, said to have fed a lost king. The city is named after it.",
     "a tiny glowing cream-coloured boiled bean spirit with a sprout on its head, a soft golden halo, wide wondering eyes, floating gently with sparkles, mythical and humble")
