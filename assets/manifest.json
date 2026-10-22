@@ -474,313 +474,343 @@
    "key": "CHAR_agni",
    "url": "assets/images/characters/agni.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_ajja",
    "url": "assets/images/characters/ajja.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_ajji",
    "url": "assets/images/characters/ajji.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_akash",
    "url": "assets/images/characters/akash.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_amma",
    "url": "assets/images/characters/amma.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
+  },
+  {
+   "key": "CHAR_area_boi",
+   "url": "assets/images/characters/area_boi.png",
+   "frameWidth": 16,
+   "frameHeight": 32
+  },
+  {
+   "key": "CHAR_area_boi2",
+   "url": "assets/images/characters/area_boi2.png",
+   "frameWidth": 16,
+   "frameHeight": 32
+  },
+  {
+   "key": "CHAR_arena_guide",
+   "url": "assets/images/characters/arena_guide.png",
+   "frameWidth": 16,
+   "frameHeight": 32
   },
   {
    "key": "CHAR_auto_driver",
    "url": "assets/images/characters/auto_driver.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_basappa",
    "url": "assets/images/characters/basappa.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_bhaskar",
    "url": "assets/images/characters/bhaskar.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_birdwatcher",
    "url": "assets/images/characters/birdwatcher.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_college_f",
    "url": "assets/images/characters/college_f.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_college_m",
    "url": "assets/images/characters/college_m.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_cricketer",
    "url": "assets/images/characters/cricketer.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_dancer",
    "url": "assets/images/characters/dancer.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_darshini_owner",
    "url": "assets/images/characters/darshini_owner.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_delivery_rider",
    "url": "assets/images/characters/delivery_rider.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_fisher",
    "url": "assets/images/characters/fisher.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_gardener",
    "url": "assets/images/characters/gardener.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_grunt_f",
    "url": "assets/images/characters/grunt_f.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_grunt_m",
    "url": "assets/images/characters/grunt_m.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_gundappa",
    "url": "assets/images/characters/gundappa.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_hoovamma",
    "url": "assets/images/characters/hoovamma.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_jogger",
    "url": "assets/images/characters/jogger.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_kaveri",
    "url": "assets/images/characters/kaveri.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_kid1",
    "url": "assets/images/characters/kid1.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_kid2",
    "url": "assets/images/characters/kid2.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_man1",
    "url": "assets/images/characters/man1.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_man2",
    "url": "assets/images/characters/man2.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_man3",
    "url": "assets/images/characters/man3.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_man4",
    "url": "assets/images/characters/man4.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_metro_staff",
    "url": "assets/images/characters/metro_staff.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_nagaraj",
    "url": "assets/images/characters/nagaraj.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_officer",
    "url": "assets/images/characters/officer.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
+  },
+  {
+   "key": "CHAR_park_ranger",
+   "url": "assets/images/characters/park_ranger.png",
+   "frameWidth": 16,
+   "frameHeight": 32
   },
   {
    "key": "CHAR_player_boy",
    "url": "assets/images/characters/player_boy.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_player_girl",
    "url": "assets/images/characters/player_girl.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_professor",
    "url": "assets/images/characters/professor.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_rival",
    "url": "assets/images/characters/rival.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_rohan_mom",
    "url": "assets/images/characters/rohan_mom.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
+  },
+  {
+   "key": "CHAR_rowdy",
+   "url": "assets/images/characters/rowdy.png",
+   "frameWidth": 16,
+   "frameHeight": 32
   },
   {
    "key": "CHAR_rukmini",
    "url": "assets/images/characters/rukmini.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_schoolboy",
    "url": "assets/images/characters/schoolboy.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_schoolgirl",
    "url": "assets/images/characters/schoolgirl.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_shopkeeper",
    "url": "assets/images/characters/shopkeeper.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_tanvi",
    "url": "assets/images/characters/tanvi.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_techie_f",
    "url": "assets/images/characters/techie_f.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_techie_m",
    "url": "assets/images/characters/techie_m.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_traffic_cop",
    "url": "assets/images/characters/traffic_cop.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_vendor",
    "url": "assets/images/characters/vendor.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_vidya",
    "url": "assets/images/characters/vidya.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_woman1",
    "url": "assets/images/characters/woman1.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_woman2",
    "url": "assets/images/characters/woman2.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_woman3",
    "url": "assets/images/characters/woman3.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_woman4",
    "url": "assets/images/characters/woman4.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   },
   {
    "key": "CHAR_wrestler",
    "url": "assets/images/characters/wrestler.png",
    "frameWidth": 16,
-   "frameHeight": 24
+   "frameHeight": 32
   }
  ],
  "maps": [
