@@ -103,7 +103,7 @@ export class BattleScene extends BaseScene {
       const fallback = `CHAR_${d.trainer.sprite || 'man1'}`;
       this.trainerSprite = hasPortrait
         ? this.add.image(TRAINER_POS.x, TRAINER_POS.y, d.trainer.portrait).setOrigin(0.5, 1).setScale(4)
-        : this.add.image(TRAINER_POS.x, TRAINER_POS.y, fallback, 0).setOrigin(0.5, 1).setScale(10);
+        : this.add.image(TRAINER_POS.x, TRAINER_POS.y, fallback, 0).setOrigin(0.5, 1).setScale(9); // 16x32 -> portrait height
       this.trainerSprite.setDepth(10).setVisible(false);
     }
 

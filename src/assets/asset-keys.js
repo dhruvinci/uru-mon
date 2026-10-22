@@ -2,7 +2,7 @@
  * Asset keys. Most textures are loaded from assets/manifest.json (built by tools/build_manifest.py) and follow
  * naming conventions rather than being listed here:
  *   creatures       MON_001 ... (64x64, shown x4)
- *   characters      CHAR_<preset>  (48x96 sheets of 16x24 frames)
+ *   characters      CHAR_<preset>  (48x128 sheets of 16x32 frames)
  *   trainer art     TRAINER_<name>
  *   battle bgs      BATTLE_BG_<ENV>
  *   maps            MAP_<id> (Tiled JSON), MAP_<id>_BG, MAP_<id>_FG

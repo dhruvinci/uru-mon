@@ -26,7 +26,7 @@ def main():
     for f in files("images", "creatures"):
         images.append({"key": f"MON_{f[:3]}", "url": rel("images", "creatures", f)})
     for f in files("images", "characters"):
-        sheets.append({"key": f"CHAR_{f[:-4]}", "url": rel("images", "characters", f), "frameWidth": 16, "frameHeight": 24})
+        sheets.append({"key": f"CHAR_{f[:-4]}", "url": rel("images", "characters", f), "frameWidth": 16, "frameHeight": 32})
     for f in files("images", "trainers"):
         images.append({"key": f"TRAINER_{f[:-4]}", "url": rel("images", "trainers", f)})
     for f in files("images", "battle"):

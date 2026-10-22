@@ -68,7 +68,8 @@ export class TrainerCardScene extends BaseScene {
 
     panel(this, 724, 128, 196, 194, { fill: 0xc8e0cc, inner: 0x89b89c });
     const key = `CHAR_player_${player.gender}`;
-    this.add.image(822, 224, this.textures.exists(key) ? key : '__MISSING', 0).setScale(6);
+    // 16x32 overworld frame at 5x fits the 194-px-tall panel with a margin.
+    this.add.image(822, 224, this.textures.exists(key) ? key : '__MISSING', 0).setScale(5);
     text(this, 100, 350, 'ARENA BADGES', 'small');
     BADGES.forEach((badge, i) => this.#drawBadge(159 + i * 141, 432, badge, player.badges.includes(badge.type)));
     text(this, 512, 542, 'Press any key or game button to close', 'small').setOrigin(0.5, 0);

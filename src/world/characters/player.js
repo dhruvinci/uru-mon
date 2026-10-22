@@ -30,7 +30,8 @@ export class Player extends Character {
   constructor(config) {
     super({
       ...config,
-      origin: { x: 0, y: 1 / 3 },
+      // 16x32 frames: the bottom 16 px stand on the tile, the head overhangs the tile above.
+      origin: { x: 0, y: 1 / 2 },
       idleFrameConfig: IDLE_FRAMES,
     });
     this.#assetKey = config.assetKey;
