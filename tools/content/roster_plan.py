@@ -1,6 +1,6 @@
-"""Proposal: growing the roster from 65 to 150 Urumon and bringing back the four missing types.
+"""The plan that grew the roster from 65 to 150 Urumon and brought back the four missing types (now built).
 
-Nothing here is in the game yet. The review site (tools/review/) renders this file, with the type balance computed
+The review site (tools/review/) renders this file, with the type balance computed
 from it, so the user can note on each family before anything is built. When building, each family turns into
 species_data.py entries, art prompts, learnsets and encounter slots.
 

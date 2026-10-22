@@ -21,7 +21,8 @@ A GBA-style creature-collecting RPG set in **Bengaluru**. Creatures are called *
 | currency | ₹ |
 
 ## Battle rules (see `src/battle/engine/`)
-- 14 types: NORMAL FIRE WATER GRASS ELECTRIC EARTH ROCK SKY BUG TOXIC FIGHT MIND SPIRIT METAL (chart in `type-chart.js`).
+- 18 types: NORMAL FIRE WATER GRASS ELECTRIC EARTH ROCK SKY BUG TOXIC FIGHT MIND SPIRIT METAL FROST MYTH ROGUE CHARM
+  (the standard matchups, chart in `type-chart.js`). FROST moves can freeze (20% thaw a turn; FIRE hits and Strong Kaapi thaw).
 - 5 stats: HP, ATK, DEF, SPC (special atk+def), SPD. Base stats per species; each individual has a 0–15 "spark" per stat.
   - `HP = floor((2·(B+s)·L)/100) + L + 10`, others `floor((2·(B+s)·L)/100) + 5`.
 - Moves: type, category (PHYSICAL uses ATK/DEF, SPECIAL uses SPC/SPC, STATUS), power, accuracy, PP, priority, optional effect.
@@ -51,6 +52,10 @@ A GBA-style creature-collecting RPG set in **Bengaluru**. Creatures are called *
 13. **Nandi Hills** — climb + cave; Syndicate HQ climax vs **Boss Bhaskar**; legendary **Udyanaga** at the summit; **Arena 6 (SKY)**, Leader **Akash**.
 14. **Vidhana Soudha** — Namma Council: Nagaraj (TOXIC), Basappa (ROCK), Kaveri (WATER), Agni (FIRE), then Champion **Sudeep**.
 
+15. **Bannerghatta Forest** — south of Basavanagudi; early side forest with a stream and a ranger hut.
+16. **Ramanagara Rocks** — post-game granite hills west of home; the Yali gallery.
+17. **Kokkare Bellur** — post-game stork and pelican village beyond Ramanagara.
+
 ## Story beats
 1. Amma wakes you; Prof. Sharada's lab; choose starter (Jakkafawn / Kaapup / Elanee); Sudeep takes the one strong against yours; first battle.
 2. Route 1 → Lalbagh badge. Grunts in Cubbon Park chopping trees — first Syndicate battle.
@@ -59,6 +64,14 @@ A GBA-style creature-collecting RPG set in **Bengaluru**. Creatures are called *
 5. Malleshwaram badge → Palace badge. Sudeep tells you the Syndicate is heading to Nandi Hills.
 6. Nandi Hills: fight through the cave, defeat Boss Bhaskar; Udyanaga appears (catchable); Arena 6 at the summit.
 7. Vidhana Soudha: Council ×4 → Champion Sudeep → credits.
+8. Post-game: Ramanagara Rocks and Kokkare Bellur open; Gandaberunda (Vidhana Soudha), the season trio Bisilu
+   (Ramanagara), Mungaru (Hebbal) and Chali (Nandi sunrise point); after all four, the bean ajji at the Basavanagudi
+   groundnut fair tells the Benda-Kaalu-Ooru story and Bendakaalu (No. 150) appears.
+
+## Expansion extras
+- Fishing: Fisherman Ajja on the Lalbagh jetty gives the Gaala; face water and press A on maps with a fish table.
+- Fossils: Old Moss Stone and Old Shell Stone in Nandi Cave; the Stone Reader in the lab revives them (Lv 20).
+- Bannerghatta Forest (south of Basavanagudi) opens once you have a starter.
 
 ## Art pipeline
 - World tiles & characters: authored as code (`tools/art/`), 16 px, rendered to PNG; displayed ×4 with `pixelArt: true`.

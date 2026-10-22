@@ -6,10 +6,12 @@ Catch Urumon in steel tiffin **Dabbas**, heal them with idli at the neighbourhoo
 Leaders from Lalbagh's Glass House to the summit of Nandi Hills, stop the **Concrete Syndicate** from paving over the
 city's lakes and parks, and take on the **Namma Council** at Vidhana Soudha.
 
-- 65 original Urumon across 14 types, 104 moves, 16 items
-- 33 maps: Basavanagudi, Lalbagh, Cubbon Park, MG Road, Silk Board, Whitefield, Bellandur Lake, Sankey Tank,
-  Malleshwaram, Palace Road, Hebbal, Nandi Hills and Vidhana Soudha
-- 6 Arena Leaders, a 4-member Council and a Champion, a rival, a villain team and a legendary guardian
+- 150 original Urumon across 18 types (including FROST, MYTH, ROGUE and CHARM), 151 moves, 21 items, fishing and fossils
+- 36 maps: Basavanagudi, Lalbagh, Cubbon Park, MG Road, Silk Board, Whitefield, Bellandur Lake, Sankey Tank,
+  Malleshwaram, Palace Road, Hebbal, Nandi Hills, Vidhana Soudha, and Bannerghatta, Ramanagara and Kokkare Bellur
+- 6 Arena Leaders, a 4-member Council and Champion Sudeep, a villain team, and six legendaries (five after the Council)
+- HD-2D look: tilted camera, depth of field, time of day from your clock, monsoon rain, lamps at night (GRAPHICS option)
+- Browse every Urumon (Uru-Pustaka) and every place (Bengaluru map) from the title screen before you play
 - Touch controls on phones, keyboard on desktop; save anytime from the menu (stored in your browser)
 
 ## Controls
