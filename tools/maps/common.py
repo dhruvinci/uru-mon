@@ -34,12 +34,14 @@ DARSHINI_OWNER = [
 
 
 def darshini():
-    c, walls = room(11, 9, "t", exit_x=5)
+    c, walls = room(11, 9, "V", exit_x=5, wall="tiled")
     return dict(
         id="darshini", name="Darshini", music="MUSIC_DARSHINI", interior=True, environment="indoor",
-        layout=c.layout(), walls=walls, ground="tile_floor",
-        props=[("darshini_counter", 4, 3), ("table", 1, 5), ("table", 8, 5), ("cloud_kiosk", 9, 2), ("plant_pot", 0, 7),
-               ("pooja_shelf", 1, 2)],
+        layout=c.layout(), walls=walls, ground="mosaic",
+        props=[("darshini_counter", 4, 3), ("cloud_kiosk", 9, 2), ("plant_pot", 0, 7), ("pooja_shelf", 1, 2),
+               ("steel_table", 2, 5), ("steel_table", 7, 7), ("steel_table", 8, 5), ("steel_table", 3, 7),
+               ("menu_board", 3, 0), ("menu_board", 6, 0), ("wall_clock", 9, 0), ("calendar", 1, 0), ("tube_light", 5, 1),
+               ("kaapi_boiler", 7, 3), ("counter_wood", 2, 3), ("sink", 10, 6), ("photo_frame", 0, 1), ("trash_bin", 10, 7)],
         counters=[[4, 3], [5, 3], [6, 3]],
         warps=[warp("exit", 5, 8, "@return", exit="UP", dir="DOWN")],
         npcs=[
@@ -56,12 +58,15 @@ def darshini():
 
 
 def kirana():
-    c, walls = room(10, 8, "t", exit_x=4, wall="shop")
+    c, walls = room(10, 8, "V", exit_x=4, wall="shop")
     return dict(
         id="kirana", name="Kirana Store", music="MUSIC_DARSHINI", interior=True, environment="indoor",
-        layout=c.layout(), walls=walls, ground="tile_floor",
+        layout=c.layout(), walls=walls, ground="mosaic",
         props=[("shop_shelf", 0, 2), ("shop_shelf", 6, 2), ("shop_shelf", 8, 2), ("shop_shelf", 6, 5), ("shop_shelf", 8, 5),
-               ("darshini_counter", 1, 4), ("plant_pot", 9, 7)],
+               ("counter_wood", 1, 4), ("weighing_scale", 3, 4), ("plant_pot", 9, 6), ("jar_shelf", 2, 2),
+               ("sack", 4, 2), ("sack", 5, 2, {"grain": "#e9b945"}), ("sack", 0, 6, {"grain": "#c98a5e"}),
+               ("calendar", 4, 0), ("poster", 1, 0, {"color": "#e98d3c"}), ("wall_clock", 7, 0), ("tube_light", 3, 0),
+               ("gas_cylinder", 9, 4), ("crate", 5, 6)],
         counters=[[1, 4], [2, 4], [3, 4]],
         warps=[warp("exit", 4, 7, "@return", exit="UP", dir="DOWN")],
         npcs=[
