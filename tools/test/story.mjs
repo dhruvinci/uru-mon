@@ -1,5 +1,5 @@
 // Runs individual story events in isolation and checks the flags they set.
-import { launch, open, press, sleep, waitScene, state, walk } from './harness.mjs';
+import { launch, open, press, sleep, waitScene, state, walk, walkTo, enterWarp } from './harness.mjs';
 
 const shots = process.argv[2] || '/tmp';
 const part = process.argv[3];
@@ -86,15 +86,16 @@ try {
   }
   if (part === 'nandi') {
     await go(`?scene=test&map=nandi_cave&x=14&y=5&party=${STRONG}`);
-    await walk(page, 'LEFT', 6);
-    await walk(page, 'UP', 1);
+    // into Boss Bhaskar's line of sight (he stands at 8,2 looking down)
+    await walkTo(page, 8, 4);
     const ok = await playUntil(async () => (await flags()).includes('NANDI_DONE') && (await idle()), 400000);
     console.log('boss beaten:', ok);
-    await walk(page, 'UP', 4);
+    console.log('out of the north exit:', await enterWarp(page, 'nandi_hills', 'north'));
     await sleep(page, 1500);
     let st = await state(page);
     console.log('area now', st.player.location.area, st.player.position.x / 64, st.player.position.y / 64);
-    await walk(page, 'UP', 4); await walk(page, 'RIGHT', 21); await walk(page, 'UP', 11); await walk(page, 'RIGHT', 3);
+    // the Udyanaga trigger covers x 27-33, y 2-5 at the summit
+    await walkTo(page, 30, 4);
     const ok2 = await playUntil(async () => (await flags()).includes('UDYANAGA_DONE') && (await idle()), 240000);
     st = await state(page);
     console.log('udyanaga:', ok2, 'pos', st.player.position.x / 64, st.player.position.y / 64, 'flags', st.flags, 'caught', st.pustaka.caught.includes(64));

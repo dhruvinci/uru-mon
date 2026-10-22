@@ -23,7 +23,9 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
   `node test/world-smoke.mjs <shots_dir> <map,map>`, `newgame.mjs`, `services.mjs`, `systems.mjs <dir> catch|evolve`,
   `progression.mjs <dir> leader|metro|blackout`, `story.mjs <dir> cubbon|rival2|rival2lose|rival3|bellandur|rival4|nandi|council`.
   `frontdoor.mjs <dir> [pustaka|map|starter|admin|fishing]` covers the title-screen extras, the starter showcase,
-  the admin profile and fishing.
+  the admin profile and fishing; `expansion.mjs <dir> [gaala|fossil|legends|gates]` the expansion's story pieces.
+  `tools/test/run-all.sh [dir]` runs every browser test in sequence and prints PASS/FAIL. Tests walk with the BFS
+  `walkTo` / `enterWarp` helpers in harness.mjs, which survive map layout changes; prefer them to timed `walk()`.
   `window.__uru` exposes `dataManager`, `gameData`, `createMonster` for tests.
 
 ## Review site and the user's notes

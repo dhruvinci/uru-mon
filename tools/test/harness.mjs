@@ -164,6 +164,12 @@ export async function walkTo(page, tx, ty, maxSteps = 400) {
     if (!path) return false;
     let ok = true;
     for (const dir of path.slice(0, maxSteps)) {
+      // stop as soon as the world stops taking input (a battle, cutscene or dialog started)
+      const free = await page.evaluate(() => {
+        const w = window.__uruGame.scene.getScene('WORLD_SCENE');
+        return window.__uruGame.scene.isActive('WORLD_SCENE') && !w.inputLocked;
+      });
+      if (!free) return false;
       const before = await playerTile(page);
       await press(page, dir, 60);
       const t0 = Date.now();
@@ -178,18 +184,21 @@ export async function walkTo(page, tx, ty, maxSteps = 400) {
     }
     const at = await playerTile(page);
     if (ok && at.x === tx && at.y === ty) return true;
+    const free = await page.evaluate(() => window.__uruGame.scene.isActive('WORLD_SCENE')
+      && !window.__uruGame.scene.getScene('WORLD_SCENE').inputLocked);
+    if (!free) return false;
     await page.waitForTimeout(400);
   }
   const at = await playerTile(page);
   return at.x === tx && at.y === ty;
 }
 
-/** Walks up to a warp door (to the tile on its exit side) and bumps into it. */
-export async function enterWarp(page, toArea) {
-  const warp = await page.evaluate((area) => {
+/** Walks up to a warp door (to the tile on its exit side) and bumps into it. `warpId` picks one of several exits. */
+export async function enterWarp(page, toArea, warpId) {
+  const warp = await page.evaluate(([area, id]) => {
     const w = window.__uruGame.scene.getScene('WORLD_SCENE');
-    return (w.uru.warps || []).find((x) => x.to === area);
-  }, toArea);
+    return (w.uru.warps || []).find((x) => x.to === area && (!id || x.id === id));
+  }, [toArea, warpId]);
   if (!warp) return false;
   const step = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] }[warp.exit || 'DOWN'];
   const ok = await walkTo(page, warp.x + step[0], warp.y + step[1]);
