@@ -433,6 +433,10 @@
    "url": "assets/images/ui/exclaim.png"
   },
   {
+   "key": "UI_TITLE_BG",
+   "url": "assets/images/ui/title_bg.png"
+  },
+  {
    "key": "WORLD_COLLISION",
    "url": "assets/images/world/collision.png"
   },
@@ -930,5 +934,286 @@
    "bg": "assets/maps/champion_room/bg.png"
   }
  ],
- "audio": []
+ "audio": [
+  {
+   "key": "MUSIC_ARENA",
+   "urls": [
+    "assets/audio/music/arena.ogg",
+    "assets/audio/music/arena.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_CAVE",
+   "urls": [
+    "assets/audio/music/cave.ogg",
+    "assets/audio/music/cave.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_CITY",
+   "urls": [
+    "assets/audio/music/city.ogg",
+    "assets/audio/music/city.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_COUNCIL",
+   "urls": [
+    "assets/audio/music/council.ogg",
+    "assets/audio/music/council.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_CREDITS",
+   "urls": [
+    "assets/audio/music/credits.ogg",
+    "assets/audio/music/credits.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_DARSHINI",
+   "urls": [
+    "assets/audio/music/darshini.ogg",
+    "assets/audio/music/darshini.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_EVOLUTION",
+   "urls": [
+    "assets/audio/music/evolution.ogg",
+    "assets/audio/music/evolution.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_HOME",
+   "urls": [
+    "assets/audio/music/home.ogg",
+    "assets/audio/music/home.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_LAB",
+   "urls": [
+    "assets/audio/music/lab.ogg",
+    "assets/audio/music/lab.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_LEADER",
+   "urls": [
+    "assets/audio/music/leader.ogg",
+    "assets/audio/music/leader.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_LEGEND",
+   "urls": [
+    "assets/audio/music/legend.ogg",
+    "assets/audio/music/legend.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_PARK",
+   "urls": [
+    "assets/audio/music/park.ogg",
+    "assets/audio/music/park.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_RIVAL",
+   "urls": [
+    "assets/audio/music/rival.ogg",
+    "assets/audio/music/rival.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_ROUTE",
+   "urls": [
+    "assets/audio/music/route.ogg",
+    "assets/audio/music/route.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_SYNDICATE",
+   "urls": [
+    "assets/audio/music/syndicate.ogg",
+    "assets/audio/music/syndicate.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_TITLE",
+   "urls": [
+    "assets/audio/music/title.ogg",
+    "assets/audio/music/title.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_TOWN",
+   "urls": [
+    "assets/audio/music/town.ogg",
+    "assets/audio/music/town.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_TRAINER",
+   "urls": [
+    "assets/audio/music/trainer.ogg",
+    "assets/audio/music/trainer.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_VICTORY",
+   "urls": [
+    "assets/audio/music/victory.ogg",
+    "assets/audio/music/victory.mp3"
+   ]
+  },
+  {
+   "key": "MUSIC_WILD",
+   "urls": [
+    "assets/audio/music/wild.ogg",
+    "assets/audio/music/wild.mp3"
+   ]
+  },
+  {
+   "key": "SFX_BADGE",
+   "urls": [
+    "assets/audio/sfx/badge.ogg",
+    "assets/audio/sfx/badge.mp3"
+   ]
+  },
+  {
+   "key": "SFX_BUMP",
+   "urls": [
+    "assets/audio/sfx/bump.ogg",
+    "assets/audio/sfx/bump.mp3"
+   ]
+  },
+  {
+   "key": "SFX_CATCH",
+   "urls": [
+    "assets/audio/sfx/catch.ogg",
+    "assets/audio/sfx/catch.mp3"
+   ]
+  },
+  {
+   "key": "SFX_DOOR",
+   "urls": [
+    "assets/audio/sfx/door.ogg",
+    "assets/audio/sfx/door.mp3"
+   ]
+  },
+  {
+   "key": "SFX_EXCLAIM",
+   "urls": [
+    "assets/audio/sfx/exclaim.ogg",
+    "assets/audio/sfx/exclaim.mp3"
+   ]
+  },
+  {
+   "key": "SFX_FAINT",
+   "urls": [
+    "assets/audio/sfx/faint.ogg",
+    "assets/audio/sfx/faint.mp3"
+   ]
+  },
+  {
+   "key": "SFX_GRASS",
+   "urls": [
+    "assets/audio/sfx/grass.ogg",
+    "assets/audio/sfx/grass.mp3"
+   ]
+  },
+  {
+   "key": "SFX_HEAL",
+   "urls": [
+    "assets/audio/sfx/heal.ogg",
+    "assets/audio/sfx/heal.mp3"
+   ]
+  },
+  {
+   "key": "SFX_HIT",
+   "urls": [
+    "assets/audio/sfx/hit.ogg",
+    "assets/audio/sfx/hit.mp3"
+   ]
+  },
+  {
+   "key": "SFX_HIT_SUPER",
+   "urls": [
+    "assets/audio/sfx/hit_super.ogg",
+    "assets/audio/sfx/hit_super.mp3"
+   ]
+  },
+  {
+   "key": "SFX_HIT_WEAK",
+   "urls": [
+    "assets/audio/sfx/hit_weak.ogg",
+    "assets/audio/sfx/hit_weak.mp3"
+   ]
+  },
+  {
+   "key": "SFX_ITEM",
+   "urls": [
+    "assets/audio/sfx/item.ogg",
+    "assets/audio/sfx/item.mp3"
+   ]
+  },
+  {
+   "key": "SFX_LEVEL_UP",
+   "urls": [
+    "assets/audio/sfx/level_up.ogg",
+    "assets/audio/sfx/level_up.mp3"
+   ]
+  },
+  {
+   "key": "SFX_MONEY",
+   "urls": [
+    "assets/audio/sfx/money.ogg",
+    "assets/audio/sfx/money.mp3"
+   ]
+  },
+  {
+   "key": "SFX_RUN",
+   "urls": [
+    "assets/audio/sfx/run.ogg",
+    "assets/audio/sfx/run.mp3"
+   ]
+  },
+  {
+   "key": "SFX_SAVE",
+   "urls": [
+    "assets/audio/sfx/save.ogg",
+    "assets/audio/sfx/save.mp3"
+   ]
+  },
+  {
+   "key": "SFX_SELECT",
+   "urls": [
+    "assets/audio/sfx/select.ogg",
+    "assets/audio/sfx/select.mp3"
+   ]
+  },
+  {
+   "key": "SFX_SEND_OUT",
+   "urls": [
+    "assets/audio/sfx/send_out.ogg",
+    "assets/audio/sfx/send_out.mp3"
+   ]
+  },
+  {
+   "key": "SFX_SHAKE",
+   "urls": [
+    "assets/audio/sfx/shake.ogg",
+    "assets/audio/sfx/shake.mp3"
+   ]
+  },
+  {
+   "key": "SFX_THROW",
+   "urls": [
+    "assets/audio/sfx/throw.ogg",
+    "assets/audio/sfx/throw.mp3"
+   ]
+  }
+ ]
 }

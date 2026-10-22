@@ -29,6 +29,14 @@ export class MonsterPartyScene extends BaseScene {
     super.init();
     this.sceneData = { mode: 'world', ...data };
     this.index = 0;
+    if (this.sceneData.mode === 'battle-forced') {
+      // start on the first Urumon that can still fight
+      const healthy = dataManager.party.findIndex((m, i) => m.hp > 0 && i !== this.sceneData.activeIndex);
+      this.index = Math.max(0, healthy);
+    } else if (this.sceneData.mode === 'battle' && this.sceneData.activeIndex !== undefined) {
+      const other = dataManager.party.findIndex((m, i) => m.hp > 0 && i !== this.sceneData.activeIndex);
+      this.index = Math.max(0, other);
+    }
     this.swapFrom = -1;
     /** @type {ListMenu | null} */
     this.submenu = null;

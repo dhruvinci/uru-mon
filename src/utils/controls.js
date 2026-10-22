@@ -87,6 +87,11 @@ export class Controls {
   /** @returns {import('../common/direction.js').Direction} */
   getDirectionKeyPressedDown() {
     this.update();
-    return /** @type {import('../common/direction.js').Direction} */ (DIRECTION[inputManager.heldDirection()]);
+    let d = inputManager.heldDirection();
+    if (d === 'NONE') {
+      // a quick tap can press and release within one frame; still count it as one step
+      d = inputManager.justPressedDirection();
+    }
+    return /** @type {import('../common/direction.js').Direction} */ (DIRECTION[d]);
   }
 }

@@ -102,6 +102,7 @@ MAPS.append(dict(
         trainer("st_leader", 7, 2, "gundappa", "leader_gundappa", sight=0),
         trainer("st_t1", 3, 9, "cricketer", "st_cricketer1", facing="RIGHT", sight=4),
         trainer("st_t2", 11, 6, "cricketer", "st_cricketer2", facing="LEFT", sight=4),
+        trainer("st_t3", 3, 12, "cricketer", "ar_stadium1", facing="RIGHT", sight=3),
         npc("st_guide", 9, 14, "man1", facing="LEFT", script=[
             say("Coach Gundappa uses FIGHT Urumon. Tough as nails!",
                 "SKY and MIND moves knock them for six. NORMAL and ROCK types struggle against them.")]),
@@ -226,6 +227,7 @@ MAPS.append(dict(
         trainer("tp_leader", 7, 2, "tanvi", "leader_tanvi", sight=0),
         trainer("tp_t1", 3, 11, "techie_m", "wf_techie1", facing="RIGHT", sight=4),
         trainer("tp_t2", 11, 7, "techie_f", "wf_techie2", facing="LEFT", sight=4),
+        trainer("tp_t3", 4, 7, "techie_f", "ar_tech1", facing="RIGHT", sight=2),
         npc("tp_guide", 9, 13, "man1", facing="LEFT", script=[
             say("Tanvi's team is pure ELECTRIC. EARTH moves short-circuit them completely!",
                 "And ELECTRIC moves do nothing to EARTH types. Just saying.")]),

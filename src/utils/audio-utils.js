@@ -28,6 +28,7 @@ export function playBackgroundMusic(scene, audioKey, opts = {}) {
     }
   });
   if (dataManager.state.options.sound !== SOUND_OPTIONS.ON || !scene.cache.audio.exists(audioKey)) {
+    // not downloaded yet: the preload scene starts it when it arrives
     return;
   }
   const music = sm.add(audioKey, { loop: true, volume: 0.55 });

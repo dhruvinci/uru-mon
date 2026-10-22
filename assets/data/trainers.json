@@ -1722,5 +1722,246 @@
    "...I'm taking the bus down."
   ],
   "after": null
+ },
+ "ar_tuition1": {
+  "name": "Rohit",
+  "title": "Schoolkid",
+  "portrait": "schoolboy",
+  "sprite": "schoolboy",
+  "team": [
+   {
+    "species": 34,
+    "level": 27
+   },
+   {
+    "species": 38,
+    "level": 28
+   }
+  ],
+  "prize": 336,
+  "aiLevel": 1,
+  "intro": [
+   "Ma'am says whoever loses today gets double homework!"
+  ],
+  "defeat": [
+   "Double homework... again."
+  ],
+  "after": null
+ },
+ "ar_tuition2": {
+  "name": "Kavya",
+  "title": "College Student",
+  "portrait": "college_f",
+  "sprite": "college_f",
+  "team": [
+   {
+    "species": 38,
+    "level": 28
+   },
+   {
+    "species": 14,
+    "level": 27
+   },
+   {
+    "species": 35,
+    "level": 29
+   }
+  ],
+  "prize": 522,
+  "aiLevel": 1,
+  "intro": [
+   "I've topped every test in this tuition. Battles are just another test."
+  ],
+  "defeat": [
+   "I... got a question wrong?"
+  ],
+  "after": null
+ },
+ "ar_palace1": {
+  "name": "Leela",
+  "title": "Dancer",
+  "portrait": "dancer",
+  "sprite": "dancer",
+  "team": [
+   {
+    "species": 36,
+    "level": 31
+   },
+   {
+    "species": 62,
+    "level": 31
+   }
+  ],
+  "prize": 806,
+  "aiLevel": 1,
+  "intro": [
+   "The palace spirits dance with me at midnight. Care to join?"
+  ],
+  "defeat": [
+   "The spirits stopped dancing. That's never happened."
+  ],
+  "after": null
+ },
+ "ar_palace2": {
+  "name": "Venkatesh",
+  "title": "Ajja",
+  "portrait": "ajja",
+  "sprite": "ajja",
+  "team": [
+   {
+    "species": 33,
+    "level": 32
+   },
+   {
+    "species": 40,
+    "level": 31
+   },
+   {
+    "species": 37,
+    "level": 33
+   }
+  ],
+  "prize": 990,
+  "aiLevel": 1,
+  "intro": [
+   "I was a palace guard for forty years. I still do my rounds. Out of habit."
+  ],
+  "defeat": [
+   "Old legs, young heart. Well fought!"
+  ],
+  "after": null
+ },
+ "ar_pavilion1": {
+  "name": "Varun",
+  "title": "Birdwatcher",
+  "portrait": "birdwatcher",
+  "sprite": "birdwatcher",
+  "team": [
+   {
+    "species": 11,
+    "level": 38
+   },
+   {
+    "species": 34,
+    "level": 38
+   },
+   {
+    "species": 42,
+    "level": 39
+   }
+  ],
+  "prize": 936,
+  "aiLevel": 1,
+  "intro": [
+   "I paraglide off this hill every weekend. My Urumon taught me how!"
+  ],
+  "defeat": [
+   "Grounded. Literally."
+  ],
+  "after": null
+ },
+ "ar_pavilion2": {
+  "name": "Nandini",
+  "title": "Jogger",
+  "portrait": "jogger",
+  "sprite": "jogger",
+  "team": [
+   {
+    "species": 17,
+    "level": 39
+   },
+   {
+    "species": 12,
+    "level": 40
+   }
+  ],
+  "prize": 880,
+  "aiLevel": 1,
+  "intro": [
+   "Running up Nandi's steps every morning makes you strong. Like, really strong."
+  ],
+  "defeat": [
+   "...Okay, I need to run more steps."
+  ],
+  "after": null
+ },
+ "ar_glass1": {
+  "name": "Shanthi",
+  "title": "Gardener",
+  "portrait": "gardener",
+  "sprite": "gardener",
+  "team": [
+   {
+    "species": 52,
+    "level": 10
+   },
+   {
+    "species": 54,
+    "level": 10
+   }
+  ],
+  "prize": 200,
+  "aiLevel": 1,
+  "intro": [
+   "Every plant in this Glass House has a name. This one is called 'Your Defeat'."
+  ],
+  "defeat": [
+   "You're sprouting fast, young one."
+  ],
+  "after": null
+ },
+ "ar_stadium1": {
+  "name": "Prakash",
+  "title": "Cricketer",
+  "portrait": "cricketer",
+  "sprite": "cricketer",
+  "team": [
+   {
+    "species": 30,
+    "level": 15
+   },
+   {
+    "species": 13,
+    "level": 16
+   },
+   {
+    "species": 60,
+    "level": 16
+   }
+  ],
+  "prize": 416,
+  "aiLevel": 1,
+  "intro": [
+   "I've been twelfth man for six seasons. Today I play!"
+  ],
+  "defeat": [
+   "Back to carrying drinks, I suppose."
+  ],
+  "after": null
+ },
+ "ar_tech1": {
+  "name": "Sahana",
+  "title": "Techie",
+  "portrait": "techie_f",
+  "sprite": "techie_f",
+  "team": [
+   {
+    "species": 49,
+    "level": 22
+   },
+   {
+    "species": 47,
+    "level": 23
+   }
+  ],
+  "prize": 736,
+  "aiLevel": 1,
+  "intro": [
+   "Our Leader built her first startup in her hostel room. I built mine in a hackathon!"
+  ],
+  "defeat": [
+   "Segfault. Core dumped. That was me."
+  ],
+  "after": null
  }
 }

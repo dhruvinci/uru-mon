@@ -83,6 +83,7 @@ MAPS.append(dict(
         trainer("gh_leader", 7, 3, "hoovamma", "leader_hoovamma", sight=0),
         trainer("gh_t1", 2, 9, "gardener", "lb_gardener", facing="RIGHT", sight=4),
         trainer("gh_t2", 12, 12, "college_f", "lb_college", facing="LEFT", sight=4),
+        trainer("gh_t3", 12, 6, "gardener", "ar_glass1", facing="LEFT", sight=2),
         npc("gh_guide", 9, 14, "man1", facing="LEFT", script=[
             say("Hey, future champ! Hoovamma loves GRASS Urumon.",
                 "FIRE and SKY moves wilt them fast. BUG works too. Good luck!")]),

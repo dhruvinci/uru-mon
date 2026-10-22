@@ -29,6 +29,7 @@ import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
  * @property {string} name
  * @property {string} [title] trainer class shown before the name
  * @property {string} portrait texture key
+ * @property {string} [sprite] overworld CHAR_ preset, used when the portrait is missing
  * @property {import('../battle/engine/monster.js').Monster[]} team
  * @property {number} prize
  * @property {string[]} defeatText
@@ -96,7 +97,12 @@ export class BattleScene extends BaseScene {
     this.enemySprite.setVisible(false);
     this.playerSprite.setVisible(false);
     if (this.isTrainer) {
-      this.trainerSprite = this.add.image(TRAINER_POS.x, TRAINER_POS.y, d.trainer.portrait).setOrigin(0.5, 1).setScale(4).setDepth(10).setVisible(false);
+      const hasPortrait = this.textures.exists(d.trainer.portrait);
+      const fallback = `CHAR_${d.trainer.sprite || 'man1'}`;
+      this.trainerSprite = hasPortrait
+        ? this.add.image(TRAINER_POS.x, TRAINER_POS.y, d.trainer.portrait).setOrigin(0.5, 1).setScale(4)
+        : this.add.image(TRAINER_POS.x, TRAINER_POS.y, fallback, 0).setOrigin(0.5, 1).setScale(10);
+      this.trainerSprite.setDepth(10).setVisible(false);
     }
 
     this.enemyHud = new BattleHud(this, 'enemy');

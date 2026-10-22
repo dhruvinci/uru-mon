@@ -102,7 +102,8 @@ MAPS.append(dict(
     warps=[warp("door", 6, 12, "malleshwaram", "tutor_house", exit="UP", dir="DOWN")],
     npcs=[
         trainer("th_leader", 6, 2, "vidya", "leader_vidya", sight=0),
-        trainer("th_t1", 3, 6, "college_f", "ml_college", facing="RIGHT", sight=3, hideIf={"defeated": "th_t1"}),
+        trainer("th_t1", 3, 6, "schoolboy", "ar_tuition1", facing="RIGHT", sight=3),
+        trainer("th_t2", 9, 9, "college_f", "ar_tuition2", facing="LEFT", sight=3),
         npc("th_guide", 8, 11, "schoolboy", facing="LEFT", script=[
             say("Psst! Vidya ma'am's Urumon are MIND types.",
                 "BUG and SPIRIT moves are super effective against them. And FIGHT moves barely tickle them.")]),
@@ -170,8 +171,8 @@ MAPS.append(dict(
     warps=[warp("door", 8, 14, "palace_road", "palace", exit="UP", dir="DOWN")],
     npcs=[
         trainer("pa_leader", 8, 2, "rukmini", "leader_rukmini", sight=0),
-        trainer("pa_t1", 6, 10, "dancer", "pr_dancer", facing="RIGHT", sight=0),
-        trainer("pa_t2", 10, 6, "ajja", "pr_ajja", facing="LEFT", sight=3),
+        trainer("pa_t1", 6, 10, "dancer", "ar_palace1", facing="RIGHT", sight=3),
+        trainer("pa_t2", 10, 6, "ajja", "ar_palace2", facing="LEFT", sight=3),
         npc("pa_guide", 10, 13, "man1", facing="LEFT", script=[
             say("Rukmini commands SPIRIT Urumon. NORMAL and FIGHT moves pass right through them!",
                 "Use SPIRIT moves of your own. Or a very brave heart.")]),
@@ -315,7 +316,8 @@ MAPS.append(dict(
     warps=[warp("door", 6, 12, "nandi_hills", "pavilion", exit="UP", dir="DOWN")],
     npcs=[
         trainer("hp_leader", 6, 2, "akash", "leader_akash", sight=0),
-        trainer("hp_t1", 2, 6, "birdwatcher", "nh_bird", facing="RIGHT", sight=0),
+        trainer("hp_t1", 2, 6, "birdwatcher", "ar_pavilion1", facing="RIGHT", sight=3),
+        trainer("hp_t2", 10, 9, "jogger", "ar_pavilion2", facing="LEFT", sight=3),
         npc("hp_guide", 8, 11, "man1", facing="LEFT", script=[
             say("Akash flies SKY Urumon. ELECTRIC and ROCK moves will bring them down to earth!")]),
     ],

@@ -12,6 +12,7 @@ import { buildTrainerTeam } from '../world/trainers.js';
  *   battle=trainer&trainer=<id> start a trainer battle
  *   party=4:12,10:8            species:level list for the test party (default a strong mixed team)
  *   flags=A,B                   flags to set
+ *   badges=GRASS,FIGHT          badges to grant
  */
 export class TestScene extends BaseScene {
   constructor() {
@@ -36,6 +37,7 @@ export class TestScene extends BaseScene {
     dataManager.addItem(3, 10);
     dataManager.addItem(7, 3);
     (p.get('flags') || '').split(',').filter(Boolean).forEach((f) => dataManager.addFlag(f));
+    (p.get('badges') || '').split(',').filter(Boolean).forEach((b) => dataManager.addBadge(b));
     dataManager.state.gameStarted = true;
 
     const battle = p.get('battle');

@@ -255,6 +255,6 @@ MAPS.append(dict(
                 "The lower its HP, the easier it is to catch.")]),
     ],
     items=[dict(id="dabba1", x=19, y=34, item="Dabba", qty=2), dict(id="kaapi1", x=3, y=13, item="Filter Kaapi"),
-           dict(id="elaneer1", x=12, y=3, item="Elaneer")],
+           dict(id="elaneer1", x=17, y=3, item="Elaneer")],
     encounters={"grass": enc(0.12, (10, 2, 4, 35), (13, 2, 4, 30), (28, 3, 5, 15), (32, 3, 4, 12), (20, 3, 4, 8))},
 ))

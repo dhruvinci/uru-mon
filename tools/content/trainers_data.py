@@ -245,3 +245,25 @@ TRAINER_TABLE = TRAINERS
 for _tid, _badge in (("leader_hoovamma", "GRASS"), ("leader_gundappa", "FIGHT"), ("leader_tanvi", "ELECTRIC"),
                      ("leader_vidya", "MIND"), ("leader_rukmini", "SPIRIT"), ("leader_akash", "SKY")):
     TRAINERS[_tid]["onWin"] = [{"badge": _badge}]
+
+# ---------------------------------------------------------------------------------------------
+# Arena junior trainers (each Arena has its own)
+# ---------------------------------------------------------------------------------------------
+tr("ar_tuition1", "Rohit", "Schoolkid", "schoolboy", [(34, 27), (38, 28)],
+   ["Ma'am says whoever loses today gets double homework!"], ["Double homework... again."])
+tr("ar_tuition2", "Kavya", "College Student", "college_f", [(38, 28), (14, 27), (35, 29)],
+   ["I've topped every test in this tuition. Battles are just another test."], ["I... got a question wrong?"])
+tr("ar_palace1", "Leela", "Dancer", "dancer", [(36, 31), (62, 31)],
+   ["The palace spirits dance with me at midnight. Care to join?"], ["The spirits stopped dancing. That's never happened."])
+tr("ar_palace2", "Venkatesh", "Ajja", "ajja", [(33, 32), (40, 31), (37, 33)],
+   ["I was a palace guard for forty years. I still do my rounds. Out of habit."], ["Old legs, young heart. Well fought!"])
+tr("ar_pavilion1", "Varun", "Birdwatcher", "birdwatcher", [(11, 38), (34, 38), (42, 39)],
+   ["I paraglide off this hill every weekend. My Urumon taught me how!"], ["Grounded. Literally."])
+tr("ar_pavilion2", "Nandini", "Jogger", "jogger", [(17, 39), (12, 40)],
+   ["Running up Nandi's steps every morning makes you strong. Like, really strong."], ["...Okay, I need to run more steps."])
+tr("ar_glass1", "Shanthi", "Gardener", "gardener", [(52, 10), (54, 10)],
+   ["Every plant in this Glass House has a name. This one is called 'Your Defeat'."], ["You're sprouting fast, young one."])
+tr("ar_stadium1", "Prakash", "Cricketer", "cricketer", [(30, 15), (13, 16), (60, 16)],
+   ["I've been twelfth man for six seasons. Today I play!"], ["Back to carrying drinks, I suppose."])
+tr("ar_tech1", "Sahana", "Techie", "techie_f", [(49, 22), (47, 23)],
+   ["Our Leader built her first startup in her hostel room. I built mine in a hackathon!"], ["Segfault. Core dumped. That was me."])

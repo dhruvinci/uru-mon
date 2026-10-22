@@ -1,77 +1,63 @@
-# Monster Tamer
+# uru-mon
 
-![License](https://img.shields.io/badge/license-MIT-green)
+A GBA-style creature-collecting adventure across **Bengaluru**, playable in the browser on desktop and phones.
 
-![Monster Tamer Logo](/docs/logo.png?raw=true 'Monster Tamer Logo')
+Catch Urumon in steel tiffin **Dabbas**, heal them with idli at the neighbourhood **Darshini**, battle six Arena
+Leaders from Lalbagh's Glass House to the summit of Nandi Hills, stop the **Concrete Syndicate** from paving over the
+city's lakes and parks, and take on the **Namma Council** at Vidhana Soudha.
 
-Monster Tamer - Pokemon like RPG Tutorial with Phaser 3
+- 65 original Urumon across 14 types, 104 moves, 16 items
+- 33 maps: Basavanagudi, Lalbagh, Cubbon Park, MG Road, Silk Board, Whitefield, Bellandur Lake, Sankey Tank,
+  Malleshwaram, Palace Road, Hebbal, Nandi Hills and Vidhana Soudha
+- 6 Arena Leaders, a 4-member Council and a Champion, a rival, a villain team and a legendary guardian
+- Touch controls on phones, keyboard on desktop; save anytime from the menu (stored in your browser)
 
-A Pokemon like game created using [Phaser 3](https://github.com/photonstorm/phaser)!
+## Controls
 
-This is the official code repository for the [Monster Tamer - Pokemon like RPG Tutorial with Phaser 3](https://www.youtube.com/playlist?list=PLmcXe0-sfoSgq-pyXrFx0GZjHbvoVUW8t) series available on YouTube.
+| | Keyboard | Touch |
+|---|---|---|
+| Move | Arrow keys / WASD | D-pad |
+| A (talk, confirm) | Z or Space | A |
+| B (back, hold to run) | X or Shift | B |
+| Menu | Enter | START |
+| Fullscreen | F | — |
 
-## Demo
+## Run it locally
 
-You can find a playable demo of the game on Itch.io here: [Monster Tamer](https://galemius.itch.io/monster-tamer)
+There is no build step. Serve the folder over HTTP and open it:
 
-![Monster Tamer Game play Screenshot 1](/docs/screenshot1.png?raw=true 'Screenshot 1')
-![Monster Tamer Game play Screenshot 2](/docs/screenshot2.png?raw=true 'Screenshot 2')
+```
+python3 -m http.server 8080
+# then visit http://localhost:8080
+```
 
-## Local Setup
+Handy dev URL: `?scene=test&map=lalbagh` jumps straight into a map with a test team
+(see `src/scenes/test-scene.js` for all options).
 
-This project is currently setup to require a very minimal amount of tools to run the web application. The main tools that are needed are:
+## Deploy
 
-- IDE (Integrated Development Environment), or any program you can use to edit code.
-  - In the video tutorial series linked above, I use the [VS Code](https://code.visualstudio.com/), and this code base has some out of the box settings and extensions that are recommended for formatting and running the code.
-- A local web server, this is needed due to browser security and how we are loading files with the Phaser 3 framework for our game.
-  - You can use any local web server you are familiar with, however if you use VS Code, I recommend the following extension [LiveServer by Ritwick Dey](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+It's a static site: upload the repository root (everything except `art-src/` and `tools/`) to GitHub Pages,
+Cloudflare Pages, Netlify or any static host.
 
-### Downloading Assets
+## How it's made
 
-By default, none of the audio and image assets are included in the code repository. As the size of the project grows, it was chosen to omit these files and to instead provide a link to zipped folder that contains the assets that are used in this project. You find the latest assets for this game here: [Latest Game Assets](https://github.com/devshareacademy/monster-tamer/releases/download/assets/all-game-assets-v2.zip).
+| Part | Where | Notes |
+|---|---|---|
+| Engine | `src/` | Phaser 3.60 (vendored), plain ES modules. Battle rules live in `src/battle/engine/` and are unit-tested in Node. |
+| Game data | `tools/content/*.py` → `assets/data/*.json` | `python3 tools/content/build_data.py` |
+| Maps | `tools/maps/*.py` → `assets/maps/` | Maps are written in Python, compiled to PNG layers plus Tiled-format JSON: `python3 tools/maps/build_maps.py --preview` |
+| World art | `tools/art/tiles.py`, `tools/art/characters.py`, `tools/art/icons.py` | 16 px pixel art generated from code |
+| Creature, trainer and backdrop art | `tools/art/gen_images.py` + `tools/art/process_art.py` | AI-generated, then pixelized and palette-reduced |
+| Music & SFX | `tools/audio/synth.py` | Original chiptune, synthesized in code |
+| Tests | `tools/test/` | `node --test tools/test/engine.test.mjs`; browser smoke tests use Playwright (`cd tools && npm install`) |
 
-After you have downloaded the assets, you will need to place the following folders in the `/assets` folder:
-
-- audio
-- images
-
-## How To Play
-
-Currently, the only supported way to play the game is with a Keyboard. The game has not been tested with a Gamepad at this time, but will be supported in the future.
-
-### Controls
-
-| Keys                                   | Description                                                                                           |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Arrow Keys (Up, Down, Left, and Right) | While in battle, these keys will move the input cursor, which allows the player to select the option. |
-| Space                                  | While in battle, this key confirm the currently selected action.                                      |
-| Shift                                  | While in battle, this key acts as a back key and allows players to navigate back the previous option. |
+See `docs/DESIGN.md` for the full game design.
 
 ## Credits
 
-This project uses both assets I developed as well as other assets that have been created by some wonderful creators. This project would not have been possible without the following people/resources:
-
-| Asset                       | Author           | Link                                                                                              |
-| --------------------------- | ---------------- | ------------------------------------------------------------------------------------------------- |
-| Fonts                       | Kenney           | [Kenney Fonts](https://www.kenney.nl/assets/kenney-fonts)                                         |
-| UI Panel                    | Kenney           | [Kenney UI Space Pack](https://www.kenney.nl/assets/ui-pack-space-expansion)                      |
-| UI Pack                     | Kenney           | [Kenney UI Pack](https://www.kenney.nl/assets/ui-pack)                                            |
-| Board Game Info             | Kenney           | [Kenney Board Game Info Pack](https://www.kenney.nl/assets/board-game-info)                       |
-| Ice Attack                  | Pimen            | [Pimen Ice Spell Effect](https://pimen.itch.io/ice-spell-effect-01)                               |
-| Slash Attack                | Pimen            | [Pimen Slash VFX](https://pimen.itch.io/battle-vfx-slashes-and-thrusts)                           |
-| NPC                         | Parabellum Games | [Retro RPG Character Pack](https://parabellum-games.itch.io/retro-rpg-character-pack)             |
-| Player Character            | AxulArt          | [Small 8-direction Characters](https://axulart.itch.io/small-8-direction-characters)              |
-| Basic Plains Tileset        | AxulArt          | [AxulArt's BasicPlains Tileset Ver. 2](https://axulart.itch.io/axularts-basicplains-tileset-ver2) |
-| Beach & Caves Tileset       | AxulArt          | [AxulArt's Beach and caves tileset](https://axulart.itch.io/axularts-beach-and-caves-tileset)     |
-| Building Interiors          | AxulArt          | [Basic Top-down Interior](https://axulart.itch.io/axularts-basic-top-down-interior)               |
-| Retro RPG Buildings Tileset | The Pixel Nook   | [Retro RPG Buildings](https://the-pixel-nook.itch.io/rpg-building-pack)                           |
-| Game BG Music               | xdeviruchi       | [xdeviruchi Sound Cloud](https://soundcloud.com/xdeviruchi)                                       |
-| Sound Effects               | leohpaz          | [RPG Essentials SFX Free](https://leohpaz.itch.io/rpg-essentials-sfx-free)                        |
-
-## Issues
-
-For any issues you encounter, please open a new [GitHub Issue](https://github.com/devshareacademy/monster-tamer/issues) on this project.
-
-## Questions, Comments, and Suggestions
-
-If you have any questions, comments, or suggestions for future content, please feel free to open a new [GitHub Discussion](https://github.com/devshareacademy/monster-tamer/discussions) on this project.
+- Built on the MIT-licensed [monster-tamer](https://github.com/devshareacademy/monster-tamer) Phaser tutorial by
+  Dev Share Academy (see `LICENSE`).
+- [Phaser](https://phaser.io) game framework (MIT).
+- [Pixelify Sans](https://github.com/eifetx/Pixelify-Sans) font (SIL Open Font License 1.1, `assets/fonts/pixelify/OFL.txt`).
+- All creatures, characters, places, music and story are original to uru-mon. uru-mon is a fan-made homage to the
+  monster-collecting genre and is not affiliated with any game company.

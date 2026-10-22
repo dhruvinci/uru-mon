@@ -544,6 +544,7 @@ export class WorldScene extends BaseScene {
         name: trainer.name,
         title: trainer.title,
         portrait: `TRAINER_${trainer.portrait || def.sprite}`,
+        sprite: def.sprite || trainer.sprite,
         team: buildTrainerTeam(trainer),
         prize: trainer.prize ?? 0,
         defeatText: trainer.defeat || [],

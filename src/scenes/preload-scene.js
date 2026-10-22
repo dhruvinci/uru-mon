@@ -3,7 +3,7 @@ import { DATA_ASSET_KEYS } from '../assets/asset-keys.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { BaseScene } from './base-scene.js';
 import { dataManager } from '../utils/data-manager.js';
-import { setGlobalSoundSettings } from '../utils/audio-utils.js';
+import { setGlobalSoundSettings, currentMusic, playBackgroundMusic } from '../utils/audio-utils.js';
 import { initGameData } from '../game/game-data.js';
 import { FONT } from '../ui/ui-kit.js';
 
@@ -43,7 +43,15 @@ export class PreloadScene extends BaseScene {
         this.load.image(`${m.key}_FG`, m.fg);
       }
     });
-    (manifest.audio || []).forEach((a) => this.load.audio(a.key, a.urls));
+    // sound effects and the title theme up front; the rest of the music streams in after the title appears
+    const deferred = [];
+    (manifest.audio || []).forEach((a) => {
+      if (a.key.startsWith('SFX_') || a.key === 'MUSIC_TITLE') {
+        this.load.audio(a.key, a.urls);
+      } else {
+        deferred.push(a);
+      }
+    });
 
     this.load.once('complete', async () => {
       try {
@@ -61,15 +69,35 @@ export class PreloadScene extends BaseScene {
       this.#createCharacterAnimations(manifest);
       dataManager.loadData();
       setGlobalSoundSettings(this);
+      this.load.off('progress');
       label.destroy();
       barBg.destroy();
       bar.destroy();
       const params = new URLSearchParams(window.location.search);
-      if (params.get('scene') === 'test') {
-        this.scene.start(SCENE_KEYS.TEST_SCENE);
-        return;
+      this.scene.launch(params.get('scene') === 'test' ? SCENE_KEYS.TEST_SCENE : SCENE_KEYS.TITLE_SCENE);
+      this.#loadDeferredAudio(deferred);
+    });
+    this.load.start();
+  }
+
+  /**
+   * Keeps this (invisible) scene alive to stream the remaining music, starting a track if it was requested
+   * before it finished downloading.
+   * @param {{key: string, urls: string[]}[]} list
+   */
+  #loadDeferredAudio(list) {
+    if (list.length === 0) {
+      return;
+    }
+    // play what players hear first before the rest
+    const priority = ['MUSIC_HOME', 'MUSIC_TOWN', 'MUSIC_LAB', 'MUSIC_WILD', 'MUSIC_TRAINER', 'MUSIC_RIVAL', 'MUSIC_ROUTE'];
+    list.sort((a, b) => (priority.indexOf(b.key) >= 0 ? 1 : 0) - (priority.indexOf(a.key) >= 0 ? 1 : 0));
+    list.forEach((a) => this.load.audio(a.key, a.urls));
+    this.load.on('filecomplete', (key) => {
+      if (key === currentMusic()) {
+        const scene = this.game.scene.getScenes(true).find((sc) => sc.scene.key !== SCENE_KEYS.PRELOAD_SCENE) || this;
+        playBackgroundMusic(scene, key, { restart: true });
       }
-      this.scene.start(SCENE_KEYS.TITLE_SCENE);
     });
     this.load.start();
   }

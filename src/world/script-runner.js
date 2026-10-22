@@ -414,6 +414,7 @@ export class ScriptRunner {
           name: t.name,
           title: t.title,
           portrait: `TRAINER_${t.portrait}`,
+          sprite: t.sprite,
           team: buildTrainerTeam(t),
           prize: t.prize ?? 0,
           defeatText: t.defeat || [],
