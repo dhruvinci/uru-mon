@@ -1,4 +1,4 @@
-"""The logo in every size: profile pictures, app icons and the favicon.
+"""The logo in every size (profile pictures, app icons, favicon) and the 1200x630 link-preview image.
 
 The logo is the title screen's sunset over Vidhana Soudha, recomposed as a square from the same pieces as
 title_art.py: the sun rises behind the central dome, the metro runs in front and jacarandas line the bottom.
@@ -10,7 +10,7 @@ import os
 import random
 import sys
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -46,15 +46,17 @@ DDDDDDDDDDDDDDDD
 """
 
 
-def scene(size, seed=11):
-    """The square title scene. Vidhana Soudha is drawn at half size, centred, with the sun behind its dome."""
+def scene(W, H=None, horizon=None, sun_r=None, seed=11):
+    """The title scene, recomposed: Vidhana Soudha at half size, centred, with the sun behind its dome.
+    `horizon` (the building's base) and `sun_r` let the wide share card lower the city under its title."""
     rnd = random.Random(seed)
-    W = H = size
+    H = H or W
     img = Image.new("RGBA", (W, H))
     d = ImageDraw.Draw(img)
     k = H / 144  # title_art.py is 144 px tall; keep its proportions
-    stops = [(0, (38, 26, 82)), (40 * k, (112, 58, 128)), (70 * k, (226, 110, 104)), (92 * k, (247, 170, 102)),
-             (110 * k, (252, 214, 140))]
+    shift = 0 if horizon is None else horizon - round(116 * k)
+    stops = [(0, (38, 26, 82)), (40 * k, (112, 58, 128)), (70 * k + shift, (226, 110, 104)),
+             (92 * k + shift, (247, 170, 102)), (110 * k + shift, (252, 214, 140))]
     for y in range(H):
         c = stops[-1][1]
         for i in range(len(stops) - 1):
@@ -67,11 +69,11 @@ def scene(size, seed=11):
 
     vs, _, _ = tiles.building("vidhana_soudha")
     vs = vs.resize((vs.width // 2, vs.height // 2), Image.NEAREST)
-    vx, vy = (W - vs.width) // 2, round(116 * k) - vs.height
-    cx, cy, r = W // 2, vy + round(vs.height * 0.24), round(W * 0.2)
+    vx, vy = (W - vs.width) // 2, round(116 * k) + shift - vs.height
+    cx, cy, r = W // 2, vy + round(vs.height * 0.24), sun_r or round(W * 0.2)
     d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(255, 226, 150, 255))
 
-    base = round(112 * k)
+    base = round(112 * k) + shift
     x = 0
     while x < W:
         bw, bh = rnd.randint(8, 16), rnd.randint(12, 28)
@@ -81,7 +83,7 @@ def scene(size, seed=11):
         x += bw + rnd.randint(0, 3)
     img.alpha_composite(silhouette(vs, (96, 52, 92)), (vx, vy))
 
-    deck = round(100 * k)
+    deck = round(100 * k) + shift
     d.rectangle((0, deck, W, deck + 3), fill=(70, 40, 80, 255))
     for px_ in range(6, W, 28):
         d.rectangle((px_, deck + 3, px_ + 3, deck + 18), fill=(70, 40, 80, 255))
@@ -90,7 +92,7 @@ def scene(size, seed=11):
     for wx in range(train + 3, W, 6):
         d.rectangle((wx, deck - 5, wx + 3, deck - 3), fill=(255, 214, 140, 255))
 
-    near = round(130 * k)
+    near = round(130 * k) + shift
     x = -4
     while x < W:
         bw, bh = rnd.randint(14, 26), rnd.randint(8, 16)
@@ -119,6 +121,27 @@ def save(im, path):
     im.convert("RGB").save(path, optimize=True)
 
 
+def share_card():
+    """The 1200x630 link-preview image: the title in the sky over the logo's dome-in-the-sun, at 5x."""
+    card = scene(240, 126, horizon=116, sun_r=26).resize((1200, 630), Image.NEAREST)
+    text = Image.new("RGBA", card.size)
+    d = ImageDraw.Draw(text)
+    font = os.path.join(ROOT, "assets", "fonts", "pixelify", "PixelifySans.ttf")
+
+    def write(y, s, size, fill, stroke, shadow=0):
+        f = ImageFont.truetype(font, size)
+        f.set_variation_by_name("Bold")
+        if shadow:
+            d.text((600 + shadow, y + shadow), s, font=f, fill=(0, 0, 0, 102), anchor="mm", stroke_width=stroke,
+                   stroke_fill=(0, 0, 0, 102))
+        d.text((600, y), s, font=f, fill=fill, anchor="mm", stroke_width=stroke, stroke_fill="#3a1f5c")
+
+    write(88, "uru-mon", 150, "#fff4d6", 18, shadow=8)
+    write(180, "A  BENGALURU  ADVENTURE", 36, "#ffe9a8", 8)
+    card.alpha_composite(text)
+    return card
+
+
 def main():
     os.makedirs(ICONS, exist_ok=True)
     art = scene(128)
@@ -135,7 +158,8 @@ def main():
     middle = art.crop((24, 20, 104, 100))
     sizes = [from_grid(FAVICON_16), middle.resize((32, 32), Image.LANCZOS), middle.resize((48, 48), Image.LANCZOS)]
     sizes[-1].save(os.path.join(ROOT, "favicon.ico"), format="ICO", sizes=[im.size for im in sizes], append_images=sizes[:-1])
-    print("wrote docs/brand/profile*.png, assets/icons/*, favicon.ico")
+    save(share_card(), os.path.join(ICONS, "share.png"))
+    print("wrote docs/brand/profile*.png, assets/icons/* (incl. the share.png link preview), favicon.ico")
 
 
 if __name__ == "__main__":
