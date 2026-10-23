@@ -1,3 +1,5 @@
+<img src="docs/brand/profile-512.png" alt="uru-mon logo: Vidhana Soudha against the setting sun" width="120" align="right">
+
 # uru-mon
 
 **A creature-collecting adventure across Bengaluru**, in the style of the classic handheld RPGs. It runs in the

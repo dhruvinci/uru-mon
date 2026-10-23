@@ -1,45 +1,109 @@
-"""Profile picture sizes, app icons and the favicon, all from docs/brand/profile.png (Kaapup at sunset).
+"""The logo in every size: profile pictures, app icons and the favicon.
 
-The profile picture is AI art (prompt in art-src/raw/brand/prompt.txt). The 32 and 48 px favicons are cut from its
-head; 16 px is too small for that, so it is hand-pixelled below. Run: python3 tools/art/brand.py
+The logo is the title screen's sunset over Vidhana Soudha, recomposed as a square from the same pieces as
+title_art.py: the sun rises behind the central dome, the metro runs in front and jacarandas line the bottom.
+It is drawn at 128 px and scaled up by whole pixels. At favicon size the scene is too detailed, so 16 px is
+hand-pixelled (dome against the sun) and 32/48 px are cut from the middle of the scene.
+Run: python3 tools/art/brand.py
 """
 import os
+import random
+import sys
 
 from PIL import Image, ImageDraw
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-SRC = os.path.join(ROOT, "docs", "brand", "profile.png")
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(HERE))
+sys.path.insert(0, HERE)
+
+import tiles  # noqa: E402
+from title_art import lerp, silhouette  # noqa: E402
+
+BRAND = os.path.join(ROOT, "docs", "brand")
 ICONS = os.path.join(ROOT, "assets", "icons")
 
-# the head, steam to chin, in profile.png's 1024 px frame
-HEAD = (130, 40, 890, 800)
-
-PAL = {
-    ".": (0, 0, 0, 0), "P": (86, 33, 116, 255), "Q": (170, 52, 92, 255), "R": (236, 96, 52, 255),
-    "o": (30, 8, 12, 255), "h": (255, 252, 240, 255), "s": (214, 210, 206, 255), "S": (150, 142, 146, 255),
-    "d": (92, 82, 90, 255), "b": (214, 112, 46, 255), "B": (150, 66, 30, 255), "c": (254, 219, 161, 255),
-    "e": (30, 8, 12, 255), "w": (255, 255, 255, 255), "n": (54, 20, 20, 255), "t": (238, 104, 124, 255),
-    "m": (252, 226, 180, 255),
-}
+PAL = {"a": (38, 26, 82), "b": (75, 42, 108), "c": (112, 58, 128), "d": (170, 84, 116), "f": (255, 214, 140),
+       "Y": (255, 226, 150), "V": (96, 52, 92), "N": (58, 34, 66), "L": (167, 139, 214), "H": (214, 196, 240),
+       "D": (120, 92, 176)}
 
 FAVICON_16 = """
-.PPPPPmPPmPPPPP.
-PPPPPPPmPPmPPPPP
-PPPPPPPooPPPPPPP
-PPPPooooooooPPPP
-PPPohsshssSSoPPP
-PPohsshsssSSdoPP
-PoddddddddddddoP
-PobBbbbbbbbbBboP
-QobBbwebbwebBboQ
-QobBbeecceebBboQ
-QobBcccnncccBboQ
-RobBccottoccBboR
-RobBbccooccbBboR
-RRooBbccccbBooRR
-RRRRoccccccoRRRR
-.RRRoccccccoRRR.
+aaaaaaaaaaaaaaaa
+aaaaaYYYYYYaaaaa
+bbbYYYYYYYYYYbbb
+bbYYYYVVVVYYYYbb
+ccYYYVVVVVVYYYcc
+ccYYYVVVVVVYYYcc
+dVVYYVVVVVVYYVVd
+dVVYVVVVVVVVYVVd
+VVVVVVVVVVVVVVVV
+VVVVVVVVVVVVVVVV
+VVfVVfVVVVfVVfVV
+VVVVVVVVVVVVVVVV
+NNNNNNNNNNNNNNNN
+NLLLNNLLLLNNLLLN
+LHLLLLHLLLLLHLLL
+DDDDDDDDDDDDDDDD
 """
+
+
+def scene(size, seed=11):
+    """The square title scene. Vidhana Soudha is drawn at half size, centred, with the sun behind its dome."""
+    rnd = random.Random(seed)
+    W = H = size
+    img = Image.new("RGBA", (W, H))
+    d = ImageDraw.Draw(img)
+    k = H / 144  # title_art.py is 144 px tall; keep its proportions
+    stops = [(0, (38, 26, 82)), (40 * k, (112, 58, 128)), (70 * k, (226, 110, 104)), (92 * k, (247, 170, 102)),
+             (110 * k, (252, 214, 140))]
+    for y in range(H):
+        c = stops[-1][1]
+        for i in range(len(stops) - 1):
+            if stops[i][0] <= y <= stops[i + 1][0]:
+                c = lerp(stops[i][1], stops[i + 1][1], (y - stops[i][0]) / (stops[i + 1][0] - stops[i][0]))
+                break
+        d.line((0, y, W, y), fill=c + (255,))
+    for _ in range(int(40 * W / 256) + 6):
+        img.putpixel((rnd.randrange(W), rnd.randrange(0, int(36 * k))), (255, 240, 220, 255))
+
+    vs, _, _ = tiles.building("vidhana_soudha")
+    vs = vs.resize((vs.width // 2, vs.height // 2), Image.NEAREST)
+    vx, vy = (W - vs.width) // 2, round(116 * k) - vs.height
+    cx, cy, r = W // 2, vy + round(vs.height * 0.24), round(W * 0.2)
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(255, 226, 150, 255))
+
+    base = round(112 * k)
+    x = 0
+    while x < W:
+        bw, bh = rnd.randint(8, 16), rnd.randint(12, 28)
+        d.rectangle((x, base - bh, x + bw, base), fill=(150, 84, 120, 255))
+        if rnd.random() < 0.5:
+            d.rectangle((x + 2, base - bh - 3, x + 5, base - bh), fill=(40, 30, 50, 255))  # water tank
+        x += bw + rnd.randint(0, 3)
+    img.alpha_composite(silhouette(vs, (96, 52, 92)), (vx, vy))
+
+    deck = round(100 * k)
+    d.rectangle((0, deck, W, deck + 3), fill=(70, 40, 80, 255))
+    for px_ in range(6, W, 28):
+        d.rectangle((px_, deck + 3, px_ + 3, deck + 18), fill=(70, 40, 80, 255))
+    train = int(W * 0.62)
+    d.rectangle((train, deck - 7, W + 4, deck), fill=(112, 66, 150, 255))
+    for wx in range(train + 3, W, 6):
+        d.rectangle((wx, deck - 5, wx + 3, deck - 3), fill=(255, 214, 140, 255))
+
+    near = round(130 * k)
+    x = -4
+    while x < W:
+        bw, bh = rnd.randint(14, 26), rnd.randint(8, 16)
+        d.rectangle((x, near - bh, x + bw, H), fill=(58, 34, 66, 255))
+        for wy in range(near - bh + 4, near - 2, 6):
+            for wx in range(x + 3, x + bw - 2, 6):
+                if rnd.random() < 0.45:
+                    d.rectangle((wx, wy, wx + 1, wy + 1), fill=(255, 196, 110, 255))
+        x += bw + 2
+    jac, _ = tiles.prop("jacaranda")
+    for tx in range(-10, W, 28):
+        img.alpha_composite(jac, (tx + rnd.randint(-2, 2), H - jac.height + 8))
+    return img
 
 
 def from_grid(grid):
@@ -47,59 +111,31 @@ def from_grid(grid):
     im = Image.new("RGBA", (len(rows[0]), len(rows)))
     for y, row in enumerate(rows):
         for x, ch in enumerate(row):
-            im.putpixel((x, y), PAL[ch])
+            im.putpixel((x, y), PAL[ch] + (255,))
     return im
 
 
-def round_corners(im, radius):
-    mask = Image.new("L", im.size, 0)
-    ImageDraw.Draw(mask).rounded_rectangle((0, 0, im.width - 1, im.height - 1), radius, fill=255)
-    out = im.copy()
-    out.putalpha(mask)
-    return out
-
-
-def maskable(src, scale=0.84):
-    """Shrinks the picture so Android's round or squircle mask can't clip the head. The body stays on the bottom
-    edge; the rest of the canvas continues the background (a vertical gradient, so edge pixels extend cleanly)."""
-    w, h = src.size
-    small = src.resize((round(w * scale), round(h * scale)), Image.LANCZOS)
-    x0, y0 = (w - small.width) // 2, h - small.height
-    out = Image.new("RGB", src.size)
-    for y in range(h):
-        sy = min(max(y - y0, 0), small.height - 1)
-        left, right = small.getpixel((0, sy)), small.getpixel((small.width - 1, sy))
-        for x in range(w):
-            if x < x0:
-                out.putpixel((x, y), left)
-            elif x >= x0 + small.width:
-                out.putpixel((x, y), right)
-    for y in range(y0):
-        for x in range(x0, x0 + small.width):
-            out.putpixel((x, y), small.getpixel((x - x0, 0)))
-    out.paste(small, (x0, y0))
-    return out
+def save(im, path):
+    im.convert("RGB").save(path, optimize=True)
 
 
 def main():
-    src = Image.open(SRC).convert("RGB")
-    out = os.path.join(ROOT, "docs", "brand")
-    src.resize((400, 400), Image.LANCZOS).save(os.path.join(out, "profile-400.png"), optimize=True)
-
     os.makedirs(ICONS, exist_ok=True)
-    src.resize((512, 512), Image.LANCZOS).save(os.path.join(ICONS, "icon-512.png"), optimize=True)
-    src.resize((192, 192), Image.LANCZOS).save(os.path.join(ICONS, "icon-192.png"), optimize=True)
-    src.resize((180, 180), Image.LANCZOS).save(os.path.join(ICONS, "apple-touch-icon.png"), optimize=True)
-    maskable(src.resize((512, 512), Image.LANCZOS)).save(os.path.join(ICONS, "icon-maskable-512.png"), optimize=True)
+    art = scene(128)
+    big = art.resize((1024, 1024), Image.NEAREST)
+    save(big, os.path.join(BRAND, "profile.png"))
+    save(art.resize((512, 512), Image.NEAREST), os.path.join(BRAND, "profile-512.png"))
+    save(art.resize((512, 512), Image.NEAREST), os.path.join(ICONS, "icon-512.png"))
+    save(big.resize((192, 192), Image.LANCZOS), os.path.join(ICONS, "icon-192.png"))
+    save(big.resize((180, 180), Image.LANCZOS), os.path.join(ICONS, "apple-touch-icon.png"))
+    # Android masks icons to a circle or squircle: a wider scene keeps the building inside the central 80%
+    save(scene(160).resize((640, 640), Image.NEAREST).resize((512, 512), Image.LANCZOS),
+         os.path.join(ICONS, "icon-maskable-512.png"))
 
-    head = src.crop(HEAD).convert("RGBA")
-    sizes = [
-        from_grid(FAVICON_16),
-        round_corners(head.resize((32, 32), Image.LANCZOS), 3),
-        round_corners(head.resize((48, 48), Image.LANCZOS), 4),
-    ]
+    middle = art.crop((24, 20, 104, 100))
+    sizes = [from_grid(FAVICON_16), middle.resize((32, 32), Image.LANCZOS), middle.resize((48, 48), Image.LANCZOS)]
     sizes[-1].save(os.path.join(ROOT, "favicon.ico"), format="ICO", sizes=[im.size for im in sizes], append_images=sizes[:-1])
-    print("wrote docs/brand/profile-400.png, assets/icons/*, favicon.ico")
+    print("wrote docs/brand/profile*.png, assets/icons/*, favicon.ico")
 
 
 if __name__ == "__main__":
