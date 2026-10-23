@@ -49,6 +49,7 @@ or maps. `node test/review-smoke.mjs <dir>` checks the site (it adds and removes
 | `assets/images/characters/*.png` | `tools/art/characters.py` | `python3 tools/art/characters.py` |
 | `assets/audio/**` | `tools/audio/synth.py` | `python3 tools/audio/synth.py` |
 | `assets/images/ui/title_bg.png` | `tools/art/title_art.py` | `python3 tools/art/title_art.py` |
+| `favicon.ico`, `assets/icons/*`, `docs/brand/profile-400.png` | `docs/brand/profile.png` (+ the hand-pixelled 16 px favicon in the script) | `python3 tools/art/brand.py` |
 
 `build_maps.py` validates warps, NPC/item/spawn placement; `python3 tools/maps/reachability.py` then flood-fills every map
 to prove all warps, NPCs, items and signs are reachable. Treat any WARN or problem line as a bug.
