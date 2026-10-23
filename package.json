@@ -1,0 +1,14 @@
+{
+  "name": "uru-mon",
+  "version": "1.0.0",
+  "description": "A creature-collecting adventure across Bengaluru",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'No build step needed - serve index.html directly'",
+    "test": "cd tools && npm test"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
