@@ -1,4 +1,4 @@
-import { inject } from '@vercel/analytics';
+import { inject } from './lib/vercel-analytics.js';
 import Phaser from './lib/phaser.js';
 import { SCENE_KEYS } from './scenes/scene-keys.js';
 import { PreloadScene } from './scenes/preload-scene.js';
