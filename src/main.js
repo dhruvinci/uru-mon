@@ -1,4 +1,3 @@
-import { inject } from '@vercel/analytics';
 import Phaser from './lib/phaser.js';
 import { SCENE_KEYS } from './scenes/scene-keys.js';
 import { PreloadScene } from './scenes/preload-scene.js';
@@ -28,9 +27,6 @@ import { keepAudioAwake } from './utils/audio-utils.js';
 import { dataManager } from './utils/data-manager.js';
 import { gameData } from './game/game-data.js';
 import { createMonster, fullyHeal } from './battle/engine/monster.js';
-
-// Initialize Vercel Analytics
-inject();
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
