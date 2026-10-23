@@ -116,7 +116,9 @@ export class QuickBattleScene extends BaseScene {
     const art = bestArt(this, sp.assetKey, monHdKey(id), 1.25);
     const img = this.add.image(x + 52, y + 88, art.key).setOrigin(0.5, 1).setScale(art.scale).setFlipX(!flip);
     img.setData('art', [sp.assetKey, monHdKey(id), 1.25]);
-    text(this, x + 108, y + 14, sp.name, 'body');
+    const name = text(this, x + 108, y + 14, sp.name, 'body');
+    // long names (Bannadakokkare) would run off the card
+    name.setScale(Math.min(1, 210 / name.width));
     sp.types.forEach((type, i) => typeBadge(this, x + 108 + i * 108, y + 54, type, 0.95));
   }
 
