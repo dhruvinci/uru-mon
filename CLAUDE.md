@@ -86,11 +86,16 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   walks to tapped tiles with a BFS path follower (`screenToTile` looks through the HD-2D tilt) and interacts with tapped
   NPCs, signs, items, water and doors. `src/input/touch-controls.js` lays out the pad: portrait = game on top, pad below,
   and on-screen messages mirrored large (`uru:message` / `uru:speaker` window events); landscape = A/B/MENU in the side
-  margins, D-pad optional. `node test/mobile.mjs <dir> portrait|landscape` plays with taps only.
+  margins, D-pad optional. Phones held upright (touch, portrait, under 600 px wide) get a `.rotate-overlay` asking
+  them to turn sideways, with "Play upright anyway" (remembered for the session); on Android the first tap in landscape
+  requests fullscreen. HD-2D outdoors uses camera zoom 0.75, or 1 on phones (`PHONE` in `world-fx.js`). `node test/mobile.mjs <dir> portrait|landscape` plays with taps only.
   Keys typed into `<input>` elements are ignored by the game (used for name entry). A tap shorter than a frame still
   counts as one step.
 - **Audio**: only SFX and the title theme load before the title screen; `PreloadScene` stays alive to stream the rest
   and starts a requested track when it arrives. Missing audio keys are silently ignored.
+  The manifest lists MP3 before Ogg (Safari's Ogg support varies). For iPhones, `setGlobalSoundSettings` sets
+  `navigator.audioSession.type` to `playback` (sound plays with the ring/silent switch on; `ambient` when Sound is OFF),
+  and `keepAudioAwake` resumes the AudioContext on later taps after iOS suspends it (calls, app switches).
 - **Browser tests drive real key presses**, so their walking is timing-based: run them one at a time (parallel
   headless browsers on a busy CPU cause missed steps).
 

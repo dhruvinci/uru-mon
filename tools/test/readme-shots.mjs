@@ -99,6 +99,7 @@ const phone = await launch({ width: 390, height: 844, touch: true });
 try {
   await open(phone.page, '?scene=test&map=basavanagudi&time=day&weather=clear&gfx=HD-2D');
   await waitScene(phone.page, 'WORLD_SCENE');
+  await phone.page.tap('.rotate-skip'); // "Play upright anyway"
   await sleep(phone.page, 1500);
   await phone.page.evaluate(() => {
     const w = window.__uruGame.scene.getScene('WORLD_SCENE');

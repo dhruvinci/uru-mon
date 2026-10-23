@@ -19,6 +19,8 @@ const PHASES = {
   night: { grade: [0.5, 0.57, 0.82], haze: [0.12, 0.14, 0.3], saturation: 0.75, lights: 1 },
 };
 const INDOOR = { grade: [1.03, 1.0, 0.95], haze: [1, 0.95, 0.85], saturation: 1.02, lights: 0 };
+/** A touch screen under 600 px on its short side: a phone. */
+const PHONE = window.matchMedia('(pointer: coarse)').matches && Math.min(window.screen.width, window.screen.height) < 600;
 
 /** Ambient particles per map. */
 const AMBIENT = {
@@ -177,7 +179,8 @@ export class WorldFx {
     }
     const cam = this.scene.cameras.main;
     if (!this.interior) {
-      cam.setZoom(0.75);
+      // phones show the whole game small, so stay closer there
+      cam.setZoom(PHONE ? 1 : 0.75);
     }
     const want = 0.56;
     const srcY = this.pipe.sourceAt(0.5, want)[1];

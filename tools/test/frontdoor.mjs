@@ -126,7 +126,7 @@ try {
     await press(page, 'DOWN'); await press(page, 'DOWN'); await press(page, 'A');
     await waitScene(page, 'TITLE_SCENE');
     const after = await page.evaluate(() => ({ party: window.__uru.dataManager.party.length, saved: localStorage.getItem('URU_MON_SAVE_V1') }));
-    console.log('state restored after quick battle:', after.party === 0, 'saved anything:', Boolean(after.saved));
+    console.log('state restored after quick battle:', after.party === 0, 'left the save alone:', !after.saved);
   }
   if (want('fishing')) {
     await open(page, '?scene=test&map=lalbagh&party=6:30');

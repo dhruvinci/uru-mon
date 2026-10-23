@@ -57,7 +57,8 @@ def main():
             continue
         names = sorted({f.rsplit(".", 1)[0] for f in os.listdir(d) if f.endswith((".ogg", ".mp3", ".m4a"))})
         for n in names:
-            urls = [rel("audio", kind, f"{n}.{e}") for e in ("ogg", "m4a", "mp3") if os.path.exists(os.path.join(d, f"{n}.{e}"))]
+            # MP3 first: every browser plays it, while Safari's Ogg support varies by version (no music on iPhones)
+            urls = [rel("audio", kind, f"{n}.{e}") for e in ("mp3", "m4a", "ogg") if os.path.exists(os.path.join(d, f"{n}.{e}"))]
             audio.append({"key": f"{kind.upper()}_{n.upper()}", "urls": urls})
 
     out = {"images": images, "spritesheets": sheets, "maps": maps, "audio": audio}

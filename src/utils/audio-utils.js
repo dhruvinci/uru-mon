@@ -67,6 +67,28 @@ export function playSoundFx(scene, audioKey, volume = 0.8) {
 
 /** @param {Phaser.Scene} scene */
 export function setGlobalSoundSettings(scene) {
+  const on = dataManager.state.options.sound !== SOUND_OPTIONS.OFF;
   scene.sound.setVolume(dataManager.state.options.volume * 0.25);
-  scene.sound.setMute(dataManager.state.options.sound === SOUND_OPTIONS.OFF);
+  scene.sound.setMute(!on);
+  // iPhones treat web audio like a ringtone (silenced by the ring/silent switch) unless the page asks to be treated
+  // like media (iOS 17+). With sound off, go back to "ambient" so the game doesn't pause the player's own music.
+  const session = /** @type {any} */ (navigator).audioSession;
+  if (session) {
+    session.type = on ? 'playback' : 'ambient';
+  }
+}
+
+/**
+ * Phaser unlocks audio on the first tap only, but iOS suspends it again after a call, Siri or switching apps.
+ * Resume it on any later tap or key press.
+ * @param {Phaser.Game} game
+ */
+export function keepAudioAwake(game) {
+  const resume = () => {
+    const ctx = /** @type {any} */ (game.sound).context;
+    if (ctx && ctx.state !== 'running') {
+      ctx.resume().catch(() => {});
+    }
+  };
+  ['pointerup', 'touchend', 'keydown'].forEach((type) => window.addEventListener(type, resume, { passive: true }));
 }

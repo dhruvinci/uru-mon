@@ -23,6 +23,7 @@ import { RegionMapScene } from './scenes/region-map-scene.js';
 import { QuickBattleScene } from './scenes/quick-battle-scene.js';
 import { setupTouchControls } from './input/touch-controls.js';
 import { inputManager } from './input/input-manager.js';
+import { keepAudioAwake } from './utils/audio-utils.js';
 import { dataManager } from './utils/data-manager.js';
 import { gameData } from './game/game-data.js';
 import { createMonster, fullyHeal } from './battle/engine/monster.js';
@@ -77,6 +78,7 @@ inputManager.onFullscreenToggle = () => {
   }
 };
 setupTouchControls();
+keepAudioAwake(game);
 
 // handy for debugging and automated tests
 window.__uruGame = game;

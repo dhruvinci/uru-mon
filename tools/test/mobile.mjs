@@ -41,6 +41,13 @@ try {
   await open(page, '');
   await waitScene(page, 'TITLE_SCENE');
   await sleep(page, 900);
+  if (orient === 'portrait') {
+    // phones held upright are asked to turn sideways first
+    const asked = await page.isVisible('.rotate-overlay');
+    await page.tap('.rotate-skip');
+    await sleep(page, 200);
+    console.log('portrait asks to turn sideways:', asked, '| dismissed:', !(await page.isVisible('.rotate-overlay')));
+  }
   await tapGame(512, 300);
   await sleep(page, 400);
   const menu = await page.evaluate(() => {

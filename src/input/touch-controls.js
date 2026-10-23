@@ -156,6 +156,48 @@ export function setupTouchControls() {
   pad.addEventListener('pointercancel', end);
   pad.addEventListener('contextmenu', (e) => e.preventDefault());
 
+  // phones held upright: the 16:9 game is a thin strip, so ask for landscape (with a way to carry on anyway)
+  const ios = /iPhone|iPod/.test(navigator.userAgent);
+  const installed = window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches
+    || /** @type {any} */ (navigator).standalone;
+  const rotate = document.createElement('div');
+  rotate.className = 'rotate-overlay';
+  rotate.innerHTML = `
+    <div class="phone-icon"></div>
+    <div class="rotate-title">Turn your phone sideways</div>
+    <div class="rotate-sub">uru-mon plays like a handheld console: the screen is much bigger held sideways.</div>
+    ${ios && !installed ? '<div class="rotate-tip">Tip: tap Share, then <b>Add to Home Screen</b>, to play full screen without the browser bars.</div>' : ''}
+    <button class="rotate-skip">Play upright anyway</button>`;
+  document.body.appendChild(rotate);
+  try {
+    if (sessionStorage.getItem('uru-upright') === 'ok') {
+      document.body.classList.add('upright-ok');
+    }
+  } catch {
+    /* ignore */
+  }
+  rotate.querySelector('.rotate-skip')?.addEventListener('click', () => {
+    document.body.classList.add('upright-ok');
+    try {
+      sessionStorage.setItem('uru-upright', 'ok');
+    } catch {
+      /* ignore */
+    }
+  });
+
+  // Android: the first tap in landscape goes full screen, hiding the browser bars (iPhones can't; see the tip above)
+  let triedFullscreen = false;
+  window.addEventListener('pointerup', () => {
+    if (triedFullscreen || installed || document.fullscreenElement || !document.fullscreenEnabled
+      || window.innerWidth < window.innerHeight) {
+      return;
+    }
+    triedFullscreen = true;
+    document.documentElement.requestFullscreen({ navigationUI: 'hide' })
+      .then(() => /** @type {any} */ (screen.orientation)?.lock?.('landscape'))
+      .catch(() => {});
+  });
+
   // landscape layout depends on how much room the 16:9 game leaves at the sides
   const layout = () => {
     const w = window.innerWidth;
