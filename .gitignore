@@ -12,3 +12,22 @@ __pycache__/
 
 # helper-agent worktrees
 /.claude/
+
+# Kept out of the public repo
+# - credentials and local config, in case any ever land here
+.env
+.env.*
+*.pem
+*.key
+auth.json
+.codex/
+.npmrc
+# - Codex/agent run logs (can echo environment details)
+art-src/logs/
+*.log
+_logs/
+# - the private review site: the user's notes and the franchise comparison table
+/tools/review/
+/tools/test/review-smoke.mjs
+# - local backups
+*.bundle
