@@ -24,6 +24,7 @@ import { bestArt, loadHd, monHdKey, trainerHdKey, HD_FACTOR } from '../ui/hd-art
 import { BATTLE_SCENE_OPTIONS, BATTLE_STYLE_OPTIONS } from '../common/options.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
+import { FULL_HEIGHT, GAME_WIDTH, isTall, onResize, setTextResolution, uiScale } from '../ui/screen.js';
 
 /**
  * @typedef TrainerBattleInfo
@@ -59,11 +60,57 @@ import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
  * @property {boolean} [canLose]
  */
 
-const ENEMY_POS = { x: 760, y: 236 };
-const PLAYER_POS = { x: 250, y: 440 };
-const TRAINER_POS = { x: 760, y: 318 };
-const SPRITE_SCALE = 4;
 const MAIN_OPTIONS = ['FIGHT', 'BAG', 'PARTY', 'RUN'];
+/** Where trainers wait before sliding in, and go after. */
+const OFF_RIGHT = 1350;
+
+/**
+ * @typedef {{x: number, y: number}} Point
+ * @typedef BattleLayout
+ * @type {object}
+ * @property {boolean} tall laid out for a tall canvas
+ * @property {number} k how much bigger the HUDs, menus and text are drawn
+ * @property {number} height of the whole layout
+ * @property {number} field height of the battlefield; the message box and menus fill the rest
+ * @property {number} uiHeight height of the message box and menus, before scaling by k
+ * @property {number} sprite scale of the creature art
+ * @property {number} bgScale scale of the backdrop art
+ * @property {Point} enemy where the creatures and the trainer stand (their feet)
+ * @property {Point} player
+ * @property {Point} trainer
+ * @property {Point} enemyHud
+ * @property {Point} playerHud
+ * @property {Point} evolve
+ */
+
+/**
+ * The 1024x576 battle, or on a tall canvas (a phone held upright) a taller field with bigger creatures, and the
+ * HUDs, menus and text drawn k times bigger.
+ * @param {Phaser.Scene} scene
+ * @returns {BattleLayout}
+ */
+function battleLayout(scene) {
+  const k = uiScale(scene);
+  if (!isTall(scene)) {
+    return {
+      tall: false, k, height: 576, field: 432, uiHeight: 144, sprite: 4, bgScale: 4,
+      enemy: { x: 760, y: 236 }, player: { x: 250, y: 440 }, trainer: { x: 760, y: 318 },
+      enemyHud: { x: 28, y: 26 }, playerHud: { x: 548, y: 276 }, evolve: { x: 512, y: 330 },
+    };
+  }
+  const height = scene.scale.height;
+  const uiHeight = 200;
+  const field = Math.round(height - uiHeight * k);
+  // bigger creatures when there's room; the enemy stands low enough for its 64-pixel art to fit under the top edge
+  const sprite = field >= 640 ? 5 : 4;
+  const enemyY = Math.max(Math.round(field * 0.53), 64 * sprite + 24);
+  return {
+    tall: true, k, height, field, uiHeight, sprite, bgScale: Math.max(4, Math.ceil(field / 108)),
+    enemy: { x: 760, y: enemyY }, player: { x: 240, y: field - 8 }, trainer: { x: 760, y: enemyY + 100 },
+    enemyHud: { x: 20, y: 20 }, playerHud: { x: Math.round(GAME_WIDTH - 452 * k - 16), y: Math.round(field - 142 * k - 24) },
+    evolve: { x: 512, y: Math.round(field * 0.78) },
+  };
+}
 
 export class BattleScene extends BaseScene {
   constructor() {
@@ -84,6 +131,11 @@ export class BattleScene extends BaseScene {
 
   create() {
     super.create();
+    const L = battleLayout(this);
+    this.L = L;
+    setTextResolution(this, L.k);
+    this.#fitCamera();
+    onResize(this, () => this.#fitCamera());
     const d = this.data_;
     const party = dataManager.party;
     this.isTrainer = Boolean(d.trainer);
@@ -97,16 +149,16 @@ export class BattleScene extends BaseScene {
 
     this.#createBackground(d.environment || 'grass');
     this.#atmosphere(d.environment || 'grass');
-    this.enemySprite = this.add.image(ENEMY_POS.x, ENEMY_POS.y, getSpecies(this.battle.enemyActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(SPRITE_SCALE).setDepth(10);
-    this.playerSprite = this.add.image(PLAYER_POS.x, PLAYER_POS.y, getSpecies(this.battle.playerActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(SPRITE_SCALE).setFlipX(true).setDepth(11);
+    this.enemySprite = this.add.image(L.enemy.x, L.enemy.y, getSpecies(this.battle.enemyActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(L.sprite).setDepth(10);
+    this.playerSprite = this.add.image(L.player.x, L.player.y, getSpecies(this.battle.playerActive.speciesId).assetKey).setOrigin(0.5, 1).setScale(L.sprite).setFlipX(true).setDepth(11);
     this.enemySprite.setVisible(false);
     this.playerSprite.setVisible(false);
     if (this.isTrainer) {
       const hasPortrait = this.textures.exists(d.trainer.portrait);
       const fallback = `CHAR_${d.trainer.sprite || 'man1'}`;
       this.trainerSprite = hasPortrait
-        ? this.add.image(TRAINER_POS.x, TRAINER_POS.y, d.trainer.portrait).setOrigin(0.5, 1).setScale(4)
-        : this.add.image(TRAINER_POS.x, TRAINER_POS.y, fallback, 0).setOrigin(0.5, 1).setScale(9); // 16x32 -> portrait height
+        ? this.add.image(L.trainer.x, L.trainer.y, d.trainer.portrait).setOrigin(0.5, 1).setScale(L.sprite)
+        : this.add.image(L.trainer.x, L.trainer.y, fallback, 0).setOrigin(0.5, 1).setScale((9 * L.sprite) / 4); // 16x32 -> portrait height
       this.trainerSprite.setDepth(10).setVisible(false);
     }
     // sharper art: fetch the HD pictures for everyone in this battle (and what the party could evolve into)
@@ -118,10 +170,12 @@ export class BattleScene extends BaseScene {
     }
     loadHd(this, hdKeys).then(() => this.#upgradeArt());
 
-    this.enemyHud = new BattleHud(this, 'enemy');
-    this.playerHud = new BattleHud(this, 'player');
-    this.messageBox = new MessageBox(this, { height: 144 });
-    this.tapZone = this.add.zone(0, 0, 1024, 576).setOrigin(0).setDepth(55).setInteractive();
+    this.enemyHud = new BattleHud(this, 'enemy', L.enemyHud, L.k);
+    this.playerHud = new BattleHud(this, 'player', L.playerHud, L.k);
+    this.messageBox = new MessageBox(this, { y: L.field, width: GAME_WIDTH / L.k, height: L.uiHeight });
+    this.messageBox.container.setScale(L.k);
+    this.messageBox.setAnnounces(!L.tall); // big enough to read on its own
+    this.tapZone = this.add.zone(0, 0, GAME_WIDTH, L.height).setOrigin(0).setDepth(55).setInteractive();
     this.tapZone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
       if (this.messageBox.isWaiting && p.getDistance() < 24) {
         inputManager.tap('A');
@@ -137,6 +191,19 @@ export class BattleScene extends BaseScene {
       console.error('[BattleScene] battle flow crashed', err);
       this.#finish({ outcome: 'fled' });
     });
+  }
+
+  /**
+   * Fits the layout to the canvas. They match, except when the phone turns mid-battle: the battle then carries on in the
+   * layout it started with, shrunk to fit or at the top.
+   */
+  #fitCamera() {
+    const cam = this.cameras.main;
+    const H = this.scale.height;
+    const zoom = Math.min(1, H / this.L.height);
+    const width = GAME_WIDTH * zoom;
+    cam.setViewport((GAME_WIDTH - width) / 2, 0, width, H).setZoom(zoom);
+    cam.centerOn(GAME_WIDTH / 2, zoom < 1 ? this.L.height / 2 : H / 2);
   }
 
   update(time) {
@@ -167,22 +234,26 @@ export class BattleScene extends BaseScene {
 
   /** @param {string} env */
   #createBackground(env) {
+    const L = this.L;
     const key = `BATTLE_BG_${env.toUpperCase()}`;
     if (this.textures.exists(key)) {
-      this.add.image(0, 0, key).setOrigin(0).setScale(4);
+      // a tall field shows the middle of the scene, bigger
+      this.add.image(GAME_WIDTH / 2, 0, key).setOrigin(0.5, 0).setScale(L.bgScale);
     } else {
       const g = this.add.graphics();
       g.fillGradientStyle(0xa8d8f0, 0xa8d8f0, 0xe8f4d8, 0xe8f4d8, 1);
-      g.fillRect(0, 0, 1024, 432);
+      g.fillRect(0, 0, GAME_WIDTH, L.field);
     }
     const g = this.add.graphics().setDepth(5);
     // platforms the creatures stand on
+    const f = L.sprite / 4;
     g.fillStyle(0x000000, 0.18);
-    g.fillEllipse(ENEMY_POS.x, ENEMY_POS.y - 8, 330, 70);
-    g.fillEllipse(PLAYER_POS.x, PLAYER_POS.y - 8, 390, 80);
+    g.fillEllipse(L.enemy.x, L.enemy.y - 8 * f, 330 * f, 70 * f);
+    g.fillEllipse(L.player.x, L.player.y - 8 * f, 390 * f, 80 * f);
   }
 
   #createPartyIndicators() {
+    const { k, playerHud, enemyHud } = this.L;
     /** @param {import('../battle/engine/monster.js').Monster[]} team @param {number} x @param {number} y @param {number} dir */
     const make = (team, x, y, dir) => {
       const c = this.add.container(x, y).setDepth(21);
@@ -195,11 +266,12 @@ export class BattleScene extends BaseScene {
         icon.setAlpha(!m ? 0.15 : m.hp > 0 ? 1 : 0.4);
         c.add(icon);
       }
-      c.setVisible(false);
+      c.setVisible(false).setScale(k);
       return c;
     };
-    this.playerBalls = make(dataManager.party, 980, 262, -1);
-    this.enemyBalls = this.isTrainer ? make(this.data_.trainer.team, 52, 150, 1) : null;
+    // above the player's HUD, and under the trainer's
+    this.playerBalls = make(dataManager.party, GAME_WIDTH - 44 * k, playerHud.y - 14 * k, -1);
+    this.enemyBalls = this.isTrainer ? make(this.data_.trainer.team, enemyHud.x + 24 * k, enemyHud.y + 124 * k, 1) : null;
   }
 
   #refreshPartyIndicators() {
@@ -239,15 +311,10 @@ export class BattleScene extends BaseScene {
    */
   choose(items, opts = {}) {
     return new Promise((resolve) => {
+      const { k, field } = this.L;
       const width = Math.max(220, ...items.map((s) => s.length * 17 + 90));
-      const menu = new ListMenu(this, {
-        x: 1024 - width - 12,
-        y: 432 - (items.length * 46 + 36) - 8,
-        width,
-        items,
-        cancelable: opts.cancelable ?? true,
-        depth: 80,
-      });
+      const menu = new ListMenu(this, { x: 0, y: 0, width, items, cancelable: opts.cancelable ?? true, depth: 80 });
+      menu.container.setScale(k).setPosition(GAME_WIDTH - (width + 12) * k, field - (menu.height + 8) * k);
       if (opts.title) {
         this.messageBox.setText(opts.title);
       }
@@ -299,17 +366,17 @@ export class BattleScene extends BaseScene {
     dataManager.markSeen(enemy.speciesId);
     await this.#fadeInFromBlack();
     if (this.isTrainer) {
-      this.trainerSprite.setVisible(true).setX(1200);
-      await tween(this, { targets: this.trainerSprite, x: TRAINER_POS.x, duration: this.skipAnim ? 1 : 600, ease: 'Cubic.out' });
+      this.trainerSprite.setVisible(true).setX(OFF_RIGHT);
+      await tween(this, { targets: this.trainerSprite, x: this.L.trainer.x, duration: this.skipAnim ? 1 : 600, ease: 'Cubic.out' });
       this.enemyBalls?.setVisible(true);
       const who = d.trainer.title ? `${d.trainer.title} ${d.trainer.name}` : d.trainer.name;
       await this.say(`${who} wants to battle!`);
-      await tween(this, { targets: this.trainerSprite, x: 1250, duration: this.skipAnim ? 1 : 450, ease: 'Cubic.in' });
+      await tween(this, { targets: this.trainerSprite, x: OFF_RIGHT, duration: this.skipAnim ? 1 : 450, ease: 'Cubic.in' });
       this.trainerSprite.setVisible(false);
       await this.#sendOut('enemy', `${d.trainer.name} sent out ${displayName(enemy)}!`);
     } else {
-      this.enemySprite.setVisible(true).setX(1200);
-      await tween(this, { targets: this.enemySprite, x: ENEMY_POS.x, duration: this.skipAnim ? 1 : 700, ease: 'Cubic.out' });
+      this.enemySprite.setVisible(true).setX(OFF_RIGHT);
+      await tween(this, { targets: this.enemySprite, x: this.L.enemy.x, duration: this.skipAnim ? 1 : 700, ease: 'Cubic.out' });
       this.enemyHud.bind(enemy);
       await this.enemyHud.slideIn();
       await this.say(`A wild ${displayName(enemy)} appeared!`);
@@ -321,7 +388,7 @@ export class BattleScene extends BaseScene {
     if (this.skipAnim) {
       return Promise.resolve();
     }
-    const cover = this.add.rectangle(0, 0, 1024, 576, 0x000000).setOrigin(0).setDepth(100);
+    const cover = this.add.rectangle(0, 0, GAME_WIDTH, FULL_HEIGHT, 0x000000).setOrigin(0).setDepth(100);
     return tween(this, { targets: cover, alpha: 0, duration: 450 }).then(() => cover.destroy());
   }
 
@@ -333,7 +400,7 @@ export class BattleScene extends BaseScene {
     const mon = this.battle.active(side);
     const sprite = side === 'player' ? this.playerSprite : this.enemySprite;
     const hud = side === 'player' ? this.playerHud : this.enemyHud;
-    const home = side === 'player' ? PLAYER_POS : ENEMY_POS;
+    const home = side === 'player' ? this.L.player : this.L.enemy;
     dataManager.markSeen(mon.speciesId);
     const art = this.#monArt(mon.speciesId);
     sprite.setTexture(art.key).setPosition(home.x, home.y).setVisible(true).setAlpha(1);
@@ -434,19 +501,27 @@ export class BattleScene extends BaseScene {
   /** @returns {Promise<string>} */
   #mainMenu() {
     return new Promise((resolve) => {
-      const c = this.add.container(604, 432).setDepth(55);
-      // B here just moves the cursor to RUN, so only A gets a prompt: in the message box, left of this menu
-      this.messageBox.setHints(HINTS.select, 580);
+      const { k, field, uiHeight } = this.L;
+      // on a tall canvas the menu is taller too, with bigger cells to tap
+      const { tall } = this.L;
+      const w = tall ? 400 : 420;
+      const left = GAME_WIDTH / k - w; // in the message box's units
+      const c = this.add.container(GAME_WIDTH - w * k, field).setDepth(55).setScale(k);
+      // B here just moves the cursor to RUN, so only A gets a prompt: in the message box, left of this menu, where
+      // the question wraps too
+      this.messageBox.setHints(HINTS.select, left - 24).setTextWidth(left - 58);
       c.once('destroy', () => {
         this.menuMode = null;
-        this.messageBox.setHints([]);
+        this.messageBox.setHints([]).setTextWidth();
       });
-      c.add(panel(this, 0, 0, 420, 144, { radius: 12 }));
+      c.add(panel(this, 0, 0, w, uiHeight, { radius: 12 }));
+      const [x1, x2] = tall ? [56, 226] : [60, 236];
+      const [y1, y2] = tall ? [46, 118] : [30, 82];
       const pos = [
-        [60, 30],
-        [236, 30],
-        [60, 82],
-        [236, 82],
+        [x1, y1],
+        [x2, y1],
+        [x1, y2],
+        [x2, y2],
       ];
       MAIN_OPTIONS.forEach((label, i) => c.add(text(this, pos[i][0], pos[i][1], label, 'body')));
       const cur = cursor(this);
@@ -456,7 +531,8 @@ export class BattleScene extends BaseScene {
       this.menuCursor = () => idx;
       const place = () => cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
       place();
-      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, 176, 52]), (i) => {
+      const cellH = tall ? 68 : 52;
+      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - (cellH - 20) / 2, 170, cellH]), (i) => {
         idx = i;
         place();
         inputManager.tap('A');
@@ -485,22 +561,31 @@ export class BattleScene extends BaseScene {
   #moveMenu() {
     const mon = this.battle.playerActive;
     return new Promise((resolve) => {
-      const c = this.add.container(0, 432).setDepth(55);
+      const { k, field, uiHeight } = this.L;
+      const c = this.add.container(0, field).setDepth(55).setScale(k);
       c.once('destroy', () => { this.menuMode = null; });
-      c.add(panel(this, 0, 0, 660, 144, { radius: 12 }));
-      c.add(panel(this, 660, 0, 364, 144, { radius: 12 }));
+      // the moves on the left with PP and type beside them; on a tall canvas, too narrow for that, PP and type go in a
+      // strip underneath
+      const { tall } = this.L;
+      const W = GAME_WIDTH / k;
+      const info = tall ? [0, 128, W, uiHeight - 128] : [660, 0, 364, 144];
+      c.add(panel(this, 0, 0, tall ? W : 660, tall ? 128 : 144, { radius: 12 }));
+      c.add(panel(this, info[0], info[1], info[2], info[3], { radius: 12 }));
+      const [x1, x2] = tall ? [56, 396] : [60, 350];
+      const [y1, y2] = tall ? [24, 76] : [30, 82];
       const pos = [
-        [60, 30],
-        [350, 30],
-        [60, 82],
-        [350, 82],
+        [x1, y1],
+        [x2, y1],
+        [x1, y2],
+        [x2, y2],
       ];
       for (let i = 0; i < 4; i += 1) {
         const m = mon.moves[i];
         c.add(text(this, pos[i][0], pos[i][1], m ? getMove(m.id).name : '-', 'body').setAlpha(m && m.pp <= 0 ? 0.5 : 1));
       }
-      const ppText = text(this, 690, 22, '', 'body');
-      const typeLabel = text(this, 690, 70, 'TYPE/', 'small');
+      const ppText = tall ? text(this, 34, info[1] + 20, '', 'body') : text(this, 690, 22, '', 'body');
+      const typeLabel = tall ? text(this, 236, info[1] + 26, 'TYPE/', 'small') : text(this, 690, 70, 'TYPE/', 'small');
+      const badgeAt = tall ? [312, info[1] + 22] : [790, 68];
       c.add([ppText, typeLabel]);
       /** @type {Phaser.GameObjects.Container | null} */
       let badge = null;
@@ -515,20 +600,21 @@ export class BattleScene extends BaseScene {
         const data = getMove(m.id);
         ppText.setText(`PP  ${m.pp}/${data.pp}`).setColor(m.pp === 0 ? '#c4404a' : m.pp <= data.pp / 4 ? '#d08020' : '#2d2a3a');
         badge?.destroy();
-        badge = typeBadge(this, 790, 68, data.type);
+        badge = typeBadge(this, badgeAt[0], badgeAt[1], data.type);
         c.add(badge);
       };
       place();
-      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, 290, 52]), (i) => {
+      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, x2 - x1, 52]), (i) => {
         if (i < mon.moves.length) {
           idx = i;
           place();
           inputManager.tap('A');
         }
       });
-      // the info panel on the right doubles as a back button on touch screens
-      this.#tapCells(c, [[660, 0, 364, 144]], () => inputManager.tap('B'));
-      c.add(new ControlHints(this, 996, 116).set([{ btn: 'A', label: 'Use' }, { btn: 'B', label: 'Back' }]).container);
+      // the info panel doubles as a back button on touch screens
+      this.#tapCells(c, [info], () => inputManager.tap('B'));
+      const hintAt = tall ? [W - 28, info[1] + info[3] / 2] : [996, 116];
+      c.add(new ControlHints(this, hintAt[0], hintAt[1]).set([{ btn: 'A', label: 'Use' }, { btn: 'B', label: 'Back' }]).container);
       this.inputHandler = (input) => {
         const n = mon.moves.length;
         let next = idx;
@@ -669,10 +755,13 @@ export class BattleScene extends BaseScene {
   async #playCatch(shakes, success) {
     playSoundFx(this, AUDIO_KEYS.SFX_THROW);
     const key = UI_KEYS.DABBA;
+    const { player, enemy, sprite } = this.L;
+    const f = sprite / 4;
+    const from = { x: player.x, y: player.y - 160 * f };
     const dabba = this.textures.exists(key)
-      ? this.add.image(PLAYER_POS.x, PLAYER_POS.y - 160, key).setScale(4).setDepth(40)
-      : this.add.circle(PLAYER_POS.x, PLAYER_POS.y - 160, 22, 0xd8d8e0).setStrokeStyle(4, 0x3a3058).setDepth(40);
-    const target = { x: ENEMY_POS.x, y: ENEMY_POS.y - 90 };
+      ? this.add.image(from.x, from.y, key).setScale(sprite).setDepth(40)
+      : this.add.circle(from.x, from.y, 22 * f, 0xd8d8e0).setStrokeStyle(4, 0x3a3058).setDepth(40);
+    const target = { x: enemy.x, y: enemy.y - 90 * f };
     await new Promise((resolve) => {
       this.tweens.addCounter({
         from: 0,
@@ -680,7 +769,7 @@ export class BattleScene extends BaseScene {
         duration: this.skipAnim ? 1 : 650,
         onUpdate: (tw) => {
           const t = tw.getValue();
-          dabba.setPosition(PLAYER_POS.x + (target.x - PLAYER_POS.x) * t, PLAYER_POS.y - 160 + (target.y - (PLAYER_POS.y - 160)) * t - Math.sin(Math.PI * t) * 220);
+          dabba.setPosition(from.x + (target.x - from.x) * t, from.y + (target.y - from.y) * t - Math.sin(Math.PI * t) * 220 * f);
           dabba.setAngle(t * 720);
         },
         onComplete: resolve,
@@ -689,7 +778,7 @@ export class BattleScene extends BaseScene {
     dabba.setAngle(0);
     this.enemySprite.setTintFill(0xffffff);
     await tween(this, { targets: this.enemySprite, scale: 0.1, alpha: 0, duration: this.skipAnim ? 1 : 350 });
-    await tween(this, { targets: dabba, y: ENEMY_POS.y - 20, duration: this.skipAnim ? 1 : 300, ease: 'Bounce.out' });
+    await tween(this, { targets: dabba, y: enemy.y - 20 * f, duration: this.skipAnim ? 1 : 300, ease: 'Bounce.out' });
     for (let i = 0; i < shakes; i += 1) {
       await wait(this, 350);
       playSoundFx(this, AUDIO_KEYS.SFX_SHAKE);
@@ -822,8 +911,8 @@ export class BattleScene extends BaseScene {
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_VICTORY);
     if (this.isTrainer) {
       const t = this.data_.trainer;
-      this.trainerSprite.setVisible(true).setX(1200).setAlpha(1);
-      await tween(this, { targets: this.trainerSprite, x: TRAINER_POS.x, duration: this.skipAnim ? 1 : 500, ease: 'Cubic.out' });
+      this.trainerSprite.setVisible(true).setX(OFF_RIGHT).setAlpha(1);
+      await tween(this, { targets: this.trainerSprite, x: this.L.trainer.x, duration: this.skipAnim ? 1 : 500, ease: 'Cubic.out' });
       await this.say(`You defeated ${t.title ? `${t.title} ${t.name}` : t.name}!`);
       for (const line of t.defeatText || []) {
         await this.say(line);
@@ -890,10 +979,11 @@ export class BattleScene extends BaseScene {
    */
   async #evolveSequence(mon, into) {
     const oldName = displayName(mon);
-    const cover = this.add.rectangle(0, 0, 1024, 432, 0x1c1430).setOrigin(0).setDepth(70);
+    const { field, evolve: at } = this.L;
+    const cover = this.add.rectangle(0, 0, GAME_WIDTH, field, 0x1c1430).setOrigin(0).setDepth(70);
     const from = this.#monArt(mon.speciesId);
     const to = this.#monArt(into);
-    const sprite = this.add.image(512, 330, from.key).setOrigin(0.5, 1).setScale(from.scale).setDepth(71);
+    const sprite = this.add.image(at.x, at.y, from.key).setOrigin(0.5, 1).setScale(from.scale).setDepth(71);
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_EVOLUTION);
     await this.say(`What? ${oldName} is evolving!`);
     let cancelled = false;
@@ -913,7 +1003,7 @@ export class BattleScene extends BaseScene {
       sprite.setTexture(from.key).clearTint().setScale(from.scale);
       await this.say(`Huh? ${oldName} stopped evolving!`);
     } else {
-      const flash = this.add.rectangle(0, 0, 1024, 432, 0xffffff).setOrigin(0).setDepth(72);
+      const flash = this.add.rectangle(0, 0, GAME_WIDTH, field, 0xffffff).setOrigin(0).setDepth(72);
       await tween(this, { targets: flash, alpha: 0, duration: 600 });
       flash.destroy();
       sprite.setTexture(to.key).clearTint().setScale(to.scale);
@@ -948,19 +1038,19 @@ export class BattleScene extends BaseScene {
     if (!indoor && phase !== 'day') {
       // tint only the backdrop (depth 0); the creatures and the UI stay true to colour
       const night = phase === 'night';
-      this.add.rectangle(0, 0, 1024, 432, night ? 0x5868b8 : 0xf0a070, night ? 0.55 : 0.28).setOrigin(0).setDepth(1)
+      this.add.rectangle(0, 0, GAME_WIDTH, this.L.field, night ? 0x5868b8 : 0xf0a070, night ? 0.55 : 0.28).setOrigin(0).setDepth(1)
         .setBlendMode(Phaser.BlendModes.MULTIPLY);
     }
   }
 
   /** The sharpest picture available for a species, and the scale that makes it battle-sized. */
   #monArt(speciesId) {
-    return bestArt(this, getSpecies(speciesId).assetKey, monHdKey(speciesId), SPRITE_SCALE);
+    return bestArt(this, getSpecies(speciesId).assetKey, monHdKey(speciesId), this.L.sprite);
   }
 
   /** @param {string} key */
   #scaleFor(key) {
-    return key.startsWith('MONHD_') ? SPRITE_SCALE / HD_FACTOR : SPRITE_SCALE;
+    return key.startsWith('MONHD_') ? this.L.sprite / HD_FACTOR : this.L.sprite;
   }
 
   /** Swaps the pixel sprites on screen for HD ones once they've loaded, keeping their size. */

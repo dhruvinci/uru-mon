@@ -4,7 +4,8 @@ import { chromium } from 'playwright';
 export const BASE = process.env.URU_URL || 'http://127.0.0.1:8080/index.html';
 
 /**
- * @param {{width?: number, height?: number, touch?: boolean}} [opts]
+ * @param {{width?: number, height?: number, touch?: boolean, insets?: {t?: number, r?: number, b?: number, l?: number}}} [opts]
+ *   insets: pretend safe-area insets (a notch, the home bar), as an iPhone reports them
  */
 export async function launch(opts = {}) {
   const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
@@ -13,6 +14,20 @@ export async function launch(opts = {}) {
     hasTouch: Boolean(opts.touch),
     isMobile: Boolean(opts.touch),
   });
+  if (opts.insets) {
+    const { t = 0, r = 0, b = 0, l = 0 } = opts.insets;
+    const css = `:root { --safe-t: ${t}px !important; --safe-r: ${r}px !important; --safe-b: ${b}px !important; --safe-l: ${l}px !important; }`;
+    // before the game's scripts run (they read the insets when laying out the touch controls)
+    await context.addInitScript((rule) => {
+      document.addEventListener('readystatechange', () => {
+        if (document.readyState === 'interactive') {
+          const style = document.createElement('style');
+          style.textContent = rule;
+          document.head.appendChild(style);
+        }
+      });
+    }, css);
+  }
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}\n${e.stack || ''}`));

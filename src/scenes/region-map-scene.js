@@ -5,6 +5,7 @@ import { REGION, REGION_ROADS } from '../game/region.js';
 import { panel, readMenuInput, text, TEXT, ControlHints } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef RegionMapSceneData
@@ -35,7 +36,7 @@ export class RegionMapScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0x3d6b5c).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x3d6b5c).setOrigin(0);
     text(this, 32, 20, 'BENGALURU', 'title').setColor('#fff4d6');
     new ControlHints(this, 994, 46, { backing: true }).set([{ key: '▲▼', label: 'Places' }, { btn: 'B', label: 'Back' }]);
 

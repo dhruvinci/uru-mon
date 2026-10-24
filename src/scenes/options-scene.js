@@ -6,6 +6,7 @@ import { setGlobalSoundSettings, playBackgroundMusic, currentMusic, playSoundFx 
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { graphicsSetting } from '../fx/world-fx.js';
 import { inputManager } from '../input/input-manager.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 const ROW_H = 42;
 const ROWS = [
@@ -38,7 +39,7 @@ export class OptionsScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0x2a2050, 0.92).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x2a2050, 0.92).setOrigin(0);
     panel(this, 112, 40, 800, 380);
     text(this, 512, 62, 'OPTIONS', 'title').setOrigin(0.5, 0);
     new ControlHints(this, 884, 86).set([{ key: '◀ ▶', label: 'Change' }, { btn: 'B', label: 'Back' }]);

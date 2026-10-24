@@ -4,11 +4,13 @@ import { dataManager } from '../utils/data-manager.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { ListMenu, MessageBox, readMenuInput, tween, wait, HINTS } from '../ui/ui-kit.js';
+import { FULL_HEIGHT, GAME_WIDTH, isTall, onResize, setTextResolution, uiScale } from '../ui/screen.js';
 
 const NAME_SUGGESTIONS = { boy: ['Kiran', 'Arjun', 'Vikram', 'Sameer'], girl: ['Ananya', 'Diya', 'Meera', 'Kavya'] };
 
 /**
  * New-game intro: Professor Sharada's welcome, boy/girl choice, name entry and meeting the rival.
+ * On a tall canvas (a phone held upright) the stage, menus and text are drawn uiScale() times bigger.
  */
 export class IntroScene extends BaseScene {
   constructor() {
@@ -20,15 +22,52 @@ export class IntroScene extends BaseScene {
     dataManager.startNewGame();
     const g = this.add.graphics();
     g.fillGradientStyle(0x2a2050, 0x2a2050, 0x6a4a90, 0x6a4a90, 1);
-    g.fillRect(0, 0, 1024, 576);
+    g.fillRect(0, 0, 1024, FULL_HEIGHT);
+    // the people and creatures, on a stage laid out for the 432 pixels above the message box
+    this.stage = this.add.container(0, 0);
     this.platform = this.add.ellipse(512, 410, 360, 70, 0x000000, 0.25);
     this.portrait = this.add.image(512, 410, 'TRAINER_professor').setOrigin(0.5, 1).setScale(4).setAlpha(0);
+    this.stage.add([this.platform, this.portrait]);
     this.box = new MessageBox(this, { height: 144 });
     this.box.setVisible(false);
+    this.message = '';
+    /** @type {ListMenu | null} */
+    this.menu = null;
     /** @type {null | ((input: string) => void)} */
     this.inputHandler = null;
+    this.#layout();
+    onResize(this, () => this.#layout());
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_LAB);
     this.#run();
+  }
+
+  #layout() {
+    const k = uiScale(this);
+    this.k = k;
+    setTextResolution(this, k);
+    this.box.hints.refresh();
+    this.box.setAnnounces(!isTall(this)); // big enough to read on its own
+    this.#dock();
+    // the stage, scaled up and centred in the room above the box
+    const room = this.box.container.y;
+    this.stage.setScale(k).setPosition((GAME_WIDTH / 2) * (1 - k), Math.max(0, (room - 432 * k) / 2));
+    this.#placeMenu();
+  }
+
+  #dock() {
+    this.box.dock(this.message, this.k, isTall(this));
+  }
+
+  #placeMenu() {
+    const k = this.k;
+    this.menu?.container.setScale(k).setPosition(GAME_WIDTH - 262 * k, this.box.container.y - (this.menu.height + 8) * k);
+  }
+
+  /** @param {string} message */
+  #setText(message) {
+    this.message = message;
+    this.#dock();
+    this.box.setText(message);
   }
 
   update(time) {
@@ -55,14 +94,18 @@ export class IntroScene extends BaseScene {
   /** @param {string[]} lines */
   async #say(...lines) {
     for (const l of lines) {
-      await this.box.show(this.#fmt(l));
+      this.message = this.#fmt(l);
+      this.#dock();
+      await this.box.show(this.message);
     }
   }
 
   /** @param {string[]} items @returns {Promise<number>} */
   #choose(items) {
     return new Promise((resolve) => {
-      const menu = new ListMenu(this, { x: 1024 - 262, y: 432 - (items.length * 46 + 36) - 8, width: 250, items, cancelable: false });
+      const menu = new ListMenu(this, { x: 0, y: 0, width: 250, items, cancelable: false });
+      this.menu = menu;
+      this.#placeMenu();
       this.box.setHints(HINTS.select);
       this.inputHandler = (input) => {
         const r = menu.handleInput(/** @type {any} */ (input));
@@ -70,6 +113,7 @@ export class IntroScene extends BaseScene {
           this.inputHandler = null;
           this.box.setHints([]);
           menu.destroy();
+          this.menu = null;
           resolve(r.index);
         }
       };
@@ -91,6 +135,7 @@ export class IntroScene extends BaseScene {
       "I'm Sharada. Everyone in Basavanagudi calls me Professor Sharada - I study Urumon at the little lab near Bugle Rock."
     );
     const mon = this.add.image(700, 300, 'MON_004').setOrigin(0.5, 1).setScale(3).setAlpha(0);
+    this.stage.add(mon);
     await tween(this, { targets: this.portrait, x: 360, duration: 400 });
     playSoundFx(this, AUDIO_KEYS.SFX_SEND_OUT);
     await tween(this, { targets: mon, alpha: 1, y: 330, duration: 400, ease: 'Back.out' });
@@ -107,11 +152,11 @@ export class IntroScene extends BaseScene {
 
     let gender = 'boy';
     for (;;) {
-      this.box.setText('Are you a boy or a girl?');
+      this.#setText('Are you a boy or a girl?');
       const idx = await this.#choose(['BOY', 'GIRL']);
       gender = idx === 0 ? 'boy' : 'girl';
       await this.#showPortrait(`TRAINER_player_${gender}`);
-      this.box.setText(`So you're a ${gender}?`);
+      this.#setText(`So you're a ${gender}?`);
       if ((await this.#choose(['YES', 'NO'])) === 0) {
         break;
       }

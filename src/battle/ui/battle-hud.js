@@ -8,15 +8,18 @@ export class BattleHud {
   /**
    * @param {Phaser.Scene} scene
    * @param {'player'|'enemy'} side
+   * @param {{x: number, y: number}} home where the box sits once it has slid in
+   * @param {number} [scale=1]
    */
-  constructor(scene, side) {
+  constructor(scene, side, home, scale = 1) {
     this.scene = scene;
     this.side = side;
     const isPlayer = side === 'player';
     const w = isPlayer ? 452 : 430;
     const h = isPlayer ? 142 : 104;
-    this.home = isPlayer ? { x: 548, y: 276 } : { x: 28, y: 26 };
-    this.container = scene.add.container(this.home.x, this.home.y).setDepth(20);
+    this.width = w * scale;
+    this.home = home;
+    this.container = scene.add.container(home.x, home.y).setDepth(20).setScale(scale);
     this.container.add(panel(scene, 0, 0, w, h, { radius: 14 }));
     this.nameText = text(scene, 26, 16, '', 'body');
     this.levelText = text(scene, w - 26, 18, '', { fontFamily: FONT, fontSize: '26px', color: '#2d2a3a' }).setOrigin(1, 0);
@@ -84,7 +87,7 @@ export class BattleHud {
   /** Slides the box in from off-screen. */
   slideIn() {
     this.container.setVisible(true);
-    const fromX = this.side === 'player' ? 1100 : -480;
+    const fromX = this.side === 'player' ? 1100 : -this.width - 50;
     this.container.setX(fromX);
     return new Promise((resolve) => {
       this.scene.tweens.add({ targets: this.container, x: this.home.x, duration: 450, ease: 'Cubic.out', onComplete: resolve });

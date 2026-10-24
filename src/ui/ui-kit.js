@@ -1,6 +1,6 @@
 /**
  * Shared GBA-style UI building blocks: panels, text, list menus, HP/EXP bars, type & status badges,
- * and a message box with typewriter text. All positions are in game pixels (1024x576 canvas).
+ * and a message box with typewriter text. All positions are in game pixels (a 1024x576 canvas; see screen.js for taller ones).
  */
 import Phaser from '../lib/phaser.js';
 import { TYPE_COLORS } from '../battle/engine/type-chart.js';
@@ -478,9 +478,12 @@ export class ControlHints {
    * @returns {this}
    */
   set(hints) {
+    this.hints = hints;
     const touch = isTouchUI();
     const list = hints.filter((h) => !(touch && h.kb));
-    const id = `${touch}|${list.map((h) => `${h.btn}:${h.key}:${h.label}`).join(',')}`;
+    // drawn at the scene's text resolution, so a row in a scaled-up container stays sharp
+    const res = /** @type {any} */ (this.scene).textRes || 1;
+    const id = `${touch}|${res}|${list.map((h) => `${h.btn}:${h.key}:${h.label}`).join(',')}`;
     if (id === this.shown) {
       return this;
     }
@@ -499,7 +502,7 @@ export class ControlHints {
     art.add([bg, g]);
     /** @param {number} tx @param {number} ty @param {string} str @param {Phaser.Types.GameObjects.Text.TextStyle} style */
     const label = (tx, ty, str, style) => {
-      const t = s.make.text({ x: tx, y: ty, text: str, style: { fontFamily: FONT, ...style } }, false);
+      const t = s.make.text({ x: tx, y: ty, text: str, style: { fontFamily: FONT, ...style, resolution: res } }, false);
       art.add(t);
       return t;
     };
@@ -542,8 +545,10 @@ export class ControlHints {
     }
     const left = this.opts.align === 'right' ? -x : this.opts.align === 'center' ? -x / 2 : 0;
     const pad = 16;
-    const rt = s.add.renderTexture(left - pad, -22, Math.ceil(x) + pad * 2, 44).setOrigin(0);
-    rt.draw(art, pad, 22);
+    art.setScale(res);
+    const rt = s.add.renderTexture(left - pad, -22, Math.ceil((Math.ceil(x) + pad * 2) * res), Math.ceil(44 * res))
+      .setOrigin(0).setScale(1 / res);
+    rt.draw(art, pad * res, 22 * res);
     art.destroy();
     this.container.add(rt);
     // clicking or tapping a prompt presses its button
@@ -557,6 +562,12 @@ export class ControlHints {
       this.container.add(zone);
     });
     return this;
+  }
+
+  /** Draws the row again, at the scene's current text resolution. */
+  refresh() {
+    this.shown = '';
+    return this.set(this.hints || []);
   }
 
   /** @param {boolean} v */
@@ -576,17 +587,25 @@ export class ControlHints {
   }
 }
 
-/**
- * Typewriter message box anchored to the bottom of the screen.
- */
+/** The box whose message the phone layout is showing in large type, if any. */
+let mirrored = null;
+
 /**
  * Tells the page what message is on screen, so the phone layout can repeat it in large type under the game.
+ * @param {MessageBox | null} box
  * @param {string} message
  */
-function announce(message) {
+function announce(box, message) {
+  if (!message && box && mirrored !== box) {
+    return; // another box's message is showing
+  }
+  mirrored = message ? box : null;
   window.dispatchEvent(new CustomEvent('uru:message', { detail: message }));
 }
 
+/**
+ * Typewriter message box anchored to the bottom of the screen.
+ */
 export class MessageBox {
   /**
    * @param {Phaser.Scene} scene
@@ -598,20 +617,23 @@ export class MessageBox {
     const height = cfg.height ?? 144;
     const x = cfg.x ?? 0;
     const y = cfg.y ?? scene.scale.height - height;
+    this.width = width;
+    this.height = height;
     this.container = scene.add.container(x, y).setDepth(cfg.depth ?? 50);
-    this.container.add(panel(scene, 0, 0, width, height, { radius: 12 }));
+    this.bg = panel(scene, 0, 0, width, height, { radius: 12 });
+    this.container.add(this.bg);
     this.textObj = text(scene, 34, 26, '', 'body').setWordWrapWidth(width - 90).setLineSpacing(10);
     this.arrow = scene.add.triangle(width - 44, height - 34, 0, 0, 18, 0, 9, 11, 0xc4404a).setVisible(false);
     this.container.add([this.textObj, this.arrow]);
     this.arrowTween = scene.tweens.add({ targets: this.arrow, y: '+=6', duration: 350, yoyo: true, repeat: -1 });
     // tapping the box acts like A: it finishes the typing or moves on
-    const zone = scene.add.zone(0, 0, width, height).setOrigin(0).setInteractive();
-    zone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+    this.zone = scene.add.zone(0, 0, width, height).setOrigin(0).setInteractive();
+    this.zone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
       if (p.getDistance() < 24 && this.container.visible && (this.isWaiting || this.typing)) {
         inputManager.tap('A');
       }
     });
-    this.container.addAt(zone, 1);
+    this.container.addAt(this.zone, 1);
     // button prompts in the bottom-right corner, left of the arrow: "Next" while waiting for A, otherwise what the
     // scene asked for with setHints (two lines of text still clear them in a 144-high box)
     this.hints = new ControlHints(scene, width - 70, height - 30);
@@ -623,6 +645,99 @@ export class MessageBox {
     /** @type {null | (() => void)} */
     this.waitResolve = null;
     this.typing = null;
+    /** whether the phone layout repeats this box's messages (boxes already drawn large turn it off) */
+    this.announces = true;
+    // a scene that's covered or closed takes its message off the phone layout, and puts it back when it returns
+    const hide = () => announce(this, '');
+    const show = () => {
+      if (this.announces && this.container.visible && this.textObj.text) {
+        announce(this, this.textObj.text);
+      }
+    };
+    scene.events.on(Phaser.Scenes.Events.PAUSE, hide);
+    scene.events.on(Phaser.Scenes.Events.SLEEP, hide);
+    scene.events.on(Phaser.Scenes.Events.RESUME, show);
+    scene.events.on(Phaser.Scenes.Events.WAKE, show);
+    this.container.once(Phaser.GameObjects.Events.DESTROY, () => {
+      hide();
+      scene.events.off(Phaser.Scenes.Events.PAUSE, hide);
+      scene.events.off(Phaser.Scenes.Events.SLEEP, hide);
+      scene.events.off(Phaser.Scenes.Events.RESUME, show);
+      scene.events.off(Phaser.Scenes.Events.WAKE, show);
+    });
+  }
+
+  /**
+   * Changes the box's size, in its own units (before any scale on its container): for when the phone turns.
+   * @param {number} width
+   * @param {number} height
+   */
+  resize(width, height) {
+    if (width === this.width && height === this.height) {
+      return this;
+    }
+    this.width = width;
+    this.height = height;
+    this.bg.clear();
+    drawPanel(this.bg, 0, 0, width, height, { radius: 12 });
+    this.textObj.setWordWrapWidth(width - 90);
+    this.arrowTween.remove();
+    this.arrow.setPosition(width - 44, height - 34);
+    this.arrowTween = this.scene.tweens.add({ targets: this.arrow, y: '+=6', duration: 350, yoyo: true, repeat: -1 });
+    this.zone.setSize(width, height);
+    this.hints.setPosition(width - 70, height - 30);
+    this.defaultHintsRight = width - 70;
+    this.hintsRight = this.customHintsRight ?? this.defaultHintsRight;
+    this.#showHints(this.showingNext);
+    return this;
+  }
+
+  /**
+   * Puts the box along the bottom edge of the screen, the full width, drawn `scale` times bigger. On a tall canvas (see
+   * screen.js) it is also tall enough for the message: three lines, or more for a long one.
+   * @param {string} message
+   * @param {number} scale
+   * @param {boolean} fit
+   */
+  dock(message, scale, fit) {
+    const width = this.scene.scale.width / scale;
+    let height = 144;
+    if (fit) {
+      this.resize(width, this.height);
+      const lineHeight = this.textObj.style.metrics.fontSize + this.textObj.lineSpacing;
+      height = Math.round(26 + Math.max(3, this.linesFor(message)) * lineHeight + 30);
+    }
+    this.resize(width, height);
+    this.container.setScale(scale).setPosition(0, this.scene.scale.height - height * scale);
+    return this;
+  }
+
+  /**
+   * Narrows the text (say, beside a menu that covers the box's right side), or with no width puts it back.
+   * @param {number} [width]
+   */
+  setTextWidth(width) {
+    this.textObj.setWordWrapWidth(width ?? this.width - 90);
+    return this;
+  }
+
+  /**
+   * How many lines a message takes in this box.
+   * @param {string} message
+   */
+  linesFor(message) {
+    return this.textObj.getWrappedText(message).length;
+  }
+
+  /** @param {boolean} v */
+  setAnnounces(v) {
+    this.announces = v;
+    if (!v) {
+      announce(this, '');
+    } else if (this.container.visible && this.textObj.text) {
+      announce(this, this.textObj.text);
+    }
+    return this;
   }
 
   /**
@@ -632,6 +747,7 @@ export class MessageBox {
    */
   setHints(hints, right) {
     this.baseHints = hints;
+    this.customHintsRight = right;
     this.hintsRight = right ?? this.defaultHintsRight;
     if (!this.waitResolve && !this.typing) {
       this.#showHints(false);
@@ -641,6 +757,7 @@ export class MessageBox {
 
   /** @param {boolean} waiting */
   #showHints(waiting) {
+    this.showingNext = waiting;
     if (waiting) {
       this.hints.setPosition(this.arrow.x - 26).set(HINTS.next);
     } else {
@@ -663,7 +780,7 @@ export class MessageBox {
   setVisible(v) {
     this.container.setVisible(v);
     if (!v) {
-      announce('');
+      announce(this, '');
     }
     return this;
   }
@@ -680,7 +797,9 @@ export class MessageBox {
     this.container.setVisible(true);
     this.arrow.setVisible(false);
     this.#showHints(wait);
-    announce(message);
+    if (this.announces) {
+      announce(this, message);
+    }
     return new Promise((resolve) => {
       const delay = dataManager.getAnimatedTextSpeed();
       let i = 0;
@@ -729,7 +848,9 @@ export class MessageBox {
     this.arrow.setVisible(false);
     this.textObj.setText(message);
     this.#showHints(false);
-    announce(message);
+    if (this.announces) {
+      announce(this, message);
+    }
   }
 
   /**

@@ -5,6 +5,7 @@ import { panel, readMenuInput, text, ControlHints } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { inputManager } from '../input/input-manager.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef TrainerCardSceneData
@@ -37,10 +38,10 @@ export class TrainerCardScene extends BaseScene {
   create() {
     super.create();
     this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => p.getDistance() < 24 && inputManager.tap('A'));
-    this.add.rectangle(0, 0, 1024, 576, 0x7866a4).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x7866a4).setOrigin(0);
     const pattern = this.add.graphics();
     pattern.fillStyle(0x8a78b6, 1);
-    for (let y = 0; y < 576; y += 32) {
+    for (let y = 0; y < FULL_HEIGHT; y += 32) {
       for (let x = (y / 32) % 2 ? 0 : 32; x < 1024; x += 64) {
         pattern.fillRect(x, y, 32, 32);
       }

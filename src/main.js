@@ -28,6 +28,22 @@ import { dataManager } from './utils/data-manager.js';
 import { gameData } from './game/game-data.js';
 import { createMonster, fullyHeal } from './battle/engine/monster.js';
 
+// Phaser 3.60 resizes a camera effect's pipeline with the game but not the render target the camera draws into, so a
+// phone turned mid-game left the overworld and battles drawn at the old size. Let those targets follow the game (only
+// a post effect's own: the pool of small targets Phaser shares between effects must keep its sizes).
+const resizePipeline = Phaser.Renderer.WebGL.WebGLPipeline.prototype.resize;
+Phaser.Renderer.WebGL.WebGLPipeline.prototype.resize = function resize(width, height) {
+  if (this.isPostFX) {
+    const shared = this.manager?.renderTargets || [];
+    this.renderTargets?.forEach((target) => {
+      if (!shared.includes(target)) {
+        target.autoResize = true;
+      }
+    });
+  }
+  return resizePipeline.call(this, width, height);
+};
+
 const game = new Phaser.Game({
   type: Phaser.AUTO,
   pixelArt: true,
@@ -79,7 +95,7 @@ inputManager.onFullscreenToggle = () => {
     /** @type {any} */ (navigator).keyboard?.lock?.(['Escape']).catch(() => {});
   }
 };
-setupTouchControls();
+setupTouchControls(game);
 keepAudioAwake(game);
 
 // handy for debugging and automated tests

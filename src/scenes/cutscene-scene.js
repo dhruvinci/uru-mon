@@ -1,5 +1,6 @@
 import { SCENE_KEYS } from './scene-keys.js';
 import { BaseScene } from './base-scene.js';
+import { onResize } from '../ui/screen.js';
 
 export class CutsceneScene extends BaseScene {
   /** @type {Phaser.GameObjects.Rectangle} */
@@ -22,6 +23,11 @@ export class CutsceneScene extends BaseScene {
       .rectangle(0, this.scale.height - 100, this.scale.width, 100, 0x000000, 0.8)
       .setOrigin(0)
       .setVisible(false);
+    onResize(this, () => {
+      if (this.#bottomBar.visible && !this.tweens.isTweening(this.#bottomBar)) {
+        this.#bottomBar.setY(this.scale.height - 100);
+      }
+    });
     this.scene.bringToTop();
     // dialog must always draw above the letterbox bars
     this.scene.bringToTop(SCENE_KEYS.DIALOG_SCENE);

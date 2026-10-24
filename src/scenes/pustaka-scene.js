@@ -7,6 +7,7 @@ import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT, ControlHints } f
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { monHdKey, upgradeWhenLoaded } from '../ui/hd-art.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef PustakaSceneData
@@ -35,10 +36,10 @@ export class PustakaScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0x74aaa0).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x74aaa0).setOrigin(0);
     const pattern = this.add.graphics();
     pattern.fillStyle(0x85bbb0, 1);
-    for (let y = 0; y < 576; y += 32) {
+    for (let y = 0; y < FULL_HEIGHT; y += 32) {
       pattern.fillRect(0, y, 1024, 8);
     }
     panel(this, 16, 14, 992, 76);

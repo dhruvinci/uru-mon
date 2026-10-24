@@ -122,6 +122,8 @@ export class WorldFx {
     this.scene = scene;
     this.setting = graphicsSetting();
     this.objects = [];
+    /** weather and particles, fixed to the screen */
+    this.ambient = [];
     /** @type {{target: () => (Phaser.GameObjects.Sprite | undefined), shadow: Phaser.GameObjects.Image}[]} */
     this.shadows = [];
     if (this.setting === 'CLASSIC') {
@@ -169,10 +171,12 @@ export class WorldFx {
   }
 
   /**
-   * Call once the camera follows the player. HD-2D outdoors zooms out (to 3 screen pixels per art pixel, so the tilted
-   * view shows at least as much as the flat one did) and frames the player a little below the middle, in the sharp band.
+   * Call once the camera follows the player, and again when the canvas changes size, with the zoom the world chose.
+   * HD-2D outdoors zooms out from that (to 3 screen pixels per art pixel, so the tilted view shows at least as much as
+   * the flat one did) and frames the player a little below the middle, in the sharp band.
+   * @param {number} zoom
    */
-  frameCamera() {
+  frameCamera(zoom) {
     const p = this.pipe?.params;
     if (!p || !p.tilt) {
       return;
@@ -180,11 +184,11 @@ export class WorldFx {
     const cam = this.scene.cameras.main;
     if (!this.interior) {
       // phones show the whole game small, so stay closer there
-      cam.setZoom(PHONE ? 1 : 0.75);
+      cam.setZoom(zoom * (PHONE ? 1 : 0.75));
     }
     const want = 0.56;
     const srcY = this.pipe.sourceAt(0.5, want)[1];
-    cam.setFollowOffset(cam.followOffset.x, cam.followOffset.y + ((srcY - 0.5) * cam.height) / cam.zoom);
+    cam.setFollowOffset(-32, -32 + ((srcY - 0.5) * cam.height) / cam.zoom);
     p.focus = want;
   }
 
@@ -195,7 +199,7 @@ export class WorldFx {
     const conf = interior ? {} : AMBIENT[scene.area] || {};
     const add = (emitter) => {
       emitter.setScrollFactor(0).setDepth(9000);
-      this.objects.push(emitter);
+      this.ambient.push(emitter);
       return emitter;
     };
     const night = this.phaseName === 'night' || this.phaseName === 'dusk';
@@ -323,11 +327,24 @@ export class WorldFx {
     }
   }
 
+  /** The weather and particles cover the screen, so they're made again when it changes size (a phone turned). */
+  refit() {
+    if (this.setting === 'CLASSIC') {
+      return;
+    }
+    this.ambient.forEach((o) => o.destroy());
+    this.ambient = [];
+    this.storm?.remove();
+    this.storm = null;
+    this.#ambient(Boolean(this.scene.uru.interior));
+  }
+
   destroy() {
-    this.objects.forEach((o) => o.destroy());
+    [...this.objects, ...this.ambient].forEach((o) => o.destroy());
     this.shadows.forEach((s) => s.shadow.destroy());
     this.storm?.remove();
     this.objects = [];
+    this.ambient = [];
     this.shadows = [];
   }
 }

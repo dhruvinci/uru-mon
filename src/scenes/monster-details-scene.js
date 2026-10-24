@@ -4,6 +4,7 @@ import { dataManager } from '../utils/data-manager.js';
 import { displayName, expForLevel, getMaxHp, getMove, getSpecies, getStats, MAX_LEVEL } from '../battle/engine/monster.js';
 import { Meter, panel, readMenuInput, statusBadge, text, typeBadge, ControlHints } from '../ui/ui-kit.js';
 import { inputManager } from '../input/input-manager.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef MonsterDetailsSceneData
@@ -51,7 +52,7 @@ export class MonsterDetailsScene extends BaseScene {
       this.root.add(o);
       return o;
     };
-    add(this.add.rectangle(0, 0, 1024, 576, 0x6a5aa8).setOrigin(0));
+    add(this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x6a5aa8).setOrigin(0));
     // header tabs
     PAGES.forEach((p, i) => {
       const x = 470 + i * 182;

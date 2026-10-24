@@ -21,6 +21,8 @@ TESTS=(
   "expansion.mjs $SHOTS"
   "mobile.mjs $SHOTS landscape"
   "mobile.mjs $SHOTS portrait"
+  "mobile.mjs $SHOTS iphone"
+  "mobile.mjs $SHOTS turn"
   "story.mjs $SHOTS cubbon"
   "story.mjs $SHOTS rival2"
   "story.mjs $SHOTS rival2lose"

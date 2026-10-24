@@ -7,6 +7,7 @@ import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { bestArt, monHdKey, HD_FACTOR } from '../ui/hd-art.js';
 import Phaser from '../lib/phaser.js';
 import { inputManager } from '../input/input-manager.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef StarterSceneData
@@ -63,7 +64,7 @@ export class StarterScene extends BaseScene {
 
   create() {
     super.create();
-    this.bg = this.add.rectangle(0, 0, 1024, 576, 0x221a3a).setOrigin(0);
+    this.bg = this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x221a3a).setOrigin(0);
     this.glow = this.add.graphics();
     text(this, 512, 18, "Prof. Sharada's Urumon", 'title').setOrigin(0.5, 0).setColor('#fff4d6');
     text(this, 512, 70, 'Choose your partner', 'lightSmall').setOrigin(0.5, 0).setAlpha(0.85);

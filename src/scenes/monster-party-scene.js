@@ -7,6 +7,7 @@ import { ListMenu, Meter, readMenuInput, statusBadge, text, MessageBox, HINTS } 
 import { applyItem } from '../battle/engine/battle-engine.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef MonsterPartySceneData
@@ -46,10 +47,10 @@ export class MonsterPartyScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0x6a5aa8).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x6a5aa8).setOrigin(0);
     const g = this.add.graphics();
     g.fillStyle(0x7d6dbc, 1);
-    for (let y = 0; y < 576; y += 32) {
+    for (let y = 0; y < FULL_HEIGHT; y += 32) {
       for (let x = (y / 32) % 2 ? 0 : 32; x < 1024; x += 64) {
         g.fillRect(x, y, 32, 32);
       }

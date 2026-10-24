@@ -5,6 +5,7 @@ import { getItemByName } from '../game/game-data.js';
 import { ListMenu, MessageBox, panel, readMenuInput, text, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef MetroSceneData
@@ -39,10 +40,10 @@ export class MetroScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0x6d5795).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x6d5795).setOrigin(0);
     const pattern = this.add.graphics().fillStyle(0x7f6aa8, 1);
     for (let x = 0; x < 1024; x += 48) {
-      pattern.fillRect(x, 0, 12, 576);
+      pattern.fillRect(x, 0, 12, FULL_HEIGHT);
     }
     text(this, 32, 24, 'NAMMA METRO', 'title').setColor('#ffffff');
     panel(this, 24, 100, 510, 350, { fill: 0xeee9fa });

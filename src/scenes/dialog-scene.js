@@ -3,6 +3,7 @@ import { BaseScene } from './base-scene.js';
 import { ControlHints, HINTS, ListMenu, MessageBox, isTouchUI, panel, readMenuInput, text } from '../ui/ui-kit.js';
 import { dataManager } from '../utils/data-manager.js';
 import { inputManager } from '../input/input-manager.js';
+import { GAME_WIDTH, isTall, onResize, setTextResolution, uiScale } from '../ui/screen.js';
 
 /** Overworld prompts for keyboard players, shown until they've talked to someone and opened the menu once. */
 const WORLD_HINTS = [{ btn: 'A', label: 'Talk' }, { btn: 'START', label: 'Menu' }, { key: 'Shift', label: 'Run', kb: true }];
@@ -11,6 +12,8 @@ const LEARNED_KEY = 'uru-learned-keys';
 /**
  * Overlay used by the world for dialog, yes/no questions and choice lists. It owns its own fixed camera so
  * the world camera's scroll never affects it. All methods are promise based.
+ * On a tall canvas (a phone held upright) everything is drawn uiScale() times bigger, since the 1024-wide game is shown
+ * on the phone's narrow side, and the message box grows to fit long messages.
  */
 export class DialogScene extends BaseScene {
   constructor() {
@@ -19,6 +22,8 @@ export class DialogScene extends BaseScene {
 
   create() {
     super.create();
+    this.k = 1;
+    this.message = '';
     this.box = new MessageBox(this, { height: 144, depth: 10 });
     this.box.setVisible(false);
     this.speaker = this.add.container(24, 432 - 44).setDepth(11).setVisible(false);
@@ -30,7 +35,7 @@ export class DialogScene extends BaseScene {
     this.moneyBox = null;
     this.busyCount = 0;
     // tap anywhere to advance a message; menus sit above this and take their own taps
-    this.tapZone = this.add.zone(0, 0, 1024, 576).setOrigin(0).setDepth(9).setInteractive();
+    this.tapZone = this.add.zone(0, 0, GAME_WIDTH, this.scale.height).setOrigin(0).setDepth(9).setInteractive();
     this.tapZone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
       if (this.busy && p.getDistance() < 24) {
         inputManager.tap('A');
@@ -40,11 +45,58 @@ export class DialogScene extends BaseScene {
     this.corner = new ControlHints(this, 1004, 546, { backing: true, depth: 30 });
     /** @type {import('../ui/ui-kit.js').Hint[] | null} */
     this.menuHints = null;
+    /** @type {null | (() => void)} puts the open choice menu in place */
+    this.placeMenu = null;
     try {
       this.learnedKeys = new Set(JSON.parse(localStorage.getItem(LEARNED_KEY) || '[]'));
     } catch {
       this.learnedKeys = new Set();
     }
+    this.#layout();
+    onResize(this, () => this.#layout());
+  }
+
+  /** Sizes and places everything for the canvas: normal size, or uiScale() times bigger on a tall one. */
+  #layout() {
+    const k = uiScale(this);
+    this.k = k;
+    setTextResolution(this, k);
+    const H = this.scale.height;
+    this.box.setAnnounces(!isTall(this)); // big enough to read on its own
+    this.#fitBox(this.message);
+    this.box.hints.refresh();
+    this.corner.refresh();
+    this.corner.container.setScale(k).setPosition(GAME_WIDTH - 20 * k, H - 30 * k);
+    this.speaker.setScale(k);
+    this.tapZone.setSize(GAME_WIDTH, H);
+    this.moneyBox?.setScale(k).setPosition(GAME_WIDTH - 250 * k, 12 * k);
+    this.placeMenu?.();
+  }
+
+  /**
+   * Makes the box tall enough for a message (two lines normally; at least three, and more for long messages, on a
+   * tall canvas) and keeps it on the bottom edge, with the speaker's name on top.
+   * @param {string} message
+   */
+  #fitBox(message) {
+    this.box.dock(message, this.k, isTall(this));
+    this.speaker.setPosition(24 * this.k, this.box.container.y - 44 * this.k);
+  }
+
+  /** The top of the message box, on screen. */
+  get boxTop() {
+    return this.box.container.y;
+  }
+
+  /**
+   * Shows one message in the box, sized for it.
+   * @param {string} message
+   * @param {{wait?: boolean, pause?: number}} [opts]
+   */
+  #show(message, opts) {
+    this.message = message;
+    this.#fitBox(message);
+    return this.box.show(message, opts);
   }
 
   /**
@@ -123,7 +175,7 @@ export class DialogScene extends BaseScene {
     this.busyCount += 1;
     this.#setSpeaker(opts.speaker);
     for (const line of list) {
-      await this.box.show(this.format(line), { wait: true });
+      await this.#show(this.format(line), { wait: true });
     }
     this.busyCount -= 1;
     if (!opts.keepOpen && !this.busy) {
@@ -133,8 +185,8 @@ export class DialogScene extends BaseScene {
 
   /** @param {string} [name] */
   #setSpeaker(name) {
-    // the phone layout shows the speaker with its large copy of the message
-    window.dispatchEvent(new CustomEvent('uru:speaker', { detail: name || '' }));
+    // the phone layout shows the speaker with its large copy of the message (when it makes one)
+    window.dispatchEvent(new CustomEvent('uru:speaker', { detail: (this.box.announces && name) || '' }));
     if (!name) {
       this.speaker.setVisible(false);
       return;
@@ -160,7 +212,7 @@ export class DialogScene extends BaseScene {
   async ask(question, opts = {}) {
     this.busyCount += 1;
     this.#setSpeaker(opts.speaker);
-    await this.box.show(this.format(question), { wait: false, pause: 0 });
+    await this.#show(this.format(question), { wait: false, pause: 0 });
     const idx = await this.choose(['YES', 'NO'], { cancelValue: 1 });
     this.busyCount -= 1;
     if (!this.busy) {
@@ -170,27 +222,27 @@ export class DialogScene extends BaseScene {
   }
 
   /**
-   * Shows a list menu above the message box. Resolves the index, or cancelValue (default -1) on B.
+   * Shows a list menu at the right, above the message box (or in the top-right corner with `top`). Resolves the
+   * index, or cancelValue (default -1) on B.
    * @param {string[]} items
-   * @param {{cancelValue?: number, rightLabels?: string[], width?: number, prompt?: string, x?: number, y?: number, visibleRows?: number}} [opts]
+   * @param {{cancelValue?: number, rightLabels?: string[], width?: number, prompt?: string, top?: boolean, visibleRows?: number}} [opts]
    * @returns {Promise<number>}
    */
   async choose(items, opts = {}) {
     this.busyCount += 1;
     if (opts.prompt) {
-      await this.box.show(this.format(opts.prompt), { wait: false, pause: 0 });
+      await this.#show(this.format(opts.prompt), { wait: false, pause: 0 });
     }
     const width = opts.width ?? Math.max(220, ...items.map((s) => s.length * 17 + 100));
     const visibleRows = Math.min(items.length, opts.visibleRows ?? 6);
-    const menu = new ListMenu(this, {
-      x: opts.x ?? 1024 - width - 12,
-      y: opts.y ?? 432 - (visibleRows * 46 + 36) - 8,
-      width,
-      items,
-      visibleRows,
-      rightLabels: opts.rightLabels,
-      depth: 20,
-    });
+    const menu = new ListMenu(this, { x: 0, y: 0, width, items, visibleRows, rightLabels: opts.rightLabels, depth: 20 });
+    this.placeMenu = () => {
+      const k = this.k;
+      menu.container.setScale(k);
+      const y = opts.top ? 12 * k : this.boxTop - menu.height * k - 8 * k;
+      menu.container.setPosition(GAME_WIDTH - (width + 12) * k, y);
+    };
+    this.placeMenu();
     // with a question in the message box, the prompts go in the box; a menu on its own gets them in the corner
     if (this.box.container.visible) {
       this.box.setHints(HINTS.menu);
@@ -208,6 +260,7 @@ export class DialogScene extends BaseScene {
       };
     });
     menu.destroy();
+    this.placeMenu = null;
     this.box.setHints([]);
     this.menuHints = null;
     this.busyCount -= 1;
@@ -217,7 +270,8 @@ export class DialogScene extends BaseScene {
   /** Shows (or refreshes) the money window in the top-right corner. */
   showMoney() {
     this.hideMoney();
-    const c = this.add.container(1024 - 250, 12).setDepth(15);
+    const k = this.k;
+    const c = this.add.container(GAME_WIDTH - 250 * k, 12 * k).setDepth(15).setScale(k);
     c.add(panel(this, 0, 0, 238, 70));
     c.add(text(this, 28, 18, `₹${dataManager.money}`, 'body'));
     this.moneyBox = c;

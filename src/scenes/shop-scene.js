@@ -5,6 +5,7 @@ import { getItemByName } from '../game/game-data.js';
 import { ListMenu, MessageBox, panel, readMenuInput, text, TEXT, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef ShopSceneData
@@ -36,10 +37,10 @@ export class ShopScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0xe8bd79).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0xe8bd79).setOrigin(0);
     const g = this.add.graphics();
     g.fillStyle(0xd9a65f, 1);
-    for (let y = 0; y < 576; y += 32) {
+    for (let y = 0; y < FULL_HEIGHT; y += 32) {
       g.fillRect(0, y, 1024, 8);
     }
     text(this, 32, 20, 'NAMMA KIRANA', 'title');

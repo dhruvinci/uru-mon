@@ -8,6 +8,7 @@ import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT, ControlHints, HI
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { bestArt, loadHd, monHdKey, trainerHdKey } from '../ui/hd-art.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 const LEVEL = 60;
 const TEAM = 3;
@@ -79,9 +80,9 @@ export class QuickBattleScene extends BaseScene {
     this.children.removeAll(true);
     this.menu = null;
     const { width } = this.scale;
-    this.add.rectangle(0, 0, width, 576, 0x1d1736).setOrigin(0);
-    this.add.rectangle(0, 0, width / 2, 576, 0x2b3f7a, 0.45).setOrigin(0);
-    this.add.rectangle(width / 2, 0, width / 2, 576, 0x7a2b3f, 0.45).setOrigin(0);
+    this.add.rectangle(0, 0, width, FULL_HEIGHT, 0x1d1736).setOrigin(0);
+    this.add.rectangle(0, 0, width / 2, FULL_HEIGHT, 0x2b3f7a, 0.45).setOrigin(0);
+    this.add.rectangle(width / 2, 0, width / 2, FULL_HEIGHT, 0x7a2b3f, 0.45).setOrigin(0);
     text(this, width / 2, 14, 'QUICK BATTLE', 'title').setOrigin(0.5, 0).setColor('#fff4d6');
     text(this, width / 2, 66, `Lv ${LEVEL}  ·  3 vs 3`, 'lightSmall').setOrigin(0.5, 0);
     text(this, width / 2, 238, 'VS', 'title').setOrigin(0.5).setColor('#ffd35a');
@@ -176,7 +177,7 @@ export class QuickBattleScene extends BaseScene {
     const { width } = this.scale;
     const won = result.outcome === 'win';
     playBackgroundMusic(this, won ? AUDIO_KEYS.MUSIC_VICTORY : AUDIO_KEYS.MUSIC_ARENA);
-    this.add.rectangle(0, 0, width, 576, won ? 0x24402f : 0x40242f).setOrigin(0);
+    this.add.rectangle(0, 0, width, FULL_HEIGHT, won ? 0x24402f : 0x40242f).setOrigin(0);
     text(this, width / 2, 120, won ? 'YOU WIN!' : 'YOU LOST', 'title').setOrigin(0.5).setColor(won ? '#ffe680' : '#ffb0b8')
       .setScale(1.6);
     const t = this.opponent;

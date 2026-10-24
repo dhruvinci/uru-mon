@@ -5,6 +5,7 @@ import { displayName, getSpecies } from '../battle/engine/monster.js';
 import { ListMenu, MessageBox, panel, readMenuInput, text, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { FULL_HEIGHT } from '../ui/screen.js';
 
 /**
  * @typedef StorageSceneData
@@ -41,10 +42,10 @@ export class StorageScene extends BaseScene {
 
   create() {
     super.create();
-    this.add.rectangle(0, 0, 1024, 576, 0x78b8c8).setOrigin(0);
+    this.add.rectangle(0, 0, 1024, FULL_HEIGHT, 0x78b8c8).setOrigin(0);
     const pattern = this.add.graphics();
     pattern.fillStyle(0x91cad5, 1);
-    for (let y = 0; y < 576; y += 40) {
+    for (let y = 0; y < FULL_HEIGHT; y += 40) {
       for (let x = (y / 40) % 2 ? 20 : 0; x < 1024; x += 80) {
         pattern.fillRoundedRect(x, y, 48, 16, 8);
       }

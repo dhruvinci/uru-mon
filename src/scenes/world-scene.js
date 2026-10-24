@@ -16,6 +16,7 @@ import { ScriptRunner } from '../world/script-runner.js';
 import { buildTrainerTeam } from '../world/trainers.js';
 import { warpTargets } from '../game/admin-profile.js';
 import { WorldFx } from '../fx/world-fx.js';
+import { isTall, onResize } from '../ui/screen.js';
 
 /**
  * Picks a weighted slot from an encounter table.
@@ -108,7 +109,6 @@ export class WorldScene extends BaseScene {
       ? this.add.image(0, 0, WORLD_KEYS.TALL_GRASS).setOrigin(0).setScale(4).setVisible(false)
       : null;
     this.#setupCamera();
-    this.fx.frameCamera();
     this.autoWalk = null;
     this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => this.#onWorldTap(p));
 
@@ -199,13 +199,33 @@ export class WorldScene extends BaseScene {
 
   #setupCamera() {
     const cam = this.cameras.main;
-    const vw = this.scale.width;
-    const vh = this.scale.height;
+    cam.startFollow(this.player.sprite, true, 1, 1, -32, -32);
+    cam.setRoundPixels(true);
+    this.#fitCamera();
+    onResize(this, () => {
+      this.#fitCamera();
+      this.fx.refit();
+    });
+  }
+
+  /**
+   * Zoom and bounds for the canvas. On a tall canvas (a phone held upright) the view is zoomed in so a tile stays
+   * about as big on screen as it is with the phone sideways; maps smaller than the view sit in its middle.
+   */
+  #fitCamera() {
+    const cam = this.cameras.main;
+    let zoom = 1;
+    if (isTall(this)) {
+      const want = 608 / this.scale.displaySize.width; // about 38 CSS pixels per tile
+      zoom = [1, 1.25, 1.5].reduce((a, b) => (Math.abs(b - want) < Math.abs(a - want) ? b : a));
+    }
+    cam.setZoom(zoom);
+    this.fx.frameCamera(zoom);
+    const vw = cam.width / cam.zoom;
+    const vh = cam.height / cam.zoom;
     const bx = this.mapW < vw ? (this.mapW - vw) / 2 : 0;
     const by = this.mapH < vh ? (this.mapH - vh) / 2 : 0;
     cam.setBounds(bx, by, Math.max(this.mapW, vw), Math.max(this.mapH, vh));
-    cam.startFollow(this.player.sprite, true, 1, 1, -32, -32);
-    cam.setRoundPixels(true);
   }
 
   // ------------------------------------------------------------------------------------------
@@ -1103,7 +1123,7 @@ export class WorldScene extends BaseScene {
           'EXIT',
         ];
         this.lastMenuIndex = this.lastMenuIndex || 0;
-        const idx = await this.ui.choose(options, { x: 1024 - 300, y: 12, width: 288, visibleRows: 7 });
+        const idx = await this.ui.choose(options, { top: true, width: 288, visibleRows: 7 });
         if (idx < 0) {
           return;
         }
@@ -1113,7 +1133,7 @@ export class WorldScene extends BaseScene {
         }
         if (choice === 'WARP') {
           const targets = warpTargets();
-          const pick = await this.ui.choose(targets.map((m) => m.name), { x: 1024 - 420, y: 12, width: 408, visibleRows: 8 });
+          const pick = await this.ui.choose(targets.map((m) => m.name), { top: true, width: 408, visibleRows: 8 });
           if (pick >= 0) {
             this.ui.close();
             this.menuOpen = false;

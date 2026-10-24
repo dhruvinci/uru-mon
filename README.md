@@ -60,8 +60,9 @@ stop the **Concrete Syndicate** from paving over the city's lakes and parks, bea
 **Play anywhere**
 - Keyboard on desktop. On phones the game is built for touch: tap the map to walk there, tap a person, sign or door to
   use it, and tap menus and battle moves directly.
-- Best held sideways: the game fills the screen, and on Android it goes full screen on your first tap. On iPhone,
-  Add to Home Screen to play without the browser bars. Upright works too, with dialogue repeated in large text below.
+- Hold it either way. Upright, the game is a big square above the pad, with large text in conversations and battles.
+  Sideways, it fills the height, with the buttons beside it. On Android it goes full screen on your first tap; on
+  iPhone, Add to Home Screen to play without Safari's bars (the ⛶ button explains how).
 - Sound works on iPhones even with the silent switch on (turn it off in Options).
 - Saves live in your browser, with no account needed.
 

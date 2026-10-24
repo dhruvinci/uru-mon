@@ -95,13 +95,24 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   Touch is first-class: `inputManager.tap(button)` injects a zero-length press, and taps on the game reuse it (ListMenu
   rows select, MessageBox / battle / dialog taps act as A, party cards, battle grids, options rows). The world scene
   walks to tapped tiles with a BFS path follower (`screenToTile` looks through the HD-2D tilt) and interacts with tapped
-  NPCs, signs, items, water and doors. `src/input/touch-controls.js` lays out the pad: portrait = game on top, pad below,
-  and on-screen messages mirrored large (`uru:message` / `uru:speaker` window events); landscape = A/B/MENU in the side
-  margins, D-pad optional. Phones held upright (touch, portrait, under 600 px wide) get a `.rotate-overlay` asking
-  them to turn sideways, with "Play upright anyway" (remembered for the session); on Android the first tap in landscape
-  requests fullscreen. HD-2D outdoors uses camera zoom 0.75, or 1 on phones (`PHONE` in `world-fx.js`). `node test/mobile.mjs <dir> portrait|landscape` plays with taps only.
+  NPCs, signs, items, water and doors. `src/input/touch-controls.js` sizes the game and lays out the pad, reading the
+  safe-area insets through `--safe-*` CSS variables (tests override them): landscape = 16:9 at full height with
+  A/B/MENU in columns beside it, clear of the notch, D-pad optional; portrait = the pad below and the game above it,
+  grown towards a square (`game.scale.setGameSize(1024, H)`, H up to 1024, changed live when the phone turns).
   Keys typed into `<input>` elements are ignored by the game (used for name entry). A tap shorter than a frame still
   counts as one step.
+- **Tall canvas** (`src/ui/screen.js`): every scene is designed for 1024x576. Menu screens keep that layout at the top
+  of a taller canvas (draw backgrounds to `FULL_HEIGHT`), and the page repeats their MessageBox text in large type
+  under it (`uru:message` / `uru:speaker` window events; a box's message is withdrawn when its scene pauses or closes).
+  The overworld (camera zoomed to keep tiles about 38 CSS px), its DialogScene, the title, intro, battles and credits
+  use the whole canvas when `isTall()`, draw their UI `uiScale()` times bigger on phones (containers scaled up, with
+  `setTextResolution` so text stays sharp), dock message boxes with `MessageBox.dock`, and don't announce to the page.
+  They re-lay themselves out through `onResize`; a battle keeps the layout it started with and is fitted by its camera.
+  main.js patches Phaser 3.60 so camera effects' render targets resize with the game. On Android the first tap
+  requests fullscreen; iPhones can't, so the ⛶ button (and a one-time tip) explains Add to Home Screen.
+  HD-2D outdoors uses camera zoom 0.75, or 1 on phones (`PHONE` in `world-fx.js`), times the tall zoom.
+  `node test/mobile.mjs <dir> portrait|landscape|iphone|turn` plays with taps only (`iphone`: notch insets and
+  Safari's bars; `turn`: rotates mid-conversation and mid-battle).
 - **Audio**: only SFX and the title theme load before the title screen; `PreloadScene` stays alive to stream the rest
   and starts a requested track when it arrives. Missing audio keys are silently ignored.
   The manifest lists MP3 before Ogg (Safari's Ogg support varies). For iPhones, `setGlobalSoundSettings` sets

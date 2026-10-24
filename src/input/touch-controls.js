@@ -1,14 +1,17 @@
 import { inputManager } from './input-manager.js';
+import { DESIGN_HEIGHT, FULL_HEIGHT, GAME_WIDTH } from '../ui/screen.js';
 
 /**
  * On-screen controls for phones and tablets. The game itself is touch-first (tap to walk, tap menus and dialog), so
  * the pad is a backup plus the buttons taps can't replace (B to go back, START for the menu):
- *   - portrait: the game sits on top at full width; a full pad sits under your thumbs.
- *   - landscape: the game fills the height; A/B/START live in the side margins so nothing covers the game, and the
- *     D-pad is optional (the ✥ button shows it, remembered per device).
+ *   - portrait: the game sits on top at full width and grows towards a square to fill the space above a full pad
+ *     (see ui/screen.js for how scenes use the extra height);
+ *   - landscape: the game is 16:9 and fills the height; A/B/START live in the side margins, clear of the notch, so
+ *     nothing covers the game, and the D-pad is optional (the ✥ button shows it, remembered per device).
  * Shown automatically on touch-first devices; `?touch=1` forces it on and `?touch=0` off.
+ * @param {Phaser.Game} game
  */
-export function setupTouchControls() {
+export function setupTouchControls(game) {
   const params = new URLSearchParams(window.location.search);
   const forced = params.get('touch');
   const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
@@ -20,7 +23,7 @@ export function setupTouchControls() {
   const pad = document.createElement('div');
   pad.className = 'touch-pad';
   pad.innerHTML = `
-    <div class="pad-hint">Tap the map to walk · tap menus to choose<br><span class="rotate">↻ Turn your phone sideways for a bigger screen</span></div>
+    <div class="pad-hint">Tap the map to walk · tap menus to choose</div>
     <div class="dpad">
       <button data-btn="UP" class="dir up" aria-label="Up"></button>
       <button data-btn="LEFT" class="dir left" aria-label="Left"></button>
@@ -39,9 +42,9 @@ export function setupTouchControls() {
     </div>`;
   document.body.appendChild(pad);
 
-  // portrait: repeat the message on screen in large type in the space under the game
+  // portrait: menu screens keep their 16:9 layout at the top of the game, and their messages are repeated in large
+  // type underneath (the overworld and battles show big text themselves there, so their messages aren't announced)
   const hint = /** @type {HTMLElement} */ (pad.querySelector('.pad-hint'));
-  const defaultHint = hint.innerHTML;
   const mirror = document.createElement('div');
   mirror.className = 'msg-mirror';
   pad.appendChild(mirror);
@@ -60,7 +63,7 @@ export function setupTouchControls() {
       who.textContent = '';
     }
     mirror.classList.toggle('on', Boolean(message));
-    hint.innerHTML = message ? '' : defaultHint;
+    hint.classList.toggle('hidden', Boolean(message));
   });
 
   // the D-pad choice in landscape is remembered
@@ -78,8 +81,37 @@ export function setupTouchControls() {
   } catch {
     /* ignore */
   }
-  if (!document.fullscreenEnabled && !document.documentElement.webkitRequestFullscreen) {
-    pad.querySelector('[data-tool="fullscreen"]')?.remove(); // iOS Safari: use Add to Home Screen instead
+
+  // iPhones can't put a web page in full screen; the ⛶ button explains Add to Home Screen instead
+  const ios = /iPhone|iPod/.test(navigator.userAgent);
+  const installed = window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches
+    || /** @type {any} */ (navigator).standalone;
+  const canFullscreen = document.fullscreenEnabled || Boolean(document.documentElement.webkitRequestFullscreen);
+  const tip = document.createElement('div');
+  tip.className = 'fs-tip';
+  tip.innerHTML = `<b>Play full screen</b>Safari keeps its bars on web pages. Tap Safari's <b>Share</b> button, then
+    <b>Add to Home Screen</b>, and open uru-mon from your home screen: it fills the whole screen like an app.
+    <span class="fs-tip-close">Got it</span>`;
+  document.body.appendChild(tip);
+  tip.addEventListener('pointerup', () => tip.classList.remove('on'));
+  if (installed || (!canFullscreen && !ios)) {
+    pad.querySelector('[data-tool="fullscreen"]')?.remove();
+  }
+  if (ios && !installed && !canFullscreen) {
+    // shown once per device, the first time the game is played in Safari, for a few seconds
+    let seen = 'yes';
+    try {
+      seen = localStorage.getItem('uru-fs-tip') || '';
+      localStorage.setItem('uru-fs-tip', 'yes');
+    } catch {
+      /* ignore */
+    }
+    if (!seen) {
+      window.addEventListener('pointerup', () => {
+        setTimeout(() => tip.classList.add('on'), 400);
+        setTimeout(() => tip.classList.remove('on'), 12000);
+      }, { once: true });
+    }
   }
 
   /** @type {Map<number, string>} pointerId -> button currently held by that pointer */
@@ -123,11 +155,12 @@ export function setupTouchControls() {
         remember('uru-dpad', on ? 'on' : 'off');
       } else if (which === 'fullscreen') {
         const el = document.documentElement;
-        if (document.fullscreenElement) {
+        if (!canFullscreen) {
+          tip.classList.toggle('on');
+        } else if (document.fullscreenElement) {
           document.exitFullscreen?.();
         } else {
           (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el, { navigationUI: 'hide' })?.catch?.(() => {});
-          screen.orientation?.lock?.('landscape').catch(() => {});
         }
       }
       return;
@@ -156,57 +189,105 @@ export function setupTouchControls() {
   pad.addEventListener('pointercancel', end);
   pad.addEventListener('contextmenu', (e) => e.preventDefault());
 
-  // phones held upright: the 16:9 game is a thin strip, so ask for landscape (with a way to carry on anyway)
-  const ios = /iPhone|iPod/.test(navigator.userAgent);
-  const installed = window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches
-    || /** @type {any} */ (navigator).standalone;
-  const rotate = document.createElement('div');
-  rotate.className = 'rotate-overlay';
-  rotate.innerHTML = `
-    <div class="phone-icon"></div>
-    <div class="rotate-title">Turn your phone sideways</div>
-    <div class="rotate-sub">uru-mon plays like a handheld console: the screen is much bigger held sideways.</div>
-    ${ios && !installed ? '<div class="rotate-tip">Tip: tap Share, then <b>Add to Home Screen</b>, to play full screen without the browser bars.</div>' : ''}
-    <button class="rotate-skip">Play upright anyway</button>`;
-  document.body.appendChild(rotate);
-  try {
-    if (sessionStorage.getItem('uru-upright') === 'ok') {
-      document.body.classList.add('upright-ok');
-    }
-  } catch {
-    /* ignore */
-  }
-  rotate.querySelector('.rotate-skip')?.addEventListener('click', () => {
-    document.body.classList.add('upright-ok');
-    try {
-      sessionStorage.setItem('uru-upright', 'ok');
-    } catch {
-      /* ignore */
-    }
-  });
-
-  // Android: the first tap in landscape goes full screen, hiding the browser bars (iPhones can't; see the tip above)
+  // Android: the first tap goes full screen, hiding the browser bars (iPhones can't; see the tip above)
   let triedFullscreen = false;
   window.addEventListener('pointerup', () => {
-    if (triedFullscreen || installed || document.fullscreenElement || !document.fullscreenEnabled
-      || window.innerWidth < window.innerHeight) {
+    if (triedFullscreen || installed || document.fullscreenElement || !document.fullscreenEnabled) {
       return;
     }
     triedFullscreen = true;
-    document.documentElement.requestFullscreen({ navigationUI: 'hide' })
-      .then(() => /** @type {any} */ (screen.orientation)?.lock?.('landscape'))
-      .catch(() => {});
+    document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
   });
 
-  // landscape layout depends on how much room the 16:9 game leaves at the sides
+  // The safe-area insets (notch, rounded corners, home bar), read through CSS variables that index.html sets to env().
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none;'
+    + 'padding:var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l)';
+  document.body.appendChild(probe);
+  const insets = () => {
+    const s = getComputedStyle(probe);
+    return { t: parseFloat(s.paddingTop) || 0, r: parseFloat(s.paddingRight) || 0, b: parseFloat(s.paddingBottom) || 0, l: parseFloat(s.paddingLeft) || 0 };
+  };
+
+  const container = /** @type {HTMLElement} */ (document.getElementById('game-container'));
+  const body = document.body;
+  const px = (name, value) => body.style.setProperty(name, `${Math.round(value)}px`);
+  /** Sizes the game for the screen and places everything around it. */
   const layout = () => {
+    if (document.activeElement?.tagName === 'INPUT') {
+      return; // an on-screen keyboard is up (name entry): keep the game as it is until it closes
+    }
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const gutter = Math.max(0, (w - (h * 16) / 9) / 2);
-    document.body.style.setProperty('--gutter', `${gutter}px`);
-    document.body.classList.toggle('roomy', w > h && gutter >= 72);
+    const s = insets();
+    let rect;
+    let gameHeight = DESIGN_HEIGHT;
+    if (w > h) {
+      // sideways: 16:9 at full height, with a column of buttons in each margin, clear of the notch. When the margins
+      // are too narrow for that (shorter phones, tablets), shrink the game until they fit, by up to a fifth; past that,
+      // overlay the buttons on the game's corners.
+      const side = Math.max(s.l, s.r);
+      const column = 84;
+      const full = Math.min(w, (h * 16) / 9);
+      const squeezed = w - 2 * (side + column);
+      let width = full;
+      let roomy = (w - full) / 2 - side >= column;
+      if (!roomy && squeezed >= full * 0.8) {
+        width = squeezed;
+        roomy = true;
+      }
+      const height = (width * 9) / 16;
+      rect = { left: (w - width) / 2, top: (h - height) / 2, width, height };
+      const colW = (w - width) / 2 - side - 12;
+      px('--col-w', colW);
+      px('--btn', Math.max(52, Math.min(colW - 4, 78)));
+      body.classList.toggle('roomy', roomy);
+      body.classList.add('mirror-off');
+    } else {
+      // upright: as tall as the room above the pad allows, up to a square
+      body.classList.remove('roomy');
+      const padTop = Math.min(...['.dpad', '.ab'].map((sel) => /** @type {HTMLElement} */ (pad.querySelector(sel)).getBoundingClientRect().top));
+      const width = w - s.l - s.r;
+      const room = padTop - 12 - s.t;
+      const wanted = Math.max((width * DESIGN_HEIGHT) / GAME_WIDTH, Math.min(width, room));
+      gameHeight = Math.max(DESIGN_HEIGHT, Math.min(FULL_HEIGHT, Math.round((GAME_WIDTH * wanted) / width / 2) * 2));
+      const height = (width * gameHeight) / GAME_WIDTH;
+      rect = { left: s.l, top: s.t, width, height };
+      // menu screens' messages, repeated large under their 16:9 layout (over the rest of the game) down to the pad
+      const mirrorTop = s.t + (width * DESIGN_HEIGHT) / GAME_WIDTH + 10;
+      px('--mirror-top', mirrorTop);
+      px('--mirror-max', padTop - 10 - mirrorTop);
+      body.classList.toggle('mirror-off', padTop - 10 - mirrorTop < 72);
+      // the hint goes in the gap between the game and the pad, if there is one
+      const gap = padTop - (rect.top + height);
+      px('--hint-top', rect.top + height + Math.max(6, (gap - 48) / 2));
+      body.classList.toggle('hint-off', gap < 48);
+    }
+    Object.assign(container.style, {
+      left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, right: 'auto', bottom: 'auto',
+    });
+    px('--game-l', rect.left);
+    px('--game-w', rect.width);
+    if (!ready) {
+      return; // the renderer boots at 1024x576; laid out again once the game is ready
+    }
+    game.scale.getParentBounds(); // so the resize sees the new container size straight away
+    if (game.scale.height !== gameHeight) {
+      game.scale.setGameSize(GAME_WIDTH, gameHeight);
+    } else {
+      game.scale.refresh();
+    }
   };
+  let ready = false;
   layout();
+  game.events.once('ready', () => {
+    ready = true;
+    layout();
+  });
   window.addEventListener('resize', layout);
-  window.addEventListener('orientationchange', () => setTimeout(layout, 200));
+  window.visualViewport?.addEventListener('resize', layout);
+  window.addEventListener('orientationchange', () => setTimeout(layout, 250));
+  // the pad's size depends on the fonts and CSS, so measure again once everything has loaded
+  window.addEventListener('load', layout);
+  document.addEventListener('focusout', () => setTimeout(layout, 300));
 }

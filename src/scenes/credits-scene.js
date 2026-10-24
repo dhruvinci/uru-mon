@@ -6,6 +6,7 @@ import { inputManager } from '../input/input-manager.js';
 import { readMenuInput, text, TEXT, ControlHints } from '../ui/ui-kit.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
+import { DESIGN_HEIGHT, setTextResolution, uiScale } from '../ui/screen.js';
 
 const SCROLL_SPEED = 34;
 const END_OFFSET = 1000;
@@ -30,10 +31,16 @@ export class CreditsScene extends BaseScene {
     super.create();
     this.input.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => p.getDistance() < 24 && inputManager.tap('A'));
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_CREDITS);
+    // on a tall canvas (a phone held upright) the sky is taller, the parade stays at the bottom and the text is bigger
+    const H = this.scale.height;
+    const k = uiScale(this);
+    const dy = H - DESIGN_HEIGHT;
+    setTextResolution(this, k);
+    this.endPosition = END_POSITION + dy / 2;
     // Narrow solid bands work in both Phaser's Canvas and WebGL renderers.
     const sky = this.add.graphics();
-    for (let y = 0; y < 576; y += 4) {
-      const ratio = y / 576;
+    for (let y = 0; y < H; y += 4) {
+      const ratio = y / H;
       const red = Math.round(15 + ratio * 51);
       const green = Math.round(20 + ratio * 25);
       const blue = Math.round(48 + ratio * 54);
@@ -42,10 +49,10 @@ export class CreditsScene extends BaseScene {
     }
     this.stars = Array.from({ length: 64 }, (_, index) => {
       const x = (index * 167 + 43) % 1024;
-      const y = (index * 97 + 21) % 414;
+      const y = (index * 97 + 21) % (414 + dy);
       return this.add.rectangle(x, y, index % 5 === 0 ? 4 : 2, index % 5 === 0 ? 4 : 2, 0xf8edcf);
     });
-    this.roll = this.add.container(512, 576);
+    this.roll = this.add.container(512, H).setScale(k);
     const lines = [
       { y: 0, label: 'uru-mon', size: 60 },
       { y: 90, label: 'A Bengaluru adventure', size: 34 },
@@ -62,15 +69,17 @@ export class CreditsScene extends BaseScene {
       }).setOrigin(0.5, 0));
     });
     // The parade stays in its own strip while the credits pass above it.
-    this.add.rectangle(0, 416, 1024, 160, 0x231f3e).setOrigin(0);
-    this.add.rectangle(0, 524, 1024, 52, 0x17172f).setOrigin(0);
-    this.add.rectangle(0, 524, 1024, 4, 0x7e799e).setOrigin(0);
+    this.ground = 524 + dy;
+    this.add.rectangle(0, 416 + dy, 1024, 160, 0x231f3e).setOrigin(0);
+    this.add.rectangle(0, this.ground, 1024, 52, 0x17172f).setOrigin(0);
+    this.add.rectangle(0, this.ground, 1024, 4, 0x7e799e).setOrigin(0);
     this.marchers = dataManager.party.map((mon, index) => {
       const key = getSpecies(mon.speciesId).assetKey;
-      return this.add.image(80 + index * 164, 524, this.textures.exists(key) ? key : '__MISSING')
+      return this.add.image(80 + index * 164, this.ground, this.textures.exists(key) ? key : '__MISSING')
         .setOrigin(0.5, 1).setScale(2);
     });
-    new ControlHints(this, 512, 552, { align: 'center', dark: true }).set([{ btn: 'A', label: 'Hold to save and return' }]);
+    new ControlHints(this, 512, 552 + dy, { align: 'center', dark: true }).set([{ btn: 'A', label: 'Hold to save and return' }])
+      .container.setScale(k);
   }
 
   update(time) {
@@ -83,12 +92,14 @@ export class CreditsScene extends BaseScene {
     this.lastTime = time;
     this.elapsed += delta;
     this.skipHeld = inputManager.isDown('START') || inputManager.isDown('A') ? this.skipHeld + delta : 0;
-    const scrollDuration = (576 + END_OFFSET - END_POSITION) / SCROLL_SPEED * 1000;
-    this.roll.y = Math.max(END_POSITION - END_OFFSET, 576 - this.elapsed / 1000 * SCROLL_SPEED);
+    const start = this.scale.height;
+    const scale = this.roll.scaleY;
+    const scrollDuration = (start + (END_OFFSET * scale) - this.endPosition) / SCROLL_SPEED * 1000;
+    this.roll.y = Math.max(this.endPosition - END_OFFSET * scale, start - this.elapsed / 1000 * SCROLL_SPEED);
     this.stars.forEach((star, index) => star.setAlpha(0.35 + 0.65 * (1 + Math.sin(this.elapsed / 650 + index * 1.7)) / 2));
     this.marchers.forEach((sprite, index) => {
       sprite.x = ((160 + index * 164 + this.elapsed * 0.038) % 1184) - 80;
-      sprite.y = 524 - Math.abs(Math.sin(this.elapsed / 170 + index)) * 8;
+      sprite.y = this.ground - Math.abs(Math.sin(this.elapsed / 170 + index)) * 8;
     });
     if (this.skipHeld >= SKIP_HOLD || this.elapsed >= scrollDuration + END_PAUSE) {
       this.#finish();
