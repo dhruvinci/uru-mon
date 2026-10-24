@@ -4,7 +4,7 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { gameData } from '../game/game-data.js';
 import { allSpecies, createMonster, getSpecies } from '../battle/engine/monster.js';
-import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT } from '../ui/ui-kit.js';
+import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT, ControlHints, HINTS } from '../ui/ui-kit.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { bestArt, loadHd, monHdKey, trainerHdKey } from '../ui/hd-art.js';
@@ -106,6 +106,7 @@ export class QuickBattleScene extends BaseScene {
     });
 
     this.menu = new ListMenu(this, { x: width / 2 - 150, y: 414, width: 300, rowHeight: 38, items: ['BATTLE!', 'SHUFFLE', 'BACK'], depth: 10 });
+    new ControlHints(this, width - 20, 548, { backing: true, depth: 20 }).set(HINTS.menu);
     this.stage = 'matchup';
   }
 
@@ -181,6 +182,7 @@ export class QuickBattleScene extends BaseScene {
     const t = this.opponent;
     text(this, width / 2, 200, won ? `You beat ${t.name}.` : `${t.name} took this one.`, 'lightSmall').setOrigin(0.5);
     this.menu = new ListMenu(this, { x: width / 2 - 170, y: 280, width: 340, items: ['REMATCH', 'NEW BATTLE', 'TITLE SCREEN'], depth: 10 });
+    new ControlHints(this, width - 20, 548, { backing: true, depth: 20 }).set(HINTS.select);
     // presses left over from mashing through the last battle message shouldn't pick REMATCH by accident
     this.inputReadyAt = this.time.now + 600;
   }

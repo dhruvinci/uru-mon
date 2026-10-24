@@ -2,7 +2,7 @@ import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { displayName, expForLevel, getMaxHp, getMove, getSpecies, getStats, MAX_LEVEL } from '../battle/engine/monster.js';
-import { Meter, panel, readMenuInput, statusBadge, text, typeBadge } from '../ui/ui-kit.js';
+import { Meter, panel, readMenuInput, statusBadge, text, typeBadge, ControlHints } from '../ui/ui-kit.js';
 import { inputManager } from '../input/input-manager.js';
 
 /**
@@ -61,7 +61,8 @@ export class MonsterDetailsScene extends BaseScene {
       add(g);
       add(text(this, x + 86, 26, p, i === this.page ? 'body' : 'light').setOrigin(0.5, 0));
     });
-    add(text(this, 470, 76, '◀ ▶ page   ▲ ▼ Urumon   B back', 'lightSmall'));
+    add(new ControlHints(this, 470, 88, { align: 'left', dark: true })
+      .set([{ key: '◀ ▶', label: 'Page' }, { key: '▲▼', label: 'Urumon' }, { btn: 'B', label: 'Back' }]).container);
 
     // left: portrait card
     add(panel(this, 14, 14, 440, 548, { radius: 16 }));

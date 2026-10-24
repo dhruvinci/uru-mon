@@ -3,7 +3,7 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { getSpecies } from '../battle/engine/monster.js';
 import { inputManager } from '../input/input-manager.js';
-import { readMenuInput, text, TEXT } from '../ui/ui-kit.js';
+import { readMenuInput, text, TEXT, ControlHints } from '../ui/ui-kit.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
@@ -70,7 +70,7 @@ export class CreditsScene extends BaseScene {
       return this.add.image(80 + index * 164, 524, this.textures.exists(key) ? key : '__MISSING')
         .setOrigin(0.5, 1).setScale(2);
     });
-    text(this, 512, 540, 'Hold START or A to save and return', 'lightSmall').setOrigin(0.5, 0);
+    new ControlHints(this, 512, 552, { align: 'center', dark: true }).set([{ btn: 'A', label: 'Hold to save and return' }]);
   }
 
   update(time) {

@@ -417,6 +417,166 @@ export function readMenuInput(controls) {
 }
 
 /**
+ * One button prompt. `btn` is the game button it stands for (clicking or tapping the prompt presses it); prompts
+ * without one just show `key` (arrows, say). `kb` marks keyboard-only prompts, left out on touch screens.
+ * @typedef {{btn?: 'A'|'B'|'START', key?: string, label: string, kb?: boolean}} Hint
+ */
+
+/** The key shown for each button on keyboards. */
+const HINT_KEYS = { A: 'Enter', B: 'Esc', START: 'Esc' };
+
+/** Common prompt rows. */
+export const HINTS = Object.freeze({
+  menu: [{ btn: 'A', label: 'Select' }, { btn: 'B', label: 'Back' }],
+  select: [{ btn: 'A', label: 'Select' }],
+  back: [{ btn: 'B', label: 'Back' }],
+  next: [{ btn: 'A', label: 'Next' }],
+});
+
+/** True when the on-screen pad is showing (phones and tablets): prompts then show its buttons instead of keys. */
+export function isTouchUI() {
+  return typeof document !== 'undefined' && document.body.classList.contains('has-touch-controls');
+}
+
+/** @param {Phaser.GameObjects.GameObject & {visible: boolean, parentContainer: any}} o */
+function shownOnScreen(o) {
+  for (let c = o; c; c = c.parentContainer) {
+    if (!c.visible) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * A small row of button prompts, e.g. "[Enter] Select  [Esc] Back", so players who don't know emulator controls can
+ * see what to press. Keyboards see the key; touch screens see the pad's red A / B buttons or MENU.
+ */
+export class ControlHints {
+  /**
+   * @param {Phaser.Scene} scene
+   * @param {number} x where the row is anchored (its right end by default)
+   * @param {number} y the row's vertical centre
+   * @param {{align?: 'left'|'center'|'right', backing?: boolean, dark?: boolean, depth?: number}} [opts]
+   *   backing: a dark translucent pill behind the row, for busy backgrounds; dark: light-on-dark colours without the
+   *   pill, for plain dark backgrounds (by default the colours suit the light panels)
+   */
+  constructor(scene, x, y, opts = {}) {
+    this.scene = scene;
+    this.opts = { align: 'right', backing: false, ...opts };
+    this.container = scene.add.container(x, y);
+    if (opts.depth !== undefined) {
+      this.container.setDepth(opts.depth);
+    }
+    this.shown = '';
+    /** width of the row, in pixels */
+    this.width = 0;
+  }
+
+  /**
+   * @param {Hint[]} hints
+   * @returns {this}
+   */
+  set(hints) {
+    const touch = isTouchUI();
+    const list = hints.filter((h) => !(touch && h.kb));
+    const id = `${touch}|${list.map((h) => `${h.btn}:${h.key}:${h.label}`).join(',')}`;
+    if (id === this.shown) {
+      return this;
+    }
+    this.shown = id;
+    this.container.removeAll(true);
+    this.width = 0;
+    if (!list.length) {
+      return this;
+    }
+    const s = this.scene;
+    const dark = this.opts.backing || this.opts.dark;
+    // The row is drawn once into a texture: a dozen rounded shapes redrawn every frame cost a few fps on slow GPUs.
+    const art = s.make.container({ x: 0, y: 0 }, false);
+    const bg = s.make.graphics({}, false);
+    const g = s.make.graphics({}, false);
+    art.add([bg, g]);
+    /** @param {number} tx @param {number} ty @param {string} str @param {Phaser.Types.GameObjects.Text.TextStyle} style */
+    const label = (tx, ty, str, style) => {
+      const t = s.make.text({ x: tx, y: ty, text: str, style: { fontFamily: FONT, ...style } }, false);
+      art.add(t);
+      return t;
+    };
+    /** @type {[number, number, string][]} the clickable span of each button prompt */
+    const spans = [];
+    let x = 0;
+    list.forEach((h, i) => {
+      x += i > 0 ? 20 : 0;
+      const from = x;
+      if (touch && (h.btn === 'A' || h.btn === 'B')) {
+        // the pad's round red buttons
+        g.fillStyle(0xc4404a, h.btn === 'A' ? 1 : 0.8);
+        g.fillCircle(x + 13, 0, 13);
+        label(x + 13, -1, h.btn, { fontSize: '16px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
+        x += 26;
+      } else {
+        const menu = touch && h.btn === 'START';
+        const cap = label(0, -2, menu ? 'MENU' : h.key ?? HINT_KEYS[h.btn], {
+          fontSize: menu ? '13px' : '15px', color: dark ? '#2d2a3a' : '#f6f2ff', fontStyle: 'bold',
+        }).setOrigin(0.5);
+        const w = Math.max(28, Math.ceil(cap.width) + 14);
+        // a keycap: face plus a darker bottom edge
+        g.fillStyle(dark ? 0x9b8fd0 : 0x241c3a, 1);
+        g.fillRoundedRect(x, -11, w, 24, 5);
+        g.fillStyle(dark ? 0xf6f2ff : 0x3a3058, 1);
+        g.fillRoundedRect(x, -13, w, 23, 5);
+        cap.setX(x + w / 2);
+        x += w;
+      }
+      const t = label(x + 7, 0, h.label, { fontSize: '18px', color: dark ? '#f1ecff' : '#6a6384' }).setOrigin(0, 0.5);
+      x += 7 + Math.ceil(t.width);
+      if (h.btn) {
+        spans.push([from, x, h.btn]);
+      }
+    });
+    this.width = x;
+    if (this.opts.backing) {
+      bg.fillStyle(0x1c1430, 0.72);
+      bg.fillRoundedRect(-14, -20, x + 28, 40, 20);
+    }
+    const left = this.opts.align === 'right' ? -x : this.opts.align === 'center' ? -x / 2 : 0;
+    const pad = 16;
+    const rt = s.add.renderTexture(left - pad, -22, Math.ceil(x) + pad * 2, 44).setOrigin(0);
+    rt.draw(art, pad, 22);
+    art.destroy();
+    this.container.add(rt);
+    // clicking or tapping a prompt presses its button
+    spans.forEach(([from, to, btn]) => {
+      const zone = s.add.zone(left + from - 6, -18, to - from + 12, 36).setOrigin(0).setInteractive({ useHandCursor: true });
+      zone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
+        if (p.getDistance() < 24 && shownOnScreen(this.container)) {
+          inputManager.tap(/** @type {any} */ (btn));
+        }
+      });
+      this.container.add(zone);
+    });
+    return this;
+  }
+
+  /** @param {boolean} v */
+  setVisible(v) {
+    this.container.setVisible(v);
+    return this;
+  }
+
+  /** @param {number} x @param {number} [y] */
+  setPosition(x, y) {
+    this.container.setPosition(x, y ?? this.container.y);
+    return this;
+  }
+
+  destroy() {
+    this.container.destroy();
+  }
+}
+
+/**
  * Typewriter message box anchored to the bottom of the screen.
  */
 /**
@@ -452,9 +612,52 @@ export class MessageBox {
       }
     });
     this.container.addAt(zone, 1);
+    // button prompts in the bottom-right corner, left of the arrow: "Next" while waiting for A, otherwise what the
+    // scene asked for with setHints (two lines of text still clear them in a 144-high box)
+    this.hints = new ControlHints(scene, width - 70, height - 30);
+    this.container.add(this.hints.container);
+    /** @type {Hint[]} */
+    this.baseHints = [];
+    this.defaultHintsRight = width - 70;
+    this.hintsRight = this.defaultHintsRight;
     /** @type {null | (() => void)} */
     this.waitResolve = null;
     this.typing = null;
+  }
+
+  /**
+   * The prompts to show whenever the box isn't waiting for A (menus that sit with the box, say).
+   * @param {Hint[]} hints
+   * @param {number} [right] where the row ends, in box coordinates, when a menu covers the box's right side
+   */
+  setHints(hints, right) {
+    this.baseHints = hints;
+    this.hintsRight = right ?? this.defaultHintsRight;
+    if (!this.waitResolve && !this.typing) {
+      this.#showHints(false);
+    }
+    return this;
+  }
+
+  /** @param {boolean} waiting */
+  #showHints(waiting) {
+    if (waiting) {
+      this.hints.setPosition(this.arrow.x - 26).set(HINTS.next);
+    } else {
+      this.hints.setPosition(this.hintsRight).set(this.baseHints);
+    }
+    this.#fitHints();
+  }
+
+  /** Hides the prompts while a long message's last line runs into them. */
+  #fitHints() {
+    const t = this.textObj;
+    const lines = t.text ? t.getWrappedText(t.text) : [];
+    const last = lines[lines.length - 1] || '';
+    const lastRight = t.x + (last ? t.context.measureText(last).width : 0);
+    const rowTop = this.hints.container.y - 14;
+    const rowLeft = this.hints.container.x - this.hints.width - 12;
+    this.hints.setVisible(!(t.y + t.height > rowTop && lastRight > rowLeft));
   }
 
   setVisible(v) {
@@ -476,6 +679,7 @@ export class MessageBox {
     const wait = opts.wait ?? true;
     this.container.setVisible(true);
     this.arrow.setVisible(false);
+    this.#showHints(wait);
     announce(message);
     return new Promise((resolve) => {
       const delay = dataManager.getAnimatedTextSpeed();
@@ -485,10 +689,12 @@ export class MessageBox {
         this.typing?.remove();
         this.typing = null;
         this.textObj.setText(message);
+        this.#fitHints();
         if (wait) {
           this.arrow.setVisible(true);
           this.waitResolve = () => {
             this.arrow.setVisible(false);
+            this.#showHints(false);
             resolve();
           };
         } else {
@@ -506,6 +712,7 @@ export class MessageBox {
         callback: () => {
           i += 1;
           this.textObj.setText(message.slice(0, i));
+          this.#fitHints();
           if (i >= message.length) {
             finishTyping();
           }
@@ -521,6 +728,7 @@ export class MessageBox {
     this.container.setVisible(true);
     this.arrow.setVisible(false);
     this.textObj.setText(message);
+    this.#showHints(false);
     announce(message);
   }
 

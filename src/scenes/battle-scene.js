@@ -15,7 +15,7 @@ import {
 } from '../battle/engine/monster.js';
 import { BattleHud } from '../battle/ui/battle-hud.js';
 import { playMoveFx, shakeAndBlink, statChangeFx, statusFx } from '../battle/ui/move-fx.js';
-import { MessageBox, ListMenu, panel, text, typeBadge, readMenuInput, wait, tween, cursor } from '../ui/ui-kit.js';
+import { MessageBox, ListMenu, panel, text, typeBadge, readMenuInput, wait, tween, cursor, ControlHints, HINTS } from '../ui/ui-kit.js';
 import { promptLearnMove } from '../ui/learn-move.js';
 import { dataManager } from '../utils/data-manager.js';
 import { inputManager } from '../input/input-manager.js';
@@ -251,12 +251,14 @@ export class BattleScene extends BaseScene {
       if (opts.title) {
         this.messageBox.setText(opts.title);
       }
+      this.messageBox.setHints(opts.cancelable ?? true ? HINTS.menu : HINTS.select);
       this.inputHandler = (input) => {
         const r = menu.handleInput(/** @type {any} */ (input));
         if (!r) {
           return;
         }
         this.inputHandler = null;
+        this.messageBox.setHints([]);
         menu.destroy();
         resolve(r.type === 'select' ? r.index : -1);
       };
@@ -433,7 +435,12 @@ export class BattleScene extends BaseScene {
   #mainMenu() {
     return new Promise((resolve) => {
       const c = this.add.container(604, 432).setDepth(55);
-      c.once('destroy', () => { this.menuMode = null; });
+      // B here just moves the cursor to RUN, so only A gets a prompt: in the message box, left of this menu
+      this.messageBox.setHints(HINTS.select, 580);
+      c.once('destroy', () => {
+        this.menuMode = null;
+        this.messageBox.setHints([]);
+      });
       c.add(panel(this, 0, 0, 420, 144, { radius: 12 }));
       const pos = [
         [60, 30],
@@ -492,8 +499,8 @@ export class BattleScene extends BaseScene {
         const m = mon.moves[i];
         c.add(text(this, pos[i][0], pos[i][1], m ? getMove(m.id).name : '-', 'body').setAlpha(m && m.pp <= 0 ? 0.5 : 1));
       }
-      const ppText = text(this, 690, 30, '', 'body');
-      const typeLabel = text(this, 690, 84, 'TYPE/', 'small');
+      const ppText = text(this, 690, 22, '', 'body');
+      const typeLabel = text(this, 690, 70, 'TYPE/', 'small');
       c.add([ppText, typeLabel]);
       /** @type {Phaser.GameObjects.Container | null} */
       let badge = null;
@@ -508,7 +515,7 @@ export class BattleScene extends BaseScene {
         const data = getMove(m.id);
         ppText.setText(`PP  ${m.pp}/${data.pp}`).setColor(m.pp === 0 ? '#c4404a' : m.pp <= data.pp / 4 ? '#d08020' : '#2d2a3a');
         badge?.destroy();
-        badge = typeBadge(this, 790, 82, data.type);
+        badge = typeBadge(this, 790, 68, data.type);
         c.add(badge);
       };
       place();
@@ -521,6 +528,7 @@ export class BattleScene extends BaseScene {
       });
       // the info panel on the right doubles as a back button on touch screens
       this.#tapCells(c, [[660, 0, 364, 144]], () => inputManager.tap('B'));
+      c.add(new ControlHints(this, 996, 116).set([{ btn: 'A', label: 'Use' }, { btn: 'B', label: 'Back' }]).container);
       this.inputHandler = (input) => {
         const n = mon.moves.length;
         let next = idx;

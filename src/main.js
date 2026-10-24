@@ -75,6 +75,8 @@ inputManager.onFullscreenToggle = () => {
     game.scale.stopFullscreen();
   } else {
     game.scale.startFullscreen();
+    // Esc is the game's Back key; where supported (Chrome, Edge), keep it in fullscreen too. Holding Esc still exits.
+    /** @type {any} */ (navigator).keyboard?.lock?.(['Escape']).catch(() => {});
   }
 };
 setupTouchControls();

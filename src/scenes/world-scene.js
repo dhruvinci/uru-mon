@@ -371,8 +371,10 @@ export class WorldScene extends BaseScene {
       // a tap-to-walk is in progress and owns the player this frame
     } else if (!this.inputLocked) {
       if (this._controls.wasEnterKeyPressed() && !this.player.isMoving) {
+        this.ui.learned('menu');
         this.#openStartMenu();
       } else if (this._controls.wasConfirmPressed() && !this.player.isMoving) {
+        this.ui.learned('talk');
         this.#interact();
       } else {
         const dir = this._controls.getDirectionKeyPressedDown();

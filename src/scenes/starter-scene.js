@@ -1,7 +1,7 @@
 import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { getSpecies } from '../battle/engine/monster.js';
-import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT } from '../ui/ui-kit.js';
+import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT, ControlHints, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { bestArt, monHdKey, HD_FACTOR } from '../ui/hd-art.js';
@@ -107,7 +107,7 @@ export class StarterScene extends BaseScene {
     this.blurb = text(this, 48, 378, '', { ...TEXT.small, wordWrap: { width: 470 }, lineSpacing: 4 });
     text(this, 756, 374, 'Grows into', 'small').setOrigin(0.5, 0);
     this.line = this.add.container(0, 0);
-    this.hint = text(this, 512, 540, 'LEFT / RIGHT: Look    A: Choose', 'small').setOrigin(0.5, 0);
+    this.hint = new ControlHints(this, 976, 540).set([{ key: '◀ ▶', label: 'Look' }, { btn: 'A', label: 'Choose' }]);
     this.#select(this.index, true);
   }
 
@@ -174,7 +174,7 @@ export class StarterScene extends BaseScene {
       this.confirm.destroy();
       this.confirm = null;
       this.prompt.destroy();
-      this.hint.setVisible(true);
+      this.hint.setVisible(true).set([{ key: '◀ ▶', label: 'Look' }, { btn: 'A', label: 'Choose' }]);
       if (r.type === 'select' && r.index === 0) {
         this.done = true;
         playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
@@ -195,9 +195,9 @@ export class StarterScene extends BaseScene {
     if (input === 'OK') {
       const sp = this.cards[this.index].sp;
       playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
-      this.hint.setVisible(false);
       this.prompt = text(this, 512, 536, `Choose ${sp.name}, the ${sp.types[0]} type?`, 'small').setOrigin(0.5, 0);
       this.confirm = new ListMenu(this, { x: 1000 - 180, y: 380, width: 160, items: ['YES', 'NO'], depth: 20 });
+      this.hint.set(HINTS.menu);
     }
   }
 }

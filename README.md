@@ -73,10 +73,14 @@ stop the **Concrete Syndicate** from paving over the city's lakes and parks, bea
 | | Keyboard | Touch |
 |---|---|---|
 | Move | Arrow keys / WASD | Tap where you want to go, or use the D-pad |
-| A (talk, confirm) | Z or Space | Tap the person or thing, or the A button |
-| B (back, hold to run) | X or Shift | B |
-| Menu | Enter | MENU |
+| Talk, select, next | Enter (or Z, Space) | Tap the person or thing, or the A button |
+| Back | Esc (or X, Backspace) | B |
+| Run | Hold Shift (or X) | Tap somewhere far away, or hold B |
+| Menu | Esc | MENU |
 | Fullscreen | F | ⛶ |
+
+Every screen shows small prompts for what to press, such as **[Enter] Select  [Esc] Back** on a keyboard, or the
+pad's red A and B buttons on a phone. You can also click or tap a prompt to press that button.
 
 ## Roadmap
 

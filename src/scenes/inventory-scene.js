@@ -2,7 +2,7 @@ import Phaser from '../lib/phaser.js';
 import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
-import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { ListMenu, MessageBox, panel, readMenuInput, text, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
@@ -68,6 +68,7 @@ export class InventoryScene extends BaseScene {
       onChange: () => this.#updateDescription(),
     });
     this.desc = new MessageBox(this, { x: 0, y: 432, width: 1024, height: 144 });
+    this.desc.setHints(HINTS.menu);
     this.#refresh();
   }
 

@@ -2,7 +2,7 @@ import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { displayName, getSpecies } from '../battle/engine/monster.js';
-import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { ListMenu, MessageBox, panel, readMenuInput, text, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
@@ -111,7 +111,8 @@ export class StorageScene extends BaseScene {
   }
 
   #defaultMessage() {
-    this.message.setText('▲ ▼ choose   ◀ ▶ party / box   A actions   B menu');
+    this.message.setHints([{ key: '▲▼', label: 'Choose' }, { key: '◀ ▶', label: 'Party / Box' }, { btn: 'A', label: 'Actions' }, { btn: 'B', label: 'Menu' }]);
+    this.message.setText(this.mode === 'WITHDRAW' ? 'Pick an Urumon to bring home.' : this.mode === 'DEPOSIT' ? 'Pick an Urumon to rest in the cloud.' : 'Pick an Urumon.');
   }
 
   /** @param {string[]} items @param {number} [x=690] */
@@ -121,6 +122,7 @@ export class StorageScene extends BaseScene {
     this.menu = new ListMenu(this, {
       x, y: 450 - (items.length * 46 + 36), width: 310, items, depth: 30,
     });
+    this.message.setHints(HINTS.menu);
   }
 
   #showOptions() {
@@ -275,7 +277,8 @@ export class StorageScene extends BaseScene {
   /** @param {string} message @param {boolean} [error=false] */
   #notice(message, error = false) {
     this.phase = 'notice';
-    this.message.setText(`${message}\nA / B continue`);
+    this.message.setHints([{ btn: 'A', label: 'OK' }]);
+    this.message.setText(message);
     playSoundFx(this, error ? AUDIO_KEYS.SFX_BUMP : AUDIO_KEYS.SFX_SELECT);
   }
 

@@ -2,7 +2,7 @@ import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { getItemByName } from '../game/game-data.js';
-import { ListMenu, MessageBox, panel, readMenuInput, text, TEXT } from '../ui/ui-kit.js';
+import { ListMenu, MessageBox, panel, readMenuInput, text, TEXT, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
@@ -90,6 +90,7 @@ export class ShopScene extends BaseScene {
     this.modal.setVisible(false);
     this.emptyText.setVisible(true).setText('Welcome to your neighbourhood Kirana!\n\nBUY supplies or SELL spare items.');
     this.moneyText.setText(`₹${dataManager.money}`);
+    this.message.setHints(HINTS.menu);
     this.message.setText(this.sceneData.greeting || 'Namaskara! What can I get you today?');
   }
 
@@ -99,6 +100,7 @@ export class ShopScene extends BaseScene {
     this.modal.setVisible(false);
     this.homeMenu.container.setAlpha(0.6);
     this.list.container.setVisible(true);
+    this.message.setHints(HINTS.menu);
     if (this.mode === 'BUY') {
       this.entries = [...new Set(this.sceneData.items || [])]
         .map((name) => getItemByName(name))
@@ -161,9 +163,9 @@ export class ShopScene extends BaseScene {
     ]);
     this.quantityText = text(this, 654, 210, '', 'title').setOrigin(1, 0);
     this.totalText = text(this, 654, 258, '', 'body').setOrigin(1, 0);
-    this.quantityHint = text(this, 366, 332, '↑ ↓  ±1     ← →  ±10\nA confirm     B back', 'small').setLineSpacing(8);
-    this.modal.add([this.quantityText, this.totalText, this.quantityHint]);
+    this.modal.add([this.quantityText, this.totalText]);
     this.#refreshQuantity();
+    this.message.setHints([{ key: '▲▼', label: '±1' }, { key: '◀ ▶', label: '±10' }, { btn: 'A', label: 'OK' }, { btn: 'B', label: 'Back' }]);
     this.message.setText(this.selected.description);
   }
 
@@ -174,7 +176,7 @@ export class ShopScene extends BaseScene {
 
   #showConfirmation() {
     this.stage = 'confirm';
-    this.quantityHint.setVisible(false);
+    this.message.setHints(HINTS.menu);
     this.confirmMenu = new ListMenu(this, {
       x: 712, y: 278, width: 276, items: ['YES', 'NO'], rowHeight: 44, depth: 30,
     });

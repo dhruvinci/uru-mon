@@ -3,7 +3,7 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { gameData } from '../game/game-data.js';
 import { getSpecies } from '../battle/engine/monster.js';
-import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT } from '../ui/ui-kit.js';
+import { ListMenu, panel, readMenuInput, text, typeBadge, TEXT, ControlHints } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { monHdKey, upgradeWhenLoaded } from '../ui/hd-art.js';
@@ -53,7 +53,7 @@ export class PustakaScene extends BaseScene {
     this.portrait = this.add.image(600, 250, '__MISSING').setScale(2.1);
     this.unknown = text(this, 600, 250, '?', 'title').setOrigin(0.5);
     this.details = this.add.container(0, 0);
-    this.detailHint = text(this, 756, 408, 'A: Show entry details', 'small').setOrigin(0.5, 0);
+    this.detailHint = new ControlHints(this, 756, 420, { align: 'center' }).set([{ btn: 'A', label: 'Show entry details' }]);
     this.list = new ListMenu(this, {
       x: 16,
       y: 104,
@@ -64,8 +64,7 @@ export class PustakaScene extends BaseScene {
       style: 'small',
       onChange: () => this.#renderEntry(),
     });
-    text(this, 36, 538, 'UP / DOWN: Browse', 'small');
-    text(this, 988, 538, 'A: Toggle details    B: Back', 'small').setOrigin(1, 0);
+    new ControlHints(this, 1000, 548, { backing: true }).set([{ key: '▲▼', label: 'Browse' }, { btn: 'A', label: 'Details' }, { btn: 'B', label: 'Back' }]);
     this.#renderEntry();
   }
 

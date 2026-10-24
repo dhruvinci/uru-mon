@@ -1,7 +1,7 @@
 import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
-import { panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { panel, readMenuInput, text, ControlHints } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { inputManager } from '../input/input-manager.js';
@@ -74,7 +74,7 @@ export class TrainerCardScene extends BaseScene {
     this.add.image(822, 224, this.textures.exists(key) ? key : '__MISSING', 0).setScale(5);
     text(this, 100, 350, 'ARENA BADGES', 'small');
     BADGES.forEach((badge, i) => this.#drawBadge(159 + i * 141, 432, badge, player.badges.includes(badge.type)));
-    text(this, 512, 542, 'Press any key or game button to close', 'small').setOrigin(0.5, 0);
+    new ControlHints(this, 512, 552, { align: 'center', backing: true }).set([{ btn: 'B', label: 'Close' }]);
 
     // Menu input covers touch controls; this listener also handles unmapped keyboard keys.
     this.onAnyKey = (event) => {

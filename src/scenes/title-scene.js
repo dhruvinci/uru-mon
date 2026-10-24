@@ -3,7 +3,7 @@ import { BaseScene } from './base-scene.js';
 import { dataManager } from '../utils/data-manager.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
-import { FONT, ListMenu, readMenuInput, text } from '../ui/ui-kit.js';
+import { ControlHints, FONT, HINTS, ListMenu, isTouchUI, readMenuInput, text } from '../ui/ui-kit.js';
 import { allSpecies } from '../battle/engine/monster.js';
 import { adminAvailable, startAdminProfile } from '../game/admin-profile.js';
 import { inputManager } from '../input/input-manager.js';
@@ -60,13 +60,17 @@ export class TitleScene extends BaseScene {
       .setOrigin(0.5)
       .setStroke('#3a1f5c', 8);
 
+    const touch = isTouchUI();
     this.press = this.add
-      .text(width / 2, 318, 'PRESS START', { fontFamily: FONT, fontSize: '36px', color: '#ffffff', fontStyle: 'bold' })
+      .text(width / 2, 318, touch ? 'TAP TO START' : 'PRESS ENTER', { fontFamily: FONT, fontSize: '36px', color: '#ffffff', fontStyle: 'bold' })
       .setOrigin(0.5)
       .setStroke('#3a1f5c', 8);
     this.tweens.add({ targets: this.press, alpha: 0.2, duration: 600, yoyo: true, repeat: -1 });
-    const hint = window.matchMedia('(pointer: coarse)').matches ? 'tap anywhere to start' : 'Enter / Z to start  ·  arrows to move  ·  Z/Space = A  ·  X/Shift = B  ·  F fullscreen';
-    this.hint = this.add.text(width / 2, 372, hint, { fontFamily: FONT, fontSize: '18px', color: '#fff4d6' }).setOrigin(0.5).setAlpha(0.85);
+    // the keyboard at a glance (touch screens have the pad, whose buttons the menus' prompts point to)
+    this.hint = new ControlHints(this, width / 2, 380, { align: 'center', backing: true }).set(touch ? [] : [
+      { key: 'Arrows', label: 'Move' }, { btn: 'A', label: 'Select / Talk' }, { btn: 'B', label: 'Back / Menu' }, { key: 'F', label: 'Fullscreen' },
+    ]);
+    this.menuHints = new ControlHints(this, width - 20, height - 30, { backing: true, depth: 20 }).set(HINTS.menu).setVisible(false);
     this.add.text(width - 12, 10, 'v1.0', { fontFamily: FONT, fontSize: '16px', color: '#fff4d6' }).setOrigin(1, 0).setAlpha(0.6);
 
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_TITLE);
@@ -91,7 +95,8 @@ export class TitleScene extends BaseScene {
       return;
     }
     const input = readMenuInput(this._controls);
-    const start = this.stage === 'press' && (input === 'OK' || this._controls.wasEnterKeyPressed());
+    // any button starts: A, B or MENU
+    const start = this.stage === 'press' && (input === 'OK' || input === 'CANCEL' || this._controls.wasEnterKeyPressed());
     if (start) {
       playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
       this.#showMenu();
@@ -111,6 +116,7 @@ export class TitleScene extends BaseScene {
       this.press.setVisible(true);
       this.subtitle.setVisible(true);
       this.hint.setVisible(true);
+      this.menuHints.setVisible(false);
       return;
     }
     playSoundFx(this, AUDIO_KEYS.SFX_SELECT);
@@ -134,6 +140,7 @@ export class TitleScene extends BaseScene {
     const height = this.menuItems.length * rowHeight + 36;
     this.subtitle.setVisible(height < 300);
     this.hint.setVisible(false);
+    this.menuHints.setVisible(true);
     this.menu = new ListMenu(this, {
       x: 1024 / 2 - 190, y: Math.min(290, 576 - height - 10), width: 380, items: this.menuItems, rowHeight, depth: 10,
     });

@@ -3,7 +3,7 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { inputManager } from '../input/input-manager.js';
 import { displayName, getMaxHp, getSpecies } from '../battle/engine/monster.js';
-import { ListMenu, Meter, readMenuInput, statusBadge, text, MessageBox } from '../ui/ui-kit.js';
+import { ListMenu, Meter, readMenuInput, statusBadge, text, MessageBox, HINTS } from '../ui/ui-kit.js';
 import { applyItem } from '../battle/engine/battle-engine.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
@@ -59,6 +59,7 @@ export class MonsterPartyScene extends BaseScene {
       this.cards.push(this.#createCard(i));
     }
     this.message = new MessageBox(this, { x: 0, y: 470, width: 1024, height: 106 });
+    this.message.setHints(this.sceneData.mode === 'battle-forced' ? HINTS.select : HINTS.menu);
     this.#renderAll();
     this.#setDefaultMessage();
   }

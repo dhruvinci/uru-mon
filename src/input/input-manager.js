@@ -2,13 +2,15 @@
  * One input source for the whole game: keyboard plus the on-screen touch pad (see touch-controls.js).
  *
  * Buttons: UP DOWN LEFT RIGHT, A (confirm / talk), B (back / hold to run), START (menu).
- * Keyboard: arrows or WASD; A = Z, Space; B = X, Shift, Backspace; START = Enter, Esc.
+ * Keyboard: arrows or WASD; A = Enter, Z, Space; B = X, Shift, Backspace. Esc is its own button, ESC: players who
+ * don't know emulator keys reach for it both to open the menu and to back out, so Controls reads it as START in the
+ * overworld (which asks for START first) and as B everywhere else.
  *
  * "Just pressed" is edge-triggered per frame: every scene calls `inputManager.beginFrame()` via Controls before
  * reading input, and a press is visible for exactly one game frame.
  */
 
-/** @typedef {'UP'|'DOWN'|'LEFT'|'RIGHT'|'A'|'B'|'START'} Button */
+/** @typedef {'UP'|'DOWN'|'LEFT'|'RIGHT'|'A'|'B'|'START'|'ESC'} Button */
 
 const KEY_MAP = {
   ArrowUp: 'UP',
@@ -25,9 +27,9 @@ const KEY_MAP = {
   ShiftLeft: 'B',
   ShiftRight: 'B',
   Backspace: 'B',
-  Enter: 'START',
-  NumpadEnter: 'START',
-  Escape: 'START',
+  Enter: 'A',
+  NumpadEnter: 'A',
+  Escape: 'ESC',
 };
 
 /** @param {EventTarget | null} t */
@@ -36,7 +38,7 @@ function isTypingTarget(t) {
 }
 
 /** @type {Button[]} */
-export const BUTTONS = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'A', 'B', 'START'];
+export const BUTTONS = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'A', 'B', 'START', 'ESC'];
 
 class InputManager {
   constructor() {

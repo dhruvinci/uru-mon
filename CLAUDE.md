@@ -84,6 +84,14 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   the Gaala rod starts a fishing encounter.
 - **Council**: entering `council_1` resets the five Council trainers (`resetTrainers`), so losing restarts the run.
 - **Input**: one global `inputManager` merges keyboard and the DOM touch pad; per-scene `Controls` just reads it.
+  Keys: Enter/Z/Space = A, X/Shift/Backspace = B, and Esc is its own `ESC` button that `Controls` counts as START when
+  a scene asks for START first (only the overworld does, so Esc opens the menu there) and as B everywhere else. Tests
+  press START as Escape (harness.mjs). Button prompts: `ControlHints` in ui-kit shows "[Enter] Select  [Esc] Back" on
+  keyboards and the pad's red A/B on touch screens, and clicking a prompt presses its button. `MessageBox.setHints`
+  puts a row in the box's bottom-right corner (it shows "Next" while waiting, and hides itself if a long message
+  reaches it). Screens without a box put the row in a header or in a dark pill in the bottom-right corner. Every
+  screen that takes input should have one. The overworld's own prompts (Talk / Menu / Run) are keyboard-only and go
+  away once the player has used both (`uru-learned-keys` in localStorage).
   Touch is first-class: `inputManager.tap(button)` injects a zero-length press, and taps on the game reuse it (ListMenu
   rows select, MessageBox / battle / dialog taps act as A, party cards, battle grids, options rows). The world scene
   walks to tapped tiles with a BFS path follower (`screenToTile` looks through the HD-2D tilt) and interacts with tapped

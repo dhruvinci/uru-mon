@@ -40,9 +40,9 @@ export async function activeScenes(page) {
   return page.evaluate(() => window.__uruGame.scene.getScenes(true).map((s) => s.scene.key));
 }
 
-/** Presses a game button by sending a key. A=z, B=x, START=Enter. */
+/** Presses a game button by sending a key. A=z, B=x, START=Escape (START in the overworld, B elsewhere). */
 export async function press(page, button, holdMs = 60) {
-  const key = { A: 'z', B: 'x', START: 'Enter', UP: 'ArrowUp', DOWN: 'ArrowDown', LEFT: 'ArrowLeft', RIGHT: 'ArrowRight' }[button] || button;
+  const key = { A: 'z', B: 'x', START: 'Escape', UP: 'ArrowUp', DOWN: 'ArrowDown', LEFT: 'ArrowLeft', RIGHT: 'ArrowRight' }[button] || button;
   await page.keyboard.down(key);
   await page.waitForTimeout(holdMs);
   await page.keyboard.up(key);

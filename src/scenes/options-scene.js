@@ -1,7 +1,7 @@
 import { SCENE_KEYS } from './scene-keys.js';
 import { BaseScene } from './base-scene.js';
 import { dataManager } from '../utils/data-manager.js';
-import { panel, readMenuInput, text, cursor, MessageBox } from '../ui/ui-kit.js';
+import { panel, readMenuInput, text, cursor, MessageBox, ControlHints } from '../ui/ui-kit.js';
 import { setGlobalSoundSettings, playBackgroundMusic, currentMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 import { graphicsSetting } from '../fx/world-fx.js';
@@ -41,6 +41,7 @@ export class OptionsScene extends BaseScene {
     this.add.rectangle(0, 0, 1024, 576, 0x2a2050, 0.92).setOrigin(0);
     panel(this, 112, 40, 800, 380);
     text(this, 512, 62, 'OPTIONS', 'title').setOrigin(0.5, 0);
+    new ControlHints(this, 884, 86).set([{ key: '◀ ▶', label: 'Change' }, { btn: 'B', label: 'Back' }]);
     this.valueTexts = ROWS.map((row, i) => {
       text(this, 200, 124 + i * ROW_H, row.label, 'body');
       return text(this, 820, 124 + i * ROW_H, '', 'body').setOrigin(1, 0);

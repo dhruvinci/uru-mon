@@ -1,8 +1,12 @@
 import { SCENE_KEYS } from './scene-keys.js';
 import { BaseScene } from './base-scene.js';
-import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { ControlHints, HINTS, ListMenu, MessageBox, isTouchUI, panel, readMenuInput, text } from '../ui/ui-kit.js';
 import { dataManager } from '../utils/data-manager.js';
 import { inputManager } from '../input/input-manager.js';
+
+/** Overworld prompts for keyboard players, shown until they've talked to someone and opened the menu once. */
+const WORLD_HINTS = [{ btn: 'A', label: 'Talk' }, { btn: 'START', label: 'Menu' }, { key: 'Shift', label: 'Run', kb: true }];
+const LEARNED_KEY = 'uru-learned-keys';
 
 /**
  * Overlay used by the world for dialog, yes/no questions and choice lists. It owns its own fixed camera so
@@ -32,6 +36,38 @@ export class DialogScene extends BaseScene {
         inputManager.tap('A');
       }
     });
+    // prompts in the bottom-right corner when no message box is up: menus opened over the world, and WORLD_HINTS
+    this.corner = new ControlHints(this, 1004, 546, { backing: true, depth: 30 });
+    /** @type {import('../ui/ui-kit.js').Hint[] | null} */
+    this.menuHints = null;
+    try {
+      this.learnedKeys = new Set(JSON.parse(localStorage.getItem(LEARNED_KEY) || '[]'));
+    } catch {
+      this.learnedKeys = new Set();
+    }
+  }
+
+  /**
+   * The world tells us when the player has used one of WORLD_HINTS' buttons.
+   * @param {'talk' | 'menu'} what
+   */
+  learned(what) {
+    if (this.learnedKeys.has(what)) {
+      return;
+    }
+    this.learnedKeys.add(what);
+    try {
+      localStorage.setItem(LEARNED_KEY, JSON.stringify([...this.learnedKeys]));
+    } catch {
+      /* storage unavailable: the prompts just come back next visit */
+    }
+  }
+
+  #updateCorner() {
+    const world = /** @type {any} */ (this.scene.get(SCENE_KEYS.WORLD_SCENE));
+    const worldIdle = !this.busy && this.scene.isActive(SCENE_KEYS.WORLD_SCENE) && world?.player && !world.inputLocked;
+    const showWorld = worldIdle && !isTouchUI() && this.learnedKeys.size < 2;
+    this.corner.set(this.menuHints ?? (showWorld ? WORLD_HINTS : []));
   }
 
   /** True while any dialog UI is on screen. */
@@ -48,6 +84,7 @@ export class DialogScene extends BaseScene {
     super.update(time);
     // only catch taps while dialog is up, so the world underneath gets them otherwise
     this.tapZone.input.enabled = this.busy;
+    this.#updateCorner();
     if (!this._controls || !this.busy) {
       return;
     }
@@ -154,6 +191,12 @@ export class DialogScene extends BaseScene {
       rightLabels: opts.rightLabels,
       depth: 20,
     });
+    // with a question in the message box, the prompts go in the box; a menu on its own gets them in the corner
+    if (this.box.container.visible) {
+      this.box.setHints(HINTS.menu);
+    } else {
+      this.menuHints = HINTS.menu;
+    }
     const result = await new Promise((resolve) => {
       this.inputHandler = (input) => {
         const r = menu.handleInput(/** @type {any} */ (input));
@@ -165,6 +208,8 @@ export class DialogScene extends BaseScene {
       };
     });
     menu.destroy();
+    this.box.setHints([]);
+    this.menuHints = null;
     this.busyCount -= 1;
     return /** @type {number} */ (result);
   }

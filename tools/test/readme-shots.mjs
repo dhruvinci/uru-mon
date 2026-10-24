@@ -41,6 +41,8 @@ try {
   await sleep(page, 1500);
   await shot(page, 'title');
 
+  // scenery shots: leave out the overworld's keyboard prompts (shown until a player has used those keys)
+  await page.evaluate(() => localStorage.setItem('uru-learned-keys', '["talk","menu"]'));
   const worlds = [
     ['world_lalbagh', '?scene=test&map=lalbagh&time=day&weather=clear&gfx=HD-2D'],
     ['world_mg_road_night', '?scene=test&map=mg_road&time=night&weather=clear&gfx=HD-2D'],

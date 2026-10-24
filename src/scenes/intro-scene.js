@@ -3,7 +3,7 @@ import { BaseScene } from './base-scene.js';
 import { dataManager } from '../utils/data-manager.js';
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
-import { ListMenu, MessageBox, readMenuInput, tween, wait } from '../ui/ui-kit.js';
+import { ListMenu, MessageBox, readMenuInput, tween, wait, HINTS } from '../ui/ui-kit.js';
 
 const NAME_SUGGESTIONS = { boy: ['Kiran', 'Arjun', 'Vikram', 'Sameer'], girl: ['Ananya', 'Diya', 'Meera', 'Kavya'] };
 
@@ -63,10 +63,12 @@ export class IntroScene extends BaseScene {
   #choose(items) {
     return new Promise((resolve) => {
       const menu = new ListMenu(this, { x: 1024 - 262, y: 432 - (items.length * 46 + 36) - 8, width: 250, items, cancelable: false });
+      this.box.setHints(HINTS.select);
       this.inputHandler = (input) => {
         const r = menu.handleInput(/** @type {any} */ (input));
         if (r && r.type === 'select') {
           this.inputHandler = null;
+          this.box.setHints([]);
           menu.destroy();
           resolve(r.index);
         }

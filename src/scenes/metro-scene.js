@@ -2,7 +2,7 @@ import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { dataManager } from '../utils/data-manager.js';
 import { getItemByName } from '../game/game-data.js';
-import { ListMenu, MessageBox, panel, readMenuInput, text } from '../ui/ui-kit.js';
+import { ListMenu, MessageBox, panel, readMenuInput, text, HINTS } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
@@ -45,7 +45,6 @@ export class MetroScene extends BaseScene {
       pattern.fillRect(x, 0, 12, 576);
     }
     text(this, 32, 24, 'NAMMA METRO', 'title').setColor('#ffffff');
-    text(this, 990, 40, 'A: Ride   B: Back', 'lightSmall').setOrigin(1, 0);
     panel(this, 24, 100, 510, 350, { fill: 0xeee9fa });
     this.map = this.add.graphics();
     this.mapNumbers = this.stations.map((station, index) =>
@@ -57,6 +56,7 @@ export class MetroScene extends BaseScene {
       onChange: () => this.#refresh(),
     });
     this.message = new MessageBox(this, { y: 470, height: 106 });
+    this.message.setHints(this.hasCard ? [{ btn: 'A', label: 'Ride' }, { btn: 'B', label: 'Back' }] : HINTS.back);
     if (!this.hasCard) {
       this.message.setText('Please tap a Metro Card to ride.');
     }
@@ -91,7 +91,7 @@ export class MetroScene extends BaseScene {
     if (!this.hasCard) {
       return;
     }
-    this.message.setText(!selected ? 'No stations visited yet. Press B to return.' :
+    this.message.setText(!selected ? 'No stations visited yet.' :
       selected.id === this.sceneData.current ? `${selected.name}: you are here.` : `Ride to ${selected.name}?`);
   }
 

@@ -2,7 +2,7 @@ import { BaseScene } from './base-scene.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { gameData, getMapInfo } from '../game/game-data.js';
 import { REGION, REGION_ROADS } from '../game/region.js';
-import { panel, readMenuInput, text, TEXT } from '../ui/ui-kit.js';
+import { panel, readMenuInput, text, TEXT, ControlHints } from '../ui/ui-kit.js';
 import { playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS } from '../assets/asset-keys.js';
 
@@ -37,7 +37,7 @@ export class RegionMapScene extends BaseScene {
     super.create();
     this.add.rectangle(0, 0, 1024, 576, 0x3d6b5c).setOrigin(0);
     text(this, 32, 20, 'BENGALURU', 'title').setColor('#fff4d6');
-    text(this, 994, 34, 'UP / DOWN: Places    B: Back', 'lightSmall').setOrigin(1, 0);
+    new ControlHints(this, 994, 46, { backing: true }).set([{ key: '▲▼', label: 'Places' }, { btn: 'B', label: 'Back' }]);
 
     // the stylised map
     panel(this, 16, 80, 512, 488, { fill: 0xe9dfc2 });
