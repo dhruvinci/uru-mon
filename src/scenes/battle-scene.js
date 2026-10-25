@@ -127,6 +127,18 @@ export class BattleScene extends BaseScene {
     this.inputHandler = null;
     this.levelledUp = new Set();
     this.finished = false;
+    // the scene object is reused from battle to battle: nothing from the last one may carry over
+    /** @type {Phaser.GameObjects.Rectangle | null} */
+    this.nightTint = null;
+    /** @type {Phaser.GameObjects.Image | null} */
+    this.trainerSprite = null;
+    /** @type {any} */
+    this.caughtDabba = null;
+    /** @type {{cover: Phaser.GameObjects.Rectangle, sprite: Phaser.GameObjects.Image} | null} */
+    this.evolving = null;
+    /** @type {null | (() => void)} redraws the open menu for a new layout */
+    this.redraw = null;
+    this.unsettled = false;
   }
 
   create() {
@@ -134,8 +146,8 @@ export class BattleScene extends BaseScene {
     const L = battleLayout(this);
     this.L = L;
     setTextResolution(this, L.k);
-    this.#fitCamera();
-    onResize(this, () => this.#fitCamera());
+    onResize(this, () => this.#relayout());
+    this.#hideScenesBelow();
     const d = this.data_;
     const party = dataManager.party;
     this.isTrainer = Boolean(d.trainer);
@@ -175,7 +187,7 @@ export class BattleScene extends BaseScene {
     this.messageBox = new MessageBox(this, { y: L.field, width: GAME_WIDTH / L.k, height: L.uiHeight });
     this.messageBox.container.setScale(L.k);
     this.messageBox.setAnnounces(!L.tall); // big enough to read on its own
-    this.tapZone = this.add.zone(0, 0, GAME_WIDTH, L.height).setOrigin(0).setDepth(55).setInteractive();
+    this.tapZone = this.add.zone(0, 0, GAME_WIDTH, FULL_HEIGHT).setOrigin(0).setDepth(55).setInteractive();
     this.tapZone.on('pointerup', (/** @type {Phaser.Input.Pointer} */ p) => {
       if (this.messageBox.isWaiting && p.getDistance() < 24) {
         inputManager.tap('A');
@@ -194,20 +206,64 @@ export class BattleScene extends BaseScene {
   }
 
   /**
-   * Fits the layout to the canvas. They match, except when the phone turns mid-battle: the battle then carries on in the
-   * layout it started with, shrunk to fit or at the top.
+   * The battle covers the whole screen, so the scenes under it (the overworld, Quick Battle) stop drawing until it ends.
+   * Otherwise they show through the vignette's edges, and they cost a phone's GPU for nothing.
    */
-  #fitCamera() {
-    const cam = this.cameras.main;
-    const H = this.scale.height;
-    const zoom = Math.min(1, H / this.L.height);
-    const width = GAME_WIDTH * zoom;
-    cam.setViewport((GAME_WIDTH - width) / 2, 0, width, H).setZoom(zoom);
-    cam.centerOn(GAME_WIDTH / 2, zoom < 1 ? this.L.height / 2 : H / 2);
+  #hideScenesBelow() {
+    const below = this.scene.manager.getScenes(false).filter((s) => s !== this && s.sys.settings.visible
+      && (s.sys.isActive() || s.sys.isPaused()) && this.scene.getIndex(s) < this.scene.getIndex());
+    below.forEach((s) => s.sys.setVisible(false));
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => below.forEach((s) => s.sys.setVisible(true)));
+  }
+
+  /**
+   * Lays the battle out again when the phone turns. Whatever is at rest moves straight away; anything caught mid-animation
+   * (a lunge, a HUD sliding in) is put in place once the battle next waits for the player (see #settle).
+   */
+  #relayout() {
+    const old = this.L;
+    const L = battleLayout(this);
+    this.L = L;
+    setTextResolution(this, L.k);
+    const ratio = L.sprite / old.sprite;
+    [this.enemySprite, this.playerSprite, this.trainerSprite, this.caughtDabba].forEach((o) => o?.setScale(o.scaleX * ratio, o.scaleY * ratio));
+    this.#placeScenery();
+    this.#placeCreatures();
+    this.enemyHud.place(L.enemyHud, L.k);
+    this.playerHud.place(L.playerHud, L.k);
+    this.#placePartyIndicators();
+    this.messageBox.resize(GAME_WIDTH / L.k, L.uiHeight);
+    this.messageBox.container.setPosition(0, L.field).setScale(L.k);
+    this.messageBox.setAnnounces(!L.tall);
+    if (this.evolving) {
+      const { cover, sprite } = this.evolving;
+      cover.setSize(GAME_WIDTH, L.field);
+      sprite.setPosition(L.evolve.x, L.evolve.y).setScale(sprite.scaleX * ratio, sprite.scaleY * ratio);
+    }
+    this.redraw?.();
+    this.unsettled = true;
+  }
+
+  /** After the phone turned: puts everything where the new layout has it, once nothing is moving. */
+  #settle() {
+    this.unsettled = false;
+    this.#placeCreatures();
+    [this.enemySprite, this.playerSprite].forEach((sprite) => {
+      if (sprite.visible && !(sprite === this.enemySprite && this.caughtDabba)) {
+        sprite.setScale(this.#scaleFor(sprite.texture.key));
+      }
+    });
+    [this.enemyHud, this.playerHud].forEach((hud) => hud.place(hud.home, this.L.k));
+    if (this.caughtDabba?.type === 'Image') {
+      this.caughtDabba.setScale(this.L.sprite); // thrown before the turn, at the old size
+    }
   }
 
   update(time) {
     super.update(time);
+    if (this.unsettled && (this.inputHandler || this.messageBox.isWaiting)) {
+      this.#settle(); // the battle is waiting for the player, so nothing is mid-animation
+    }
     if (this.tapZone) {
       // tapping anywhere advances a waiting message; menus sit above and take their own taps
       this.tapZone.input.enabled = this.messageBox.isWaiting;
@@ -234,29 +290,43 @@ export class BattleScene extends BaseScene {
 
   /** @param {string} env */
   #createBackground(env) {
-    const L = this.L;
     const key = `BATTLE_BG_${env.toUpperCase()}`;
-    if (this.textures.exists(key)) {
-      // a tall field shows the middle of the scene, bigger
-      this.add.image(GAME_WIDTH / 2, 0, key).setOrigin(0.5, 0).setScale(L.bgScale);
-    } else {
-      const g = this.add.graphics();
-      g.fillGradientStyle(0xa8d8f0, 0xa8d8f0, 0xe8f4d8, 0xe8f4d8, 1);
-      g.fillRect(0, 0, GAME_WIDTH, L.field);
-    }
-    const g = this.add.graphics().setDepth(5);
+    this.backdrop = this.textures.exists(key) ? this.add.image(GAME_WIDTH / 2, 0, key).setOrigin(0.5, 0) : this.add.graphics();
     // platforms the creatures stand on
+    this.platforms = this.add.graphics().setDepth(5);
+    this.#placeScenery();
+  }
+
+  #placeScenery() {
+    const L = this.L;
+    if (this.backdrop instanceof Phaser.GameObjects.Image) {
+      this.backdrop.setScale(L.bgScale); // a tall field shows the middle of the scene, bigger
+    } else {
+      this.backdrop.clear().fillGradientStyle(0xa8d8f0, 0xa8d8f0, 0xe8f4d8, 0xe8f4d8, 1).fillRect(0, 0, GAME_WIDTH, L.field);
+    }
     const f = L.sprite / 4;
-    g.fillStyle(0x000000, 0.18);
-    g.fillEllipse(L.enemy.x, L.enemy.y - 8 * f, 330 * f, 70 * f);
-    g.fillEllipse(L.player.x, L.player.y - 8 * f, 390 * f, 80 * f);
+    this.platforms.clear().fillStyle(0x000000, 0.18)
+      .fillEllipse(L.enemy.x, L.enemy.y - 8 * f, 330 * f, 70 * f)
+      .fillEllipse(L.player.x, L.player.y - 8 * f, 390 * f, 80 * f);
+    this.nightTint?.setSize(GAME_WIDTH, L.field);
+  }
+
+  /** Puts the creatures, the trainer and a caught dabba where they stand in the layout. */
+  #placeCreatures() {
+    const { enemy, player, trainer, sprite } = this.L;
+    this.enemySprite.setPosition(enemy.x, enemy.y);
+    this.playerSprite.setPosition(player.x, player.y);
+    this.trainerSprite?.setY(trainer.y);
+    if (this.trainerSprite?.visible) {
+      this.trainerSprite.setX(trainer.x);
+    }
+    this.caughtDabba?.setPosition(enemy.x, enemy.y - 5 * sprite);
   }
 
   #createPartyIndicators() {
-    const { k, playerHud, enemyHud } = this.L;
-    /** @param {import('../battle/engine/monster.js').Monster[]} team @param {number} x @param {number} y @param {number} dir */
-    const make = (team, x, y, dir) => {
-      const c = this.add.container(x, y).setDepth(21);
+    /** @param {import('../battle/engine/monster.js').Monster[]} team @param {number} dir */
+    const make = (team, dir) => {
+      const c = this.add.container(0, 0).setDepth(21);
       for (let i = 0; i < 6; i += 1) {
         const m = team[i];
         const key = UI_KEYS.DABBA;
@@ -266,12 +336,19 @@ export class BattleScene extends BaseScene {
         icon.setAlpha(!m ? 0.15 : m.hp > 0 ? 1 : 0.4);
         c.add(icon);
       }
-      c.setVisible(false).setScale(k);
+      c.setVisible(false);
       return c;
     };
-    // above the player's HUD, and under the trainer's
-    this.playerBalls = make(dataManager.party, GAME_WIDTH - 44 * k, playerHud.y - 14 * k, -1);
-    this.enemyBalls = this.isTrainer ? make(this.data_.trainer.team, enemyHud.x + 24 * k, enemyHud.y + 124 * k, 1) : null;
+    this.playerBalls = make(dataManager.party, -1);
+    this.enemyBalls = this.isTrainer ? make(this.data_.trainer.team, 1) : null;
+    this.#placePartyIndicators();
+  }
+
+  /** Above the player's HUD, and under the trainer's. */
+  #placePartyIndicators() {
+    const { k, playerHud, enemyHud } = this.L;
+    this.playerBalls.setPosition(GAME_WIDTH - 44 * k, playerHud.y - 14 * k).setScale(k);
+    this.enemyBalls?.setPosition(enemyHud.x + 24 * k, enemyHud.y + 124 * k).setScale(k);
   }
 
   #refreshPartyIndicators() {
@@ -311,10 +388,14 @@ export class BattleScene extends BaseScene {
    */
   choose(items, opts = {}) {
     return new Promise((resolve) => {
-      const { k, field } = this.L;
       const width = Math.max(220, ...items.map((s) => s.length * 17 + 90));
       const menu = new ListMenu(this, { x: 0, y: 0, width, items, cancelable: opts.cancelable ?? true, depth: 80 });
-      menu.container.setScale(k).setPosition(GAME_WIDTH - (width + 12) * k, field - (menu.height + 8) * k);
+      const place = () => {
+        const { k, field } = this.L;
+        menu.container.setScale(k).setPosition(GAME_WIDTH - (width + 12) * k, field - (menu.height + 8) * k);
+      };
+      place();
+      this.redraw = place;
       if (opts.title) {
         this.messageBox.setText(opts.title);
       }
@@ -325,6 +406,7 @@ export class BattleScene extends BaseScene {
           return;
         }
         this.inputHandler = null;
+        this.redraw = null;
         this.messageBox.setHints([]);
         menu.destroy();
         resolve(r.type === 'select' ? r.index : -1);
@@ -501,42 +583,54 @@ export class BattleScene extends BaseScene {
   /** @returns {Promise<string>} */
   #mainMenu() {
     return new Promise((resolve) => {
-      const { k, field, uiHeight } = this.L;
-      // on a tall canvas the menu is taller too, with bigger cells to tap
-      const { tall } = this.L;
-      const w = tall ? 400 : 420;
-      const left = GAME_WIDTH / k - w; // in the message box's units
-      const c = this.add.container(GAME_WIDTH - w * k, field).setDepth(55).setScale(k);
-      // B here just moves the cursor to RUN, so only A gets a prompt: in the message box, left of this menu, where
-      // the question wraps too
-      this.messageBox.setHints(HINTS.select, left - 24).setTextWidth(left - 58);
-      c.once('destroy', () => {
-        this.menuMode = null;
-        this.messageBox.setHints([]).setTextWidth();
-      });
-      c.add(panel(this, 0, 0, w, uiHeight, { radius: 12 }));
-      const [x1, x2] = tall ? [56, 226] : [60, 236];
-      const [y1, y2] = tall ? [46, 118] : [30, 82];
-      const pos = [
-        [x1, y1],
-        [x2, y1],
-        [x1, y2],
-        [x2, y2],
-      ];
-      MAIN_OPTIONS.forEach((label, i) => c.add(text(this, pos[i][0], pos[i][1], label, 'body')));
-      const cur = cursor(this);
-      c.add(cur);
       let idx = this.lastMainIndex ?? 0;
-      this.menuMode = 'main';
-      this.menuCursor = () => idx;
-      const place = () => cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
-      place();
-      const cellH = tall ? 68 : 52;
-      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - (cellH - 20) / 2, 170, cellH]), (i) => {
-        idx = i;
+      /** @type {Phaser.GameObjects.Container} */
+      let c;
+      /** @type {() => void} */
+      let place;
+      // drawn again for the new layout if the phone turns while it's open
+      const draw = () => {
+        c?.destroy();
+        // on a tall canvas the menu is taller too, with bigger cells to tap
+        const { k, field, uiHeight, tall } = this.L;
+        const w = tall ? 400 : 420;
+        const left = GAME_WIDTH / k - w; // in the message box's units
+        c = this.add.container(GAME_WIDTH - w * k, field).setDepth(55).setScale(k);
+        // B here just moves the cursor to RUN, so only A gets a prompt: in the message box, left of this menu, where
+        // the question wraps too
+        this.messageBox.setHints(HINTS.select, left - 24).setTextWidth(left - 58);
+        c.once('destroy', () => {
+          this.menuMode = null;
+          this.redraw = null;
+          if (this.sys.settings.status !== Phaser.Scenes.SHUTDOWN) {
+            this.messageBox.setHints([]).setTextWidth(); // (unless the battle is closing, and the box is gone too)
+          }
+        });
+        c.add(panel(this, 0, 0, w, uiHeight, { radius: 12 }));
+        const [x1, x2] = tall ? [56, 226] : [60, 236];
+        const [y1, y2] = tall ? [46, 118] : [30, 82];
+        const pos = [
+          [x1, y1],
+          [x2, y1],
+          [x1, y2],
+          [x2, y2],
+        ];
+        MAIN_OPTIONS.forEach((label, i) => c.add(text(this, pos[i][0], pos[i][1], label, 'body')));
+        const cur = cursor(this);
+        c.add(cur);
+        this.menuMode = 'main';
+        this.menuCursor = () => idx;
+        this.redraw = draw;
+        place = () => cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
         place();
-        inputManager.tap('A');
-      });
+        const cellH = tall ? 68 : 52;
+        this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - (cellH - 20) / 2, 170, cellH]), (i) => {
+          idx = i;
+          place();
+          inputManager.tap('A');
+        });
+      };
+      draw();
       this.inputHandler = (input) => {
         if (input === 'LEFT' || input === 'RIGHT') {
           idx ^= 1;
@@ -561,60 +655,73 @@ export class BattleScene extends BaseScene {
   #moveMenu() {
     const mon = this.battle.playerActive;
     return new Promise((resolve) => {
-      const { k, field, uiHeight } = this.L;
-      const c = this.add.container(0, field).setDepth(55).setScale(k);
-      c.once('destroy', () => { this.menuMode = null; });
-      // the moves on the left with PP and type beside them; on a tall canvas, too narrow for that, PP and type go in a
-      // strip underneath
-      const { tall } = this.L;
-      const W = GAME_WIDTH / k;
-      const info = tall ? [0, 128, W, uiHeight - 128] : [660, 0, 364, 144];
-      c.add(panel(this, 0, 0, tall ? W : 660, tall ? 128 : 144, { radius: 12 }));
-      c.add(panel(this, info[0], info[1], info[2], info[3], { radius: 12 }));
-      const [x1, x2] = tall ? [56, 396] : [60, 350];
-      const [y1, y2] = tall ? [24, 76] : [30, 82];
-      const pos = [
-        [x1, y1],
-        [x2, y1],
-        [x1, y2],
-        [x2, y2],
-      ];
-      for (let i = 0; i < 4; i += 1) {
-        const m = mon.moves[i];
-        c.add(text(this, pos[i][0], pos[i][1], m ? getMove(m.id).name : '-', 'body').setAlpha(m && m.pp <= 0 ? 0.5 : 1));
-      }
-      const ppText = tall ? text(this, 34, info[1] + 20, '', 'body') : text(this, 690, 22, '', 'body');
-      const typeLabel = tall ? text(this, 236, info[1] + 26, 'TYPE/', 'small') : text(this, 690, 70, 'TYPE/', 'small');
-      const badgeAt = tall ? [312, info[1] + 22] : [790, 68];
-      c.add([ppText, typeLabel]);
-      /** @type {Phaser.GameObjects.Container | null} */
-      let badge = null;
-      const cur = cursor(this);
-      c.add(cur);
       let idx = Math.min(this.lastMoveIndex ?? 0, mon.moves.length - 1);
-      this.menuMode = 'moves';
-      this.menuCursor = () => idx;
-      const place = () => {
-        cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
-        const m = mon.moves[idx];
-        const data = getMove(m.id);
-        ppText.setText(`PP  ${m.pp}/${data.pp}`).setColor(m.pp === 0 ? '#c4404a' : m.pp <= data.pp / 4 ? '#d08020' : '#2d2a3a');
-        badge?.destroy();
-        badge = typeBadge(this, badgeAt[0], badgeAt[1], data.type);
-        c.add(badge);
-      };
-      place();
-      this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, x2 - x1, 52]), (i) => {
-        if (i < mon.moves.length) {
-          idx = i;
-          place();
-          inputManager.tap('A');
+      /** @type {Phaser.GameObjects.Container} */
+      let c;
+      /** @type {() => void} */
+      let place;
+      // drawn again for the new layout if the phone turns while it's open
+      const draw = () => {
+        const hidden = c && !c.visible;
+        c?.destroy();
+        const { k, field, uiHeight, tall } = this.L;
+        c = this.add.container(0, field).setDepth(55).setScale(k).setVisible(!hidden);
+        c.once('destroy', () => {
+          this.menuMode = null;
+          this.redraw = null;
+        });
+        // the moves on the left with PP and type beside them; on a tall canvas, too narrow for that, PP and type go
+        // in a strip underneath
+        const W = GAME_WIDTH / k;
+        const info = tall ? [0, 128, W, uiHeight - 128] : [660, 0, 364, 144];
+        c.add(panel(this, 0, 0, tall ? W : 660, tall ? 128 : 144, { radius: 12 }));
+        c.add(panel(this, info[0], info[1], info[2], info[3], { radius: 12 }));
+        const [x1, x2] = tall ? [56, 396] : [60, 350];
+        const [y1, y2] = tall ? [24, 76] : [30, 82];
+        const pos = [
+          [x1, y1],
+          [x2, y1],
+          [x1, y2],
+          [x2, y2],
+        ];
+        for (let i = 0; i < 4; i += 1) {
+          const m = mon.moves[i];
+          c.add(text(this, pos[i][0], pos[i][1], m ? getMove(m.id).name : '-', 'body').setAlpha(m && m.pp <= 0 ? 0.5 : 1));
         }
-      });
-      // the info panel doubles as a back button on touch screens
-      this.#tapCells(c, [info], () => inputManager.tap('B'));
-      const hintAt = tall ? [W - 28, info[1] + info[3] / 2] : [996, 116];
-      c.add(new ControlHints(this, hintAt[0], hintAt[1]).set([{ btn: 'A', label: 'Use' }, { btn: 'B', label: 'Back' }]).container);
+        const ppText = tall ? text(this, 34, info[1] + 20, '', 'body') : text(this, 690, 22, '', 'body');
+        const typeLabel = tall ? text(this, 236, info[1] + 26, 'TYPE/', 'small') : text(this, 690, 70, 'TYPE/', 'small');
+        const badgeAt = tall ? [312, info[1] + 22] : [790, 68];
+        c.add([ppText, typeLabel]);
+        /** @type {Phaser.GameObjects.Container | null} */
+        let badge = null;
+        const cur = cursor(this);
+        c.add(cur);
+        this.menuMode = 'moves';
+        this.menuCursor = () => idx;
+        this.redraw = draw;
+        place = () => {
+          cur.setPosition(pos[idx][0] - 30, pos[idx][1] + 8);
+          const m = mon.moves[idx];
+          const data = getMove(m.id);
+          ppText.setText(`PP  ${m.pp}/${data.pp}`).setColor(m.pp === 0 ? '#c4404a' : m.pp <= data.pp / 4 ? '#d08020' : '#2d2a3a');
+          badge?.destroy();
+          badge = typeBadge(this, badgeAt[0], badgeAt[1], data.type);
+          c.add(badge);
+        };
+        place();
+        this.#tapCells(c, pos.map(([x, y]) => [x - 40, y - 16, x2 - x1, 52]), (i) => {
+          if (i < mon.moves.length) {
+            idx = i;
+            place();
+            inputManager.tap('A');
+          }
+        });
+        // the info panel doubles as a back button on touch screens
+        this.#tapCells(c, [info], () => inputManager.tap('B'));
+        const hintAt = tall ? [W - 28, info[1] + info[3] / 2] : [996, 116];
+        c.add(new ControlHints(this, hintAt[0], hintAt[1]).set([{ btn: 'A', label: 'Use' }, { btn: 'B', label: 'Back' }]).container);
+      };
+      draw();
       this.inputHandler = (input) => {
         const n = mon.moves.length;
         let next = idx;
@@ -981,9 +1088,11 @@ export class BattleScene extends BaseScene {
     const oldName = displayName(mon);
     const { field, evolve: at } = this.L;
     const cover = this.add.rectangle(0, 0, GAME_WIDTH, field, 0x1c1430).setOrigin(0).setDepth(70);
-    const from = this.#monArt(mon.speciesId);
-    const to = this.#monArt(into);
-    const sprite = this.add.image(at.x, at.y, from.key).setOrigin(0.5, 1).setScale(from.scale).setDepth(71);
+    // the art is looked up at each step, so it follows the layout if the phone turns
+    const from = () => this.#monArt(mon.speciesId);
+    const to = () => this.#monArt(into);
+    const sprite = this.add.image(at.x, at.y, from().key).setOrigin(0.5, 1).setScale(from().scale).setDepth(71);
+    this.evolving = { cover, sprite };
     playBackgroundMusic(this, AUDIO_KEYS.MUSIC_EVOLUTION);
     await this.say(`What? ${oldName} is evolving!`);
     let cancelled = false;
@@ -994,19 +1103,19 @@ export class BattleScene extends BaseScene {
     };
     for (let i = 0; i < 10 && !cancelled; i += 1) {
       const dur = Math.max(70, 260 - i * 22);
-      const stage = i % 2 ? to : from;
+      const stage = i % 2 ? to() : from();
       sprite.setTexture(stage.key).setScale(stage.scale).setTintFill(0xffffff);
       await tween(this, { targets: sprite, scaleX: stage.scale * 0.85, duration: dur, yoyo: true });
     }
     this.inputHandler = null;
     if (cancelled) {
-      sprite.setTexture(from.key).clearTint().setScale(from.scale);
+      sprite.setTexture(from().key).clearTint().setScale(from().scale);
       await this.say(`Huh? ${oldName} stopped evolving!`);
     } else {
-      const flash = this.add.rectangle(0, 0, GAME_WIDTH, field, 0xffffff).setOrigin(0).setDepth(72);
+      const flash = this.add.rectangle(0, 0, GAME_WIDTH, this.L.field, 0xffffff).setOrigin(0).setDepth(72);
       await tween(this, { targets: flash, alpha: 0, duration: 600 });
       flash.destroy();
-      sprite.setTexture(to.key).clearTint().setScale(to.scale);
+      sprite.setTexture(to().key).clearTint().setScale(to().scale);
       const learnedNow = evolve(mon, into);
       dataManager.markCaught(into);
       playSoundFx(this, AUDIO_KEYS.SFX_LEVEL_UP);
@@ -1019,6 +1128,7 @@ export class BattleScene extends BaseScene {
         await promptLearnMove(ctx, mon, moveId);
       }
     }
+    this.evolving = null;
     sprite.destroy();
     cover.destroy();
   }
@@ -1038,8 +1148,8 @@ export class BattleScene extends BaseScene {
     if (!indoor && phase !== 'day') {
       // tint only the backdrop (depth 0); the creatures and the UI stay true to colour
       const night = phase === 'night';
-      this.add.rectangle(0, 0, GAME_WIDTH, this.L.field, night ? 0x5868b8 : 0xf0a070, night ? 0.55 : 0.28).setOrigin(0).setDepth(1)
-        .setBlendMode(Phaser.BlendModes.MULTIPLY);
+      this.nightTint = this.add.rectangle(0, 0, GAME_WIDTH, this.L.field, night ? 0x5868b8 : 0xf0a070, night ? 0.55 : 0.28).setOrigin(0)
+        .setDepth(1).setBlendMode(Phaser.BlendModes.MULTIPLY);
     }
   }
 

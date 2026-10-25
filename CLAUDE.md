@@ -107,12 +107,15 @@ to prove all warps, NPCs, items and signs are reachable. Treat any WARN or probl
   The overworld (camera zoomed to keep tiles about 38 CSS px), its DialogScene, the title, intro, battles and credits
   use the whole canvas when `isTall()`, draw their UI `uiScale()` times bigger on phones (containers scaled up, with
   `setTextResolution` so text stays sharp), dock message boxes with `MessageBox.dock`, and don't announce to the page.
-  They re-lay themselves out through `onResize`; a battle keeps the layout it started with and is fitted by its camera.
+  They re-lay themselves out through `onResize`, battles included (`BattleScene.#relayout`: open menus redraw through
+  `this.redraw`, and anything caught mid-animation is put in place once the battle next waits for the player). A battle
+  hides the scenes under it while it runs (they would show through the vignette's translucent edges).
   main.js patches Phaser 3.60 so camera effects' render targets resize with the game. On Android the first tap
   requests fullscreen; iPhones can't, so the ⛶ button (and a one-time tip) explains Add to Home Screen.
   HD-2D outdoors uses camera zoom 0.75, or 1 on phones (`PHONE` in `world-fx.js`), times the tall zoom.
   `node test/mobile.mjs <dir> portrait|landscape|iphone|turn` plays with taps only (`iphone`: notch insets and
-  Safari's bars; `turn`: rotates mid-conversation and mid-battle).
+  Safari's bars; `turn`: rotates mid-conversation, and mid-Quick-Battle into Safari's sideways size). The user plays
+  on an iPhone in Safari, both ways up: check every screen change in both orientations and after turning.
 - **Audio**: only SFX and the title theme load before the title screen; `PreloadScene` stays alive to stream the rest
   and starts a requested track when it arrives. Missing audio keys are silently ignored.
   The manifest lists MP3 before Ogg (Safari's Ogg support varies). For iPhones, `setGlobalSoundSettings` sets

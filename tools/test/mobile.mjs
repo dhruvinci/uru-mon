@@ -2,7 +2,7 @@
 // talk, tap through a battle. Usage: node test/mobile.mjs <shots_dir> [portrait|landscape|iphone|turn]
 //   portrait: held upright, where the game grows to a square and the overworld, dialog and battles draw big
 //   iphone: sideways with an iPhone's notch margins and Safari's bars; the buttons must clear the game and the notch
-//   turn: turns the phone mid-conversation and mid-battle
+//   turn: turns the phone mid-conversation, and mid-battle (a Quick Battle started upright, turned sideways in Safari)
 import { launch, open, sleep, waitScene, press } from './harness.mjs';
 
 const shots = process.argv[2] || '/tmp';
@@ -11,7 +11,7 @@ const SIZES = {
   portrait: { width: 390, height: 844 },
   landscape: { width: 844, height: 390 },
   iphone: { width: 874, height: 296, insets: { l: 62, r: 62, b: 21 } }, // iPhone 17, Safari with its tab bar
-  turn: { width: 402, height: 874, insets: { t: 62, b: 34 } },
+  turn: { width: 402, height: 874, insets: { t: 62, b: 34, landscape: { l: 62, r: 62, b: 21 } } },
 };
 const { browser, page, errors } = await launch({ ...SIZES[orient], touch: true });
 
@@ -103,24 +103,94 @@ if (orient === 'turn') {
     await press(page, 'A');
     await sleep(page, 400);
     await press(page, 'A');
-    // a battle started upright carries on, shrunk to fit, when the phone turns, and still takes taps
-    await open(page, '?scene=test&battle=wild&species=10&level=5&party=6:30');
-    await waitScene(page, 'BATTLE_SCENE');
-    await sleep(page, 2500);
-    await page.setViewportSize({ width: 874, height: 402 });
-    await sleep(page, 800);
-    for (let i = 0; i < 20; i += 1) {
-      const s = await page.evaluate(() => { const b = window.__uruGame.scene.getScene('BATTLE_SCENE'); return { menu: b.menuMode, waiting: b.messageBox.isWaiting }; });
-      if (s.menu === 'main') break;
-      if (s.waiting) {
-        const c = (await rects()).canvas;
-        await page.touchscreen.tap((c.l + c.r) / 2, c.b - 30);
+    // a Quick Battle started upright, with the moves open, then turned sideways in Safari (its tab bar showing): the
+    // battle lays itself out again for the 16:9 game and covers it, then goes back to the tall layout when upright
+    const battle = () => page.evaluate(() => {
+      const g = window.__uruGame;
+      const b = g.scene.getScene('BATTLE_SCENE');
+      const box = b.messageBox.container;
+      const menu = b.children.list.find((o) => o.type === 'Container' && o.depth === 55 && o.visible);
+      const hidden = g.scene.getScenes(false).filter((s) => s !== b && s.sys.settings.status > 0 && !s.sys.settings.visible).map((s) => s.scene.key);
+      return {
+        size: [g.scale.width, g.scale.height], tall: b.L.tall, k: b.L.k, menu: b.menuMode,
+        boxBottom: Math.round(box.y + b.messageBox.height * box.scaleY), menuAt: menu ? [Math.round(menu.y), menu.scaleX] : null,
+        enemy: { y: Math.round(b.enemySprite.y), top: Math.round(b.enemySprite.getBounds().top), scale: b.enemySprite.scaleX },
+        player: { y: Math.round(b.playerSprite.y), scale: b.playerSprite.scaleX },
+        hud: Math.round(b.playerHud.container.y + 142 * b.playerHud.container.scaleY), field: b.L.field,
+        hidden, cam: [b.cameras.main.width, b.cameras.main.height, b.cameras.main.zoom],
+      };
+    });
+    const untilBattle = async (want) => {
+      for (let i = 0; i < 40; i += 1) {
+        const s = await page.evaluate(() => { const b = window.__uruGame.scene.getScene('BATTLE_SCENE'); return { menu: b.menuMode, waiting: b.messageBox.isWaiting }; });
+        if (s.menu === want) return true;
+        if (s.waiting) await press(page, 'A');
+        await sleep(page, 300);
       }
-      await sleep(page, 300);
-    }
-    const menu = await page.evaluate(() => window.__uruGame.scene.getScene('BATTLE_SCENE').menuMode);
-    console.log('battle turned sideways mid-fight still answers taps:', menu === 'main');
+      return false;
+    };
+    await open(page, '');
+    await waitScene(page, 'TITLE_SCENE');
+    await sleep(page, 800);
+    await press(page, 'START');
+    await sleep(page, 400);
+    const items = await page.evaluate(() => window.__uruGame.scene.getScene('TITLE_SCENE').menuItems);
+    for (let i = 0; i < items.indexOf('QUICK BATTLE'); i += 1) await press(page, 'DOWN');
+    await press(page, 'A');
+    await waitScene(page, 'QUICK_BATTLE_SCENE');
+    await sleep(page, 1200);
+    await press(page, 'A');
+    await waitScene(page, 'BATTLE_SCENE');
+    await untilBattle('main');
+    // the teams are random: plenty of HP on both sides, so one turn can't knock anyone out and change what's on screen
+    await page.evaluate(() => {
+      window.__uruGame.scene.getScene('BATTLE_SCENE').battle.enemyActive.hp = 9999;
+      window.__uru.dataManager.party.forEach((m) => { m.hp = 9999; });
+    });
+    await press(page, 'A'); // FIGHT
+    await sleep(page, 400);
+    const tallB = await battle();
+    console.log('upright: the battle is tall, with the moves open:', tallB.tall && tallB.menu === 'moves' && tallB.boxBottom === 1024, JSON.stringify(tallB));
+    await page.screenshot({ path: `${shots}/mob_turn_battle_up.png` });
+    await page.setViewportSize({ width: 874, height: 296 });
+    await sleep(page, 900);
+    const sideB = await battle();
+    const fits = sideB.size[1] === 576 && !sideB.tall && sideB.k === 1 && sideB.boxBottom === 576 && JSON.stringify(sideB.menuAt) === '[432,1]';
+    console.log('sideways: the battle is laid out for 16:9, moves still open along the bottom:', fits && sideB.menu === 'moves', JSON.stringify(sideB));
+    console.log('sideways: creatures and HUDs where a 16:9 battle has them:', sideB.enemy.y === 236 && sideB.player.y === 440 && sideB.hud <= sideB.field && sideB.enemy.scale < tallB.enemy.scale);
+    console.log('sideways: the camera fills the game and nothing underneath shows:', JSON.stringify(sideB.cam) === '[1024,576,1]' && sideB.hidden.includes('QUICK_BATTLE_SCENE'));
+    const { canvas, buttons } = await rects();
+    const clash = buttons.filter((b) => overlaps(b, canvas)).map((b) => b.name);
+    console.log('sideways: no button covers the game:', clash.length === 0, clash.join(' '));
     await page.screenshot({ path: `${shots}/mob_turn_battle.png` });
+    // pick a move with a tap on the new layout, and play the turn out
+    const moveAt = await toScreen(140, 462);
+    await page.touchscreen.tap(moveAt.x, moveAt.y);
+    await sleep(page, 300);
+    const used = await page.evaluate(() => window.__uruGame.scene.getScene('BATTLE_SCENE').menuMode !== 'moves');
+    console.log('sideways: tapping a move on the new layout uses it:', used);
+    const again = await untilBattle('main');
+    await page.evaluate(() => document.fullscreenElement && document.exitFullscreen()); // the tap went full screen, as on Android
+    await sleep(page, 300);
+    const settled = await battle();
+    console.log('sideways: after the turn, everything is in place:', again && settled.enemy.y === 236 && settled.player.y === 440, JSON.stringify(settled));
+    await page.setViewportSize({ width: 402, height: 874 });
+    await sleep(page, 900);
+    const upB = await battle();
+    console.log('upright again: the battle is tall again, main menu redrawn:', upB.tall && upB.k > 1 && upB.menu === 'main' && upB.boxBottom === 1024 && upB.menuAt?.[0] === upB.field && upB.menuAt[1] === upB.k, JSON.stringify(upB));
+    await page.screenshot({ path: `${shots}/mob_turn_battle_up2.png` });
+    // the battle scene is reused: a second battle after a night one (which leaves a tinted backdrop behind) still runs
+    await open(page, '?scene=test&battle=wild&species=10&level=5&party=6:30&time=night');
+    await waitScene(page, 'BATTLE_SCENE');
+    await untilBattle('main');
+    const tinted = await page.evaluate(() => Boolean(window.__uruGame.scene.getScene('BATTLE_SCENE').nightTint));
+    await page.evaluate(() => {
+      const g = window.__uruGame;
+      g.scene.stop('BATTLE_SCENE');
+      g.scene.start('BATTLE_SCENE', { wild: window.__uru.createMonster(13, 5), environment: 'grass' });
+    });
+    await sleep(page, 500);
+    console.log('a second battle after a night one starts:', tinted && await untilBattle('main'));
   } finally {
     console.log(errors.length ? `ERRORS:\n${errors.join('\n')}` : 'no errors');
     await browser.close();

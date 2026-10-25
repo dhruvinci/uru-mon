@@ -17,6 +17,7 @@ export class BattleHud {
     const isPlayer = side === 'player';
     const w = isPlayer ? 452 : 430;
     const h = isPlayer ? 142 : 104;
+    this.boxWidth = w;
     this.width = w * scale;
     this.home = home;
     this.container = scene.add.container(home.x, home.y).setDepth(20).setScale(scale);
@@ -82,6 +83,17 @@ export class BattleHud {
   /** @param {string | null} status */
   setStatus(status) {
     this.status.set(status);
+  }
+
+  /**
+   * Moves the box to a new home, drawn at a new size (the phone turned).
+   * @param {{x: number, y: number}} home
+   * @param {number} scale
+   */
+  place(home, scale) {
+    this.home = home;
+    this.width = this.boxWidth * scale;
+    this.container.setPosition(home.x, home.y).setScale(scale);
   }
 
   /** Slides the box in from off-screen. */

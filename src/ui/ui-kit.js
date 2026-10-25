@@ -734,8 +734,8 @@ export class MessageBox {
     this.announces = v;
     if (!v) {
       announce(this, '');
-    } else if (this.container.visible && this.textObj.text) {
-      announce(this, this.textObj.text);
+    } else if (this.container.visible && this.textObj.text && this.scene.sys.isActive()) {
+      announce(this, this.textObj.text); // (a paused scene's box comes back with its message on RESUME)
     }
     return this;
   }
