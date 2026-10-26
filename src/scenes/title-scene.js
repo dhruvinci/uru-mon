@@ -8,6 +8,17 @@ import { allSpecies } from '../battle/engine/monster.js';
 import { adminAvailable, startAdminProfile } from '../game/admin-profile.js';
 import { inputManager } from '../input/input-manager.js';
 import { DESIGN_HEIGHT, FULL_HEIGHT, GAME_WIDTH, isTall, onResize, setTextResolution, uiScale } from '../ui/screen.js';
+import { trackPage } from '../utils/analytics.js';
+
+/** The page each menu choice is reported as, so the analytics show what people try (src/utils/analytics.js) */
+const MENU_PAGES = {
+  CONTINUE: '/continue',
+  'NEW GAME': '/new-game',
+  'QUICK BATTLE': '/quick-battle',
+  'URU-PUSTAKA': '/uru-pustaka',
+  'BENGALURU MAP': '/map',
+  OPTIONS: '/options',
+};
 
 export class TitleScene extends BaseScene {
   constructor() {
@@ -157,6 +168,7 @@ export class TitleScene extends BaseScene {
 
   #showMenu() {
     this.stage = 'menu';
+    trackPage('/menu');
     this.press.setVisible(false);
     dataManager.useProfile('main');
     this.menuItems = [
@@ -179,6 +191,9 @@ export class TitleScene extends BaseScene {
 
   /** @param {string} choice */
   #choose(choice) {
+    if (MENU_PAGES[choice]) {
+      trackPage(MENU_PAGES[choice]);
+    }
     const browse = {
       OPTIONS: [SCENE_KEYS.OPTIONS_SCENE, {}],
       'URU-PUSTAKA': [SCENE_KEYS.PUSTAKA_SCENE, { browse: true }],

@@ -17,6 +17,7 @@ import { buildTrainerTeam } from '../world/trainers.js';
 import { warpTargets } from '../game/admin-profile.js';
 import { WorldFx } from '../fx/world-fx.js';
 import { isTall, onResize } from '../ui/screen.js';
+import { trackPage } from '../utils/analytics.js';
 
 /**
  * Picks a weighted slot from an encounter table.
@@ -71,6 +72,7 @@ export class WorldScene extends BaseScene {
 
   create() {
     super.create();
+    trackPage('/world');
     const key = `MAP_${this.area}`;
     if (!this.cache.tilemap.exists(key)) {
       console.error(`[WorldScene] unknown map ${this.area}`);

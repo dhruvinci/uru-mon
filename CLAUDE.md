@@ -17,7 +17,9 @@ look-alike designs, no "Pokémon style" or artist-name prompts for generated art
   Phaser 3.60 is vendored at `src/lib/vendor/phaser.min.js`. Since nothing bundles `src/`, an npm import
   (`import x from 'some-package'`) breaks the whole game in the browser; vendor a file or use a `<script>` tag instead.
   Vercel Web Analytics is loaded that way, by a snippet in `index.html`. Vercel's bot once merged the npm version and
-  took the live site down.
+  took the live site down. The game is one page, so `trackPage()` (`src/utils/analytics.js`) reports sections as
+  virtual pages (`/menu`, each title menu choice, `/world`, `/battle`, `/quick-battle/fight`), once per visit: the
+  Hobby plan has 50,000 events a month and custom events need Pro.
 - Dev shortcuts: `?scene=test&map=<id>[&x=&y=|&warp=<id>][&party=sp:lvl,...][&flags=A,B][&badges=GRASS,...]` and
   `?scene=test&battle=wild&species=10&level=5` / `&battle=trainer&trainer=<id>`. `?touch=1` forces the touch pad,
   `?debug` enables scene logging.

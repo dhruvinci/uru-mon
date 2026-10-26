@@ -1,5 +1,6 @@
-// The title-screen extras and the starter showcase: Pustaka browse, Bengaluru map, admin profile, starter choice.
-// Usage: node test/frontdoor.mjs <shots_dir> [pustaka|map|admin|starter|quick|fishing]   (default: all)
+// The title-screen extras and the starter showcase: Pustaka browse, Bengaluru map, admin profile, starter choice,
+// and the sections reported to the analytics.
+// Usage: node test/frontdoor.mjs <shots_dir> [pustaka|map|admin|starter|quick|fishing|analytics]   (default: all)
 import { launch, open, press, sleep, waitScene, state } from './harness.mjs';
 
 const shots = process.argv[2] || '/tmp';
@@ -127,6 +128,56 @@ try {
     await waitScene(page, 'TITLE_SCENE');
     const after = await page.evaluate(() => ({ party: window.__uru.dataManager.party.length, saved: localStorage.getItem('URU_MON_SAVE_V1') }));
     console.log('state restored after quick battle:', after.party === 0, 'left the save alone:', !after.saved);
+  }
+  if (want('analytics')) {
+    // on localhost the reports collect in window.vaq instead of going to Vercel
+    const pages = () => page.evaluate(() => (window.vaq || []).map((a) => (a[0] === 'pageview' && a[1].route === a[1].path ? a[1].path : JSON.stringify(a))));
+    const pick = async (entry) => {
+      const t = await page.evaluate((e) => { const m = window.__uruGame.scene.getScene('TITLE_SCENE'); return { at: m.menu.index, to: m.menuItems.indexOf(e) }; }, entry);
+      for (let i = t.at; i < t.to; i += 1) await press(page, 'DOWN');
+      for (let i = t.at; i > t.to; i -= 1) await press(page, 'UP');
+      await sleep(page, 200);
+      await press(page, 'A');
+    };
+    const check = (label, got, expected) => {
+      const ok = JSON.stringify(got) === JSON.stringify(expected);
+      console.log(`analytics: ${label}:`, ok, ok ? '' : `got ${JSON.stringify(got)}, expected ${JSON.stringify(expected)}`);
+      if (!ok) process.exitCode = 1;
+    };
+    await open(page, '');
+    await waitScene(page, 'TITLE_SCENE');
+    await sleep(page, 800);
+    check('nothing reported before the menu opens', await pages(), []);
+    await press(page, 'START');
+    await sleep(page, 400);
+    check('opening the menu', await pages(), ['/menu']);
+    // the same choice twice in one visit is reported once
+    for (let i = 0; i < 2; i += 1) {
+      await pick('OPTIONS');
+      await waitScene(page, 'OPTIONS_SCENE');
+      await sleep(page, 400);
+      await press(page, 'B');
+      await sleep(page, 500);
+    }
+    await pick('URU-PUSTAKA');
+    await waitScene(page, 'PUSTAKA_SCENE');
+    await sleep(page, 400);
+    await press(page, 'B');
+    await sleep(page, 500);
+    await pick('QUICK BATTLE');
+    await waitScene(page, 'QUICK_BATTLE_SCENE');
+    await sleep(page, 1500);
+    await press(page, 'A');
+    await waitScene(page, 'BATTLE_SCENE');
+    check('menu choices and a Quick Battle', await pages(), ['/menu', '/options', '/uru-pustaka', '/quick-battle', '/quick-battle/fight']);
+    await open(page, '?scene=test&map=lab&x=6&y=6');
+    await waitScene(page, 'WORLD_SCENE');
+    await sleep(page, 500);
+    check('reaching the overworld', await pages(), ['/world']);
+    await open(page, '?scene=test&battle=wild&species=10&level=5');
+    await waitScene(page, 'BATTLE_SCENE');
+    await sleep(page, 500);
+    check('a story battle', await pages(), ['/battle']);
   }
   if (want('fishing')) {
     await open(page, '?scene=test&map=lalbagh&party=6:30');

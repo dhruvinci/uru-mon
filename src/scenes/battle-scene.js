@@ -25,6 +25,7 @@ import { BATTLE_SCENE_OPTIONS, BATTLE_STYLE_OPTIONS } from '../common/options.js
 import { playBackgroundMusic, playSoundFx } from '../utils/audio-utils.js';
 import { AUDIO_KEYS, UI_KEYS } from '../assets/asset-keys.js';
 import { FULL_HEIGHT, GAME_WIDTH, isTall, onResize, setTextResolution, uiScale } from '../ui/screen.js';
+import { trackPage } from '../utils/analytics.js';
 
 /**
  * @typedef TrainerBattleInfo
@@ -143,6 +144,7 @@ export class BattleScene extends BaseScene {
 
   create() {
     super.create();
+    trackPage(this.data_.quick ? '/quick-battle/fight' : '/battle');
     const L = battleLayout(this);
     this.L = L;
     setTextResolution(this, L.k);
